@@ -9,9 +9,9 @@ cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys = "0.4"
-sicas-core = { path = "../crates/sicas-core" }
-sicas-harness = { path = "../crates/sicas-harness" }
-sicas-reference = { path = "../crates/sicas-reference" }
+sicas-core = { path = "../crates/sicas-core", version = "0.1.0" }
+sicas-harness = { path = "../crates/sicas-harness", version = "0.1.0" }
+sicas-reference = { path = "../crates/sicas-reference", version = "0.1.0" }
 
 [[bin]]
 name = "masked_ops"

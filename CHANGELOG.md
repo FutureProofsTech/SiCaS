@@ -18,6 +18,7 @@
   Markdown evidence reports, and an assembly inspection example.
 - `tools/ct_asm_check.py` for multi-architecture assembly checks, with evidence for
   x86_64, AArch64, Thumbv7em, and RISC-V.
+- CI coverage, supply-chain, and reproducible-build gates.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
   program, support matrix, and evaluation guide.
 

@@ -9,7 +9,7 @@ description = "Masked ChaCha20 reference integration for SiCaS"
 publish = false
 
 [dependencies]
-sicas-core = { path = "../sicas-core" }
+sicas-core = { path = "../sicas-core", version = "0.1.0" }
 
 [lints]
 workspace = true

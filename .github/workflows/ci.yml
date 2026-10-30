@@ -119,6 +119,43 @@ jobs:
       - run: cargo check -p sicas-core --lib --target ${{ matrix.target }} --locked
       - run: cargo check -p sicas-reference --lib --target ${{ matrix.target }} --locked
 
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-08-03
+          components: llvm-tools-preview
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-llvm-cov
+      - run: cargo llvm-cov --workspace --all-features --fail-under-lines 90 --lcov --output-path lcov.info
+
+  supply-chain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.99.0"
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit,cargo-deny
+      - run: cargo audit
+      - run: cargo deny check
+
+  reproducible:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.99.0"
+      - run: CARGO_TARGET_DIR="$RUNNER_TEMP/repro1" cargo build --workspace --release --locked
+      - run: CARGO_TARGET_DIR="$RUNNER_TEMP/repro2" cargo build --workspace --release --locked
+      - run: cmp "$RUNNER_TEMP/repro1/release/sicas-harness" "$RUNNER_TEMP/repro2/release/sicas-harness"
+
   asm:
     runs-on: ubuntu-latest
     steps:

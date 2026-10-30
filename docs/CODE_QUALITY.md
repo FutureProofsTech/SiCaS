@@ -54,7 +54,12 @@ cargo kani
 RUSTFLAGS="-Zsanitizer=address" cargo +nightly-2026-08-03 test -p sicas-core --lib
 cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=10000
 cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
+cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=10000
+cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=10000
 cargo mutants --workspace --no-shuffle
+cargo audit
+cargo deny check
+cargo llvm-cov --workspace --all-features --fail-under-lines 90
 RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps --all-features --locked
 ```
 
