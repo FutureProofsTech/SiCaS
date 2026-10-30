@@ -35,7 +35,8 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
 
 See [`docs/EVALUATION.md`](docs/EVALUATION.md) for trace format and usage,
 [`docs/HARDWARE.md`](docs/HARDWARE.md) for the hardware evidence protocol, and
-[`docs/CT_EVIDENCE.md`](docs/CT_EVIDENCE.md) for constant-time timing evidence.
+[`docs/CT_EVIDENCE.md`](docs/CT_EVIDENCE.md) for constant-time timing evidence, and
+[`docs/FUZZ_EVIDENCE.md`](docs/FUZZ_EVIDENCE.md) for the 1M-execution fuzz campaigns.
 
 ## Quality gates
 
