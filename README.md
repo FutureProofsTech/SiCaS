@@ -25,11 +25,15 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
   - Deterministic synthetic trace generation.
   - Dudect-style timing tooling.
   - CLI: `tvla`, `cpa`, `synthetic`, `synthetic-cpa`, `timing`.
+- `sicas-reference`: `no_std`, zero third-party dependencies.
+  - First-order Boolean masked ChaCha20 keystream blocks.
+  - RFC 8439 vector and differential tests against an unmasked reference.
 - Unit tests, exhaustive byte tests, property-style randomized tests, compile-fail
   doctests, Kani proof harnesses, and libFuzzer targets.
 - AddressSanitizer, Miri, strict formatting, and strict Clippy gates.
 
-See [`docs/EVALUATION.md`](docs/EVALUATION.md) for trace format and usage.
+See [`docs/EVALUATION.md`](docs/EVALUATION.md) for trace format and usage, and
+[`docs/HARDWARE.md`](docs/HARDWARE.md) for the hardware evidence protocol.
 
 ## Quality gates
 

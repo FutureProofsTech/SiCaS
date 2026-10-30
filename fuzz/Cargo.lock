@@ -92,10 +92,18 @@ dependencies = [
  "libfuzzer-sys",
  "sicas-core",
  "sicas-harness",
+ "sicas-reference",
 ]
 
 [[package]]
 name = "sicas-harness"
+version = "0.1.0"
+dependencies = [
+ "sicas-core",
+]
+
+[[package]]
+name = "sicas-reference"
 version = "0.1.0"
 dependencies = [
  "sicas-core",

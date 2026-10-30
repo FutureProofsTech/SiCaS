@@ -12,6 +12,8 @@
 - AddressSanitizer, Miri, strict Clippy, and mutation-testing gates.
 - `sicas-harness` with strict binary trace format, TVLA, CPA, synthetic trace
   generation, dudect-style timing tooling, and a CLI.
+- `sicas-reference` with a first-order Boolean masked ChaCha20 keystream block,
+  RFC 8439 validation, and differential tests against an unmasked reference.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
   program, support matrix, and evaluation guide.
 

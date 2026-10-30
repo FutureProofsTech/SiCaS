@@ -12,3 +12,10 @@ version = "0.1.0"
 dependencies = [
  "sicas-core",
 ]
+
+[[package]]
+name = "sicas-reference"
+version = "0.1.0"
+dependencies = [
+ "sicas-core",
+]

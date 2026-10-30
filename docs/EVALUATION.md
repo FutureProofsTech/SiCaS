@@ -55,6 +55,16 @@ cargo run -p sicas-harness -- cpa --traces traces.bin --plaintexts plaintexts.bi
 
 The synthetic CPA validation recovers `0x42` with correlation `1.0` at sample zero.
 
+## Reference integration
+
+`sicas-reference` provides a first-order Boolean masked ChaCha20 keystream block.
+It is validated against the RFC 8439 keystream vector and against an independent
+unmasked reference for randomized keys, nonces, and counters.
+
+The masked block function is a declassification boundary: it returns plaintext
+keystream bytes. Hardware capture of this target is still required for a TVLA/CPA
+claim; the synthetic harness validates the analysis path, not the physical device.
+
 ## TVLA
 
 Fixed-vs-random TVLA compares a group with a fixed input against a group with random

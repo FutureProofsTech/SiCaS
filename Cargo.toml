@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/sicas-core", "crates/sicas-harness"]
+members = ["crates/sicas-core", "crates/sicas-harness", "crates/sicas-reference"]
 exclude = ["fuzz"]
 resolver = "3"
 

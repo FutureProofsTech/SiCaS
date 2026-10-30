@@ -1,6 +1,6 @@
 //! Kani proof harnesses. This module is compiled only under `cfg(kani)`.
 
-use crate::{Choice, Masked, ct};
+use crate::{Choice, EntropyError, EntropySource, Masked, ct};
 
 #[kani::proof]
 fn is_zero_u8_matches_reference() {
@@ -171,6 +171,36 @@ fn masked_u32_select_matches_reference() {
             "masked select must select b when false",
         );
     }
+}
+
+struct KaniEntropy(u32);
+
+impl EntropySource for KaniEntropy {
+    fn fill_bytes(&mut self, destination: &mut [u8]) -> Result<(), EntropyError> {
+        let bytes = self.0.to_le_bytes();
+        for (index, byte) in destination.iter_mut().enumerate() {
+            *byte = bytes[index % 4];
+        }
+        self.0 = self.0.wrapping_add(0x9e37_79b9);
+        Ok(())
+    }
+}
+
+#[kani::proof]
+fn masked_u32_add_matches_reference() {
+    let a: u32 = kani::any();
+    let b: u32 = kani::any();
+    let mask_a: u32 = kani::any();
+    let mask_b: u32 = kani::any();
+    let masked_a = Masked::<u32>::mask(a, mask_a);
+    let masked_b = Masked::<u32>::mask(b, mask_b);
+    let mut entropy = KaniEntropy(0x1234_5678);
+    let sum = masked_a.add_masked(&masked_b, &mut entropy).unwrap();
+
+    kani::assert(
+        *sum.unmask().expose_secret() == a.wrapping_add(b),
+        "masked addition must match wrapping addition",
+    );
 }
 
 #[kani::proof]

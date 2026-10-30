@@ -2,7 +2,7 @@
 
 use core::fmt;
 
-use crate::{Choice, Secret, ct};
+use crate::{Choice, EntropyError, EntropySource, Secret, ct};
 
 /// A value represented by two XOR shares.
 ///
@@ -10,7 +10,8 @@ use crate::{Choice, Secret, ct};
 /// shares must not be combined except at an explicit declassification boundary.
 ///
 /// Equality and ordering are intentionally unavailable. Use
-/// [`Masked::ct_eq`] for constant-time equality.
+/// [`Masked::ct_eq`] for constant-time equality. Cloning a masked value
+/// duplicates its shares but does not re-randomize them.
 ///
 /// # Zeroization
 ///
@@ -38,6 +39,7 @@ use crate::{Choice, Secret, ct};
 /// let b = Masked::<u32>::from_parts(1, 2);
 /// assert_eq!(a, b);
 /// ```
+#[derive(Clone)]
 #[must_use]
 pub struct Masked<T> {
     share0: T,
@@ -189,6 +191,57 @@ impl_masked!(u32, ct::eq_u32, ct::select_u32);
 impl_masked!(u64, ct::eq_u64, ct::select_u64);
 impl_masked!(u128, ct::eq_u128, ct::select_u128);
 
+impl Masked<u32> {
+    /// Extracts one bit as a masked value.
+    ///
+    /// Bits outside `index` are zero. An index of 32 or greater returns zero.
+    pub const fn bit(&self, index: u32) -> Self {
+        let mask = match 1_u32.checked_shl(index) {
+            Some(value) => value,
+            None => 0,
+        };
+        Self {
+            share0: self.share0 & mask,
+            share1: self.share1 & mask,
+        }
+    }
+
+    /// Adds two masked `u32` values with a fresh mask for every masked AND.
+    ///
+    /// This is a ripple-carry adder. The result remains masked; unmask it only
+    /// at an explicit declassification boundary.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`EntropyError::Unavailable`] when the entropy source fails.
+    pub fn add_masked<E: EntropySource>(
+        &self,
+        other: &Self,
+        entropy: &mut E,
+    ) -> Result<Self, EntropyError> {
+        let mut result = Self::from_parts(0, 0);
+        let mut carry = Self::from_parts(0, 0);
+
+        for index in 0..32 {
+            let a = self.bit(index);
+            let b = other.bit(index);
+            let sum = a.xor(&b).xor(&carry);
+            result = result.xor(&sum);
+
+            if index == 31 {
+                break;
+            }
+
+            let first = a.and(&b, entropy.mask_u32()?);
+            let second = a.and(&carry, entropy.mask_u32()?);
+            let third = b.and(&carry, entropy.mask_u32()?);
+            carry = first.xor(&second).xor(&third).shift_left(1);
+        }
+
+        Ok(result)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #![allow(
@@ -216,6 +269,35 @@ mod tests {
                 .wrapping_mul(6_364_136_223_846_793_005)
                 .wrapping_add(1);
             u32::try_from(self.0 >> 32).unwrap()
+        }
+
+        fn next_u8(&mut self) -> u8 {
+            u8::try_from(self.next_u32() & 0xff).unwrap()
+        }
+    }
+
+    struct TestEntropy(TestRng);
+
+    impl TestEntropy {
+        const fn new(seed: u64) -> Self {
+            Self(TestRng::new(seed))
+        }
+    }
+
+    impl EntropySource for TestEntropy {
+        fn fill_bytes(&mut self, destination: &mut [u8]) -> Result<(), EntropyError> {
+            for byte in destination {
+                *byte = self.0.next_u8();
+            }
+            Ok(())
+        }
+    }
+
+    struct FailingEntropy;
+
+    impl EntropySource for FailingEntropy {
+        fn fill_bytes(&mut self, _destination: &mut [u8]) -> Result<(), EntropyError> {
+            Err(EntropyError::Unavailable)
         }
     }
 
@@ -291,6 +373,46 @@ mod tests {
 
         assert_eq!(*selected_a.unmask().expose_secret(), 0x1111_1111);
         assert_eq!(*selected_b.unmask().expose_secret(), 0x2222_2222);
+    }
+
+    #[test]
+    fn bit_extraction_is_correct() {
+        let value = 0x8000_0001_u32;
+        let masked = Masked::<u32>::mask(value, 0xa5a5_a5a5);
+
+        for index in 0..32 {
+            let expected = value & (1_u32 << index);
+            assert_eq!(*masked.bit(index).unmask().expose_secret(), expected);
+        }
+        assert_eq!(*masked.bit(32).unmask().expose_secret(), 0);
+    }
+
+    #[test]
+    fn masked_addition_matches_reference() {
+        let mut rng = TestRng::new(0xadd1_7e57);
+
+        for _ in 0..1_000 {
+            let a = rng.next_u32();
+            let b = rng.next_u32();
+            let masked_a = Masked::<u32>::mask(a, rng.next_u32());
+            let masked_b = Masked::<u32>::mask(b, rng.next_u32());
+            let mut entropy = TestEntropy::new(rng.next_u32().into());
+
+            let sum = masked_a.add_masked(&masked_b, &mut entropy).unwrap();
+            assert_eq!(*sum.unmask().expose_secret(), a.wrapping_add(b));
+        }
+    }
+
+    #[test]
+    fn masked_addition_fails_closed() {
+        let a = Masked::<u32>::mask(1, 2);
+        let b = Masked::<u32>::mask(3, 4);
+        let mut entropy = FailingEntropy;
+
+        assert!(matches!(
+            a.add_masked(&b, &mut entropy),
+            Err(EntropyError::Unavailable)
+        ));
     }
 
     #[test]

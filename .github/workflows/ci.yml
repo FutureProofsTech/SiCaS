@@ -90,6 +90,7 @@ jobs:
       - run: cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=10000
       - run: cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
       - run: cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=10000
+      - run: cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=10000
 
   mutation:
     runs-on: ubuntu-latest
@@ -116,6 +117,7 @@ jobs:
           toolchain: "1.99.0"
           targets: ${{ matrix.target }}
       - run: cargo check -p sicas-core --lib --target ${{ matrix.target }} --locked
+      - run: cargo check -p sicas-reference --lib --target ${{ matrix.target }} --locked
 
   no-deps:
     runs-on: ubuntu-latest
