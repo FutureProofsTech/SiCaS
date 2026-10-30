@@ -32,6 +32,21 @@ The project is proven locally first. Use every available local tool and custom s
 - External or physical gates are recorded in `docs/GAP_REPORT.md`; they are never
   simulated as if they were real.
 
+## Local proof before external review
+
+External audit and red team are the final **second opinion**, not the first line of
+proof. Nothing is submitted externally until:
+
+- every claim has a local test, proof, measurement, or documented accepted limitation;
+- every locally executable gate is green;
+- the evidence bundle is reproducible;
+- local adversarial review has found no open critical/high issue;
+- every remaining gap is explicitly marked as hardware-, credential-, or
+  independent-party-only.
+
+If local work can find the defect, local work must find it first. External review must
+not be used to compensate for missing local verification.
+
 ## Production boundary
 
 Local work can reach a complete audit-ready package. It cannot truthfully complete:

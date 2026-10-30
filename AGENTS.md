@@ -28,6 +28,14 @@ local proof package is complete.
   or physical hardware that cannot be simulated honestly.
 - Continue through the local backlog. Do not stop while a local, testable task remains.
   If blocked, document the gap and move to the next local task.
+- **Local proof before external review.** Do not submit anything for external audit or
+  red team until every locally provable claim is proven, every gate is green, and the
+  evidence bundle is complete. External review is a second opinion, not a substitute
+  for local proof. Never use an external reviewer to discover basic defects that local
+  testing, audit, or red-team simulation can find.
+- If a claim can only be proven with hardware, credentials, or an independent party,
+  state that explicitly and keep it out of the “locally proven” set. Do not disguise a
+  gap as a completed proof.
 
 ## Required quality gates
 

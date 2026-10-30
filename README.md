@@ -11,6 +11,7 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
 
 Project operating instructions and persistent working agreement:
 [`AGENTS.md`](AGENTS.md) and [`docs/WORKING_AGREEMENT.md`](docs/WORKING_AGREEMENT.md).
+External audit is the final second opinion; local proof must be complete first.
 
 ## What exists
 
