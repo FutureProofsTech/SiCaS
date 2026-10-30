@@ -161,7 +161,7 @@ struct FixedEntropy;
 impl EntropySource for FixedEntropy {
     fn fill_bytes(&mut self, destination: &mut [u8]) -> Result<(), EntropyError> {
         for byte in destination {
-            *byte = 0x5a;
+            *byte = black_box(0x5a);
         }
         Ok(())
     }
@@ -215,9 +215,10 @@ fn run_ct(args: &[String]) -> Result<(), String> {
         name: "ct::lookup_u8",
         reports: {
             let table: [u8; 256] = core::array::from_fn(|index| u8::try_from(index).unwrap_or(0));
+            let table = black_box(&table);
             run_trials(config, trials, |class| {
                 let index = u8::from(class).wrapping_neg();
-                u64::from(ct::lookup_u8(&table, black_box(index)))
+                u64::from(ct::lookup_u8(table, black_box(index)))
             })?
         },
     });
@@ -227,8 +228,8 @@ fn run_ct(args: &[String]) -> Result<(), String> {
             let class_mask = u32::from(class).wrapping_neg();
             let a = (0x1111_1111_u32 & !class_mask) | (0x3333_3333_u32 & class_mask);
             let b = (0x2222_2222_u32 & !class_mask) | (0x4444_4444_u32 & class_mask);
-            let masked_a = Masked::<u32>::mask(black_box(a), 0xaaaa_aaaa);
-            let masked_b = Masked::<u32>::mask(black_box(b), 0x5555_5555);
+            let masked_a = Masked::<u32>::mask(black_box(a), black_box(0xaaaa_aaaa));
+            let masked_b = Masked::<u32>::mask(black_box(b), black_box(0x5555_5555));
             let mut entropy = FixedEntropy;
 
             masked_a
