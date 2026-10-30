@@ -1,14 +1,15 @@
 //! Command-line interface for the SiCaS leakage-assessment harness.
 
 use std::env;
+use std::fmt::Write as _;
 use std::fs::File;
 use std::hint::black_box;
 use std::process::ExitCode;
 
-use sicas_core::ct;
+use sicas_core::{Choice, EntropyError, EntropySource, Masked, ct};
 use sicas_harness::cpa::cpa_hamming_weight;
 use sicas_harness::synthetic::{SyntheticConfig, TvlaSyntheticConfig, generate, generate_tvla};
-use sicas_harness::timing::{TimingConfig, dudect};
+use sicas_harness::timing::{TimingConfig, TimingReport, dudect};
 use sicas_harness::trace::TraceSet;
 use sicas_harness::tvla::{TvlaConfig, tvla};
 
@@ -37,6 +38,7 @@ fn run() -> Result<(), String> {
         "synthetic" => run_synthetic_tvla(command_args),
         "synthetic-cpa" => run_synthetic_cpa(command_args),
         "timing" => run_timing(command_args),
+        "ct" => run_ct(command_args),
         "-h" | "--help" | "help" => {
             print_usage();
             Ok(())
@@ -148,6 +150,179 @@ fn run_timing(args: &[String]) -> Result<(), String> {
         return Err("timing test exceeded the leakage threshold".to_string());
     }
     Ok(())
+}
+
+struct FixedEntropy;
+
+impl EntropySource for FixedEntropy {
+    fn fill_bytes(&mut self, destination: &mut [u8]) -> Result<(), EntropyError> {
+        for byte in destination {
+            *byte = 0x5a;
+        }
+        Ok(())
+    }
+}
+
+struct CtCheck {
+    name: &'static str,
+    reports: Vec<TimingReport>,
+}
+
+fn run_ct(args: &[String]) -> Result<(), String> {
+    let samples = optional_usize(args, "--samples")?.unwrap_or(100_000);
+    let warmup = optional_usize(args, "--warmup")?.unwrap_or(10_000);
+    let trials = optional_usize(args, "--trials")?.unwrap_or(3);
+    let threshold = optional_f64(args, "--threshold")?.unwrap_or(4.5);
+    let report_path = optional(args, "--report");
+    let label = optional(args, "--label").unwrap_or("unspecified");
+
+    if trials == 0 {
+        return Err("--trials must be at least 1".to_string());
+    }
+
+    let config = TimingConfig {
+        samples,
+        warmup,
+        threshold,
+    };
+
+    let mut checks = Vec::new();
+    checks.push(CtCheck {
+        name: "ct::eq_u32",
+        reports: run_trials(config, trials, |class| {
+            let class_mask = u32::from(class).wrapping_neg();
+            let left = 0x1234_5678_u32;
+            let right = (0x1234_5678_u32 & !class_mask) | (0x9abc_def0_u32 & class_mask);
+            u64::from(ct::eq_u32(black_box(left), black_box(right)).as_u8())
+        })?,
+    });
+    checks.push(CtCheck {
+        name: "ct::select_u32",
+        reports: run_trials(config, trials, |class| {
+            let choice = Choice::from_bool(class);
+            u64::from(ct::select_u32(
+                choice,
+                black_box(0x1111_1111),
+                black_box(0x2222_2222),
+            ))
+        })?,
+    });
+    checks.push(CtCheck {
+        name: "ct::lookup_u8",
+        reports: {
+            let table: [u8; 256] = core::array::from_fn(|index| u8::try_from(index).unwrap_or(0));
+            run_trials(config, trials, |class| {
+                let index = u8::from(class).wrapping_neg();
+                u64::from(ct::lookup_u8(&table, black_box(index)))
+            })?
+        },
+    });
+    checks.push(CtCheck {
+        name: "Masked::add_masked",
+        reports: run_trials(config, trials, |class| {
+            let class_mask = u32::from(class).wrapping_neg();
+            let a = (0x1111_1111_u32 & !class_mask) | (0x3333_3333_u32 & class_mask);
+            let b = (0x2222_2222_u32 & !class_mask) | (0x4444_4444_u32 & class_mask);
+            let masked_a = Masked::<u32>::mask(black_box(a), 0xaaaa_aaaa);
+            let masked_b = Masked::<u32>::mask(black_box(b), 0x5555_5555);
+            let mut entropy = FixedEntropy;
+
+            masked_a
+                .add_masked(&masked_b, &mut entropy)
+                .map_or(0, |sum| u64::from(*sum.unmask().expose_secret()))
+        })?,
+    });
+
+    print_ct_report(&checks, threshold, label, samples, warmup, trials);
+    if let Some(path) = report_path {
+        write_ct_report(path, &checks, threshold, label, samples, warmup, trials)?;
+    }
+
+    if checks
+        .iter()
+        .any(|check| check.reports.iter().any(TimingReport::leakage))
+    {
+        return Err("constant-time timing check exceeded the threshold".to_string());
+    }
+    Ok(())
+}
+
+fn run_trials<F>(
+    config: TimingConfig,
+    trials: usize,
+    mut operation: F,
+) -> Result<Vec<TimingReport>, String>
+where
+    F: FnMut(bool) -> u64,
+{
+    let mut reports = Vec::new();
+    reports
+        .try_reserve_exact(trials)
+        .map_err(|_| "failed to allocate timing reports".to_string())?;
+    for _ in 0..trials {
+        reports.push(dudect(config, &mut operation).map_err(|error| error.to_string())?);
+    }
+    Ok(reports)
+}
+
+fn print_ct_report(
+    checks: &[CtCheck],
+    threshold: f64,
+    label: &str,
+    samples: usize,
+    warmup: usize,
+    trials: usize,
+) {
+    println!(
+        "constant-time timing evidence ({label}; samples={samples}, warmup={warmup}, trials={trials}, threshold |t| > {threshold})"
+    );
+    for check in checks {
+        for (trial, report) in check.reports.iter().enumerate() {
+            println!("{} trial {}: {report}", check.name, trial.saturating_add(1));
+        }
+    }
+}
+
+fn write_ct_report(
+    path: &str,
+    checks: &[CtCheck],
+    threshold: f64,
+    label: &str,
+    samples: usize,
+    warmup: usize,
+    trials: usize,
+) -> Result<(), String> {
+    let mut report = String::new();
+    report.push_str("# Constant-Time Timing Evidence\n\n");
+    writeln!(report, "Label: {label}")
+        .map_err(|error| format!("failed to build report: {error}"))?;
+    writeln!(report, "Samples per trial: {samples}")
+        .map_err(|error| format!("failed to build report: {error}"))?;
+    writeln!(report, "Warmup: {warmup}")
+        .map_err(|error| format!("failed to build report: {error}"))?;
+    writeln!(report, "Trials: {trials}")
+        .map_err(|error| format!("failed to build report: {error}"))?;
+    writeln!(report, "Threshold: |t| > {threshold}\n")
+        .map_err(|error| format!("failed to build report: {error}"))?;
+    report.push_str("| Check | Trial | t | Fixed mean (ns) | Random mean (ns) | Result |\n");
+    report.push_str("|---|---|---|---|---|---|\n");
+    for check in checks {
+        for (trial, result) in check.reports.iter().enumerate() {
+            let verdict = if result.leakage() { "LEAK" } else { "pass" };
+            writeln!(
+                report,
+                "| {} | {} | {:.4} | {:.2} | {:.2} | {} |",
+                check.name,
+                trial.saturating_add(1),
+                result.t_statistic,
+                result.fixed_mean,
+                result.random_mean,
+                verdict
+            )
+            .map_err(|error| format!("failed to build report: {error}"))?;
+        }
+    }
+    std::fs::write(path, report).map_err(|error| format!("failed to write {path}: {error}"))
 }
 
 fn read_trace_set(path: &str) -> Result<TraceSet, String> {
@@ -265,6 +440,8 @@ Usage:
       --count <n> --samples <n> --secret <byte> \\
       [--noise <n>] [--leakage <n>] [--seed <n>]
   sicas-harness timing [--samples <n>] [--warmup <n>] [--threshold 4.5]
+  sicas-harness ct [--samples <n>] [--warmup <n>] [--trials <n>] \\
+      [--threshold 4.5] [--label <text>] [--report <file>]
 
 Commands return a non-zero exit status when leakage is detected."
     );

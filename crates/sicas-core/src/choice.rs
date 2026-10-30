@@ -10,8 +10,8 @@ pub struct Choice(u8);
 
 impl Choice {
     /// Creates a choice from a public boolean.
-    pub const fn from_bool(value: bool) -> Self {
-        Self(if value { 1 } else { 0 })
+    pub fn from_bool(value: bool) -> Self {
+        Self(u8::from(value))
     }
 
     /// Returns the underlying `0` or `1`.
