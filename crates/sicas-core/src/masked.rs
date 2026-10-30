@@ -84,6 +84,17 @@ macro_rules! impl_masked {
                 Secret::new(self.share0 ^ self.share1)
             }
 
+            /// Re-randomizes the shares with a fresh mask.
+            ///
+            /// The logical value is unchanged. `fresh_mask` must be independent
+            /// of the current shares and must not be reused.
+            pub const fn refresh(&self, fresh_mask: $type) -> Self {
+                Self {
+                    share0: self.share0 ^ fresh_mask,
+                    share1: self.share1 ^ fresh_mask,
+                }
+            }
+
             /// XORs two masked values.
             pub const fn xor(&self, other: &Self) -> Self {
                 Self {
@@ -390,6 +401,15 @@ mod tests {
             assert_eq!(*masked.bit(index).unmask().expose_secret(), expected);
         }
         assert_eq!(*masked.bit(32).unmask().expose_secret(), 0);
+    }
+
+    #[test]
+    fn refresh_preserves_the_logical_value() {
+        let value = 0x1234_5678_u32;
+        let masked = Masked::<u32>::mask(value, 0xaaaa_aaaa);
+        let refreshed = masked.refresh(0x5555_5555);
+
+        assert_eq!(*refreshed.unmask().expose_secret(), value);
     }
 
     #[test]

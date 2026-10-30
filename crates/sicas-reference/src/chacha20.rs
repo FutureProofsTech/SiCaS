@@ -19,7 +19,6 @@ const CONSTANTS: [u32; 4] = [0x6170_7865, 0x3320_646e, 0x7962_2d32, 0x6b20_6574]
 #[must_use]
 pub struct MaskedChaCha20 {
     state: [Masked<u32>; 16],
-    initial: [Masked<u32>; 16],
     counter: u32,
 }
 
@@ -44,59 +43,34 @@ impl MaskedChaCha20 {
     ) -> Result<Self, EntropyError> {
         let mut state: [Masked<u32>; 16] =
             core::array::from_fn(|_| Masked::<u32>::from_parts(0, 0));
-        let mut initial: [Masked<u32>; 16] =
-            core::array::from_fn(|_| Masked::<u32>::from_parts(0, 0));
 
-        for ((state_slot, initial_slot), constant) in state
-            .iter_mut()
-            .take(4)
-            .zip(initial.iter_mut().take(4))
-            .zip(CONSTANTS)
-        {
-            *state_slot = Masked::<u32>::from_parts(constant, 0);
-            *initial_slot = Masked::<u32>::from_parts(constant, 0);
+        for (slot, constant) in state.iter_mut().take(4).zip(CONSTANTS) {
+            *slot = Masked::<u32>::from_parts(constant, 0);
         }
 
-        for ((state_slot, initial_slot), chunk) in state
+        for (slot, chunk) in state
             .iter_mut()
             .skip(4)
             .take(8)
-            .zip(initial.iter_mut().skip(4).take(8))
             .zip(key.as_chunks::<4>().0.iter())
         {
-            let word = word_from_bytes(*chunk);
-            let state_mask = entropy.mask_u32()?;
-            let initial_mask = entropy.mask_u32()?;
-            *state_slot = Masked::<u32>::from_parts(word ^ state_mask, state_mask);
-            *initial_slot = Masked::<u32>::from_parts(word ^ initial_mask, initial_mask);
+            *slot = Masked::<u32>::mask(word_from_bytes(*chunk), entropy.mask_u32()?);
         }
 
-        let state_mask = entropy.mask_u32()?;
-        let initial_mask = entropy.mask_u32()?;
         if let Some(slot) = state.get_mut(12) {
-            *slot = Masked::<u32>::from_parts(counter ^ state_mask, state_mask);
-        }
-        if let Some(slot) = initial.get_mut(12) {
-            *slot = Masked::<u32>::from_parts(counter ^ initial_mask, initial_mask);
+            *slot = Masked::<u32>::mask(counter, entropy.mask_u32()?);
         }
 
-        for ((state_slot, initial_slot), chunk) in state
+        for (slot, chunk) in state
             .iter_mut()
             .skip(13)
             .take(3)
-            .zip(initial.iter_mut().skip(13).take(3))
             .zip(nonce.as_chunks::<4>().0.iter())
         {
-            let word = word_from_bytes(*chunk);
-            *state_slot = Masked::<u32>::from_parts(word, 0);
-            *initial_slot = Masked::<u32>::from_parts(word, 0);
+            *slot = Masked::<u32>::from_parts(word_from_bytes(*chunk), 0);
         }
 
-        Ok(Self {
-            state,
-            initial,
-            counter,
-        })
+        Ok(Self { state, counter })
     }
 
     /// Produces one 64-byte ChaCha20 keystream block and increments the counter.
@@ -111,8 +85,18 @@ impl MaskedChaCha20 {
         &mut self,
         entropy: &mut impl EntropySource,
     ) -> Result<[u8; 64], EntropyError> {
-        let initial = self.initial.clone();
-        let mut working = self.state.clone();
+        let mut working: [Masked<u32>; 16] =
+            core::array::from_fn(|_| Masked::<u32>::from_parts(0, 0));
+        let mut initial: [Masked<u32>; 16] =
+            core::array::from_fn(|_| Masked::<u32>::from_parts(0, 0));
+        for ((working_slot, initial_slot), state_slot) in working
+            .iter_mut()
+            .zip(initial.iter_mut())
+            .zip(self.state.iter())
+        {
+            *working_slot = state_slot.refresh(entropy.mask_u32()?);
+            *initial_slot = state_slot.refresh(entropy.mask_u32()?);
+        }
 
         for _ in 0..10 {
             quarter_round(&mut working, 0, 4, 8, 12, entropy)?;
@@ -135,14 +119,10 @@ impl MaskedChaCha20 {
         }
 
         let state_mask = entropy.mask_u32()?;
-        let initial_mask = entropy.mask_u32()?;
         let next_counter = self.counter.wrapping_add(1);
         self.counter = next_counter;
         if let Some(slot) = self.state.get_mut(12) {
             *slot = Masked::<u32>::from_parts(next_counter ^ state_mask, state_mask);
-        }
-        if let Some(slot) = self.initial.get_mut(12) {
-            *slot = Masked::<u32>::from_parts(next_counter ^ initial_mask, initial_mask);
         }
 
         Ok(output)

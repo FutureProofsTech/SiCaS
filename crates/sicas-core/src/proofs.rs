@@ -187,6 +187,20 @@ impl EntropySource for KaniEntropy {
 }
 
 #[kani::proof]
+fn masked_u32_refresh_preserves_value() {
+    let value: u32 = kani::any();
+    let mask: u32 = kani::any();
+    let fresh_mask: u32 = kani::any();
+    let masked = Masked::<u32>::mask(value, mask);
+    let refreshed = masked.refresh(fresh_mask);
+
+    kani::assert(
+        *refreshed.unmask().expose_secret() == value,
+        "mask refresh must preserve the value",
+    );
+}
+
+#[kani::proof]
 fn masked_u32_add_matches_reference() {
     let a: u32 = kani::any();
     let b: u32 = kani::any();
