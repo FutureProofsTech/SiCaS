@@ -252,6 +252,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native runs cover the full key sweep.
     fn cpa_recovers_the_synthetic_secret() {
         let secret = 0x42;
         let data = generate(SyntheticConfig {

@@ -8,6 +8,10 @@ use std::process::ExitCode;
 
 use sicas_core::{Choice, EntropyError, EntropySource, Masked, ct};
 use sicas_harness::cpa::cpa_hamming_weight;
+use sicas_harness::leakage::{
+    DEFAULT_SAMPLES, DEFAULT_SEED, DEFAULT_THRESHOLD, LeakageConfig, check_all,
+    check_unmasked_control,
+};
 use sicas_harness::preprocess::{align, moving_average, trim};
 use sicas_harness::synthetic::{SyntheticConfig, TvlaSyntheticConfig, generate, generate_tvla};
 use sicas_harness::timing::{TimingConfig, TimingReport, dudect};
@@ -40,6 +44,7 @@ fn run() -> Result<(), String> {
         "synthetic-cpa" => run_synthetic_cpa(command_args),
         "timing" => run_timing(command_args),
         "ct" => run_ct(command_args),
+        "leakage-check" => run_leakage_check(command_args),
         "trim" => run_trim(command_args),
         "filter" => run_filter(command_args),
         "align" => run_align(command_args),
@@ -152,6 +157,34 @@ fn run_timing(args: &[String]) -> Result<(), String> {
     println!("{report}");
     if report.leakage() {
         return Err("timing test exceeded the leakage threshold".to_string());
+    }
+    Ok(())
+}
+
+fn run_leakage_check(args: &[String]) -> Result<(), String> {
+    let config = LeakageConfig {
+        samples: optional_usize(args, "--samples")?.unwrap_or(DEFAULT_SAMPLES),
+        seed: optional_u64(args, "--seed")?.unwrap_or(DEFAULT_SEED),
+        threshold: optional_f64(args, "--threshold")?.unwrap_or(DEFAULT_THRESHOLD),
+    };
+
+    let control = check_unmasked_control(config).map_err(|error| error.to_string())?;
+    if !control.leakage() {
+        return Err("leakage-model negative control did not detect unmasked leakage".to_string());
+    }
+    println!("{control}");
+
+    let reports = check_all(config).map_err(|error| error.to_string())?;
+    let mut leaked = false;
+    for report in &reports {
+        println!("{report}");
+        if report.leakage() {
+            leaked = true;
+        }
+    }
+
+    if leaked {
+        return Err("first-order leakage model exceeded the threshold".to_string());
     }
     Ok(())
 }
@@ -476,6 +509,7 @@ Usage:
   sicas-harness timing [--samples <n>] [--warmup <n>] [--threshold 4.5]
   sicas-harness ct [--samples <n>] [--warmup <n>] [--trials <n>] \\
       [--threshold 4.5] [--label <text>] [--report <file>]
+  sicas-harness leakage-check [--samples <n>] [--seed <n>] [--threshold 0.02]
   sicas-harness trim --in <file> --out <file> --start <n> --end <n>
   sicas-harness filter --in <file> --out <file> --window <n>
   sicas-harness align --in <file> --out <file> --reference <index> [--max-shift <n>]
@@ -543,12 +577,20 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Statistical model check is exercised natively.
+    fn leakage_check_runs_with_a_negative_control() {
+        let args = arguments(&["--samples", "100", "--threshold", "0.5"]);
+        assert!(run_leakage_check(&args).is_ok());
+    }
+
+    #[test]
     fn ct_rejects_zero_trials() {
         let args = arguments(&["--trials", "0"]);
         assert!(run_ct(&args).is_err());
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // File output and timing are exercised natively.
     fn ct_writes_a_report() {
         let path = std::env::temp_dir().join(format!("sicas-ct-{}.md", std::process::id()));
         let path_text = path.to_str().unwrap();

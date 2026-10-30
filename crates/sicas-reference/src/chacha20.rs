@@ -176,6 +176,7 @@ mod tests {
     )]
 
     use super::*;
+    use std::vec::Vec;
 
     struct TestRng(u64);
 
@@ -361,5 +362,78 @@ mod tests {
         let rendered = std::format!("{cipher:?}");
 
         assert_eq!(rendered, "MaskedChaCha20<redacted>");
+    }
+
+    #[test]
+    #[cfg_attr(miri, ignore)]
+    fn masked_key_shares_have_no_first_order_correlation() {
+        const SAMPLES: usize = 20_000;
+        const THRESHOLD: f64 = 0.03;
+
+        let mut rng = TestRng::new(0x51a7_c0de);
+        let mut entropy = TestEntropy::new(0x9876_5432);
+        let nonce = [0x24_u8; 12];
+        let mut key_words: [Vec<f64>; 8] = core::array::from_fn(|_| Vec::with_capacity(SAMPLES));
+        let mut share0_words: [Vec<f64>; 8] = core::array::from_fn(|_| Vec::with_capacity(SAMPLES));
+        let mut share1_words: [Vec<f64>; 8] = core::array::from_fn(|_| Vec::with_capacity(SAMPLES));
+
+        for _ in 0..SAMPLES {
+            let mut key = [0_u8; 32];
+            for byte in &mut key {
+                *byte = rng.next_u8();
+            }
+            let cipher = MaskedChaCha20::new(&key, &nonce, 0, &mut entropy).unwrap();
+
+            for (index, chunk) in key.as_chunks::<4>().0.iter().enumerate() {
+                key_words[index].push(f64::from(word_from_bytes(*chunk)));
+                let (share0, share1) = cipher.state[4 + index].shares();
+                share0_words[index].push(f64::from(*share0));
+                share1_words[index].push(f64::from(*share1));
+            }
+        }
+
+        for index in 0..8 {
+            let correlation0 = test_pearson(&key_words[index], &share0_words[index]).unwrap();
+            let correlation1 = test_pearson(&key_words[index], &share1_words[index]).unwrap();
+
+            assert!(
+                correlation0.abs() < THRESHOLD,
+                "key word {index} share0 correlation {correlation0} exceeded {THRESHOLD}"
+            );
+            assert!(
+                correlation1.abs() < THRESHOLD,
+                "key word {index} share1 correlation {correlation1} exceeded {THRESHOLD}"
+            );
+        }
+    }
+
+    #[allow(clippy::similar_names)] // Standard mathematical notation for the two axes.
+    fn test_pearson(x: &[f64], y: &[f64]) -> Option<f64> {
+        if x.len() != y.len() || x.len() < 2 {
+            return None;
+        }
+
+        let count = f64::from(u32::try_from(x.len()).unwrap());
+        let mut sum_x = 0.0;
+        let mut sum_y = 0.0;
+        let mut sum_x2 = 0.0;
+        let mut sum_y2 = 0.0;
+        let mut cross = 0.0;
+        for (x_value, y_value) in x.iter().zip(y) {
+            sum_x += x_value;
+            sum_y += y_value;
+            sum_x2 = x_value.mul_add(*x_value, sum_x2);
+            sum_y2 = y_value.mul_add(*y_value, sum_y2);
+            cross = x_value.mul_add(*y_value, cross);
+        }
+
+        let numerator = count.mul_add(cross, -(sum_x * sum_y));
+        let denominator_x = count.mul_add(sum_x2, -(sum_x * sum_x)).max(0.0);
+        let denominator_y = count.mul_add(sum_y2, -(sum_y * sum_y)).max(0.0);
+        let denominator = (denominator_x * denominator_y).sqrt();
+        if denominator <= 0.0 {
+            return None;
+        }
+        Some(numerator / denominator)
     }
 }

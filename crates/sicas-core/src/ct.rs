@@ -134,7 +134,10 @@ mod tests {
 
     #[test]
     fn zero_detection_is_exact_for_all_bytes() {
-        for value in u8::MIN..=u8::MAX {
+        // Native runs are exhaustive; Miri samples the same code paths because
+        // interpreting 65k+ cases is prohibitively slow.
+        let step = if cfg!(miri) { 64 } else { 1 };
+        for value in (u8::MIN..=u8::MAX).step_by(step) {
             let expected = u8::from(value == 0);
             assert_eq!(is_zero_u8(value).as_u8(), expected);
         }
@@ -142,8 +145,9 @@ mod tests {
 
     #[test]
     fn equality_is_exact_for_all_byte_pairs() {
-        for a in u8::MIN..=u8::MAX {
-            for b in u8::MIN..=u8::MAX {
+        let step = if cfg!(miri) { 64 } else { 1 };
+        for a in (u8::MIN..=u8::MAX).step_by(step) {
+            for b in (u8::MIN..=u8::MAX).step_by(step) {
                 let expected = u8::from(a == b);
                 assert_eq!(eq_u8(a, b).as_u8(), expected);
             }
@@ -152,8 +156,9 @@ mod tests {
 
     #[test]
     fn selection_is_exact_for_all_byte_pairs() {
-        for a in u8::MIN..=u8::MAX {
-            for b in u8::MIN..=u8::MAX {
+        let step = if cfg!(miri) { 64 } else { 1 };
+        for a in (u8::MIN..=u8::MAX).step_by(step) {
+            for b in (u8::MIN..=u8::MAX).step_by(step) {
                 assert_eq!(select_u8(Choice::from_bool(true), a, b), a);
                 assert_eq!(select_u8(Choice::from_bool(false), a, b), b);
             }
@@ -177,8 +182,9 @@ mod tests {
     #[test]
     fn lookup_scans_the_whole_table_correctly() {
         let table: [u8; 256] = core::array::from_fn(|index| u8::try_from(index).unwrap());
+        let step = if cfg!(miri) { 64 } else { 1 };
 
-        for index in u8::MIN..=u8::MAX {
+        for index in (u8::MIN..=u8::MAX).step_by(step) {
             assert_eq!(lookup_u8(&table, index), table[usize::from(index)]);
         }
     }

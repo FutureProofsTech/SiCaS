@@ -166,6 +166,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native runs cover the full key sweep.
     fn recovers_a_hamming_weight_key() {
         let secret = 0x42_u8;
         let plaintexts: Vec<u8> = (0_u8..=255).collect();
@@ -185,6 +186,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native runs cover the full key sweep.
     fn custom_model_recovers_a_key() {
         let secret = 0x5a_u8;
         let plaintexts: Vec<u8> = (0_u8..=255).collect();
@@ -231,6 +233,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native runs cover the full key sweep.
     fn duplicate_leakage_samples_keep_the_first_sample() {
         let secret = 0x42_u8;
         let plaintexts: Vec<u8> = (0_u8..=255).collect();
@@ -257,6 +260,81 @@ mod tests {
         assert_eq!(report.best_correlation, 0.0);
         assert_eq!(report.best_key, 0);
         assert_eq!(report.correlations.len(), 256);
+    }
+
+    #[test]
+    #[cfg_attr(miri, ignore)] // Native runs cover the full key sweep.
+    fn recovers_every_tested_hamming_weight_key() {
+        let plaintexts: Vec<u8> = (0_u8..=255).collect();
+
+        for secret in [0x00_u8, 0x01, 0x0f, 0x42, 0x55, 0x7f] {
+            let traces: Vec<Vec<i16>> = plaintexts
+                .iter()
+                .map(|plaintext| {
+                    let leakage = i16::try_from((*plaintext ^ secret).count_ones()).unwrap() * 100;
+                    vec![0, leakage, 0]
+                })
+                .collect();
+            let trace_set = TraceSet::from_traces(traces).unwrap();
+            let report = cpa_hamming_weight(&trace_set, &plaintexts).unwrap();
+
+            assert_eq!(report.best_key, secret);
+            assert_eq!(report.best_sample, 1);
+            assert!(report.best_correlation > 0.999);
+            assert_eq!(
+                report.correlations[usize::from(report.best_key)],
+                report.best_correlation
+            );
+            assert!(
+                report
+                    .correlations
+                    .iter()
+                    .all(|value| *value <= report.best_correlation)
+            );
+        }
+    }
+
+    #[test]
+    #[cfg_attr(miri, ignore)] // Native runs cover the full key sweep.
+    fn custom_model_recovers_every_tested_key() {
+        let plaintexts: Vec<u8> = (0_u8..=255).collect();
+
+        for secret in [0x00_u8, 0x5a, 0x7f] {
+            let traces: Vec<Vec<i16>> = plaintexts
+                .iter()
+                .map(|plaintext| vec![i16::from(*plaintext ^ secret) * 100])
+                .collect();
+            let trace_set = TraceSet::from_traces(traces).unwrap();
+            let report =
+                cpa_with_model(&trace_set, &plaintexts, |plaintext, key| plaintext ^ key).unwrap();
+
+            assert_eq!(report.best_key, secret);
+            assert_eq!(report.best_sample, 0);
+            assert!(report.best_correlation > 0.999);
+        }
+    }
+
+    #[test]
+    #[cfg_attr(miri, ignore)] // Native runs cover the full key sweep.
+    fn hamming_weight_model_has_complement_symmetry() {
+        let secret = 0x42_u8;
+        let complement = secret ^ 0xff;
+        let plaintexts: Vec<u8> = (0_u8..=255).collect();
+        let traces: Vec<Vec<i16>> = plaintexts
+            .iter()
+            .map(|plaintext| {
+                let leakage = i16::try_from((*plaintext ^ secret).count_ones()).unwrap() * 100;
+                vec![leakage]
+            })
+            .collect();
+        let trace_set = TraceSet::from_traces(traces).unwrap();
+        let report = cpa_hamming_weight(&trace_set, &plaintexts).unwrap();
+
+        assert_eq!(
+            report.correlations[usize::from(secret)],
+            report.correlations[usize::from(complement)]
+        );
+        assert_eq!(report.best_key, secret);
     }
 
     #[test]

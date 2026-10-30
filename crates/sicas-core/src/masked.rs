@@ -76,6 +76,17 @@ macro_rules! impl_masked {
                 }
             }
 
+            /// Returns the two shares.
+            ///
+            /// # Security
+            ///
+            /// Raw shares are sensitive material. Use them only inside an
+            /// explicit leakage-analysis or composition boundary. Never branch
+            /// on, log, or publish individual shares.
+            pub const fn shares(&self) -> (&$type, &$type) {
+                (&self.share0, &self.share1)
+            }
+
             /// Declassifies the masked value.
             ///
             /// This is a declassification boundary. The caller must justify it
@@ -318,10 +329,23 @@ mod tests {
     }
 
     #[test]
+    fn shares_reconstruct_the_value() {
+        let value = 0x1234_5678_u32;
+        let mask = 0xaaaa_aaaa_u32;
+        let masked = Masked::<u32>::mask(value, mask);
+        let (share0, share1) = masked.shares();
+
+        assert_eq!(*share0 ^ *share1, value);
+        assert_eq!(*share0, value ^ mask);
+        assert_eq!(*share1, mask);
+    }
+
+    #[test]
     fn mask_and_unmask_round_trip() {
         let mut rng = TestRng::new(0x5eed);
+        let rounds = if cfg!(miri) { 8 } else { 10_000 };
 
-        for _ in 0..10_000 {
+        for _ in 0..rounds {
             let value = rng.next_u32();
             let mask = rng.next_u32();
             let masked = Masked::<u32>::mask(value, mask);
@@ -332,8 +356,9 @@ mod tests {
     #[test]
     fn linear_operations_match_unmasked_reference() {
         let mut rng = TestRng::new(0x00c0_ffee);
+        let rounds = if cfg!(miri) { 8 } else { 10_000 };
 
-        for _ in 0..10_000 {
+        for _ in 0..rounds {
             let a = rng.next_u32();
             let b = rng.next_u32();
             let mask_a = rng.next_u32();
@@ -415,8 +440,9 @@ mod tests {
     #[test]
     fn masked_addition_matches_reference() {
         let mut rng = TestRng::new(0xadd1_7e57);
+        let rounds = if cfg!(miri) { 4 } else { 1_000 };
 
-        for _ in 0..1_000 {
+        for _ in 0..rounds {
             let a = rng.next_u32();
             let b = rng.next_u32();
             let masked_a = Masked::<u32>::mask(a, rng.next_u32());

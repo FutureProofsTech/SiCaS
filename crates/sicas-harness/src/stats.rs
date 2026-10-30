@@ -41,7 +41,10 @@ pub fn variance(values: &[f64]) -> Option<f64> {
 /// samples have zero variance, the statistic is defined as zero.
 #[must_use]
 pub fn welch_t(a: &[f64], b: &[f64]) -> Option<f64> {
-    if a.len() < 2 || b.len() < 2 {
+    if a.len() < 2 {
+        return None;
+    }
+    if b.len() < 2 {
         return None;
     }
 

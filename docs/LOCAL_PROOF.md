@@ -17,6 +17,8 @@ Covers:
 - AddressSanitizer;
 - `cargo audit` and `cargo deny check`;
 - multi-architecture assembly checks;
+- first-order leakage-model check with a negative control;
+- release-manifest validator tests;
 - evidence bundle generation.
 
 ## Full proof
@@ -34,7 +36,7 @@ Adds:
 - four 1M-execution fuzz campaigns;
 - AArch64 QEMU functional tests;
 - i686 native all-target tests;
-- release manifest, SBOM, provenance, and reproducible-build comparison;
+- release manifest, SBOM, provenance, validator, and reproducible-build comparison;
 - final evidence bundle.
 
 The full run can take 20+ minutes. It writes everything under

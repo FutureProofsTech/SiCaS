@@ -1,5 +1,9 @@
 //! End-to-end tests for the `sicas-harness` command-line interface.
+//!
+//! Miri cannot execute subprocesses under isolation, so this integration test
+//! binary is skipped under Miri. The CLI logic is still covered by unit tests.
 
+#![cfg(not(miri))]
 #![allow(
     clippy::unwrap_used,
     clippy::expect_used,

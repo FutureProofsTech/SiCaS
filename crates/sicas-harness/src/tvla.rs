@@ -110,7 +110,10 @@ pub fn tvla(
     if fixed.is_empty() || random.is_empty() {
         return Err(TvlaError::EmptyGroup);
     }
-    if fixed.len() < 2 || random.len() < 2 {
+    if fixed.len() < 2 {
+        return Err(TvlaError::TooFewTraces);
+    }
+    if random.len() < 2 {
         return Err(TvlaError::TooFewTraces);
     }
     if fixed.samples_per_trace() != random.samples_per_trace() {
@@ -308,6 +311,48 @@ mod tests {
             ..report
         };
         assert!(leaking.leakage());
+    }
+
+    #[test]
+    fn exact_statistic_matches_an_asymmetric_reference() {
+        let fixed = TraceSet::from_traces(vec![vec![1], vec![2], vec![4]]).unwrap();
+        let random = TraceSet::from_traces(vec![vec![0], vec![3], vec![5]]).unwrap();
+        let expected = welch_t(&[1.0, 2.0, 4.0], &[0.0, 3.0, 5.0]).unwrap().abs();
+        let report = tvla(&fixed, &random, TvlaConfig::default()).unwrap();
+
+        assert!((report.max_abs_t - expected).abs() < 1e-12);
+        assert!(report.max_abs_t > 0.0);
+    }
+
+    #[test]
+    fn equal_statistics_keep_the_first_sample() {
+        let fixed = TraceSet::from_traces(vec![vec![0, 0], vec![2, 2]]).unwrap();
+        let random = TraceSet::from_traces(vec![vec![1, 1], vec![1, 1]]).unwrap();
+        let report = tvla(&fixed, &random, TvlaConfig::default()).unwrap();
+
+        assert_eq!(report.max_abs_t, 0.0);
+        assert_eq!(report.max_sample, 0);
+    }
+
+    #[test]
+    fn threshold_is_strictly_exceeded() {
+        let fixed =
+            TraceSet::from_traces(vec![vec![0, 100], vec![1, 101], vec![2, 99], vec![3, 100]])
+                .unwrap();
+        let random =
+            TraceSet::from_traces(vec![vec![0, 0], vec![1, 1], vec![2, 2], vec![3, 3]]).unwrap();
+        let baseline = tvla(&fixed, &random, TvlaConfig::default()).unwrap();
+        assert!(baseline.exceeding_samples > 0);
+
+        let exact = tvla(
+            &fixed,
+            &random,
+            TvlaConfig {
+                threshold: baseline.max_abs_t,
+            },
+        )
+        .unwrap();
+        assert_eq!(exact.exceeding_samples, 0);
     }
 
     #[test]

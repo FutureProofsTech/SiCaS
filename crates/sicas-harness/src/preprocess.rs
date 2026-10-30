@@ -297,6 +297,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Large-window stress test; Miri coverage is provided by smaller cases.
     fn moving_average_does_not_overflow_on_large_windows() {
         let traces = TraceSet::from_traces(vec![vec![i16::MAX; 100_000]]).unwrap();
         let smoothed = moving_average(&traces, 100_000).unwrap();
@@ -332,6 +333,94 @@ mod tests {
         let traces = trace_set();
         let aligned = align(&traces, 0, 0).unwrap();
         assert_eq!(aligned.trace(1), traces.trace(1));
+    }
+
+    #[test]
+    fn correlation_matches_the_normalized_dot_product() {
+        assert_eq!(correlation(&[1, 1], &[1, 1], 0), 1.0);
+        assert_eq!(correlation(&[1, -1], &[1, -1], 0), 1.0);
+        assert_eq!(correlation(&[1, -1], &[-1, 1], 0), -1.0);
+        assert_eq!(correlation(&[1, 2, 3], &[1, 2, 3], 1), 4.0);
+    }
+
+    #[test]
+    fn correlation_without_overlap_is_negative_infinity() {
+        let score = correlation(&[1], &[1], 5);
+        assert!(score.is_infinite());
+        assert!(score.is_sign_negative());
+    }
+
+    #[test]
+    fn shift_trace_moves_and_zero_fills() {
+        assert_eq!(shift_trace(&[1, 2, 3], 0), [1, 2, 3]);
+        assert_eq!(shift_trace(&[1, 2, 3], 1), [0, 1, 2]);
+        assert_eq!(shift_trace(&[1, 2, 3], -1), [2, 3, 0]);
+        assert_eq!(shift_trace(&[1, 2, 3], 3), [0, 0, 0]);
+        assert_eq!(shift_trace(&[1, 2, 3], -3), [0, 0, 0]);
+    }
+
+    #[test]
+    fn align_breaks_ties_toward_the_first_shift() {
+        let traces = TraceSet::from_traces(vec![vec![1, -1, 1, -1], vec![1, -1, 1, -1]]).unwrap();
+        let aligned = align(&traces, 0, 2).unwrap();
+
+        assert_eq!(aligned.trace(1), Some([1, -1, 0, 0].as_slice()));
+    }
+
+    #[test]
+    fn align_recovers_every_supported_shift() {
+        let reference = pseudo_random_trace(32, 0x5eed);
+        for shift in -6_i32..=6 {
+            let traces =
+                TraceSet::from_traces(vec![reference.clone(), shift_trace(&reference, shift)])
+                    .unwrap();
+            let aligned = align(&traces, 0, 6).unwrap();
+            let expected = shift_trace(&shift_trace(&reference, shift), -shift);
+
+            assert_eq!(
+                aligned.trace(1),
+                Some(expected.as_slice()),
+                "failed to recover shift {shift}"
+            );
+        }
+    }
+
+    #[test]
+    fn trim_matches_direct_slicing() {
+        let traces = TraceSet::from_traces(vec![
+            vec![1, 2, 3, 4, 5],
+            vec![6, 7, 8, 9, 10],
+            vec![-1, -2, -3, -4, -5],
+        ])
+        .unwrap();
+        let trimmed = trim(&traces, 1, 4).unwrap();
+
+        for (index, trace) in traces.traces().iter().enumerate() {
+            assert_eq!(trimmed.trace(index), Some(&trace[1..4]));
+        }
+    }
+
+    #[test]
+    fn window_of_one_leaves_traces_unchanged() {
+        let traces = trace_set();
+        let smoothed = moving_average(&traces, 1).unwrap();
+
+        for index in 0..traces.len() {
+            assert_eq!(smoothed.trace(index), traces.trace(index));
+        }
+    }
+
+    fn pseudo_random_trace(length: usize, seed: u64) -> Vec<i16> {
+        let mut state = seed;
+        (0..length)
+            .map(|_| {
+                state = state
+                    .wrapping_mul(6_364_136_223_846_793_005)
+                    .wrapping_add(1_442_695_040_888_963_407);
+                let value = i32::try_from((state >> 33) % 2001).unwrap() - 1000;
+                i16::try_from(value).unwrap()
+            })
+            .collect()
     }
 
     #[test]

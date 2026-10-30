@@ -14,14 +14,18 @@ validation.
 
 ## Gate 1 — Local proof hardening
 
-- Add Kani proofs for every `Masked` linear operation and `select`.
-- Add property tests for trace alignment, filtering, and custom CPA models.
-- Add a first-order leakage-model checker for the masked adder and ChaCha20
-  composition.
-- Improve mutation coverage where missed mutants are not equivalent.
-- Add a zeroization design review; implement only inside an audited unsafe boundary.
-- Add release-manifest/SBOM consistency validation.
-- Re-run quick proof after each change.
+- [x] Add Kani proofs for every `Masked` linear operation, logical operation,
+  `select`, refresh, equality, and bit extraction across all widths.
+- [x] Add property tests for trace trimming, filtering, alignment, TVLA ties and
+  thresholds, and CPA key recovery.
+- [x] Add a first-order leakage-model checker for masked bytes, masked AND, masked
+  addition, and ChaCha20 key shares, with a negative control.
+- [x] Improve mutation coverage where missed mutants are not equivalent; record
+  remaining equivalent mutants.
+- [x] Add a zeroization design review; the adapter itself remains external because it
+  requires an audited unsafe boundary.
+- [x] Add release-manifest/SBOM/provenance consistency validation with tests.
+- [ ] Re-run the full local proof after all changes.
 
 ## Gate 2 — Freeze the local proof
 

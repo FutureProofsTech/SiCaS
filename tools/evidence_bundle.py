@@ -33,6 +33,7 @@ REQUIRED = [
     "docs/CT_EVIDENCE.md",
     "docs/CROSS_ARCH_EVIDENCE.md",
     "docs/FUZZ_EVIDENCE.md",
+    "docs/MUTATION_EVIDENCE.md",
     "docs/HARDWARE.md",
     "docs/RELEASE.md",
     "docs/RED_TEAM.md",
@@ -43,12 +44,16 @@ REQUIRED = [
     "docs/LOCAL_PROOF.md",
     "docs/POST_PROOF_BACKLOG.md",
     "docs/WORKING_AGREEMENT.md",
+    "docs/ZEROIZATION.md",
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",
+    "evidence/leakage/2026-10-31-x86_64.md",
     "evidence/release/2026-10-30-x86_64.md",
     "tools/local_proof.sh",
     "tools/run-aarch64-tests.sh",
     "tools/run-i686-tests.sh",
+    "tools/validate_release_manifest.py",
+    "tools/test_validate_release_manifest.py",
 ]
 
 OPTIONAL = [

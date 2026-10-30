@@ -28,6 +28,7 @@ v1.0 is **SAL-4**. CI and hardware evidence are still pending.
 - Test, coverage, mutation, and fuzz reports.
 - Kani/model-checking proofs and assumptions.
 - Constant-time assembly and dudect reports.
+- First-order leakage-model checks with a negative control.
 - TVLA/CPA/DPA raw traces and analysis scripts.
 - Red-team and audit reports, remediation, retest.
 - Local adversarial audit report and remediation record.

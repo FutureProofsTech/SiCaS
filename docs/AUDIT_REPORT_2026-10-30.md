@@ -152,29 +152,57 @@ been performed.
 - `Secret` deliberately lacks equality, indexing, and cloning.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect evidence below threshold.
-- Kani proofs for core gadgets and masked addition.
+- Kani proofs for core gadgets and every masked operation, including addition,
+  refresh, selection, equality, and share reconstruction.
 - Fuzz campaigns, Miri, ASan, mutation, coverage, audit, deny, and reproducibility gates.
 - Release manifest, SBOM, provenance, and Sigstore workflow are prepared.
 
 ## Verification after fixes
 
-- Core: 19 tests.
-- Harness: 63 library, 6 main, 5 CLI tests.
+- Core: 20 tests.
+- Harness: 91 library, 7 main, 5 CLI tests.
 - Platform: 4 tests.
-- Reference: 6 tests.
+- Reference: 7 tests.
 - Doctests: 3 pass, 4 compile-fail.
-- Miri: core, platform, and reference pass (OS entropy tests ignored under Miri
-  isolation); the full harness re-run is in progress as part of this audit evidence.
-- ASan: 92 workspace library tests pass.
-- AArch64 QEMU: 92 workspace library tests pass.
-- i686 native: 103 all-target tests pass.
-- Kani: 15 harnesses pass.
+- Miri: full workspace passes (core 20; harness 82 passed with 9 native-only
+  statistical sweeps ignored; main 5 passed with 2 file/timing tests ignored; platform
+  2 passed with 2 OS-entropy tests ignored; reference 6 passed with 1 statistical sweep
+  ignored; 7 doctests pass). Ignored tests are blocked by Miri isolation or are
+  exhaustive native sweeps; none are deleted.
+- ASan: 122 workspace library tests pass.
+- AArch64 QEMU: 122 workspace library tests pass.
+- i686 native: 134 all-target tests pass.
+- Kani: 27 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
-- Mutation: core 111 caught/0 missed; reference 6 caught/0 missed; workspace 401
-  caught, 21 missed, 36 unviable (95.0% of viable mutants).
-- Coverage: 96.50% lines, 93.87% regions.
+- Mutation: core 112 caught/0 missed; reference 6 caught/0 missed; workspace 477
+  caught, 0 missed, 43 unviable (100% of viable mutants).
+- Coverage: 96.89% lines, 94.68% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
+
+## Post-proof hardening (2026-10-31)
+
+Additional local hardening was completed after the initial audit pass:
+
+- Kani coverage was extended to every masked linear and logical operation across
+  `u8`, `u16`, `u32`, `u64`, and `u128`, plus bit extraction.
+- `Masked::shares` was added for explicit leakage-analysis boundaries, with a security
+  warning.
+- A deterministic first-order leakage-model checker now covers masked bytes, masked
+  AND, masked addition, and masked ChaCha20 key shares, with a negative control that
+  must detect unmasked leakage.
+- Property tests were added for trace trimming, moving averages, alignment shifts and
+  tie-breaking, CPA key recovery, and TVLA tie/threshold behavior.
+- Timing validation was made explicit at the four-sample boundary; duration conversion
+  is unit-tested.
+- A release-manifest validator checks artifact hashes, provenance, SBOM components and
+  dependencies, workspace versions, timestamps, and the current commit.
+- A zeroization design review records the limitation and the requirements for a future
+  audited adapter.
+
+These changes strengthen the local evidence. They do not change the external-only
+gates: hardware leakage measurement, independent audit, independent red team,
+zeroization adapter review, and production signing remain incomplete.
 
 ## Conclusion
 

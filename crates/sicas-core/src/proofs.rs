@@ -85,6 +85,19 @@ fn masked_u32_round_trip() {
 }
 
 #[kani::proof]
+fn masked_u32_shares_reconstruct_value() {
+    let value: u32 = kani::any();
+    let mask: u32 = kani::any();
+    let masked = Masked::<u32>::mask(value, mask);
+    let (share0, share1) = masked.shares();
+
+    kani::assert(
+        *share0 ^ *share1 == value,
+        "the two shares must reconstruct the value",
+    );
+}
+
+#[kani::proof]
 fn masked_u128_round_trip() {
     let value: u128 = kani::any();
     let mask: u128 = kani::any();
@@ -234,5 +247,115 @@ fn masked_u32_shift_matches_reference() {
     kani::assert(
         *masked.shift_right(amount).unmask().expose_secret() == expected_right,
         "masked right shift must match the reference",
+    );
+}
+
+macro_rules! linear_operation_proof {
+    ($name:ident, $type:ty) => {
+        #[kani::proof]
+        fn $name() {
+            let a: $type = kani::any();
+            let b: $type = kani::any();
+            let mask_a: $type = kani::any();
+            let mask_b: $type = kani::any();
+            let amount: u32 = kani::any();
+            let masked_a = Masked::<$type>::mask(a, mask_a);
+            let masked_b = Masked::<$type>::mask(b, mask_b);
+
+            kani::assert(
+                *masked_a.xor(&masked_b).unmask().expose_secret() == a ^ b,
+                "masked XOR must match the reference",
+            );
+            kani::assert(
+                *masked_a.complement().unmask().expose_secret() == !a,
+                "masked complement must match the reference",
+            );
+            kani::assert(
+                *masked_a.rotate_left(amount).unmask().expose_secret() == a.rotate_left(amount),
+                "masked left rotation must match the reference",
+            );
+            kani::assert(
+                *masked_a.rotate_right(amount).unmask().expose_secret() == a.rotate_right(amount),
+                "masked right rotation must match the reference",
+            );
+            kani::assert(
+                *masked_a.shift_left(amount).unmask().expose_secret()
+                    == a.checked_shl(amount).unwrap_or(0),
+                "masked left shift must match the reference",
+            );
+            kani::assert(
+                *masked_a.shift_right(amount).unmask().expose_secret()
+                    == a.checked_shr(amount).unwrap_or(0),
+                "masked right shift must match the reference",
+            );
+        }
+    };
+}
+
+macro_rules! logic_operation_proof {
+    ($name:ident, $type:ty) => {
+        #[kani::proof]
+        fn $name() {
+            let choice = Choice::from_bool(kani::any());
+            let a: $type = kani::any();
+            let b: $type = kani::any();
+            let mask_a: $type = kani::any();
+            let mask_b: $type = kani::any();
+            let fresh_mask: $type = kani::any();
+            let masked_a = Masked::<$type>::mask(a, mask_a);
+            let masked_b = Masked::<$type>::mask(b, mask_b);
+
+            kani::assert(
+                *masked_a.and(&masked_b, fresh_mask).unmask().expose_secret() == a & b,
+                "masked AND must match the reference",
+            );
+            kani::assert(
+                masked_a.ct_eq(&masked_b).as_u8() == u8::from(a == b),
+                "masked equality must match the reference",
+            );
+            kani::assert(
+                *masked_a.refresh(fresh_mask).unmask().expose_secret() == a,
+                "mask refresh must preserve the value",
+            );
+
+            let selected = Masked::<$type>::select(choice, &masked_a, &masked_b);
+            if choice.as_u8() == 1 {
+                kani::assert(
+                    *selected.unmask().expose_secret() == a,
+                    "masked select must select a when true",
+                );
+            } else {
+                kani::assert(
+                    *selected.unmask().expose_secret() == b,
+                    "masked select must select b when false",
+                );
+            }
+        }
+    };
+}
+
+linear_operation_proof!(masked_u8_linear_ops_match_reference, u8);
+linear_operation_proof!(masked_u16_linear_ops_match_reference, u16);
+linear_operation_proof!(masked_u32_linear_ops_match_reference, u32);
+linear_operation_proof!(masked_u64_linear_ops_match_reference, u64);
+linear_operation_proof!(masked_u128_linear_ops_match_reference, u128);
+
+logic_operation_proof!(masked_u8_logic_ops_match_reference, u8);
+logic_operation_proof!(masked_u16_logic_ops_match_reference, u16);
+logic_operation_proof!(masked_u32_logic_ops_match_reference, u32);
+logic_operation_proof!(masked_u64_logic_ops_match_reference, u64);
+logic_operation_proof!(masked_u128_logic_ops_match_reference, u128);
+
+#[kani::proof]
+fn masked_u32_bit_matches_reference() {
+    let value: u32 = kani::any();
+    let mask: u32 = kani::any();
+    let index: u32 = kani::any();
+    let masked = Masked::<u32>::mask(value, mask);
+    let expected = value & 1_u32.checked_shl(index).unwrap_or(0);
+
+    kani::assert(
+        *masked.bit(index).unmask().expose_secret() == expected,
+        "masked bit extraction must match the reference",
     );
 }

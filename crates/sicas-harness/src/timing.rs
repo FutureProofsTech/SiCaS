@@ -2,9 +2,15 @@
 
 use std::fmt;
 use std::hint::black_box;
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
 use crate::stats::{mean, welch_t};
+
+/// Minimum number of timing samples accepted by [`dudect`].
+///
+/// The alternating class schedule needs at least two samples per class, so four
+/// samples are required in total.
+pub const MIN_TIMING_SAMPLES: usize = 4;
 
 /// Maximum number of timing samples accepted by [`dudect`].
 pub const MAX_TIMING_SAMPLES: usize = 10_000_000;
@@ -73,7 +79,7 @@ impl fmt::Display for TimingReport {
 /// Errors produced by timing analysis.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum TimingError {
-    /// Fewer than two samples were requested or observed per class.
+    /// Fewer than [`MIN_TIMING_SAMPLES`] samples were requested or observed.
     TooFewSamples,
     /// The requested sample count exceeds [`MAX_TIMING_SAMPLES`].
     TooLarge,
@@ -84,7 +90,9 @@ pub enum TimingError {
 impl fmt::Display for TimingError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::TooFewSamples => formatter.write_str("timing test requires at least two samples"),
+            Self::TooFewSamples => {
+                formatter.write_str("timing test requires at least four samples")
+            }
             Self::TooLarge => formatter.write_str("timing sample count exceeds the limit"),
             Self::InvalidThreshold => {
                 formatter.write_str("timing threshold must be finite and positive")
@@ -112,15 +120,7 @@ pub fn dudect<F>(config: TimingConfig, mut operation: F) -> Result<TimingReport,
 where
     F: FnMut(bool) -> u64,
 {
-    if config.samples < 2 {
-        return Err(TimingError::TooFewSamples);
-    }
-    if config.samples > MAX_TIMING_SAMPLES {
-        return Err(TimingError::TooLarge);
-    }
-    if !config.threshold.is_finite() || config.threshold <= 0.0 {
-        return Err(TimingError::InvalidThreshold);
-    }
+    validate_config(config)?;
 
     let mut rng = TimingRng::new(0x5eed_1234_abcd_ef01);
 
@@ -149,7 +149,7 @@ where
 
         let start = Instant::now();
         let result = operation(black_box(class));
-        let elapsed = start.elapsed().as_secs_f64() * 1_000_000_000.0;
+        let elapsed = duration_nanos(start.elapsed());
         black_box(result);
 
         if class {
@@ -171,6 +171,23 @@ where
         random_samples: random.len(),
         threshold: config.threshold,
     })
+}
+
+fn validate_config(config: TimingConfig) -> Result<(), TimingError> {
+    if config.samples < MIN_TIMING_SAMPLES {
+        return Err(TimingError::TooFewSamples);
+    }
+    if config.samples > MAX_TIMING_SAMPLES {
+        return Err(TimingError::TooLarge);
+    }
+    if !config.threshold.is_finite() || config.threshold <= 0.0 {
+        return Err(TimingError::InvalidThreshold);
+    }
+    Ok(())
+}
+
+fn duration_nanos(duration: Duration) -> f64 {
+    duration.as_secs_f64() * 1_000_000_000.0
 }
 
 #[derive(Clone, Debug)]
@@ -252,7 +269,7 @@ mod tests {
     fn small_sample_counts_are_supported() {
         let report = dudect(
             TimingConfig {
-                samples: 4,
+                samples: MIN_TIMING_SAMPLES,
                 warmup: 0,
                 threshold: 4.5,
             },
@@ -260,7 +277,81 @@ mod tests {
         )
         .unwrap();
 
-        assert_eq!(report.fixed_samples + report.random_samples, 4);
+        assert_eq!(
+            report.fixed_samples + report.random_samples,
+            MIN_TIMING_SAMPLES
+        );
+    }
+
+    #[test]
+    fn configuration_boundaries_are_exact() {
+        let config = |samples, threshold| TimingConfig {
+            samples,
+            warmup: 0,
+            threshold,
+        };
+
+        assert_eq!(
+            validate_config(config(0, 4.5)),
+            Err(TimingError::TooFewSamples)
+        );
+        assert_eq!(
+            validate_config(config(3, 4.5)),
+            Err(TimingError::TooFewSamples)
+        );
+        assert_eq!(validate_config(config(4, 4.5)), Ok(()));
+        assert_eq!(validate_config(config(MAX_TIMING_SAMPLES, 4.5)), Ok(()));
+        assert_eq!(
+            validate_config(config(MAX_TIMING_SAMPLES + 1, 4.5)),
+            Err(TimingError::TooLarge)
+        );
+        assert_eq!(
+            validate_config(config(4, f64::NAN)),
+            Err(TimingError::InvalidThreshold)
+        );
+        assert_eq!(
+            validate_config(config(4, f64::INFINITY)),
+            Err(TimingError::InvalidThreshold)
+        );
+        assert_eq!(
+            validate_config(config(4, 0.0)),
+            Err(TimingError::InvalidThreshold)
+        );
+        assert_eq!(
+            validate_config(config(4, -1.0)),
+            Err(TimingError::InvalidThreshold)
+        );
+    }
+
+    #[test]
+    fn class_schedule_is_alternating_and_deterministic() {
+        let mut classes = Vec::new();
+        let report = dudect(
+            TimingConfig {
+                samples: 8,
+                warmup: 0,
+                threshold: 4.5,
+            },
+            |class| {
+                classes.push(class);
+                0
+            },
+        )
+        .unwrap();
+
+        assert_eq!(
+            classes,
+            [true, false, true, false, true, false, false, true]
+        );
+        assert_eq!(report.fixed_samples, 4);
+        assert_eq!(report.random_samples, 4);
+    }
+
+    #[test]
+    fn duration_conversion_is_in_nanoseconds() {
+        assert_eq!(duration_nanos(Duration::from_nanos(1)), 1.0);
+        assert_eq!(duration_nanos(Duration::from_micros(2)), 2_000.0);
+        assert_eq!(duration_nanos(Duration::from_secs(1)), 1_000_000_000.0);
     }
 
     #[test]
@@ -313,7 +404,7 @@ mod tests {
             threshold: 4.5,
         };
         assert!(report.to_string().contains("timing"));
-        assert!(TimingError::TooFewSamples.to_string().contains("two"));
+        assert!(TimingError::TooFewSamples.to_string().contains("four"));
         assert!(TimingError::TooLarge.to_string().contains("limit"));
         assert!(
             TimingError::InvalidThreshold

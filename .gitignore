@@ -6,3 +6,5 @@
 !/fuzz/corpus/*/seed
 /mutants.out*
 **/*.rs.bk
+__pycache__/
+*.pyc
