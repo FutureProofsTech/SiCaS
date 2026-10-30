@@ -170,8 +170,8 @@ been performed.
 - i686 native: 103 all-target tests pass.
 - Kani: 15 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
-- Mutation: core 111 caught/0 missed; reference 10 caught/0 missed; workspace 405
-  caught, 21 missed, 36 unviable (95.1% of viable mutants).
+- Mutation: core 111 caught/0 missed; reference 6 caught/0 missed; workspace 401
+  caught, 21 missed, 36 unviable (95.0% of viable mutants).
 - Coverage: 96.50% lines, 93.87% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
