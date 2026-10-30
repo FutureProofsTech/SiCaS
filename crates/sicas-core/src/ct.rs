@@ -9,6 +9,12 @@ pub const fn is_zero_u8(x: u8) -> Choice {
 }
 
 /// Returns a `Choice` that is true when `x` is zero.
+pub const fn is_zero_u16(x: u16) -> Choice {
+    let folded = x | x.wrapping_neg();
+    Choice::from_raw_u16((folded >> 15) ^ 1)
+}
+
+/// Returns a `Choice` that is true when `x` is zero.
 pub const fn is_zero_u32(x: u32) -> Choice {
     let folded = x | x.wrapping_neg();
     Choice::from_raw_u32((folded >> 31) ^ 1)
@@ -20,9 +26,20 @@ pub const fn is_zero_u64(x: u64) -> Choice {
     Choice::from_raw_u64((folded >> 63) ^ 1)
 }
 
+/// Returns a `Choice` that is true when `x` is zero.
+pub const fn is_zero_u128(x: u128) -> Choice {
+    let folded = x | x.wrapping_neg();
+    Choice::from_raw_u128((folded >> 127) ^ 1)
+}
+
 /// Compares two bytes in constant time.
 pub const fn eq_u8(a: u8, b: u8) -> Choice {
     is_zero_u8(a ^ b)
+}
+
+/// Compares two `u16` values in constant time.
+pub const fn eq_u16(a: u16, b: u16) -> Choice {
+    is_zero_u16(a ^ b)
 }
 
 /// Compares two `u32` values in constant time.
@@ -35,6 +52,11 @@ pub const fn eq_u64(a: u64, b: u64) -> Choice {
     is_zero_u64(a ^ b)
 }
 
+/// Compares two `u128` values in constant time.
+pub const fn eq_u128(a: u128, b: u128) -> Choice {
+    is_zero_u128(a ^ b)
+}
+
 /// Selects `a` when `choice` is true, otherwise `b`, in constant time.
 #[must_use]
 pub const fn select_u8(choice: Choice, a: u8, b: u8) -> u8 {
@@ -43,18 +65,30 @@ pub const fn select_u8(choice: Choice, a: u8, b: u8) -> u8 {
 
 /// Selects `a` when `choice` is true, otherwise `b`, in constant time.
 #[must_use]
-pub fn select_u32(choice: Choice, a: u32, b: u32) -> u32 {
+pub const fn select_u16(choice: Choice, a: u16, b: u16) -> u16 {
+    b ^ (choice.mask_u16() & (a ^ b))
+}
+
+/// Selects `a` when `choice` is true, otherwise `b`, in constant time.
+#[must_use]
+pub const fn select_u32(choice: Choice, a: u32, b: u32) -> u32 {
     b ^ (choice.mask_u32() & (a ^ b))
 }
 
 /// Selects `a` when `choice` is true, otherwise `b`, in constant time.
 #[must_use]
-pub fn select_u64(choice: Choice, a: u64, b: u64) -> u64 {
+pub const fn select_u64(choice: Choice, a: u64, b: u64) -> u64 {
     b ^ (choice.mask_u64() & (a ^ b))
 }
 
+/// Selects `a` when `choice` is true, otherwise `b`, in constant time.
+#[must_use]
+pub const fn select_u128(choice: Choice, a: u128, b: u128) -> u128 {
+    b ^ (choice.mask_u128() & (a ^ b))
+}
+
 /// Swaps two `u32` values in constant time when `choice` is true.
-pub fn swap_u32(a: &mut u32, b: &mut u32, choice: Choice) {
+pub const fn swap_u32(a: &mut u32, b: &mut u32, choice: Choice) {
     let difference = choice.mask_u32() & (*a ^ *b);
     *a ^= difference;
     *b ^= difference;
@@ -153,11 +187,39 @@ mod tests {
     fn wide_equality_and_selection_work() {
         assert_eq!(eq_u32(0, 0).as_u8(), 1);
         assert_eq!(eq_u32(0, 1).as_u8(), 0);
+        assert_eq!(is_zero_u32(0x8000_0000).as_u8(), 0);
+        assert_eq!(is_zero_u32(u32::MAX).as_u8(), 0);
         assert_eq!(eq_u64(u64::MAX, u64::MAX).as_u8(), 1);
         assert_eq!(eq_u64(u64::MAX, 0).as_u8(), 0);
+        assert_eq!(is_zero_u64(0x8000_0000_0000_0000).as_u8(), 0);
+        assert_eq!(is_zero_u64(u64::MAX).as_u8(), 0);
         assert_eq!(select_u32(Choice::from_bool(true), 7, 9), 7);
         assert_eq!(select_u32(Choice::from_bool(false), 7, 9), 9);
         assert_eq!(select_u64(Choice::from_bool(true), 7, 9), 7);
         assert_eq!(select_u64(Choice::from_bool(false), 7, 9), 9);
+    }
+
+    #[test]
+    fn wide_integer_edges_are_covered() {
+        for value in [0_u16, 1, 2, 0x8000, u16::MAX] {
+            assert_eq!(is_zero_u16(value).as_u8(), u8::from(value == 0));
+        }
+        assert_eq!(eq_u16(1, 1).as_u8(), 1);
+        assert_eq!(eq_u16(1, 0).as_u8(), 0);
+        assert_eq!(eq_u16(1, 2).as_u8(), 0);
+        assert_eq!(select_u16(Choice::from_bool(true), u16::MAX, 0), u16::MAX);
+        assert_eq!(select_u16(Choice::from_bool(false), u16::MAX, 0), 0);
+
+        for value in [0_u128, 1, 2, 1 << 127, u128::MAX] {
+            assert_eq!(is_zero_u128(value).as_u8(), u8::from(value == 0));
+        }
+        assert_eq!(eq_u128(1, 1).as_u8(), 1);
+        assert_eq!(eq_u128(1, 0).as_u8(), 0);
+        assert_eq!(eq_u128(1, 2).as_u8(), 0);
+        assert_eq!(
+            select_u128(Choice::from_bool(true), u128::MAX, 0),
+            u128::MAX
+        );
+        assert_eq!(select_u128(Choice::from_bool(false), u128::MAX, 0), 0);
     }
 }

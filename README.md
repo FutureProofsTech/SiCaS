@@ -12,13 +12,15 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
 ## What exists
 
 - `sicas-core`: `no_std`, `#![forbid(unsafe_code)]`, zero runtime dependencies.
-  - `Choice` and constant-time comparison/selection/swap/lookup.
+  - `Choice` and constant-time comparison/selection/swap/lookup for
+    `u8`, `u16`, `u32`, `u64`, and `u128`.
   - `Secret<T>` with redacted `Debug` and no accidental equality/indexing/cloning.
-  - `Masked<u32>` with two-share first-order Boolean masking.
+  - `Masked<T>` with two-share first-order Boolean masking for
+    `u8`, `u16`, `u32`, `u64`, and `u128`.
   - `EntropySource` with fail-closed behavior.
-- Unit tests, exhaustive byte tests, property-style randomized tests, and compile-fail
-  doctests.
-- Strict formatting and Clippy policy.
+- Unit tests, exhaustive byte tests, property-style randomized tests, compile-fail
+  doctests, Kani proof harnesses, and libFuzzer targets.
+- AddressSanitizer, Miri, strict formatting, and strict Clippy gates.
 
 ## Quality gates
 
@@ -32,6 +34,11 @@ cargo +nightly-2026-08-03 clippy \
 cargo test --workspace --all-targets --all-features --locked
 cargo test --workspace --doc --locked
 cargo +nightly-2026-08-03 miri test --workspace
+cargo kani
+RUSTFLAGS="-Zsanitizer=address" cargo +nightly-2026-08-03 test -p sicas-core --lib
+cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=10000
+cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
+cargo mutants --workspace --no-shuffle
 RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps --all-features --locked
 ```
 
@@ -39,6 +46,8 @@ RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps --all-features --lock
 
 - Safe Rust: `sicas-core` forbids unsafe code.
 - Zero runtime dependencies: no third-party crates.
+- The non-published `fuzz/` crate uses `libfuzzer-sys`; it is excluded from the workspace
+  and is never shipped.
 - Every security claim must link to reproducible evidence. See
   [`docs/SECURITY_CLAIMS.md`](docs/SECURITY_CLAIMS.md) and
   [`docs/PROOF_OBLIGATIONS.md`](docs/PROOF_OBLIGATIONS.md).

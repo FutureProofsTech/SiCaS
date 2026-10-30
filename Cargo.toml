@@ -1,5 +1,6 @@
 [workspace]
 members = ["crates/sicas-core"]
+exclude = ["fuzz"]
 resolver = "3"
 
 [workspace.package]
@@ -15,7 +16,8 @@ missing_docs = "deny"
 missing_debug_implementations = "deny"
 unreachable_pub = "deny"
 unused_must_use = "deny"
-rust_2018_idioms = "deny"
+rust_2018_idioms = { level = "deny", priority = -1 }
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(kani)"] }
 
 [workspace.lints.clippy]
 pedantic = { level = "deny", priority = -1 }

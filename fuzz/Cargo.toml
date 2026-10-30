@@ -1,0 +1,28 @@
+[package]
+name = "sicas-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+sicas-core = { path = "../crates/sicas-core" }
+
+[[bin]]
+name = "masked_ops"
+path = "fuzz_targets/masked_ops.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ct_lookup"
+path = "fuzz_targets/ct_lookup.rs"
+test = false
+doc = false
+bench = false
+
+[workspace]

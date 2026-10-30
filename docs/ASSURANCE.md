@@ -2,7 +2,8 @@
 
 ## Current level
 
-**SAL-1** (tests and CI). The target for v1.0 is **SAL-4**.
+**SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The target for
+v1.0 is **SAL-4**. CI and hardware evidence are still pending.
 
 | Level | Requirements | Allowed public claim |
 |-------|--------------|----------------------|

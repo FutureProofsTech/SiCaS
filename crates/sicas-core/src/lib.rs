@@ -17,7 +17,7 @@
 //!
 //! let value = 0x1234_5678_u32;
 //! let mask = 0xa5a5_a5a5_u32;
-//! let masked = Masked::mask(value, mask);
+//! let masked = Masked::<u32>::mask(value, mask);
 //!
 //! assert_eq!(*masked.unmask().expose_secret(), value);
 //! assert!(ct::eq_u32(value, value).as_u8() == 1);
@@ -40,6 +40,8 @@ mod choice;
 pub mod ct;
 mod entropy;
 mod masked;
+#[cfg(kani)]
+mod proofs;
 mod secret;
 
 pub use choice::Choice;

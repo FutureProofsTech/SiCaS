@@ -50,6 +50,11 @@ cargo +nightly-2026-08-03 clippy \
 cargo test --workspace --all-targets --all-features --locked
 cargo test --workspace --doc --locked
 cargo +nightly-2026-08-03 miri test --workspace
+cargo kani
+RUSTFLAGS="-Zsanitizer=address" cargo +nightly-2026-08-03 test -p sicas-core --lib
+cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=10000
+cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
+cargo mutants --workspace --no-shuffle
 RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps --all-features --locked
 ```
 
