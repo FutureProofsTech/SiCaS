@@ -1,8 +1,8 @@
 # SiCaS Evidence Bundle
 
 - Code commit under test: `c349329`
-- Generated: `2026-10-30T23:23:04.664044+00:00`
-- Files: 43
+- Generated: `2026-10-30T23:23:33.184331+00:00`
+- Files: 44
 
 | File | SHA-256 |
 |---|---|
@@ -42,6 +42,7 @@
 | `evidence/ct/2026-10-30-x86_64.md` | `14fb6a37def5f22f0a15f6089b07750ff92d2422abdeb93550fffc9ac0d454bf` |
 | `evidence/ct/asm-2026-10-30.md` | `3c810f92d72253fec1278b8a40698c9d87476101a20582044383f8c6b7f945bd` |
 | `evidence/leakage/2026-10-31-x86_64.md` | `0229fb1531fbbde21abd17d57a3ccd1f888ccd63f98b2de7de224d9fc7d41175` |
+| `evidence/local-proof-2026-10-31/SUMMARY.md` | `5475ae1cbfb8a49aa91d44eb847713c145c84d2290bc9b5df34823b67a302532` |
 | `evidence/release/2026-10-30-x86_64.md` | `94337c355f4a73ca2fa59734a9c98c46329b3318fac4dbdc3beaa3f16646faf2` |
 | `evidence/release/2026-10-31-x86_64.md` | `00b7af89a4bbde072c028ac26a77478069b8071f606a4dca20930174b7d8834d` |
 | `tools/local_proof.sh` | `6ec375e1220fa1e1c931f5301bb7d6fbf3d371271d54c0a75571359064fe25db` |

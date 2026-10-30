@@ -48,6 +48,7 @@ REQUIRED = [
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",
     "evidence/leakage/2026-10-31-x86_64.md",
+    "evidence/local-proof-2026-10-31/SUMMARY.md",
     "evidence/release/2026-10-30-x86_64.md",
     "evidence/release/2026-10-31-x86_64.md",
     "tools/local_proof.sh",
