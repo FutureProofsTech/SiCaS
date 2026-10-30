@@ -33,6 +33,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Red-team program | `docs/RED_TEAM.md` |
 | Local adversarial audit | `docs/AUDIT_REPORT_2026-10-30.md` |
 | Tool inventory | `docs/TOOLING.md` |
+| Local proof runner | `docs/LOCAL_PROOF.md` |
 | Known gaps | `docs/GAP_REPORT.md` |
 
 Generate a self-contained bundle:
