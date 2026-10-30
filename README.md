@@ -45,6 +45,7 @@ See:
 - [`docs/EVALUATION.md`](docs/EVALUATION.md) — trace format and harness usage
 - [`docs/HARDWARE.md`](docs/HARDWARE.md) — hardware evidence protocol
 - [`docs/CT_EVIDENCE.md`](docs/CT_EVIDENCE.md) — constant-time timing evidence
+- [`docs/CROSS_ARCH_EVIDENCE.md`](docs/CROSS_ARCH_EVIDENCE.md) — AArch64 QEMU functional evidence
 - [`docs/FUZZ_EVIDENCE.md`](docs/FUZZ_EVIDENCE.md) — 1M-execution fuzz campaigns
 - [`docs/RELEASE.md`](docs/RELEASE.md) — release, SBOM, and signing
 - [`docs/RED_TEAM.md`](docs/RED_TEAM.md) — independent review program

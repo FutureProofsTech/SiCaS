@@ -31,6 +31,7 @@ REQUIRED = [
     "docs/SUPPORT_MATRIX.md",
     "docs/EVALUATION.md",
     "docs/CT_EVIDENCE.md",
+    "docs/CROSS_ARCH_EVIDENCE.md",
     "docs/FUZZ_EVIDENCE.md",
     "docs/HARDWARE.md",
     "docs/RELEASE.md",
@@ -42,6 +43,7 @@ REQUIRED = [
     "docs/WORKING_AGREEMENT.md",
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",
+    "tools/run-aarch64-tests.sh",
 ]
 
 OPTIONAL = [

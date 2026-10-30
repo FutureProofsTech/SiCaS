@@ -8,6 +8,7 @@ be truthfully completed here.
 |---|---|---|---|
 | Hardware power/EM TVLA/CPA/DPA | Blocked | No target board or acquisition hardware | Execute `docs/HARDWARE.md` on a Cortex-M4 target; publish raw traces |
 | ARM/RISC-V runtime timing | Blocked | No physical targets; QEMU timing is not evidence | Run `sicas-harness ct` on each target; publish results |
+| AArch64 functional runtime | Complete | QEMU user-mode workspace tests | See `docs/CROSS_ARCH_EVIDENCE.md` |
 | External security audit | Not started | Requires an independent auditor | Engage an auditor using `docs/AUDIT_PACKAGE.md` |
 | Independent red team | Not started | Requires an independent team and lab | Engage using `docs/RED_TEAM.md` |
 | Release signing | Prepared | Requires a release identity and signing key/OIDC | Run `.github/workflows/release.yml` with Sigstore identity |
