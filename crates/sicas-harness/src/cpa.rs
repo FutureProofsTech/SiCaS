@@ -52,6 +52,29 @@ impl std::error::Error for CpaError {}
 /// Returns an error for empty input, mismatched trace/plaintext counts, or
 /// fewer than two traces.
 pub fn cpa_hamming_weight(traces: &TraceSet, plaintexts: &[u8]) -> Result<CpaReport, CpaError> {
+    cpa_with_model(traces, plaintexts, |plaintext, key| {
+        u8::try_from((plaintext ^ key).count_ones()).unwrap_or(0)
+    })
+}
+
+/// Runs CPA with a caller-provided byte leakage model.
+///
+/// `leakage_model` receives the plaintext byte and key guess and returns the
+/// predicted leakage byte. This supports algorithm-specific models such as an
+/// AES S-box or a Hamming-weight model.
+///
+/// # Errors
+///
+/// Returns an error for empty input, mismatched trace/plaintext counts, or
+/// fewer than two traces.
+pub fn cpa_with_model<F>(
+    traces: &TraceSet,
+    plaintexts: &[u8],
+    leakage_model: F,
+) -> Result<CpaReport, CpaError>
+where
+    F: Fn(u8, u8) -> u8,
+{
     if traces.is_empty() || plaintexts.is_empty() {
         return Err(CpaError::EmptyInput);
     }
@@ -71,7 +94,7 @@ pub fn cpa_hamming_weight(traces: &TraceSet, plaintexts: &[u8]) -> Result<CpaRep
     for key in u8::MIN..=u8::MAX {
         let model: Vec<f64> = plaintexts
             .iter()
-            .map(|plaintext| f64::from((*plaintext ^ key).count_ones()))
+            .map(|plaintext| f64::from(leakage_model(*plaintext, key)))
             .collect();
         let model_sum: f64 = model.iter().copied().sum();
         let model_sum_of_squares: f64 = model.iter().map(|value| value * value).sum();
@@ -155,6 +178,23 @@ mod tests {
             .collect();
         let trace_set = TraceSet::from_traces(traces).unwrap();
         let report = cpa_hamming_weight(&trace_set, &plaintexts).unwrap();
+
+        assert_eq!(report.best_key, secret);
+        assert_eq!(report.best_sample, 0);
+        assert!(report.best_correlation > 0.99);
+    }
+
+    #[test]
+    fn custom_model_recovers_a_key() {
+        let secret = 0x5a_u8;
+        let plaintexts: Vec<u8> = (0_u8..=255).collect();
+        let traces: Vec<Vec<i16>> = plaintexts
+            .iter()
+            .map(|plaintext| vec![i16::from(*plaintext ^ secret) * 100])
+            .collect();
+        let trace_set = TraceSet::from_traces(traces).unwrap();
+        let report =
+            cpa_with_model(&trace_set, &plaintexts, |plaintext, key| plaintext ^ key).unwrap();
 
         assert_eq!(report.best_key, secret);
         assert_eq!(report.best_sample, 0);

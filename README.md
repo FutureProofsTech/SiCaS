@@ -20,8 +20,9 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
   - `EntropySource` with fail-closed behavior.
 - `sicas-harness`: `std`, zero third-party dependencies.
   - Strict binary trace format with typed errors and a fuzzed parser.
+  - Trace preprocessing: trim, moving-average filter, and cross-correlation alignment.
   - Fixed-vs-random TVLA with Welch's t-test.
-  - Byte-oriented Hamming-weight CPA.
+  - Byte-oriented CPA with Hamming-weight and custom leakage models.
   - Deterministic synthetic trace generation.
   - Dudect-style timing tooling.
   - CLI: `tvla`, `cpa`, `synthetic`, `synthetic-cpa`, `timing`.

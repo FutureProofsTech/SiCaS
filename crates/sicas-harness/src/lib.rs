@@ -17,6 +17,7 @@
 #![deny(rustdoc::private_intra_doc_links)]
 
 pub mod cpa;
+pub mod preprocess;
 pub mod stats;
 pub mod synthetic;
 pub mod timing;

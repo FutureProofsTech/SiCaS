@@ -133,3 +133,76 @@ fn synthetic_tvla_and_cpa_workflows_succeed() {
 
     let _ = fs::remove_dir_all(directory);
 }
+
+#[test]
+fn preprocessing_workflow_succeeds() {
+    let directory = temporary_directory("preprocess");
+    let traces = directory.join("traces.bin");
+    let plaintexts = directory.join("plaintexts.bin");
+    let trimmed = directory.join("trimmed.bin");
+    let filtered = directory.join("filtered.bin");
+    let aligned = directory.join("aligned.bin");
+
+    let synthetic = run(&[
+        "synthetic-cpa",
+        "--out",
+        traces.to_str().unwrap(),
+        "--plaintexts-out",
+        plaintexts.to_str().unwrap(),
+        "--count",
+        "16",
+        "--samples",
+        "8",
+        "--secret",
+        "0x42",
+        "--noise",
+        "0",
+        "--leakage",
+        "100",
+        "--seed",
+        "3",
+    ]);
+    assert!(synthetic.status.success());
+
+    let trim = run(&[
+        "trim",
+        "--in",
+        traces.to_str().unwrap(),
+        "--out",
+        trimmed.to_str().unwrap(),
+        "--start",
+        "0",
+        "--end",
+        "4",
+    ]);
+    assert!(trim.status.success());
+    assert!(trimmed.is_file());
+
+    let filter = run(&[
+        "filter",
+        "--in",
+        trimmed.to_str().unwrap(),
+        "--out",
+        filtered.to_str().unwrap(),
+        "--window",
+        "3",
+    ]);
+    assert!(filter.status.success());
+    assert!(filtered.is_file());
+
+    let align = run(&[
+        "align",
+        "--in",
+        filtered.to_str().unwrap(),
+        "--out",
+        aligned.to_str().unwrap(),
+        "--reference",
+        "0",
+        "--max-shift",
+        "2",
+    ]);
+    assert!(align.status.success());
+    assert!(aligned.is_file());
+
+    let _ = fs::remove_dir_all(directory);
+}

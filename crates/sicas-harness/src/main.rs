@@ -8,6 +8,7 @@ use std::process::ExitCode;
 
 use sicas_core::{Choice, EntropyError, EntropySource, Masked, ct};
 use sicas_harness::cpa::cpa_hamming_weight;
+use sicas_harness::preprocess::{align, moving_average, trim};
 use sicas_harness::synthetic::{SyntheticConfig, TvlaSyntheticConfig, generate, generate_tvla};
 use sicas_harness::timing::{TimingConfig, TimingReport, dudect};
 use sicas_harness::trace::TraceSet;
@@ -39,6 +40,9 @@ fn run() -> Result<(), String> {
         "synthetic-cpa" => run_synthetic_cpa(command_args),
         "timing" => run_timing(command_args),
         "ct" => run_ct(command_args),
+        "trim" => run_trim(command_args),
+        "filter" => run_filter(command_args),
+        "align" => run_align(command_args),
         "-h" | "--help" | "help" => {
             print_usage();
             Ok(())
@@ -325,6 +329,35 @@ fn write_ct_report(
     std::fs::write(path, report).map_err(|error| format!("failed to write {path}: {error}"))
 }
 
+fn run_trim(args: &[String]) -> Result<(), String> {
+    let input = required(args, "--in")?;
+    let output = required(args, "--out")?;
+    let start = required_usize(args, "--start")?;
+    let end = required_usize(args, "--end")?;
+    let traces = read_trace_set(input)?;
+    let trimmed = trim(&traces, start, end).map_err(|error| error.to_string())?;
+    write_trace_set(output, &trimmed)
+}
+
+fn run_filter(args: &[String]) -> Result<(), String> {
+    let input = required(args, "--in")?;
+    let output = required(args, "--out")?;
+    let window = required_usize(args, "--window")?;
+    let traces = read_trace_set(input)?;
+    let filtered = moving_average(&traces, window).map_err(|error| error.to_string())?;
+    write_trace_set(output, &filtered)
+}
+
+fn run_align(args: &[String]) -> Result<(), String> {
+    let input = required(args, "--in")?;
+    let output = required(args, "--out")?;
+    let reference = required_usize(args, "--reference")?;
+    let max_shift = optional_usize(args, "--max-shift")?.unwrap_or(10);
+    let traces = read_trace_set(input)?;
+    let aligned = align(&traces, reference, max_shift).map_err(|error| error.to_string())?;
+    write_trace_set(output, &aligned)
+}
+
 fn read_trace_set(path: &str) -> Result<TraceSet, String> {
     let file = File::open(path).map_err(|error| format!("failed to open {path}: {error}"))?;
     TraceSet::read_from(file).map_err(|error| format!("failed to read {path}: {error}"))
@@ -442,6 +475,9 @@ Usage:
   sicas-harness timing [--samples <n>] [--warmup <n>] [--threshold 4.5]
   sicas-harness ct [--samples <n>] [--warmup <n>] [--trials <n>] \\
       [--threshold 4.5] [--label <text>] [--report <file>]
+  sicas-harness trim --in <file> --out <file> --start <n> --end <n>
+  sicas-harness filter --in <file> --out <file> --window <n>
+  sicas-harness align --in <file> --out <file> --reference <index> [--max-shift <n>]
 
 Commands return a non-zero exit status when leakage is detected."
     );
