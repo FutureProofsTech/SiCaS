@@ -119,6 +119,16 @@ jobs:
       - run: cargo check -p sicas-core --lib --target ${{ matrix.target }} --locked
       - run: cargo check -p sicas-reference --lib --target ${{ matrix.target }} --locked
 
+  asm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.99.0"
+          targets: thumbv7em-none-eabihf,riscv32imac-unknown-none-elf,aarch64-unknown-linux-gnu
+      - run: python3 tools/ct_asm_check.py --output evidence/ct/asm-ci.md
+
   no-deps:
     runs-on: ubuntu-latest
     steps:

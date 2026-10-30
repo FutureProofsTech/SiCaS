@@ -33,32 +33,39 @@ All trials are below the `|t| > 4.5` threshold. The complete per-trial report is
 
 ## Assembly inspection
 
-Build the inspection target:
+Run the multi-target assembly checker:
 
 ```bash
-cargo rustc -p sicas-core --example ct_asm -- --emit=asm -C opt-level=0
+python3 tools/ct_asm_check.py --output evidence/ct/asm-2026-10-30.md
 ```
 
-Inspect the generated assembly in `target/debug/examples/ct_asm-*.s` and the core
-library assembly in `target/debug/deps/sicas_core-*.s`.
+It builds `sicas-core` at `-C opt-level=0` for x86_64, AArch64, Thumbv7em, and
+RISC-V, extracts `ct::eq_u32`, `ct::select_u32`, and `ct::is_zero_u32`, and rejects
+conditional branches.
 
-For `ct::eq_u32`, the x86_64 body is a single XOR followed by a call to
-`ct::is_zero_u32`; there is no conditional branch on the operands. For
-`ct::select_u32`, the body is mask construction followed by XOR/AND/XOR; there is no
-conditional branch on the choice or operands. `ct::lookup_u8` contains only the
-public loop-control branch over all 256 candidates; the selected entry is chosen by
-constant-time equality, not by a secret-dependent index branch.
+| Target | `eq_u32` | `select_u32` | `is_zero_u32` |
+|---|---|---|---|
+| x86_64 | no branches | no branches | no branches |
+| AArch64 | no branches | no branches | no branches |
+| Thumbv7em | no branches | no branches | no branches |
+| RISC-V 32 | no branches | no branches | no branches |
 
-This is supporting evidence for the inspected target and toolchain. It is not a proof
-for all architectures or optimization levels.
+The full generated report is in
+[`evidence/ct/asm-2026-10-30.md`](../evidence/ct/asm-2026-10-30.md).
+`ct::lookup_u8` is excluded from this check because it intentionally contains the
+public 256-iteration loop branch; its selection is performed by constant-time
+equality.
+
+This is supporting evidence for the inspected targets and optimization level. It is
+not a proof for all architectures, optimization levels, or microarchitectural states.
 
 ## Limitations
 
-- x86_64 Linux only in this report.
+- Timing evidence is x86_64 Linux only in this report.
 - Timing is environment-sensitive; the report records the exact sample count, trials,
   threshold, toolchain, and commit.
 - Assembly inspection was performed at `-C opt-level=0`; release inlining and
   architecture-specific code generation must be re-inspected for every supported
-  target.
-- No ARM, RISC-V, or hardware EM/power evidence yet.
+  target and optimization level.
+- No hardware EM/power evidence yet.
 - A passing timing test does not prove absence of all microarchitectural leakage.

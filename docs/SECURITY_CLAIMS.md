@@ -3,7 +3,7 @@
 | ID | Claim | Mechanism | Evidence required | Status |
 |----|-------|-----------|-------------------|--------|
 | C1 | The safe API prevents accidental secret-dependent branching/indexing | `Secret<T>` has no `PartialEq`, `Ord`, `Hash`, `Index`, `Clone`, or `Copy` | Compile-fail tests, API review | In progress: compile-fail doctests pass |
-| C2 | Constant-time gadgets are data-independent on supported targets | Branchless bitwise formulas | Assembly inspection, dudect-style tests | In progress: dudect 5×1M trials pass on x86_64; assembly inspected for `eq_u32`/`select_u32`; other targets pending |
+| C2 | Constant-time gadgets are data-independent on supported targets | Branchless bitwise formulas | Assembly inspection, dudect-style tests | In progress: dudect 5×1M trials pass on x86_64; assembly checker passes for x86_64, AArch64, Thumbv7em, and RISC-V at opt-level 0; release/other levels pending |
 | C3 | First-order Boolean masking reduces first-order DPA below the TVLA threshold for the reference algorithm | Two-share masking with fresh randomness | TVLA report, raw traces, target details | In progress: masked ChaCha20 passes RFC 8439 and differential tests; hardware TVLA pending |
 | C4 | Entropy failure is fail-closed | `Result`-based entropy API, no weak fallback | Fault-injection tests, code review | In progress: unit failure test passes |
 | C5 | Zero runtime dependencies | Workspace policy, CI dependency check | `cargo metadata`/`cargo tree` report | Verified locally; CI pending |
