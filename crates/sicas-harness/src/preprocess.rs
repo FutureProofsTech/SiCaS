@@ -98,6 +98,20 @@ pub fn moving_average(traces: &TraceSet, window: usize) -> Result<TraceSet, Prep
         .map_err(|_| PreprocessError::Trace(TraceError::TooLarge))?;
 
     for trace in traces.traces() {
+        let prefix_len = trace
+            .len()
+            .checked_add(1)
+            .ok_or(PreprocessError::Trace(TraceError::TooLarge))?;
+        let mut prefix = Vec::new();
+        prefix
+            .try_reserve_exact(prefix_len)
+            .map_err(|_| PreprocessError::Trace(TraceError::TooLarge))?;
+        prefix.push(0_i64);
+        for sample in trace {
+            let previous = prefix.last().copied().unwrap_or(0);
+            prefix.push(previous.saturating_add(i64::from(*sample)));
+        }
+
         let mut row = Vec::new();
         row.try_reserve_exact(trace.len())
             .map_err(|_| PreprocessError::Trace(TraceError::TooLarge))?;
@@ -108,9 +122,12 @@ pub fn moving_average(traces: &TraceSet, window: usize) -> Result<TraceSet, Prep
                 .saturating_add(radius)
                 .saturating_add(1)
                 .min(trace.len());
-            let slice = trace.get(start..end).ok_or(PreprocessError::InvalidRange)?;
-            let sum: i32 = slice.iter().map(|sample| i32::from(*sample)).sum();
-            let count = i32::try_from(slice.len()).unwrap_or(1);
+            let sum = prefix
+                .get(end)
+                .copied()
+                .unwrap_or(0)
+                .saturating_sub(prefix.get(start).copied().unwrap_or(0));
+            let count = i64::try_from(end.saturating_sub(start)).unwrap_or(1);
             let average = sum.checked_div(count).unwrap_or(0);
             row.push(i16::try_from(average).unwrap_or(0));
         }
@@ -277,6 +294,13 @@ mod tests {
         let traces = TraceSet::from_traces(vec![vec![0, 0, 9, 0, 0]]).unwrap();
         let smoothed = moving_average(&traces, 3).unwrap();
         assert_eq!(smoothed.trace(0), Some([0, 3, 3, 3, 0].as_slice()));
+    }
+
+    #[test]
+    fn moving_average_does_not_overflow_on_large_windows() {
+        let traces = TraceSet::from_traces(vec![vec![i16::MAX; 100_000]]).unwrap();
+        let smoothed = moving_average(&traces, 100_000).unwrap();
+        assert_eq!(smoothed.trace(0).unwrap()[50_000], i16::MAX);
     }
 
     #[test]

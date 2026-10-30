@@ -147,6 +147,9 @@ impl TraceSet {
 
     /// Splits the trace set at `index`.
     ///
+    /// Either side may be empty. Empty sides are useful for analysis but cannot
+    /// be serialized by [`TraceSet::write_to`].
+    ///
     /// # Errors
     ///
     /// Returns an error when `index` is greater than the number of traces.
@@ -225,6 +228,10 @@ impl TraceSet {
     /// Returns an error if the dimensions exceed the format limits or the
     /// underlying writer fails.
     pub fn write_to<W: Write>(&self, mut writer: W) -> Result<(), TraceError> {
+        if self.traces.is_empty() {
+            return Err(TraceError::InvalidDimensions);
+        }
+
         let samples_per_trace =
             u32::try_from(self.samples_per_trace).map_err(|_| TraceError::TooLarge)?;
         let trace_count = u32::try_from(self.traces.len()).map_err(|_| TraceError::TooLarge)?;
@@ -349,6 +356,12 @@ mod tests {
         let (left, right) = sample_set().split_at(2).unwrap();
         assert_eq!(left.len(), 2);
         assert!(right.is_empty());
+
+        let mut bytes = Vec::new();
+        assert!(matches!(
+            right.write_to(&mut bytes),
+            Err(TraceError::InvalidDimensions)
+        ));
     }
 
     #[test]
