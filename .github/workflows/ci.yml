@@ -145,6 +145,18 @@ jobs:
       - run: cargo audit
       - run: cargo deny check
 
+  release-dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.99.0"
+      - run: python3 tools/release_manifest.py --output "$RUNNER_TEMP/release"
+      - run: cd "$RUNNER_TEMP/release" && sha256sum -c SHA256SUMS
+      - run: python3 -m json.tool "$RUNNER_TEMP/release/sbom.cdx.json" >/dev/null
+      - run: python3 -m json.tool "$RUNNER_TEMP/release/provenance.json" >/dev/null
+
   reproducible:
     runs-on: ubuntu-latest
     steps:

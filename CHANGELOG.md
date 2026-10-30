@@ -21,6 +21,7 @@
 - CI coverage, supply-chain, and reproducible-build gates.
 - Four 1M-execution fuzz campaigns with published evidence.
 - `sicas-platform` safe OS entropy adapter with fail-closed behavior.
+- Release manifest/SBOM/provenance tooling and red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
   program, support matrix, and evaluation guide.
 

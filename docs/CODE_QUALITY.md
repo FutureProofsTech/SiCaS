@@ -61,6 +61,9 @@ cargo audit
 cargo deny check
 cargo llvm-cov --workspace --all-features --fail-under-lines 90
 RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps --all-features --locked
+
+# Release manifest, checksums, SBOM, provenance
+python3 tools/release_manifest.py --output release
 ```
 
 ## Dependency policy

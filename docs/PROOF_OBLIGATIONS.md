@@ -18,7 +18,7 @@ evidence here. Missing evidence downgrades or removes the claim.
 | Supply-chain integrity | No hidden runtime dependencies; artifacts are reproducible | `cargo-audit`, `cargo-deny`, `cargo-vet`, SBOM, reproducible builds | Dependency and build reports | Zero third-party deps; `cargo audit`/`cargo deny` pass; reproducible binary hash match locally |
 | Performance | Overhead stays within the declared budget | `cargo-bloat`, `iai-callgrind`, `perf`, Callgrind | Benchmark reports | Budgets not yet measured |
 | Documentation | Every public item is documented and links resolve | `rustdoc -D warnings`, `missing_docs` | Doc build log | `missing_docs` enforced; CI pending |
-| Release integrity | Artifacts are signed, traceable, and reproducible | Sigstore/minisign, SLSA provenance, SBOM | Signature and provenance verification | Not implemented |
+| Release integrity | Artifacts are signed, traceable, and reproducible | Sigstore/minisign, SLSA provenance, SBOM | Signature and provenance verification | Manifest, SBOM, and provenance implemented; signing/SLSA pending |
 
 The harness CLI (`crates/sicas-harness/src/main.rs`) is excluded from the mutation score.
 It is covered by CLI integration tests; mutations of its branchless timing-input

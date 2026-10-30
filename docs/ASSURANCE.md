@@ -31,6 +31,7 @@ v1.0 is **SAL-4**. CI and hardware evidence are still pending.
 - TVLA/CPA/DPA raw traces and analysis scripts.
 - Red-team and audit reports, remediation, retest.
 - SBOM, build hashes, signatures, and reproduction commands.
+- Release manifest, provenance, and signing verification.
 - Known limitations and accepted risks.
 
 A release may claim SAL-4 only when every criterion is met and independently verified.

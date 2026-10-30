@@ -36,10 +36,14 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
 - AddressSanitizer, Miri, strict formatting, and strict Clippy gates.
 - Dudect-style constant-time evidence suite and assembly inspection target.
 
-See [`docs/EVALUATION.md`](docs/EVALUATION.md) for trace format and usage,
-[`docs/HARDWARE.md`](docs/HARDWARE.md) for the hardware evidence protocol, and
-[`docs/CT_EVIDENCE.md`](docs/CT_EVIDENCE.md) for constant-time timing evidence, and
-[`docs/FUZZ_EVIDENCE.md`](docs/FUZZ_EVIDENCE.md) for the 1M-execution fuzz campaigns.
+See:
+
+- [`docs/EVALUATION.md`](docs/EVALUATION.md) — trace format and harness usage
+- [`docs/HARDWARE.md`](docs/HARDWARE.md) — hardware evidence protocol
+- [`docs/CT_EVIDENCE.md`](docs/CT_EVIDENCE.md) — constant-time timing evidence
+- [`docs/FUZZ_EVIDENCE.md`](docs/FUZZ_EVIDENCE.md) — 1M-execution fuzz campaigns
+- [`docs/RELEASE.md`](docs/RELEASE.md) — release, SBOM, and signing
+- [`docs/RED_TEAM.md`](docs/RED_TEAM.md) — independent review program
 
 ## Quality gates
 
