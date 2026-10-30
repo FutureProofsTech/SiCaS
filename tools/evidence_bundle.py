@@ -87,6 +87,11 @@ def git_commit() -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("evidence/bundle"))
+    parser.add_argument(
+        "--commit",
+        default=None,
+        help="code commit under test; defaults to the current Git HEAD",
+    )
     args = parser.parse_args()
 
     root = pathlib.Path.cwd()
@@ -118,7 +123,7 @@ def main() -> int:
     index = [
         "# SiCaS Evidence Bundle",
         "",
-        f"- Commit: `{git_commit()}`",
+        f"- Code commit under test: `{args.commit or git_commit()}`",
         f"- Generated: `{dt.datetime.now(dt.timezone.utc).isoformat()}`",
         f"- Files: {len(rows)}",
         "",
