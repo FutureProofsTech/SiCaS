@@ -14,6 +14,8 @@
   generation, dudect-style timing tooling, and a CLI.
 - `sicas-reference` with a first-order Boolean masked ChaCha20 keystream block,
   RFC 8439 validation, and differential tests against an unmasked reference.
+- `sicas-harness ct` with a dudect-style suite for constant-time primitives,
+  Markdown evidence reports, and an assembly inspection example.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
   program, support matrix, and evaluation guide.
 

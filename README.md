@@ -31,9 +31,11 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
 - Unit tests, exhaustive byte tests, property-style randomized tests, compile-fail
   doctests, Kani proof harnesses, and libFuzzer targets.
 - AddressSanitizer, Miri, strict formatting, and strict Clippy gates.
+- Dudect-style constant-time evidence suite and assembly inspection target.
 
-See [`docs/EVALUATION.md`](docs/EVALUATION.md) for trace format and usage, and
-[`docs/HARDWARE.md`](docs/HARDWARE.md) for the hardware evidence protocol.
+See [`docs/EVALUATION.md`](docs/EVALUATION.md) for trace format and usage,
+[`docs/HARDWARE.md`](docs/HARDWARE.md) for the hardware evidence protocol, and
+[`docs/CT_EVIDENCE.md`](docs/CT_EVIDENCE.md) for constant-time timing evidence.
 
 ## Quality gates
 

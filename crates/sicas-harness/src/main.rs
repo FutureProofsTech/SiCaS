@@ -504,4 +504,32 @@ mod tests {
         let args = arguments(&["--samples", "10", "--warmup", "0", "--threshold", "0"]);
         assert!(run_timing(&args).is_err());
     }
+
+    #[test]
+    fn ct_rejects_zero_trials() {
+        let args = arguments(&["--trials", "0"]);
+        assert!(run_ct(&args).is_err());
+    }
+
+    #[test]
+    fn ct_writes_a_report() {
+        let path = std::env::temp_dir().join(format!("sicas-ct-{}.md", std::process::id()));
+        let path_text = path.to_str().unwrap();
+        let args = arguments(&[
+            "--samples",
+            "100",
+            "--warmup",
+            "0",
+            "--trials",
+            "1",
+            "--threshold",
+            "1000",
+            "--report",
+            path_text,
+        ]);
+
+        assert!(run_ct(&args).is_ok());
+        assert!(path.is_file());
+        let _ = std::fs::remove_file(path);
+    }
 }
