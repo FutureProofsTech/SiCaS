@@ -104,7 +104,23 @@ path is tested, but the GitHub OIDC signing run has not executed.
 
 **Disposition:** Documented in `docs/RELEASE.md`; requires a real release run.
 
-### A-09 — Accepted — External/hardware gates remain
+### A-09 — Medium — Timing harness could be constant-folded
+
+**Baseline behavior:** the `ct` suite used constant masks and a constant lookup table.
+In release builds the compiler could optimize the measured work, producing unrealistically
+small timings (observed on i686).
+
+**Impact:** timing evidence could be misleading even when the implementation is
+constant-time.
+
+**Fix:** added `black_box` barriers around entropy bytes, mask constants, the lookup
+table, and operation inputs. Re-ran the x86_64 5×1M suite; maximum absolute t is now
+2.2472, still below the 4.5 threshold.
+
+**Residual risk:** i686 timing remains unused because 32-bit timer resolution and
+optimization make it unreliable; i686 functional tests are retained.
+
+### A-10 — Accepted — External/hardware gates remain
 
 **Observation:** No hardware TVLA/CPA/DPA, independent red team, or external audit has
 been performed.

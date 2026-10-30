@@ -10,7 +10,8 @@ The `sicas-harness ct` command runs a dudect-style fixed-vs-random timing test o
 - `Masked::<u32>::add_masked`
 
 Each trial uses 1,000,000 measured samples and 100,000 warm-up calls. Five trials are
-run per check. The leakage threshold is `|t| > 4.5`.
+run per check. The leakage threshold is `|t| > 4.5`. Inputs, entropy bytes, masks, and
+the lookup table are passed through `black_box` to prevent constant folding.
 
 ```bash
 cargo run -p sicas-harness -- ct \
