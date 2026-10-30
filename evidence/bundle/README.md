@@ -5,13 +5,15 @@ assessment.
 
 ## Status
 
-Early Phase 1. The core crate is not audited, not hardware-validated, and **must not
-be used to protect real secrets yet**. The production target is SAL-4 as defined in
-[`PLAN.md`](PLAN.md) and [`docs/ASSURANCE.md`](docs/ASSURANCE.md).
+The local proof is complete and frozen at commit `c349329`; every locally executable
+gate passes. The project is **not audited, not hardware-validated, and must not be used
+to protect real secrets yet**. The current public label is **SAL-2 locally**. The
+production target is SAL-4 as defined in [`PLAN.md`](PLAN.md) and
+[`docs/ASSURANCE.md`](docs/ASSURANCE.md).
 
 Project operating instructions and persistent working agreement:
 [`AGENTS.md`](AGENTS.md) and [`docs/WORKING_AGREEMENT.md`](docs/WORKING_AGREEMENT.md).
-External audit is the final second opinion; local proof must be complete first.
+External audit is the final second opinion; the local proof is complete first.
 
 ## What exists
 
@@ -29,7 +31,8 @@ External audit is the final second opinion; local proof must be complete first.
   - Byte-oriented CPA with Hamming-weight and custom leakage models.
   - Deterministic synthetic trace generation.
   - Dudect-style timing tooling.
-  - CLI: `tvla`, `cpa`, `synthetic`, `synthetic-cpa`, `timing`.
+  - CLI: `tvla`, `cpa`, `synthetic`, `synthetic-cpa`, `timing`, `ct`, `trim`,
+    `filter`, `align`, `leakage-check`.
 - `sicas-reference`: `no_std`, zero third-party dependencies.
   - First-order Boolean masked ChaCha20 keystream blocks.
   - RFC 8439 vector and differential tests against an unmasked reference.
@@ -62,22 +65,14 @@ See:
 ## Quality gates
 
 ```bash
-cargo +nightly-2026-08-03 fmt --all -- --check
-
-cargo +nightly-2026-08-03 clippy \
-  --workspace --all-targets --all-features --locked \
-  -- -D warnings -D clippy::pedantic -D clippy::nursery
-
-cargo test --workspace --all-targets --all-features --locked
-cargo test --workspace --doc --locked
-cargo +nightly-2026-08-03 miri test --workspace
-cargo kani
-RUSTFLAGS="-Zsanitizer=address" cargo +nightly-2026-08-03 test -p sicas-core --lib
-cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=10000
-cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
-cargo mutants --workspace --no-shuffle
-RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps --all-features --locked
+./tools/local_proof.sh quick   # fast gate set
+./tools/local_proof.sh full    # full local proof, 20+ minutes
 ```
+
+The full run covers formatting, strict Clippy, all tests and doctests, full-workspace
+Miri, Kani, ASan, mutation testing, coverage, four 1M-execution fuzz campaigns,
+cross-architecture tests, leakage-model checks, release validation, and reproducible
+builds. See [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md).
 
 ## Constraints
 

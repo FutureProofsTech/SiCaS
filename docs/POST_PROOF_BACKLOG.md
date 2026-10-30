@@ -38,6 +38,9 @@ validation.
 
 ## Gate 3 — External second opinion
 
+Status: the local proof is frozen at `c349329`; none of these external gates has been
+started or simulated.
+
 Only after Gate 2:
 
 - independent security audit;
