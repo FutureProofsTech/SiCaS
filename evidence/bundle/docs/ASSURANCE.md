@@ -30,6 +30,7 @@ v1.0 is **SAL-4**. CI and hardware evidence are still pending.
 - Constant-time assembly and dudect reports.
 - TVLA/CPA/DPA raw traces and analysis scripts.
 - Red-team and audit reports, remediation, retest.
+- Local adversarial audit report and remediation record.
 - SBOM, build hashes, signatures, and reproduction commands.
 - Release manifest, provenance, and signing verification.
 - Known limitations and accepted risks.

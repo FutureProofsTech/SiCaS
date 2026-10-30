@@ -46,6 +46,7 @@ See:
 - [`docs/RELEASE.md`](docs/RELEASE.md) — release, SBOM, and signing
 - [`docs/RED_TEAM.md`](docs/RED_TEAM.md) — independent review program
 - [`docs/AUDIT_PACKAGE.md`](docs/AUDIT_PACKAGE.md) — audit scope and evidence index
+- [`docs/AUDIT_REPORT_2026-10-30.md`](docs/AUDIT_REPORT_2026-10-30.md) — adversarial review findings and fixes
 - [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) — remaining external gates
 
 ## Quality gates

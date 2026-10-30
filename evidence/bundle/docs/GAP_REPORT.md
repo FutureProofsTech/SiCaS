@@ -14,7 +14,7 @@ be truthfully completed here.
 | SLSA provenance | Prepared | Requires a GitHub Actions run | Run the release workflow and publish the attestation |
 | Production version claim | Not claimed | External gates above are incomplete | Keep the release labelled pre-production |
 | Volatile zeroization | Not guaranteed | Safe Rust cannot guarantee volatile erasure without an audited unsafe boundary | Design and review an isolated zeroization adapter |
-| Full masked-ChaCha20 audit | Internal only | No independent cryptographic review | Include it in the external audit scope |
+| Full masked-ChaCha20 audit | Internal adversarial review only | No independent cryptographic review | Include it in the external audit scope; see `docs/AUDIT_REPORT_2026-10-30.md` |
 
 ## Current label
 
