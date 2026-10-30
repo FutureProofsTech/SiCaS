@@ -40,6 +40,18 @@ python3 tools/validate_release_manifest.py --manifest release
 The validator checks the artifact hash, provenance, SBOM component graph, workspace
 versions, timestamps, and the current commit. It passes in the full local proof.
 
+## Local signing dry run
+
+The checksum-signing path can be exercised locally with an ephemeral test key:
+
+```bash
+tools/local-signing-dry-run.sh release evidence/signing
+```
+
+This proves that a detached signature can be produced and verified. The test key is
+temporary and is not a production signing identity; the production signing and SLSA
+gates remain open.
+
 ## Signing
 
 Signing keys are not stored in this repository. Before a production release:

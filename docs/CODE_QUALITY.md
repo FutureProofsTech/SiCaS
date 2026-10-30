@@ -70,6 +70,14 @@ python3 tools/test_validate_release_manifest.py
 
 # First-order leakage-model check with a negative control
 cargo run --release -p sicas-harness -- leakage-check --samples 50000
+
+# Assembly matrix and Valgrind
+python3 tools/ct_asm_check.py --matrix --lto
+tools/run-valgrind.sh evidence/valgrind
+
+# Differential statistics and local signing dry run
+python3 tools/check_stats.py
+tools/local-signing-dry-run.sh release evidence/signing
 ```
 
 ## Dependency policy

@@ -44,8 +44,19 @@
 - Release-manifest validator with checksum, provenance, SBOM, workspace, and commit
   consistency tests.
 - Zeroization design review and adapter checklist.
+- Compiler-matrix assembly evidence: 60 configurations across opt levels, codegen units,
+  panic strategies, and x86_64 thin/fat LTO.
+- Valgrind Memcheck evidence: four workspace library binaries, zero errors.
+- Local signing dry run with an ephemeral test key: detached signature produced and
+  verified; production identity remains open.
+- Release-profile dudect evidence: 3×1M samples per check, max |t| = 1.6913.
+- Differential statistics validation: 200 deterministic cases match an independent
+  Python implementation.
+- Performance benchmark for masked ChaCha20. Measured ~597× overhead vs the unmasked
+  reference; the ≤5× target and 10× hard ceiling are not met and are tracked as an
+  open local gap.
 - Full local proof at commit `c349329`: all gates pass, including full-workspace Miri,
-  27 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
+  30 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
   four 1M-execution fuzz campaigns, cross-architecture tests, release validation, and
   reproducible-build comparison.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and

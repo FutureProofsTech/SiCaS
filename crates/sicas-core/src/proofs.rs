@@ -85,6 +85,52 @@ fn masked_u32_round_trip() {
 }
 
 #[kani::proof]
+fn masked_u8_share0_covers_all_values() {
+    let secret: u8 = kani::any();
+    let target: u8 = kani::any();
+    let mask = secret ^ target;
+    let masked = Masked::<u8>::mask(secret, mask);
+
+    kani::assert(
+        *masked.shares().0 == target,
+        "the first share must cover every value for every secret",
+    );
+}
+
+#[kani::proof]
+fn masked_u32_share0_covers_all_values() {
+    let secret: u32 = kani::any();
+    let target: u32 = kani::any();
+    let mask = secret ^ target;
+    let masked = Masked::<u32>::mask(secret, mask);
+
+    kani::assert(
+        *masked.shares().0 == target,
+        "the first share must cover every value for every secret",
+    );
+}
+
+#[kani::proof]
+fn masked_u8_and_share0_covers_all_values() {
+    let a: u8 = kani::any();
+    let b: u8 = kani::any();
+    let mask_a: u8 = kani::any();
+    let mask_b: u8 = kani::any();
+    let target: u8 = kani::any();
+
+    let masked_a = Masked::<u8>::mask(a, mask_a);
+    let masked_b = Masked::<u8>::mask(b, mask_b);
+    let base = *masked_a.shares().0 & *masked_b.shares().0;
+    let fresh_mask = base ^ target;
+    let result = masked_a.and(&masked_b, fresh_mask);
+
+    kani::assert(
+        *result.shares().0 == target,
+        "the masked-AND first share must cover every value",
+    );
+}
+
+#[kani::proof]
 fn masked_u32_shares_reconstruct_value() {
     let value: u32 = kani::any();
     let mask: u32 = kani::any();

@@ -25,8 +25,15 @@ validation.
 - [x] Add a zeroization design review; the adapter itself remains external because it
   requires an audited unsafe boundary.
 - [x] Add release-manifest/SBOM/provenance consistency validation with tests.
-- [x] Re-run the full local proof after all changes. All gates pass at `c349329`;
-  see `evidence/local-proof-2026-10-31/SUMMARY.md`.
+- [x] Re-run the full local proof after all changes. All security gates pass at
+  `c349329`; see `evidence/local-proof-2026-10-31/SUMMARY.md`.
+- [x] Extend assembly evidence to an optimization/codegen/panic/LTO matrix.
+- [x] Add Valgrind Memcheck and differential statistics validation.
+- [x] Add a local signing dry run with an ephemeral test key.
+- [x] Run a long fuzz campaign: 10M on the three fast targets and 1M on ChaCha20.
+- [ ] Optimize masked ChaCha20 from the measured ~597× overhead toward the ≤5× target
+  and 10× hard ceiling, or revise the performance budget with evidence. See
+  `docs/PERFORMANCE_EVIDENCE.md`.
 
 ## Gate 2 — Freeze the local proof
 

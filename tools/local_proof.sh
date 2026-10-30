@@ -67,8 +67,10 @@ run kani cargo kani --workspace --quiet
 run asan env RUSTFLAGS=-Zsanitizer=address cargo +nightly-2026-08-03 test --workspace --lib --target x86_64-unknown-linux-gnu
 run audit cargo audit
 run deny cargo deny check
-run assembly python3 tools/ct_asm_check.py --output "$log_dir/assembly.md"
+run assembly python3 tools/ct_asm_check.py --matrix --lto --output "$log_dir/assembly.md"
 run leakage-model cargo run --quiet --release -p sicas-harness -- leakage-check --samples 50000 --threshold 0.02
+run stats-differential python3 tools/check_stats.py --output "$log_dir/stats.md"
+run valgrind tools/run-valgrind.sh "$log_dir/valgrind"
 run release-validator-tests python3 tools/test_validate_release_manifest.py
 
 if [ "$mode" = "full" ]; then
@@ -76,6 +78,7 @@ if [ "$mode" = "full" ]; then
   run mutation-core cargo mutants -p sicas-core --no-shuffle
   run mutation-reference cargo mutants -p sicas-reference --no-shuffle
   report mutation-workspace cargo mutants --workspace --no-shuffle
+  report performance cargo run --quiet --release -p sicas-reference --example benchmark
   run coverage cargo llvm-cov --workspace --all-features --fail-under-lines 90 --summary-only
   run fuzz-masked cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=1000000
   run fuzz-lookup cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=1000000
@@ -86,6 +89,7 @@ if [ "$mode" = "full" ]; then
 
   run release-manifest python3 tools/release_manifest.py --output "$log_dir/release"
   run release-validate python3 tools/validate_release_manifest.py --manifest "$log_dir/release"
+  run signing-dry-run tools/local-signing-dry-run.sh "$log_dir/release" "$log_dir/signing"
   mkdir -p "$log_dir/repro1" "$log_dir/repro2"
   run repro1 env CARGO_TARGET_DIR="$log_dir/repro1" cargo build -p sicas-harness --release --locked
   run repro2 env CARGO_TARGET_DIR="$log_dir/repro2" cargo build -p sicas-harness --release --locked

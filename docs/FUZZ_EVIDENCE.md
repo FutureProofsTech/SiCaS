@@ -23,6 +23,24 @@ cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=1000000
 | `trace_parser` | 1,000,000 | no crashes | malformed trace input |
 | `chacha20` | 1,000,000 | no crashes | masked output vs reference |
 
+## Long campaign — 2026-10-31
+
+```bash
+tools/run-fuzz-long.sh evidence/fuzz-long
+```
+
+| Target | Executions | Result |
+|---|---:|---|
+| `masked_ops` | 10,000,000 | no crashes |
+| `ct_lookup` | 10,000,000 | no crashes |
+| `trace_parser` | 10,000,000 | no crashes |
+| `chacha20` | 1,000,000 | no crashes |
+
+The masked ChaCha20 target is substantially slower, so the long campaign keeps its
+1,000,000-execution run while the three fast targets run 10,000,000 executions. The
+summary and per-target logs are in
+[`evidence/fuzz-long/SUMMARY.md`](../evidence/fuzz-long/SUMMARY.md).
+
 ## Limitations
 
 - One local x86_64 campaign is not proof of correctness.

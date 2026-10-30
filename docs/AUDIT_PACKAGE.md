@@ -25,12 +25,16 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Proof obligations | `docs/PROOF_OBLIGATIONS.md` |
 | Assurance program | `docs/ASSURANCE.md` |
 | Code-quality standard | `docs/CODE_QUALITY.md` |
-| Constant-time timing | `evidence/ct/2026-10-30-x86_64.md` |
-| Assembly checks | `evidence/ct/asm-2026-10-30.md` |
+| Constant-time timing | `evidence/ct/2026-10-30-x86_64.md`, `evidence/ct/2026-10-31-x86_64-release.md` |
+| Assembly checks | `evidence/ct/asm-2026-10-31.md` |
 | First-order leakage model | `evidence/leakage/2026-10-31-x86_64.md` |
+| Valgrind Memcheck | `evidence/valgrind/2026-10-31-x86_64.md` |
+| Statistics differential test | `evidence/stats/2026-10-31-x86_64.md` |
 | Fuzz campaigns | `docs/FUZZ_EVIDENCE.md` |
 | Mutation testing | `docs/MUTATION_EVIDENCE.md` |
 | Release reproducibility | `evidence/release/2026-10-31-x86_64.md` |
+| Local signing dry run | `evidence/signing/2026-10-31-x86_64.md` |
+| Performance evidence | `docs/PERFORMANCE_EVIDENCE.md` |
 | Hardware protocol | `docs/HARDWARE.md` |
 | Release and signing | `docs/RELEASE.md` |
 | Red-team program | `docs/RED_TEAM.md` |
@@ -38,6 +42,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Tool inventory | `docs/TOOLING.md` |
 | Local proof runner | `docs/LOCAL_PROOF.md` |
 | Zeroization review | `docs/ZEROIZATION.md` |
+| Local SAL-4 readiness | `docs/SAL4_LOCAL_READINESS.md` |
 | Known gaps | `docs/GAP_REPORT.md` |
 
 Generate a self-contained bundle:

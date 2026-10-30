@@ -31,6 +31,9 @@ pending.
 - Kani/model-checking proofs and assumptions.
 - Constant-time assembly and dudect reports.
 - First-order leakage-model checks with a negative control.
+- Compiler-matrix assembly checks and Valgrind Memcheck reports.
+- Differential statistics validation and a local signing dry run.
+- Performance measurements and the documented masked-ChaCha20 gap.
 - TVLA/CPA/DPA raw traces and analysis scripts.
 - Red-team and audit reports, remediation, retest.
 - Local adversarial audit report and remediation record.
