@@ -59,6 +59,13 @@ python3 tools/ct_asm_check.py
 python3 tools/evidence_bundle.py --output evidence/bundle
 ```
 
+The canonical local proof command is:
+
+```bash
+./tools/local_proof.sh quick   # fast gate set
+./tools/local_proof.sh full    # full local proof, 20+ minutes
+```
+
 Also run the four fuzz targets when touching core, trace, or reference code:
 
 ```bash

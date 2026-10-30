@@ -32,6 +32,7 @@
 - 32-bit x86 Linux functional tests; 102 all-target tests pass.
 - Reproducible release binary evidence with matching SHA-256 across independent target
   directories.
+- `tools/local_proof.sh` quick/full local proof runner with logs and summary.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
