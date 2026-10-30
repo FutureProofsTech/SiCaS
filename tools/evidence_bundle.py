@@ -35,6 +35,7 @@ REQUIRED = [
     "docs/RED_TEAM.md",
     "docs/TOOLING.md",
     "docs/AUDIT_PACKAGE.md",
+    "docs/AUDIT_REPORT_2026-10-30.md",
     "docs/GAP_REPORT.md",
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",

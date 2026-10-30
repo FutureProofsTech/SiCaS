@@ -211,6 +211,11 @@ impl Masked<u32> {
     /// This is a ripple-carry adder. The result remains masked; unmask it only
     /// at an explicit declassification boundary.
     ///
+    /// # Security
+    ///
+    /// `entropy` must provide fresh, independent masks. Reusing masks or using a
+    /// predictable source invalidates the first-order masking assumption.
+    ///
     /// # Errors
     ///
     /// Returns [`EntropyError::Unavailable`] when the entropy source fails.

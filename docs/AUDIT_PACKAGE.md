@@ -27,6 +27,7 @@ request for review, not evidence that a review has occurred.
 | Hardware protocol | `docs/HARDWARE.md` |
 | Release and signing | `docs/RELEASE.md` |
 | Red-team program | `docs/RED_TEAM.md` |
+| Local adversarial audit | `docs/AUDIT_REPORT_2026-10-30.md` |
 | Tool inventory | `docs/TOOLING.md` |
 | Known gaps | `docs/GAP_REPORT.md` |
 
