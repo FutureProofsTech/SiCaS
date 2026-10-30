@@ -1,7 +1,7 @@
 # Mutation Testing Evidence
 
 - Date: 2026-10-31
-- Commit: final local-proof commit (recorded in the evidence bundle)
+- Commit: `153a237` (code commit under test; the evidence bundle records the packaging commit)
 - Tool: `cargo-mutants 27.1.0`
 - Command: `cargo mutants --workspace --no-shuffle`
 - Per-crate commands: `cargo mutants -p <crate> --no-shuffle`
