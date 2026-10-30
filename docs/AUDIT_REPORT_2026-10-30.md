@@ -148,6 +148,8 @@ been performed.
 - Miri: core, platform, and reference pass (OS entropy tests ignored under Miri
   isolation); the full harness re-run is in progress as part of this audit evidence.
 - ASan: 91 workspace library tests pass.
+- AArch64 QEMU: 91 workspace library tests pass.
+- i686 native: 102 all-target tests pass.
 - Kani: 14 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 111 caught/0 missed; reference 10 caught/0 missed; workspace 405
