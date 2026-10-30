@@ -12,6 +12,8 @@ import subprocess
 import sys
 
 REQUIRED = [
+    "AGENTS.md",
+    "opencode.json",
     "PLAN.md",
     "README.md",
     "SECURITY.md",
@@ -37,6 +39,7 @@ REQUIRED = [
     "docs/AUDIT_PACKAGE.md",
     "docs/AUDIT_REPORT_2026-10-30.md",
     "docs/GAP_REPORT.md",
+    "docs/WORKING_AGREEMENT.md",
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",
 ]
