@@ -9,7 +9,7 @@
 | C5 | Zero runtime dependencies | Workspace policy, CI dependency check | `cargo metadata`/`cargo tree` report | Verified locally; CI pending |
 | C6 | No unsafe code in core logic crates | `#![forbid(unsafe_code)]` | CI, source audit | Verified locally |
 | C7 | Builds are reproducible | Pinned toolchain, locked dependencies, deterministic flags | Two-build hash comparison | Pending |
-| C8 | Critical invariants are model-checked | Kani/CBMC, Creusot/Prusti/Verus where applicable | Proof artifacts, assumptions, uncovered paths | In progress: 14 Kani harnesses pass for core gadgets, including masked addition |
+| C8 | Critical invariants are model-checked | Kani/CBMC, Creusot/Prusti/Verus where applicable | Proof artifacts, assumptions, uncovered paths | In progress: 15 Kani harnesses pass for core gadgets, including masked addition and mask refresh |
 | C9 | v1.0 meets SAL-4 | Layered verification, red team, audit, evidence bundle | Independent verification of every SAL-4 criterion | Pending |
 | C10 | Release artifacts are signed and traceable | Sigstore/minisign, SLSA provenance, SBOM | Signature and provenance verification report | Pending |
 

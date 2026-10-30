@@ -1,7 +1,11 @@
 # Audit Package
 
 This package describes what an independent auditor or red team should review. It is a
-request for review, not evidence that a review has occurred.
+request for a **second opinion**, not evidence that a review has occurred.
+
+Nothing in this package is submitted externally until the local proof package is
+complete: every locally provable claim has evidence, every local gate is green, and
+every remaining gap is explicitly hardware-, credential-, or independent-party-only.
 
 ## Scope
 

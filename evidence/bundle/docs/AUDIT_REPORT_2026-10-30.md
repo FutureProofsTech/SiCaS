@@ -120,7 +120,25 @@ table, and operation inputs. Re-ran the x86_64 5×1M suite; maximum absolute t i
 **Residual risk:** i686 timing remains unused because 32-bit timer resolution and
 optimization make it unreliable; i686 functional tests are retained.
 
-### A-10 — Accepted — External/hardware gates remain
+### A-10 — Medium — Fixed masks reused across ChaCha20 blocks
+
+**Baseline behavior:** after the A-01 fix, the key and initial state were independently
+masked, but the same initial-state shares were reused for every block.
+
+**Impact:** Reusing a fixed mask across multiple blocks weakens the multi-block
+first-order masking argument.
+
+**Fix:** added `Masked::refresh` and refresh both the working and initial state with
+independent fresh masks at the start of every block. The stored key shares are never
+used directly in a round; they are refreshed first.
+
+**Evidence:** `crates/sicas-core/src/masked.rs`,
+`crates/sicas-reference/src/chacha20.rs`, RFC 8439 and differential tests.
+
+**Residual risk:** This is still a design argument, not a formal multi-block leakage
+proof. Hardware TVLA remains required.
+
+### A-11 — Accepted — External/hardware gates remain
 
 **Observation:** No hardware TVLA/CPA/DPA, independent red team, or external audit has
 been performed.
@@ -140,17 +158,17 @@ been performed.
 
 ## Verification after fixes
 
-- Core: 18 tests.
+- Core: 19 tests.
 - Harness: 63 library, 6 main, 5 CLI tests.
 - Platform: 4 tests.
 - Reference: 6 tests.
 - Doctests: 3 pass, 4 compile-fail.
 - Miri: core, platform, and reference pass (OS entropy tests ignored under Miri
   isolation); the full harness re-run is in progress as part of this audit evidence.
-- ASan: 91 workspace library tests pass.
-- AArch64 QEMU: 91 workspace library tests pass.
-- i686 native: 102 all-target tests pass.
-- Kani: 14 harnesses pass.
+- ASan: 92 workspace library tests pass.
+- AArch64 QEMU: 92 workspace library tests pass.
+- i686 native: 103 all-target tests pass.
+- Kani: 15 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 111 caught/0 missed; reference 10 caught/0 missed; workspace 405
   caught, 21 missed, 36 unviable (95.1% of viable mutants).

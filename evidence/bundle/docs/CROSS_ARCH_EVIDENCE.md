@@ -10,11 +10,11 @@ Command: `./tools/run-aarch64-tests.sh`
 
 | Crate | Tests | Result |
 |---|---:|---|
-| `sicas-core` | 18 | pass |
+| `sicas-core` | 19 | pass |
 | `sicas-harness` | 63 | pass |
 | `sicas-platform` | 4 | pass |
 | `sicas-reference` | 6 | pass |
-| **Total** | **91** | **pass** |
+| **Total** | **92** | **pass** |
 
 The run covers all workspace library tests, including masked addition, masked
 ChaCha20 RFC 8439 vectors and differential checks, trace parsing, preprocessing, TVLA,
@@ -45,13 +45,13 @@ Command: `./tools/run-i686-tests.sh`
 
 | Crate | Tests | Result |
 |---|---:|---|
-| `sicas-core` | 18 | pass |
+| `sicas-core` | 19 | pass |
 | `sicas-harness` library | 63 | pass |
 | `sicas-harness` main | 6 | pass |
 | `sicas-harness` CLI | 5 | pass |
 | `sicas-platform` | 4 | pass |
 | `sicas-reference` | 6 | pass |
-| **Total** | **102** | **pass** |
+| **Total** | **103** | **pass** |
 
 This proves functional behavior on a 32-bit little-endian target, including masked
 addition, masked ChaCha20, trace parsing, preprocessing, TVLA, CPA, CLI workflows, and
