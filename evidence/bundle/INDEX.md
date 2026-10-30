@@ -1,18 +1,18 @@
 # SiCaS Evidence Bundle
 
-- Commit: `b6c24637ae1e6b131d2c8f99d0700d89a90fe7b7`
-- Generated: `2026-10-30T22:20:58.215168+00:00`
-- Files: 34
+- Commit: `5277c3dc7c0e36b09b0e51649a5d47c720747de9`
+- Generated: `2026-10-30T22:25:26.481942+00:00`
+- Files: 36
 
 | File | SHA-256 |
 |---|---|
-| `AGENTS.md` | `b89257803fafeea3316bfa4b855bfe53ea7a1b67c2b6f5d337c444421a171743` |
+| `AGENTS.md` | `9feeafbc3401797db7197d176510047f5a76af30b7e5dd503d9ef65941a3f536` |
 | `opencode.json` | `9a148bd21e7b229629e87c8e5eeccbe438b71ced0d0cae03161438533aad4809` |
 | `PLAN.md` | `8b4b122ac6cf9794197035a67f7b2498c04d15211546b1c32d52f0cc67edea29` |
-| `README.md` | `61df3ffd2585053f1856186235c95fdca188cc40ae770b1cee4ea9cdb2be6635` |
+| `README.md` | `4f130a3303332378f8560cfb9a3f2e897a946266e3e6db5c4e569cf712db8455` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `c2a8d344e076f5cce1b32abf2ceca29870d9f61d21ccb1e23d31438ae9ab7ec8` |
+| `CHANGELOG.md` | `bb89c7b930b20df2ca7249c35f2f787730d0bba58843e6b9c126d395b3dcf26d` |
 | `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
 | `Cargo.toml` | `c421edf0865b8225ebe80488f6c00dc2922989571f8b8251503c846ce65cb633` |
 | `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
@@ -34,9 +34,11 @@
 | `docs/AUDIT_PACKAGE.md` | `f49bd2d439c5940922282d55a5dd311f9f3a1526930052c2708c8598a0e7ff84` |
 | `docs/AUDIT_REPORT_2026-10-30.md` | `4caa69788b27bf6018be58440e3c6c434768659f0822d6b6f1d883c43a86cf5d` |
 | `docs/GAP_REPORT.md` | `ff1170de164a76d6570d79fb89557c076ee82126856b7066668437813fe76172` |
+| `docs/LOCAL_PROOF.md` | `fcc96ae75ba91fe37e96cffd8ab5ac9eb1445aad74b4cc57a79e8754e6be84e3` |
 | `docs/WORKING_AGREEMENT.md` | `379d2591db7a580a7e71658a73fc25f95b26b60de429de40a5c06d0639925f3e` |
 | `evidence/ct/2026-10-30-x86_64.md` | `14fb6a37def5f22f0a15f6089b07750ff92d2422abdeb93550fffc9ac0d454bf` |
 | `evidence/ct/asm-2026-10-30.md` | `3c810f92d72253fec1278b8a40698c9d87476101a20582044383f8c6b7f945bd` |
 | `evidence/release/2026-10-30-x86_64.md` | `94337c355f4a73ca2fa59734a9c98c46329b3318fac4dbdc3beaa3f16646faf2` |
+| `tools/local_proof.sh` | `c6e2e418b2b8fa14895700614d54f69f113e0677339c15d038c1ef2187745312` |
 | `tools/run-aarch64-tests.sh` | `b62da82f4344aaa721c12cd6017ac7a38a5887024116436dccc223ad2f137e0a` |
 | `tools/run-i686-tests.sh` | `55300da0df309831335d99f131e32af1e40b93d5e99aeae365a22672ed3521df` |
