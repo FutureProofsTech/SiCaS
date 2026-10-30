@@ -35,3 +35,22 @@ CPA, timing logic, and the OS entropy adapter.
 - It does not replace an independent audit.
 
 The AArch64 timing and hardware gates remain in `docs/GAP_REPORT.md`.
+
+## 32-bit x86 Linux
+
+Date: 2026-10-30  
+Target: `i686-unknown-linux-gnu`  
+Runner: native 32-bit execution  
+Command: `./tools/run-i686-tests.sh`
+
+| Crate | Tests | Result |
+|---|---:|---|
+| `sicas-core` | 18 | pass |
+| `sicas-harness` | 63 | pass |
+| `sicas-platform` | 4 | pass |
+| `sicas-reference` | 6 | pass |
+| **Total** | **91** | **pass** |
+
+This proves functional behavior on a 32-bit little-endian target, including masked
+addition, masked ChaCha20, trace parsing, preprocessing, TVLA, CPA, and entropy
+adaptation. It is not timing or hardware leakage evidence.

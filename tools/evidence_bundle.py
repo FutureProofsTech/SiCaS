@@ -44,6 +44,7 @@ REQUIRED = [
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",
     "tools/run-aarch64-tests.sh",
+    "tools/run-i686-tests.sh",
 ]
 
 OPTIONAL = [
