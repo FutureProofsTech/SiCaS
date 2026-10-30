@@ -10,6 +10,7 @@ cargo-fuzz = true
 [dependencies]
 libfuzzer-sys = "0.4"
 sicas-core = { path = "../crates/sicas-core" }
+sicas-harness = { path = "../crates/sicas-harness" }
 
 [[bin]]
 name = "masked_ops"
@@ -21,6 +22,13 @@ bench = false
 [[bin]]
 name = "ct_lookup"
 path = "fuzz_targets/ct_lookup.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "trace_parser"
+path = "fuzz_targets/trace_parser.rs"
 test = false
 doc = false
 bench = false

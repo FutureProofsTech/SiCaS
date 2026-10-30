@@ -89,6 +89,7 @@ jobs:
       - run: cargo install cargo-fuzz --locked
       - run: cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=10000
       - run: cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
+      - run: cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=10000
 
   mutation:
     runs-on: ubuntu-latest
@@ -123,10 +124,25 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.99.0"
-      - name: Verify zero runtime dependencies
+      - name: Verify zero third-party runtime dependencies
         run: |
-          cargo tree --workspace --edges normal --prefix none
-          if cargo tree --workspace --edges normal --prefix none | grep -v '^sicas-core '; then
-            echo "unexpected non-workspace dependency" >&2
-            exit 1
-          fi
+          cargo metadata --format-version 1 --no-deps | python3 -c '
+          import json
+          import sys
+
+          metadata = json.load(sys.stdin)
+          members = {package["name"] for package in metadata["packages"]}
+          failed = False
+          for package in metadata["packages"]:
+              for dependency in package["dependencies"]:
+                  if dependency["name"] not in members:
+                      print(
+                          "non-workspace dependency: "
+                          + package["name"]
+                          + " -> "
+                          + dependency["name"],
+                          file=sys.stderr,
+                      )
+                      failed = True
+          sys.exit(1 if failed else 0)
+          '

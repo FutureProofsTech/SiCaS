@@ -3,7 +3,7 @@
 | ID | Claim | Mechanism | Evidence required | Status |
 |----|-------|-----------|-------------------|--------|
 | C1 | The safe API prevents accidental secret-dependent branching/indexing | `Secret<T>` has no `PartialEq`, `Ord`, `Hash`, `Index`, `Clone`, or `Copy` | Compile-fail tests, API review | In progress: compile-fail doctests pass |
-| C2 | Constant-time gadgets are data-independent on supported targets | Branchless bitwise formulas | Assembly inspection, dudect-style tests | In progress: implementation written; timing/assembly evidence pending |
+| C2 | Constant-time gadgets are data-independent on supported targets | Branchless bitwise formulas | Assembly inspection, dudect-style tests | In progress: dudect-style harness implemented; real timing/assembly evidence pending |
 | C3 | First-order Boolean masking reduces first-order DPA below the TVLA threshold for the reference algorithm | Two-share masking with fresh randomness | TVLA report, raw traces, target details | In progress: property tests and Kani pass for all widths; TVLA pending |
 | C4 | Entropy failure is fail-closed | `Result`-based entropy API, no weak fallback | Fault-injection tests, code review | In progress: unit failure test passes |
 | C5 | Zero runtime dependencies | Workspace policy, CI dependency check | `cargo metadata`/`cargo tree` report | Verified locally; CI pending |

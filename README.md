@@ -18,9 +18,18 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
   - `Masked<T>` with two-share first-order Boolean masking for
     `u8`, `u16`, `u32`, `u64`, and `u128`.
   - `EntropySource` with fail-closed behavior.
+- `sicas-harness`: `std`, zero third-party dependencies.
+  - Strict binary trace format with typed errors and a fuzzed parser.
+  - Fixed-vs-random TVLA with Welch's t-test.
+  - Byte-oriented Hamming-weight CPA.
+  - Deterministic synthetic trace generation.
+  - Dudect-style timing tooling.
+  - CLI: `tvla`, `cpa`, `synthetic`, `synthetic-cpa`, `timing`.
 - Unit tests, exhaustive byte tests, property-style randomized tests, compile-fail
   doctests, Kani proof harnesses, and libFuzzer targets.
 - AddressSanitizer, Miri, strict formatting, and strict Clippy gates.
+
+See [`docs/EVALUATION.md`](docs/EVALUATION.md) for trace format and usage.
 
 ## Quality gates
 
