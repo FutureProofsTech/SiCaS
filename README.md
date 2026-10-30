@@ -28,6 +28,9 @@ be used to protect real secrets yet**. The production target is SAL-4 as defined
 - `sicas-reference`: `no_std`, zero third-party dependencies.
   - First-order Boolean masked ChaCha20 keystream blocks.
   - RFC 8439 vector and differential tests against an unmasked reference.
+- `sicas-platform`: safe, zero third-party dependencies.
+  - Fail-closed OS entropy adapter for Unix-like systems.
+  - Unsupported platforms return `EntropyError::Unavailable`.
 - Unit tests, exhaustive byte tests, property-style randomized tests, compile-fail
   doctests, Kani proof harnesses, and libFuzzer targets.
 - AddressSanitizer, Miri, strict formatting, and strict Clippy gates.

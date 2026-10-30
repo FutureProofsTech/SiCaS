@@ -20,6 +20,7 @@
   x86_64, AArch64, Thumbv7em, and RISC-V.
 - CI coverage, supply-chain, and reproducible-build gates.
 - Four 1M-execution fuzz campaigns with published evidence.
+- `sicas-platform` safe OS entropy adapter with fail-closed behavior.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
   program, support matrix, and evaluation guide.
 
