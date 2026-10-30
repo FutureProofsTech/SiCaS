@@ -4,4 +4,4 @@ set -eu
 
 CARGO_TARGET_I686_UNKNOWN_LINUX_GNU_LINKER=gcc \
 RUSTFLAGS="-C link-arg=-m32" \
-cargo test --workspace --lib --target i686-unknown-linux-gnu --locked
+cargo test --workspace --all-targets --target i686-unknown-linux-gnu --locked

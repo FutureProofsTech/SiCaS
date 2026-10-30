@@ -29,7 +29,7 @@
 - Audit fixes: independent initial-state masks for masked ChaCha20, overflow-safe
   moving average, and stricter empty-trace serialization.
 - AArch64 Linux functional test runner using QEMU; 91 workspace library tests pass.
-- 32-bit x86 Linux functional tests; 91 workspace library tests pass.
+- 32-bit x86 Linux functional tests; 102 all-target tests pass.
 - Reproducible release binary evidence with matching SHA-256 across independent target
   directories.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and

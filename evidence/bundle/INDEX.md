@@ -1,7 +1,7 @@
 # SiCaS Evidence Bundle
 
-- Commit: `48eb55599d06aa1038ad2bb79760035d85c3cd5c`
-- Generated: `2026-10-30T21:52:52.376550+00:00`
+- Commit: `8d347417c79ded1959d3ec5b48d7661a9ff1d783`
+- Generated: `2026-10-30T21:53:44.237822+00:00`
 - Files: 34
 
 | File | SHA-256 |
@@ -12,7 +12,7 @@
 | `README.md` | `ed5bdfb13e5b40d742988dd8182453f29f24e3b25a65332c3c0008a41b803e63` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `efd86cf351b0475d7a7f240785fb046627ec62a74344f97239b37e059847785f` |
+| `CHANGELOG.md` | `0ea49c1de5019451c9b8bb8255e603376beb2f7a1a800785b446cb3dbb89ec6b` |
 | `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
 | `Cargo.toml` | `c421edf0865b8225ebe80488f6c00dc2922989571f8b8251503c846ce65cb633` |
 | `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
@@ -22,10 +22,10 @@
 | `docs/PROOF_OBLIGATIONS.md` | `832af87bef6132f1efdad2909040aefdcb9fcf1c62b5cde1f45ca60e0f78e917` |
 | `docs/ASSURANCE.md` | `ae8845ac56ce9cceaeba8b6198d4d14a001473b3c867b7c36bde68fdb734f9f1` |
 | `docs/CODE_QUALITY.md` | `78a78066187b0d2a8be19cf9d4e706ac2c46a0a7a9782de1f20c70cdfc4fa99b` |
-| `docs/SUPPORT_MATRIX.md` | `c36ed89a7e743d3674a06bf7159fe9dda22ad4d282b50382142311568089f107` |
+| `docs/SUPPORT_MATRIX.md` | `afbe571c14526a667efdeb28ec257f39a9e81a1eaf40d4e868659e12ca1eed26` |
 | `docs/EVALUATION.md` | `e21dc90ecd00969e2a2fd406aa8154beac4c976bf5fbaca5b46465523cca6442` |
 | `docs/CT_EVIDENCE.md` | `53de21063e911fb78298143cbc5f18f897cef22dd125ca3c590252d91c5722da` |
-| `docs/CROSS_ARCH_EVIDENCE.md` | `f43d5bf95b347003398ca5002c88c16a601e7a3cafd8059764e3bb3492ed7c0a` |
+| `docs/CROSS_ARCH_EVIDENCE.md` | `aca57470bb9e9385cd92aacc8168e00f62c23275165f0420112102f6984f9e27` |
 | `docs/FUZZ_EVIDENCE.md` | `6746d1741ca0e81d0e86359b1b5b971f46d7b818b5550875d8a4f2483c5f1fe8` |
 | `docs/HARDWARE.md` | `9ef8f41e77fab8522cc3ff61f09e669bff55e0ba0a252344880b73bb9f451b83` |
 | `docs/RELEASE.md` | `4381fe9fd261ca463a99a4e4f7b73f3a00e42c4b24aeb3059c221c98dac67fc8` |
@@ -39,4 +39,4 @@
 | `evidence/ct/asm-2026-10-30.md` | `3c810f92d72253fec1278b8a40698c9d87476101a20582044383f8c6b7f945bd` |
 | `evidence/release/2026-10-30-x86_64.md` | `94337c355f4a73ca2fa59734a9c98c46329b3318fac4dbdc3beaa3f16646faf2` |
 | `tools/run-aarch64-tests.sh` | `b62da82f4344aaa721c12cd6017ac7a38a5887024116436dccc223ad2f137e0a` |
-| `tools/run-i686-tests.sh` | `73288af614c433426121b1110c1dfb9c593485d0d635b328fa52f76df5a3abd1` |
+| `tools/run-i686-tests.sh` | `55300da0df309831335d99f131e32af1e40b93d5e99aeae365a22672ed3521df` |
