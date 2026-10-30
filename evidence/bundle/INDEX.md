@@ -1,8 +1,8 @@
 # SiCaS Evidence Bundle
 
-- Commit: `17df0973312c0a7a4c47df09ceaca3849471b3dc`
-- Generated: `2026-10-30T21:40:55.555988+00:00`
-- Files: 32
+- Commit: `ce5d618dc582d91342cf442b34681e99fa809b59`
+- Generated: `2026-10-30T21:42:10.266755+00:00`
+- Files: 33
 
 | File | SHA-256 |
 |---|---|
@@ -12,20 +12,20 @@
 | `README.md` | `ed5bdfb13e5b40d742988dd8182453f29f24e3b25a65332c3c0008a41b803e63` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `35cbb74c22c3ae5fd20bf90c7c2bd173e66e5973bd08c2cc1bb406a4a94445e0` |
+| `CHANGELOG.md` | `4867fd6a2bfa6eff36a177375507c873ff906d7a77e9d7c8f897ccb79477677a` |
 | `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
 | `Cargo.toml` | `c421edf0865b8225ebe80488f6c00dc2922989571f8b8251503c846ce65cb633` |
 | `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
 | `rust-toolchain.toml` | `b377894f4717223cfb2e38f5a6c9b439ceb6633b12a9f563843c771c25c00524` |
 | `docs/THREAT_MODEL.md` | `af119b1739524991e4f672cdb1273379a50cb543c9fa3581d5dbe13f7eb64f65` |
 | `docs/SECURITY_CLAIMS.md` | `a7a7ef885df21f2c84de4b7b815d36245323c237a1dea8f5e00df58d3495ff84` |
-| `docs/PROOF_OBLIGATIONS.md` | `598e9c4fdc117697f8f6ae5d1fcefc387cb00c57863e52ec1fbb68f59cdfbbe5` |
+| `docs/PROOF_OBLIGATIONS.md` | `2fc6935c709ff211fffad5e2c51ce38db92e3cc579a45ece8057afde69df0eae` |
 | `docs/ASSURANCE.md` | `ae8845ac56ce9cceaeba8b6198d4d14a001473b3c867b7c36bde68fdb734f9f1` |
 | `docs/CODE_QUALITY.md` | `78a78066187b0d2a8be19cf9d4e706ac2c46a0a7a9782de1f20c70cdfc4fa99b` |
-| `docs/SUPPORT_MATRIX.md` | `7f1e928db4ffe09de957dd407e753fcd11e2fe93d277496288b9fcb9add89139` |
+| `docs/SUPPORT_MATRIX.md` | `c36ed89a7e743d3674a06bf7159fe9dda22ad4d282b50382142311568089f107` |
 | `docs/EVALUATION.md` | `e21dc90ecd00969e2a2fd406aa8154beac4c976bf5fbaca5b46465523cca6442` |
 | `docs/CT_EVIDENCE.md` | `411e4e7180f15bed096fa1093fc2715c24ab04080d0cb3bc3db6e9c9f82579d7` |
-| `docs/CROSS_ARCH_EVIDENCE.md` | `f4e0b3e15dfef50aa069e919ae2df747f590da4928ff4cf8c664c69365177e31` |
+| `docs/CROSS_ARCH_EVIDENCE.md` | `5d31865b5f314f9a429bcda9f9d8fa83cc7a9a03a54e4a5de81848c7cf27f707` |
 | `docs/FUZZ_EVIDENCE.md` | `6746d1741ca0e81d0e86359b1b5b971f46d7b818b5550875d8a4f2483c5f1fe8` |
 | `docs/HARDWARE.md` | `9ef8f41e77fab8522cc3ff61f09e669bff55e0ba0a252344880b73bb9f451b83` |
 | `docs/RELEASE.md` | `4381fe9fd261ca463a99a4e4f7b73f3a00e42c4b24aeb3059c221c98dac67fc8` |
@@ -38,3 +38,4 @@
 | `evidence/ct/2026-10-30-x86_64.md` | `41cded6082470f80868578143ba7f687757186e1280acfa39ca6fbd2429155c8` |
 | `evidence/ct/asm-2026-10-30.md` | `3c810f92d72253fec1278b8a40698c9d87476101a20582044383f8c6b7f945bd` |
 | `tools/run-aarch64-tests.sh` | `b62da82f4344aaa721c12cd6017ac7a38a5887024116436dccc223ad2f137e0a` |
+| `tools/run-i686-tests.sh` | `73288af614c433426121b1110c1dfb9c593485d0d635b328fa52f76df5a3abd1` |
