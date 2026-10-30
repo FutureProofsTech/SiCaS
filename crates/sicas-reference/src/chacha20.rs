@@ -122,7 +122,7 @@ impl MaskedChaCha20 {
         let next_counter = self.counter.wrapping_add(1);
         self.counter = next_counter;
         if let Some(slot) = self.state.get_mut(12) {
-            *slot = Masked::<u32>::from_parts(next_counter ^ state_mask, state_mask);
+            *slot = Masked::<u32>::mask(next_counter, state_mask);
         }
 
         Ok(output)
