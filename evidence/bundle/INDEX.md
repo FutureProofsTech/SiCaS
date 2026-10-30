@@ -1,7 +1,7 @@
 # SiCaS Evidence Bundle
 
-- Commit: `5277c3dc7c0e36b09b0e51649a5d47c720747de9`
-- Generated: `2026-10-30T22:25:26.481942+00:00`
+- Commit: `d168b8cb830a2b9f1fbd5762dc4d58c382c3bce7`
+- Generated: `2026-10-30T22:25:37.857768+00:00`
 - Files: 36
 
 | File | SHA-256 |
@@ -31,7 +31,7 @@
 | `docs/RELEASE.md` | `4381fe9fd261ca463a99a4e4f7b73f3a00e42c4b24aeb3059c221c98dac67fc8` |
 | `docs/RED_TEAM.md` | `e29859a364eeb526586511b67bf7507c7b1d555ae7f4d357b63056718938db9f` |
 | `docs/TOOLING.md` | `8cf2fcff52a3da21b3cdf86845da330cc7c6a63ed0321938cce5a7f7d5f54cc3` |
-| `docs/AUDIT_PACKAGE.md` | `f49bd2d439c5940922282d55a5dd311f9f3a1526930052c2708c8598a0e7ff84` |
+| `docs/AUDIT_PACKAGE.md` | `2bf0a7626ce4be854ae904295801f1dbaa160a32e6b204eaa5ad3d52b07cc0e3` |
 | `docs/AUDIT_REPORT_2026-10-30.md` | `4caa69788b27bf6018be58440e3c6c434768659f0822d6b6f1d883c43a86cf5d` |
 | `docs/GAP_REPORT.md` | `ff1170de164a76d6570d79fb89557c076ee82126856b7066668437813fe76172` |
 | `docs/LOCAL_PROOF.md` | `fcc96ae75ba91fe37e96cffd8ab5ac9eb1445aad74b4cc57a79e8754e6be84e3` |
