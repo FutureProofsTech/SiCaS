@@ -86,6 +86,11 @@ cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=1000000
 6. Commit to local Git.
 7. Continue to the next local gap.
 
+After the full local proof passes, continue with `docs/POST_PROOF_BACKLOG.md`. Do not
+treat a passing local proof as the end of the project: freeze the local proof, publish
+the evidence bundle, and only then proceed to external audit, red team, hardware
+validation, and production signing.
+
 ## Repository map
 
 - `crates/sicas-core` — constant-time primitives, `Secret`, two-share `Masked`,

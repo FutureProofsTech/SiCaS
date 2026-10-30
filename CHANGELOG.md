@@ -33,6 +33,7 @@
 - Reproducible release binary evidence with matching SHA-256 across independent target
   directories.
 - `tools/local_proof.sh` quick/full local proof runner with logs and summary.
+- Post-local-proof backlog for remaining local hardening before external review.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance

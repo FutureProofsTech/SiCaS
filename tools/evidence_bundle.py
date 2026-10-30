@@ -41,6 +41,7 @@ REQUIRED = [
     "docs/AUDIT_REPORT_2026-10-30.md",
     "docs/GAP_REPORT.md",
     "docs/LOCAL_PROOF.md",
+    "docs/POST_PROOF_BACKLOG.md",
     "docs/WORKING_AGREEMENT.md",
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",

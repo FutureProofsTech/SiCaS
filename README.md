@@ -54,6 +54,7 @@ See:
 - [`docs/AUDIT_REPORT_2026-10-30.md`](docs/AUDIT_REPORT_2026-10-30.md) — adversarial review findings and fixes
 - [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) — remaining external gates
 - [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md) — one-command local proof runner
+- [`docs/POST_PROOF_BACKLOG.md`](docs/POST_PROOF_BACKLOG.md) — work after local proof, before external review
 
 ## Quality gates
 
