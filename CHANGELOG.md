@@ -24,7 +24,8 @@
 - Trace preprocessing: trim, centered moving average, and normalized cross-correlation
   alignment.
 - Generic CPA leakage models via `cpa_with_model`.
-- Release manifest/SBOM/provenance tooling and red-team/release documentation.
+- Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
+  audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
   program, support matrix, and evaluation guide.
 

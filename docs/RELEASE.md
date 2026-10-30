@@ -46,7 +46,9 @@ Signing keys are not stored in this repository. Before a production release:
 5. Record the signing identity and timestamp in the release evidence bundle.
 
 The current manifest script produces unsigned artifacts; signing remains an
-explicit release gate.
+explicit release gate. `.github/workflows/release.yml` builds the manifest, attests
+provenance, signs the artifact with Sigstore keyless signing, and creates a draft
+GitHub release. It requires a release tag and GitHub OIDC permissions.
 
 ## Supply chain
 

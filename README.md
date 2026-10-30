@@ -45,6 +45,8 @@ See:
 - [`docs/FUZZ_EVIDENCE.md`](docs/FUZZ_EVIDENCE.md) — 1M-execution fuzz campaigns
 - [`docs/RELEASE.md`](docs/RELEASE.md) — release, SBOM, and signing
 - [`docs/RED_TEAM.md`](docs/RED_TEAM.md) — independent review program
+- [`docs/AUDIT_PACKAGE.md`](docs/AUDIT_PACKAGE.md) — audit scope and evidence index
+- [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) — remaining external gates
 
 ## Quality gates
 
