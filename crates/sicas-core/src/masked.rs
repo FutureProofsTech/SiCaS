@@ -12,6 +12,12 @@ use crate::{Choice, Secret, ct};
 /// Equality and ordering are intentionally unavailable. Use
 /// [`Masked::ct_eq`] for constant-time equality.
 ///
+/// # Zeroization
+///
+/// This type does not guarantee that shares are erased from memory when
+/// dropped. Production deployments must use a platform adapter that provides
+/// verified zeroization.
+///
 /// # Example
 ///
 /// ```
@@ -106,19 +112,33 @@ impl Masked<u32> {
     }
 
     /// Shifts the masked value left by `amount` bits.
+    ///
+    /// Amounts greater than or equal to 32 produce zero.
     pub const fn shift_left(&self, amount: u32) -> Self {
-        Self {
-            share0: self.share0.wrapping_shl(amount),
-            share1: self.share1.wrapping_shl(amount),
-        }
+        let share0 = match self.share0.checked_shl(amount) {
+            Some(value) => value,
+            None => 0,
+        };
+        let share1 = match self.share1.checked_shl(amount) {
+            Some(value) => value,
+            None => 0,
+        };
+        Self { share0, share1 }
     }
 
     /// Shifts the masked value right by `amount` bits.
+    ///
+    /// Amounts greater than or equal to 32 produce zero.
     pub const fn shift_right(&self, amount: u32) -> Self {
-        Self {
-            share0: self.share0.wrapping_shr(amount),
-            share1: self.share1.wrapping_shr(amount),
-        }
+        let share0 = match self.share0.checked_shr(amount) {
+            Some(value) => value,
+            None => 0,
+        };
+        let share1 = match self.share1.checked_shr(amount) {
+            Some(value) => value,
+            None => 0,
+        };
+        Self { share0, share1 }
     }
 
     /// Computes the bitwise AND of two masked values.
@@ -222,11 +242,11 @@ mod tests {
             );
             assert_eq!(
                 *masked_a.shift_left(amount).unmask().expose_secret(),
-                a.wrapping_shl(amount)
+                a.checked_shl(amount).unwrap_or(0)
             );
             assert_eq!(
                 *masked_a.shift_right(amount).unmask().expose_secret(),
-                a.wrapping_shr(amount)
+                a.checked_shr(amount).unwrap_or(0)
             );
             assert_eq!(
                 *masked_a.and(&masked_b, fresh).unmask().expose_secret(),

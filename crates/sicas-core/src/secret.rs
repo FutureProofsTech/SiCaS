@@ -8,6 +8,12 @@ use core::fmt;
 /// `Index`, `Clone`, or `Copy`. Use explicit constant-time operations and call
 /// [`Secret::expose_secret`] only at a documented declassification boundary.
 ///
+/// # Zeroization
+///
+/// This type does not guarantee that the inner value is erased from memory when
+/// dropped. Production deployments must use a platform adapter that provides
+/// verified zeroization.
+///
 /// # Example
 ///
 /// ```
