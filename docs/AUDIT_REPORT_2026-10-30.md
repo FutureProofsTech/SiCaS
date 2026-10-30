@@ -130,7 +130,7 @@ been performed.
 - Reference: 6 tests.
 - Doctests: 3 pass, 4 compile-fail.
 - Miri: core, platform, and reference pass (OS entropy tests ignored under Miri
-  isolation); the harness re-run is part of this audit evidence.
+  isolation); the full harness re-run is in progress as part of this audit evidence.
 - ASan: 91 workspace library tests pass.
 - Kani: 14 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
