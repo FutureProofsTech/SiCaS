@@ -14,7 +14,7 @@ be truthfully completed here.
 | Release signing | Prepared | Requires a release identity and signing key/OIDC | Run `.github/workflows/release.yml` with Sigstore identity |
 | SLSA provenance | Prepared | Requires a GitHub Actions run | Run the release workflow and publish the attestation |
 | Production version claim | Not claimed | External gates above are incomplete | Keep the release labelled pre-production |
-| Volatile zeroization | Not guaranteed | Safe Rust cannot guarantee volatile erasure without an audited unsafe boundary | Design and review an isolated zeroization adapter |
+| Volatile zeroization | Not guaranteed | Safe Rust cannot guarantee volatile erasure without an audited unsafe boundary | Design and review an isolated zeroization adapter; see `docs/ZEROIZATION.md` |
 | Full masked-ChaCha20 audit | Internal adversarial review only | No independent cryptographic review | Include it in the external audit scope; see `docs/AUDIT_REPORT_2026-10-30.md` |
 
 ## Current label
@@ -28,7 +28,9 @@ claim.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
 - 1M-execution fuzz campaigns on four targets.
-- Miri, ASan, Kani, mutation, coverage, audit, deny, and reproducibility gates.
+- Full local proof at `c349329`: all gates pass, including full-workspace Miri,
+  27 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
+  audit, deny, and reproducible-build comparison.
 - Masked ChaCha20 RFC 8439 and differential validation.
 - Trace preprocessing, TVLA, CPA, timing, and synthetic validation.
 - SBOM, checksums, provenance, and a release workflow.

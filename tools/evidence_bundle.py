@@ -49,6 +49,7 @@ REQUIRED = [
     "evidence/ct/asm-2026-10-30.md",
     "evidence/leakage/2026-10-31-x86_64.md",
     "evidence/release/2026-10-30-x86_64.md",
+    "evidence/release/2026-10-31-x86_64.md",
     "tools/local_proof.sh",
     "tools/run-aarch64-tests.sh",
     "tools/run-i686-tests.sh",

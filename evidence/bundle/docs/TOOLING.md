@@ -12,7 +12,7 @@
 | cargo-deny | 0.20.2 | license, source, ban, advisory policy |
 | Miri | nightly component | undefined behavior |
 | AddressSanitizer | nightly `-Zsanitizer=address` | memory errors |
-| Python | 3.x | release manifest and assembly checker |
+| Python | 3.x | release manifest, manifest validator, evidence bundler, and assembly checker |
 
 ## Policy
 

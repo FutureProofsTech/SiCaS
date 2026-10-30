@@ -99,6 +99,31 @@ simple and is intended for harness validation and first-order experiments. The l
 also exposes `cpa_with_model` for algorithm-specific models such as an AES S-box. It is
 not a replacement for a validated leakage model.
 
+The Hamming-weight model is invariant under key complement: `HW(x XOR k)` and
+`HW(x XOR k XOR 0xff)` are perfectly negatively correlated, so CPA identifies the pair
+`{k, k XOR 0xff}` and the tie-break returns the lower key. The XOR model has the same
+symmetry. Use an asymmetric model such as an S-box when the key pair must be
+distinguished.
+
+## First-order leakage model
+
+The harness includes a deterministic first-order model check:
+
+```bash
+cargo run -p sicas-harness -- leakage-check --samples 50000 --threshold 0.02
+```
+
+It measures the Pearson correlation between individual shares and the secret for a
+masked byte, a masked AND composition, and a masked `u32` addition. A negative control
+correlates the secret with itself and must be detected; the command fails if the control
+is missed or if any masked check exceeds the threshold.
+
+This validates the masking model and the analysis code. It is not hardware evidence and
+does not replace TVLA/CPA on a physical target. The reference crate also runs a
+statistical check that the masked ChaCha20 key shares are uncorrelated with the key
+words. The published run is in
+[`evidence/leakage/2026-10-31-x86_64.md`](../evidence/leakage/2026-10-31-x86_64.md).
+
 ## Timing
 
 The timing command runs a dudect-style fixed-vs-random comparison of `ct::eq_u32`:

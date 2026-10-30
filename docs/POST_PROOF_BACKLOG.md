@@ -25,15 +25,16 @@ validation.
 - [x] Add a zeroization design review; the adapter itself remains external because it
   requires an audited unsafe boundary.
 - [x] Add release-manifest/SBOM/provenance consistency validation with tests.
-- [ ] Re-run the full local proof after all changes.
+- [x] Re-run the full local proof after all changes. All gates pass at `c349329`;
+  see `evidence/local-proof-2026-10-31/SUMMARY.md`.
 
 ## Gate 2 — Freeze the local proof
 
-- Freeze the code and documentation.
-- Run the full proof on the frozen commit.
-- Publish the evidence bundle and its hashes.
-- Record the exact supported platform and compiler matrix.
-- Record every remaining gap in `docs/GAP_REPORT.md`.
+- [x] Freeze the code and documentation.
+- [x] Run the full proof on the frozen commit (`c349329`).
+- [x] Publish the evidence bundle and its hashes.
+- [x] Record the supported platform and compiler matrix in `docs/SUPPORT_MATRIX.md`.
+- [x] Record every remaining gap in `docs/GAP_REPORT.md`.
 
 ## Gate 3 — External second opinion
 

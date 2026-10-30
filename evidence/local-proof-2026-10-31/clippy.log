@@ -1,0 +1,5 @@
+    Checking sicas-core v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-core)
+    Checking sicas-harness v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-harness)
+    Checking sicas-platform v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-platform)
+    Checking sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.33s

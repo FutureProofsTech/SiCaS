@@ -8,3 +8,5 @@
 **/*.rs.bk
 __pycache__/
 *.pyc
+/evidence/local-proof-*/repro*/
+/evidence/local-proof-*/release/sicas-harness

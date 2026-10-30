@@ -1,0 +1,25 @@
+   Compiling sicas-fuzz v0.0.0 (/home/workstation/Documents/SiCaS/fuzz)
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.20s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/trace_parser -artifact_prefix=/home/workstation/Documents/SiCaS/fuzz/artifacts/trace_parser/ -runs=1000000 /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 797017222
+INFO: Loaded 1 modules   (564 inline 8-bit counters): 564 [0x5566b0e4e530, 0x5566b0e4e764), 
+INFO: Loaded 1 PC tables (564 PCs): 564 [0x5566b0e4e768,0x5566b0e50aa8), 
+INFO:       84 files found in /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 84 min: 1b max: 2058b total: 12698b rss: 33Mb
+#85	INITED cov: 91 ft: 269 corp: 37/4964b exec/s: 0 rss: 60Mb
+#65536	pulse  cov: 91 ft: 269 corp: 37/4964b lim: 2707 exec/s: 21845 rss: 82Mb
+#131072	pulse  cov: 91 ft: 269 corp: 37/4964b lim: 3356 exec/s: 18724 rss: 82Mb
+#218118	REDUCE cov: 91 ft: 269 corp: 37/4963b lim: 4096 exec/s: 19828 rss: 82Mb L: 18/2058 MS: 3 InsertByte-InsertByte-EraseBytes-
+#223209	RELOAD cov: 91 ft: 270 corp: 38/5152b lim: 4096 exec/s: 18600 rss: 82Mb
+#262144	pulse  cov: 91 ft: 270 corp: 38/5152b lim: 4096 exec/s: 18724 rss: 82Mb
+#524288	pulse  cov: 91 ft: 270 corp: 38/5152b lim: 4096 exec/s: 18078 rss: 83Mb
+#884691	REDUCE cov: 91 ft: 270 corp: 38/5141b lim: 4096 exec/s: 17346 rss: 83Mb L: 23/2058 MS: 2 EraseBytes-CMP- DE: "\001\000\000\000"-
+#952597	REDUCE cov: 91 ft: 270 corp: 38/5140b lim: 4096 exec/s: 17640 rss: 83Mb L: 22/2058 MS: 1 EraseBytes-
+#1000000	DONE   cov: 91 ft: 270 corp: 38/5140b lim: 4096 exec/s: 17543 rss: 83Mb
+###### Recommended dictionary. ######
+"\001\000\000\000" # Uses: 10322
+###### End of recommended dictionary. ######
+Done 1000000 runs in 57 second(s)

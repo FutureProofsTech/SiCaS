@@ -28,7 +28,9 @@ claim.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
 - 1M-execution fuzz campaigns on four targets.
-- Miri, ASan, Kani, mutation, coverage, audit, deny, and reproducibility gates.
+- Full local proof at `c349329`: all gates pass, including full-workspace Miri,
+  27 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
+  audit, deny, and reproducible-build comparison.
 - Masked ChaCha20 RFC 8439 and differential validation.
 - Trace preprocessing, TVLA, CPA, timing, and synthetic validation.
 - SBOM, checksums, provenance, and a release workflow.

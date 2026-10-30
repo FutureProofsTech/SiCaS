@@ -27,7 +27,10 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Code-quality standard | `docs/CODE_QUALITY.md` |
 | Constant-time timing | `evidence/ct/2026-10-30-x86_64.md` |
 | Assembly checks | `evidence/ct/asm-2026-10-30.md` |
+| First-order leakage model | `evidence/leakage/2026-10-31-x86_64.md` |
 | Fuzz campaigns | `docs/FUZZ_EVIDENCE.md` |
+| Mutation testing | `docs/MUTATION_EVIDENCE.md` |
+| Release reproducibility | `evidence/release/2026-10-31-x86_64.md` |
 | Hardware protocol | `docs/HARDWARE.md` |
 | Release and signing | `docs/RELEASE.md` |
 | Red-team program | `docs/RED_TEAM.md` |

@@ -33,6 +33,21 @@
 - Reproducible release binary evidence with matching SHA-256 across independent target
   directories.
 - `tools/local_proof.sh` quick/full local proof runner with logs and summary.
+- Post-local-proof backlog for remaining local hardening before external review.
+- First-order leakage-model checker with a negative control, plus a masked
+  ChaCha20 key-share correlation test.
+- Kani proofs for every masked linear and logical operation across all integer
+  widths, including `shares`, refresh, select, equality, and bit extraction.
+- Property tests for trace trimming, filtering, alignment, CPA recovery, and TVLA
+  tie/threshold behavior.
+- `Masked::shares` accessor for explicit leakage-analysis boundaries.
+- Release-manifest validator with checksum, provenance, SBOM, workspace, and commit
+  consistency tests.
+- Zeroization design review and adapter checklist.
+- Full local proof at commit `c349329`: all gates pass, including full-workspace Miri,
+  27 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
+  four 1M-execution fuzz campaigns, cross-architecture tests, release validation, and
+  reproducible-build comparison.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance

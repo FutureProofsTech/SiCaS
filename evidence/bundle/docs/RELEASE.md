@@ -28,12 +28,17 @@ The script builds the workspace, copies `sicas-harness`, and writes:
 - `release/provenance.json`
 - `release/README.md`
 
-Verify the artifact:
+Verify the artifact and the manifest consistency:
 
 ```bash
 cd release
 sha256sum -c SHA256SUMS
+cd ..
+python3 tools/validate_release_manifest.py --manifest release
 ```
+
+The validator checks the artifact hash, provenance, SBOM component graph, workspace
+versions, timestamps, and the current commit. It passes in the full local proof.
 
 ## Signing
 

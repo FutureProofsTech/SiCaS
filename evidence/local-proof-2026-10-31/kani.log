@@ -1,0 +1,11 @@
+   Compiling sicas-core v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.28s
+   Compiling sicas-core v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-core)
+   Compiling sicas-harness v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-harness)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.25s
+   Compiling sicas-harness v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-harness)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.26s
+   Compiling sicas-platform v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-platform)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s

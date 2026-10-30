@@ -2,8 +2,10 @@
 
 ## Current level
 
-**SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The target for
-v1.0 is **SAL-4**. CI and hardware evidence are still pending.
+**SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The local
+proof is frozen at commit `c349329`; every locally executable gate passes. The target for
+v1.0 is **SAL-4**. CI, hardware evidence, independent audit, and red team are still
+pending.
 
 | Level | Requirements | Allowed public claim |
 |-------|--------------|----------------------|
@@ -28,6 +30,7 @@ v1.0 is **SAL-4**. CI and hardware evidence are still pending.
 - Test, coverage, mutation, and fuzz reports.
 - Kani/model-checking proofs and assumptions.
 - Constant-time assembly and dudect reports.
+- First-order leakage-model checks with a negative control.
 - TVLA/CPA/DPA raw traces and analysis scripts.
 - Red-team and audit reports, remediation, retest.
 - Local adversarial audit report and remediation record.

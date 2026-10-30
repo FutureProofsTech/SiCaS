@@ -50,8 +50,9 @@ cargo +nightly-2026-08-03 clippy \
 cargo test --workspace --all-targets --all-features --locked
 cargo test --workspace --doc --locked
 cargo +nightly-2026-08-03 miri test --workspace
-cargo kani
-RUSTFLAGS="-Zsanitizer=address" cargo +nightly-2026-08-03 test -p sicas-core --lib
+cargo kani --workspace
+RUSTFLAGS="-Zsanitizer=address" cargo +nightly-2026-08-03 test --workspace --lib \
+  --target x86_64-unknown-linux-gnu
 cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=10000
 cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
 cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=10000
@@ -64,6 +65,11 @@ RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps --all-features --lock
 
 # Release manifest, checksums, SBOM, provenance
 python3 tools/release_manifest.py --output release
+python3 tools/validate_release_manifest.py --manifest release
+python3 tools/test_validate_release_manifest.py
+
+# First-order leakage-model check with a negative control
+cargo run --release -p sicas-harness -- leakage-check --samples 50000
 ```
 
 ## Dependency policy

@@ -44,6 +44,10 @@
 - Release-manifest validator with checksum, provenance, SBOM, workspace, and commit
   consistency tests.
 - Zeroization design review and adapter checklist.
+- Full local proof at commit `c349329`: all gates pass, including full-workspace Miri,
+  27 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
+  four 1M-execution fuzz campaigns, cross-architecture tests, release validation, and
+  reproducible-build comparison.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance

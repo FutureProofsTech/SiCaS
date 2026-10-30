@@ -176,9 +176,11 @@ been performed.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 112 caught/0 missed; reference 6 caught/0 missed; workspace 477
   caught, 0 missed, 43 unviable (100% of viable mutants).
-- Coverage: 96.89% lines, 94.68% regions.
+- Coverage: 96.90% lines, 94.60% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
+- Full local proof: all gates pass at commit `c349329`; see
+  `evidence/local-proof-2026-10-31/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 

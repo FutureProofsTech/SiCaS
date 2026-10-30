@@ -2,23 +2,25 @@
 
 ## AArch64 Linux under QEMU
 
-Date: 2026-10-30  
-Commit: `67869fe`  
+Date: 2026-10-31
+
+Commit: `c349329` (full local-proof commit)
+
 Target: `aarch64-unknown-linux-gnu`  
 Runner: `qemu-aarch64` user mode  
 Command: `./tools/run-aarch64-tests.sh`
 
 | Crate | Tests | Result |
 |---|---:|---|
-| `sicas-core` | 19 | pass |
-| `sicas-harness` | 63 | pass |
+| `sicas-core` | 20 | pass |
+| `sicas-harness` | 91 | pass |
 | `sicas-platform` | 4 | pass |
-| `sicas-reference` | 6 | pass |
-| **Total** | **92** | **pass** |
+| `sicas-reference` | 7 | pass |
+| **Total** | **122** | **pass** |
 
 The run covers all workspace library tests, including masked addition, masked
 ChaCha20 RFC 8439 vectors and differential checks, trace parsing, preprocessing, TVLA,
-CPA, timing logic, and the OS entropy adapter.
+CPA, timing logic, the first-order leakage model, and the OS entropy adapter.
 
 ## What this proves
 
@@ -38,20 +40,21 @@ The AArch64 timing and hardware gates remain in `docs/GAP_REPORT.md`.
 
 ## 32-bit x86 Linux
 
-Date: 2026-10-30  
+Date: 2026-10-31
+
 Target: `i686-unknown-linux-gnu`  
 Runner: native 32-bit execution  
 Command: `./tools/run-i686-tests.sh`
 
 | Crate | Tests | Result |
 |---|---:|---|
-| `sicas-core` | 19 | pass |
-| `sicas-harness` library | 63 | pass |
-| `sicas-harness` main | 6 | pass |
+| `sicas-core` | 20 | pass |
+| `sicas-harness` library | 91 | pass |
+| `sicas-harness` main | 7 | pass |
 | `sicas-harness` CLI | 5 | pass |
 | `sicas-platform` | 4 | pass |
-| `sicas-reference` | 6 | pass |
-| **Total** | **103** | **pass** |
+| `sicas-reference` | 7 | pass |
+| **Total** | **134** | **pass** |
 
 This proves functional behavior on a 32-bit little-endian target, including masked
 addition, masked ChaCha20, trace parsing, preprocessing, TVLA, CPA, CLI workflows, and

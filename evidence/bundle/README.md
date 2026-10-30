@@ -48,12 +48,16 @@ See:
 - [`docs/CT_EVIDENCE.md`](docs/CT_EVIDENCE.md) — constant-time timing evidence
 - [`docs/CROSS_ARCH_EVIDENCE.md`](docs/CROSS_ARCH_EVIDENCE.md) — AArch64 QEMU functional evidence
 - [`docs/FUZZ_EVIDENCE.md`](docs/FUZZ_EVIDENCE.md) — 1M-execution fuzz campaigns
+- [`docs/MUTATION_EVIDENCE.md`](docs/MUTATION_EVIDENCE.md) — mutation-testing results
+- [`evidence/leakage/2026-10-31-x86_64.md`](evidence/leakage/2026-10-31-x86_64.md) — first-order leakage-model evidence
 - [`docs/RELEASE.md`](docs/RELEASE.md) — release, SBOM, and signing
 - [`docs/RED_TEAM.md`](docs/RED_TEAM.md) — independent review program
 - [`docs/AUDIT_PACKAGE.md`](docs/AUDIT_PACKAGE.md) — audit scope and evidence index
 - [`docs/AUDIT_REPORT_2026-10-30.md`](docs/AUDIT_REPORT_2026-10-30.md) — adversarial review findings and fixes
 - [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) — remaining external gates
 - [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md) — one-command local proof runner
+- [`docs/POST_PROOF_BACKLOG.md`](docs/POST_PROOF_BACKLOG.md) — work after local proof, before external review
+- [`docs/ZEROIZATION.md`](docs/ZEROIZATION.md) — zeroization limitation and adapter review checklist
 
 ## Quality gates
 
