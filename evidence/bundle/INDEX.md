@@ -1,8 +1,8 @@
 # SiCaS Evidence Bundle
 
-- Commit: `f281600091ffe84f347a8a2b4f9015d4d358433c`
-- Generated: `2026-10-30T21:51:50.084821+00:00`
-- Files: 33
+- Commit: `48eb55599d06aa1038ad2bb79760035d85c3cd5c`
+- Generated: `2026-10-30T21:52:52.376550+00:00`
+- Files: 34
 
 | File | SHA-256 |
 |---|---|
@@ -12,7 +12,7 @@
 | `README.md` | `ed5bdfb13e5b40d742988dd8182453f29f24e3b25a65332c3c0008a41b803e63` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `4867fd6a2bfa6eff36a177375507c873ff906d7a77e9d7c8f897ccb79477677a` |
+| `CHANGELOG.md` | `efd86cf351b0475d7a7f240785fb046627ec62a74344f97239b37e059847785f` |
 | `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
 | `Cargo.toml` | `c421edf0865b8225ebe80488f6c00dc2922989571f8b8251503c846ce65cb633` |
 | `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
@@ -37,5 +37,6 @@
 | `docs/WORKING_AGREEMENT.md` | `bd2e05c4482382cad286666546c021b457f3533a05f5840cf3d0e97241db1145` |
 | `evidence/ct/2026-10-30-x86_64.md` | `14fb6a37def5f22f0a15f6089b07750ff92d2422abdeb93550fffc9ac0d454bf` |
 | `evidence/ct/asm-2026-10-30.md` | `3c810f92d72253fec1278b8a40698c9d87476101a20582044383f8c6b7f945bd` |
+| `evidence/release/2026-10-30-x86_64.md` | `94337c355f4a73ca2fa59734a9c98c46329b3318fac4dbdc3beaa3f16646faf2` |
 | `tools/run-aarch64-tests.sh` | `b62da82f4344aaa721c12cd6017ac7a38a5887024116436dccc223ad2f137e0a` |
 | `tools/run-i686-tests.sh` | `73288af614c433426121b1110c1dfb9c593485d0d635b328fa52f76df5a3abd1` |

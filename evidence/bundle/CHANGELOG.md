@@ -30,6 +30,8 @@
   moving average, and stricter empty-trace serialization.
 - AArch64 Linux functional test runner using QEMU; 91 workspace library tests pass.
 - 32-bit x86 Linux functional tests; 91 workspace library tests pass.
+- Reproducible release binary evidence with matching SHA-256 across independent target
+  directories.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
