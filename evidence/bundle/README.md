@@ -9,6 +9,9 @@ Early Phase 1. The core crate is not audited, not hardware-validated, and **must
 be used to protect real secrets yet**. The production target is SAL-4 as defined in
 [`PLAN.md`](PLAN.md) and [`docs/ASSURANCE.md`](docs/ASSURANCE.md).
 
+Project operating instructions and persistent working agreement:
+[`AGENTS.md`](AGENTS.md) and [`docs/WORKING_AGREEMENT.md`](docs/WORKING_AGREEMENT.md).
+
 ## What exists
 
 - `sicas-core`: `no_std`, `#![forbid(unsafe_code)]`, zero runtime dependencies.
