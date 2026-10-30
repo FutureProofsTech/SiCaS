@@ -46,14 +46,16 @@ Command: `./tools/run-i686-tests.sh`
 | Crate | Tests | Result |
 |---|---:|---|
 | `sicas-core` | 18 | pass |
-| `sicas-harness` | 63 | pass |
+| `sicas-harness` library | 63 | pass |
+| `sicas-harness` main | 6 | pass |
+| `sicas-harness` CLI | 5 | pass |
 | `sicas-platform` | 4 | pass |
 | `sicas-reference` | 6 | pass |
-| **Total** | **91** | **pass** |
+| **Total** | **102** | **pass** |
 
 This proves functional behavior on a 32-bit little-endian target, including masked
-addition, masked ChaCha20, trace parsing, preprocessing, TVLA, CPA, and entropy
-adaptation. It is not timing or hardware leakage evidence.
+addition, masked ChaCha20, trace parsing, preprocessing, TVLA, CPA, CLI workflows, and
+entropy adaptation. It is not timing or hardware leakage evidence.
 
 An i686 timing run was attempted but is not used as evidence: the 32-bit timer
 resolution and release optimization make the measurements unreliable. The x86_64
