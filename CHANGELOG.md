@@ -49,7 +49,7 @@
 - Valgrind Memcheck evidence: four workspace library binaries, zero errors.
 - Local signing dry run with an ephemeral test key: detached signature produced and
   verified; production identity remains open.
-- Release-profile dudect evidence: 3×1M samples per check, max |t| = 1.6913.
+- Release-profile dudect evidence: 3×1M samples per check, max |t| = 2.2461.
 - Differential statistics validation: 200 deterministic cases match an independent
   Python implementation.
 - Performance benchmark for masked ChaCha20. Measured ~597× overhead vs the unmasked
