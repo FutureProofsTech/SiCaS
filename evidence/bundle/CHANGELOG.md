@@ -28,6 +28,7 @@
 - Generic CPA leakage models via `cpa_with_model`.
 - Audit fixes: independent initial-state masks for masked ChaCha20, overflow-safe
   moving average, and stricter empty-trace serialization.
+- AArch64 Linux functional test runner using QEMU; 91 workspace library tests pass.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance
