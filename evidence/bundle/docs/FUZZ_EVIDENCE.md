@@ -3,7 +3,7 @@
 ## Campaign
 
 Date: 2026-10-30  
-Commit: `a66cff6`  
+Commit: `53be7e2` (ChaCha20 campaign after audit fix `45a8cce`)  
 Target: x86_64-unknown-linux-gnu  
 Tool: `cargo-fuzz` 0.13.2 / libFuzzer
 
