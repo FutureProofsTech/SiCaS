@@ -1,7 +1,7 @@
 # SiCaS Evidence Bundle
 
-- Commit: `d1b755d069f7a26d098f926593fa24b4ec08f0f4`
-- Generated: `2026-10-30T22:15:44.255835+00:00`
+- Commit: `3312980133bdd12d6c5a30bc96c2b91783f6da1b`
+- Generated: `2026-10-30T22:16:06.791481+00:00`
 - Files: 34
 
 | File | SHA-256 |
@@ -18,8 +18,8 @@
 | `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
 | `rust-toolchain.toml` | `b377894f4717223cfb2e38f5a6c9b439ceb6633b12a9f563843c771c25c00524` |
 | `docs/THREAT_MODEL.md` | `af119b1739524991e4f672cdb1273379a50cb543c9fa3581d5dbe13f7eb64f65` |
-| `docs/SECURITY_CLAIMS.md` | `72d36e02489213498af37b5aaabd7121dcd7e49ca75e104827c961218b80c1f0` |
-| `docs/PROOF_OBLIGATIONS.md` | `0631debb15763146e4c1ef67b8d54d95aa850dee8abdeb3d7ef08f49a115b47e` |
+| `docs/SECURITY_CLAIMS.md` | `4a15057ff35c4ef55a2be7e2805c014ad45c9a7bb7400ba02090ce1e1186e061` |
+| `docs/PROOF_OBLIGATIONS.md` | `133b99b0a02d39d5cb81bdc03bd2c564b0ec306750fe2be6ee05df3f94c81bd2` |
 | `docs/ASSURANCE.md` | `ae8845ac56ce9cceaeba8b6198d4d14a001473b3c867b7c36bde68fdb734f9f1` |
 | `docs/CODE_QUALITY.md` | `78a78066187b0d2a8be19cf9d4e706ac2c46a0a7a9782de1f20c70cdfc4fa99b` |
 | `docs/SUPPORT_MATRIX.md` | `3ab3168ef128c91f97ab424b589f0626157f76822110b57d599aa81b855d5a62` |
