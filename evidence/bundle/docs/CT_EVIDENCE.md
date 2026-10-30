@@ -15,7 +15,7 @@ run per check. The leakage threshold is `|t| > 4.5`.
 ```bash
 cargo run -p sicas-harness -- ct \
   --samples 1000000 --warmup 100000 --trials 5 \
-  --label "c44a5dd x86_64-unknown-linux-gnu rustc 1.99.0" \
+  --label "db8f77c x86_64-unknown-linux-gnu rustc 1.99.0" \
   --report evidence/ct/2026-10-30-x86_64.md
 ```
 
@@ -23,10 +23,10 @@ cargo run -p sicas-harness -- ct \
 
 | Check | Max absolute t across 5 trials | Result |
 |-------|--------------------------------|--------|
-| `ct::eq_u32` | 1.6663 | pass |
-| `ct::select_u32` | 1.5604 | pass |
-| `ct::lookup_u8` | 0.7245 | pass |
-| `Masked::<u32>::add_masked` | 0.9782 | pass |
+| `ct::eq_u32` | 1.0010 | pass |
+| `ct::select_u32` | 1.1861 | pass |
+| `ct::lookup_u8` | 0.9013 | pass |
+| `Masked::<u32>::add_masked` | 2.2472 | pass |
 
 All trials are below the `|t| > 4.5` threshold. The complete per-trial report is in
 [`evidence/ct/2026-10-30-x86_64.md`](../evidence/ct/2026-10-30-x86_64.md).
