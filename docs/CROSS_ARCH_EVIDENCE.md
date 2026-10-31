@@ -4,7 +4,7 @@
 
 Date: 2026-10-31
 
-Commit: `ac06c1c` (full local-proof commit)
+Commit: `5478c19` (full local-proof commit)
 
 Target: `aarch64-unknown-linux-gnu`  
 Runner: `qemu-aarch64` user mode  

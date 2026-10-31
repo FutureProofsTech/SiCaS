@@ -21,7 +21,7 @@ physical, or require credentials and therefore cannot be truthfully completed he
 
 | Gap | Status | Evidence | Required next action |
 |---|---|---|---|
-| Masked ChaCha20 performance | Hard ceiling met; target open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 9.17× vs unmasked, so the 10× hard ceiling is met; the 5× target is not | Continue optimizing toward 5× with wider SIMD lanes or a faster audited mask stream |
+| Masked ChaCha20 performance | Hard ceiling met; target open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 7.27× vs unmasked, so the 10× hard ceiling is met; the 5× target is not | Continue optimizing toward 5× with wider SIMD lanes or a faster audited mask stream |
 
 ## Local readiness matrix
 
@@ -39,10 +39,10 @@ claim.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
 - 1M-execution fuzz campaigns on four targets.
-- Full local proof at `ac06c1c`: all gates passed, including the performance gate at
-  9.17×. The 10× hard ceiling is met; the 5× target remains open.
+- Full local proof at `5478c19`: all gates passed, including the performance gate at
+  7.27×. The 10× hard ceiling is met; the 5× target remains open.
 - Masked ChaCha20 RFC 8439 and differential validation.
-- Compiler-matrix assembly evidence (60 configurations), Valgrind Memcheck with zero
+- Compiler-matrix assembly evidence (69 configurations), Valgrind Memcheck with zero
   errors, differential statistics validation, release-profile timing, a long fuzz
   campaign, and a local signing dry run.
 - Trace preprocessing, TVLA, CPA, timing, and synthetic validation.

@@ -1,7 +1,7 @@
 # Mutation Testing Evidence
 
 - Date: 2026-10-31
-- Commit: `ac06c1c` (full local-proof commit)
+- Commit: `5478c19` (full local-proof commit)
 - Tool: `cargo-mutants 27.1.0`
 - Command: `cargo mutants --workspace --no-shuffle`
 - Per-crate commands: `cargo mutants -p <crate> --no-shuffle`

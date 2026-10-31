@@ -180,8 +180,8 @@ been performed.
 - Coverage: 97.11% lines, 94.66% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
-- Full local proof: all gates pass at commit `ac06c1c`, including the performance gate
-  at 6.1×; see `evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md`.
+- Full local proof: all gates pass at commit `5478c19`, including the performance gate
+  at 7.27×; see `evidence/local-proof-2026-10-31-speed-size/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 
@@ -211,7 +211,7 @@ Additional local hardening was completed after the initial audit pass:
 - A local signing dry run produces and verifies a detached signature with an ephemeral
   test key; it is not a production identity.
 - The scalar masked ChaCha20 measured ~600× overhead. A 64-block bitsliced batch path
-  with a fast 64×64 transpose now measures 6.1× vs unmasked. The 10× hard ceiling
+  with a fast 64×64 transpose now measures 7.27× vs unmasked. The 10× hard ceiling
   is met; the 5× target remains open in `docs/PERFORMANCE_EVIDENCE.md`.
 
 These changes strengthen the local evidence. They do not change the external-only

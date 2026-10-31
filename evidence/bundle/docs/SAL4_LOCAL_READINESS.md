@@ -9,7 +9,7 @@ Current public label: **SAL-2 locally**.
 |---|---|---|
 | Unit, integration, property, and compile-fail tests | Workspace tests, doctests, compile-fail cases | Complete |
 | Memory safety and UB checks | Miri, ASan, Valgrind | Complete locally |
-| Constant-time evidence | Dudect timing, 60-configuration assembly matrix | Complete for inspected targets/configurations |
+| Constant-time evidence | Dudect timing, 69-configuration assembly matrix | Complete for inspected targets/configurations |
 | Formal/model checking | 30 Kani harnesses for core gadgets, masking, refresh, addition, and share uniformity | Complete for declared models |
 | Fuzzing | Four 1M campaigns; 10M on masked_ops/ct_lookup/trace_parser and 1M on ChaCha20 in the long campaign | Complete locally |
 | Mutation and coverage | 0 missed viable mutants; 96.90% lines | Complete locally |
@@ -18,7 +18,7 @@ Current public label: **SAL-2 locally**.
 | Reproducible release | Three-build hash comparison, SBOM, provenance, manifest validator | Complete locally |
 | Signing process | Ephemeral test-key signing and verification dry run | Process proven; production identity not established |
 | Zeroization | Design review and adapter checklist | Not implemented |
-| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 9.17× vs unmasked; 5× target open |
+| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.27× vs unmasked; 5× target open |
 | Physical power/EM TVLA/CPA/DPA | None | Not software-local |
 | ARM/RISC-V runtime timing on hardware | None | Not software-local |
 | Independent adversarial review | Local adversarial audit only | Not software-local |

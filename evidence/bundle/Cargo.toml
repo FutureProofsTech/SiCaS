@@ -37,3 +37,10 @@ indexing_slicing = "deny"
 arithmetic_side_effects = "deny"
 integer_division = "deny"
 as_conversions = "deny"
+
+[profile.release]
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"

@@ -40,11 +40,13 @@ MATRIX_CONFIGS = [
     ("release-os", True, "s", None, None),
     ("release-o3-cgu1", True, "3", "1", None),
     ("release-o3-panic-abort", True, "3", None, "abort"),
+    ("release-oz", True, "z", None, None),
 ]
 
 LTO_CONFIGS = [
-    ("release-o3-lto-thin", "thin"),
-    ("release-o3-lto-fat", "fat"),
+    ("release-o3-lto-thin", "thin", "3"),
+    ("release-o3-lto-fat", "fat", "3"),
+    ("release-oz-lto-fat", "fat", "z"),
 ]
 
 BRANCH_PATTERNS = {
@@ -139,12 +141,13 @@ def build_example(
     return files[-1]
 
 
-def build_lto_binary(name: str, lto: str, target: str) -> pathlib.Path:
+def build_lto_binary(name: str, lto: str, opt_level: str, target: str) -> pathlib.Path:
     target_dir = pathlib.Path("target") / "asm-matrix" / name / target
     env = os.environ.copy()
     env["CARGO_TARGET_DIR"] = str(target_dir)
+    env["CARGO_PROFILE_RELEASE_STRIP"] = "none"
     env["RUSTFLAGS"] = (
-        f"-C lto={lto} -C embed-bitcode=yes -C opt-level=3"
+        f"-C lto={lto} -C embed-bitcode=yes -C opt-level={opt_level}"
     )
     run(
         [
@@ -270,9 +273,9 @@ def main() -> int:
                     add_row(rows, failures, name, target, function, section)
 
     if args.lto:
-        for name, lto in LTO_CONFIGS:
+        for name, lto, opt_level in LTO_CONFIGS:
             target = "x86_64-unknown-linux-gnu"
-            binary = build_lto_binary(name, lto, target)
+            binary = build_lto_binary(name, lto, opt_level, target)
             disassembly = subprocess.run(
                 ["objdump", "-d", str(binary)],
                 check=True,
