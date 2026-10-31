@@ -6,8 +6,8 @@ SiCaS — side-channel attenuation and leakage-assessment software.
 
 ## Review target
 
-- Code commit: `6ad9c10`
-- Evidence tag: `local-proof-2026-10-31-self-audit-final`
+- Code commit: `8c41e4b`
+- Evidence tag: `local-proof-2026-10-31-final-audit`
 - Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
 - Public label at request time: SAL-2 locally
 

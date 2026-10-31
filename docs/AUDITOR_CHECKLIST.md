@@ -5,7 +5,7 @@ commit.
 
 ## 1. State
 
-- [ ] Check out code commit `6ad9c10` or the tag `local-proof-2026-10-31-self-audit-final`.
+- [ ] Check out code commit `8c41e4b` or the tag `local-proof-2026-10-31-final-audit`.
 - [ ] Confirm the working tree is clean.
 - [ ] Read `docs/THREAT_MODEL.md`, `docs/SECURITY_CLAIMS.md`, and
       `docs/BITSLICED_MASKING.md`.

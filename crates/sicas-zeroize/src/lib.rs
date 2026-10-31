@@ -24,6 +24,9 @@ extern crate std;
 use core::fmt;
 use core::sync::atomic::{Ordering, compiler_fence};
 
+#[cfg(test)]
+static DROPPED: core::sync::atomic::AtomicBool = core::sync::atomic::AtomicBool::new(false);
+
 /// Overwrites every byte with a volatile zero write, then emits a compiler fence.
 ///
 /// This is a best-effort erasure primitive. It does not cover copies that the
@@ -67,6 +70,8 @@ impl<const N: usize> ZeroizingBytes<N> {
 impl<const N: usize> Drop for ZeroizingBytes<N> {
     fn drop(&mut self) {
         zeroize_bytes(&mut self.0);
+        #[cfg(test)]
+        DROPPED.store(true, Ordering::SeqCst);
     }
 }
 
@@ -101,6 +106,15 @@ mod tests {
         assert_eq!(buffer.as_bytes(), &[1, 2, 3]);
         buffer.as_mut_bytes()[0] = 9;
         assert_eq!(buffer.as_bytes(), &[9, 2, 3]);
+    }
+
+    #[test]
+    fn drop_runs_the_zeroization_path() {
+        DROPPED.store(false, Ordering::SeqCst);
+        {
+            let _buffer = ZeroizingBytes::new([0xaa_u8; 8]);
+        }
+        assert!(DROPPED.load(Ordering::SeqCst));
     }
 
     #[test]

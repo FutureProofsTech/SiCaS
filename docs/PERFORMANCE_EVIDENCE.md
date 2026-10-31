@@ -2,7 +2,7 @@
 
 Date: 2026-10-31
 
-Commit: `6ad9c10` (full local-proof run)
+Commit: `8c41e4b` (full local-proof run)
 
 Target: x86_64-unknown-linux-gnu
 

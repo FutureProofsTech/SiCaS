@@ -5,8 +5,8 @@ attack SiCaS. It is a review aid, not evidence that an independent review has ha
 
 ## Reviewed state
 
-- Code commit: `6ad9c10`
-- Evidence commit/tag: `local-proof-2026-10-31-self-audit-final`
+- Code commit: `8c41e4b`
+- Evidence commit/tag: `local-proof-2026-10-31-final-audit`
 - Public label: **SAL-2 locally**
 - Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
 - Release binary size: 383,160 bytes
@@ -44,8 +44,8 @@ Valgrind reports zero errors.
 The full run writes `SUMMARY.md` and raw logs under `evidence/local-proof-<timestamp>/`.
 It covers fmt, strict Clippy, tests, doctests, Miri, Kani, ASan, Valgrind, mutation,
 coverage, five fuzz campaigns including the 64-block bitsliced batch, cross-architecture
-tests, leakage model, statistics differential, release validation, signing dry run,
-and reproducible builds.
+tests, leakage model, statistics differential, zeroization-boundary tests, release
+validation, signing dry run, and reproducible builds.
 
 ## Verify the evidence bundle
 
@@ -91,7 +91,7 @@ also bundled.
 - No ARM/RISC-V runtime timing on hardware.
 - No independent audit or red team yet.
 - No production signing identity or SLSA attestation.
-- Zeroization is a design review only.
+- Zeroization has an isolated, experimental, unaudited adapter (`sicas-zeroize`).
 - The 5× performance target is open; the 10× hard ceiling is met.
 
 ## Reporting

@@ -185,16 +185,16 @@ external gate.
 - Core: 20 tests.
 - Harness: 91 library, 7 main, 5 CLI tests.
 - Platform: 4 tests.
-- Reference: 15 tests.
+- Reference: 15 tests; zeroization: 3 tests.
 - Doctests: 3 pass, 4 compile-fail.
 - Miri: full workspace passes (core 20; harness 82 passed with 9 native-only
   statistical sweeps ignored; main 5 passed with 2 file/timing tests ignored; platform
   2 passed with 2 OS-entropy tests ignored; reference 7 passed with 8 batch/statistical sweeps
   ignored; 7 doctests pass). Ignored tests are blocked by Miri isolation or are
   exhaustive native sweeps; none are deleted.
-- ASan: 130 workspace library tests pass.
-- AArch64 QEMU: 130 workspace library tests pass.
-- i686 native: 142 all-target tests pass.
+- ASan: 133 workspace library tests pass.
+- AArch64 QEMU: 133 workspace library tests pass.
+- i686 native: 145 all-target tests pass.
 - Kani: 30 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 112 caught/0 missed; reference 69 caught/0 missed; workspace 542
@@ -202,8 +202,8 @@ external gate.
 - Coverage: 97.20% lines, 94.77% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
-- Full local proof: all gates pass at commit `6ad9c10`, including the performance gate
-  at 7.26×; see `evidence/local-proof-2026-10-31-self-audit-final/SUMMARY.md`.
+- Full local proof: all gates pass at commit `8c41e4b`, including the performance gate
+  at 7.26×; see `evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 

@@ -1,0 +1,5 @@
+Found 600 mutants to test
+ok       Unmutated baseline in 0s build + 0s test
+ INFO Auto-set test timeout to 20s
+MISSED   crates/sicas-zeroize/src/lib.rs:69:9: replace <impl Drop for ZeroizingBytes<N>>::drop with () in 0s build + 0s test
+600 mutants tested in 3m: 1 missed, 544 caught, 55 unviable

@@ -58,7 +58,7 @@
 - Bitsliced masked ChaCha20 batch: 64 blocks per mask stream and a fast 64×64
   bit-matrix transpose. The measured overhead is 7.26× vs unmasked, meeting the
   10× hard ceiling; the ≤5× target remains open.
-- Full local proof at commit `6ad9c10`: all security gates pass, including
+- Full local proof at commit `8c41e4b`: all security gates pass, including
   full-workspace Miri, 30 Kani harnesses, 130 ASan tests, zero missed viable mutants,
   97.20% line coverage, five 1M-execution fuzz campaigns, cross-architecture tests,
   release validation, reproducible-build comparison, and the performance gate at

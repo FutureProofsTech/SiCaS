@@ -24,6 +24,7 @@ evidence. It is a self-audit record, not an independent review.
 | Reproducibility | Three-build hash comparison | `evidence/release/2026-10-31-x86_64.md` |
 | Release validation | Manifest, SBOM, provenance, signing dry run | `docs/RELEASE.md` |
 | Self-audit | Findings and fixes A-01 to A-12 | audit reports |
+| Zeroization | Experimental volatile-write adapter | `crates/sicas-zeroize`; unaudited |
 
 ## Not locally executable
 

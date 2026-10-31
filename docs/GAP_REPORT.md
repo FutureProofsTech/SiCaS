@@ -39,7 +39,7 @@ claim.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
 - 1M-execution fuzz campaigns on five targets.
-- Full local proof at `6ad9c10`: all gates passed, including the performance gate at
+- Full local proof at `8c41e4b`: all gates passed, including the performance gate at
   7.26×. The 10× hard ceiling is met; the 5× target remains open.
 - Masked ChaCha20 RFC 8439 and differential validation.
 - Compiler-matrix assembly evidence (69 configurations), Valgrind Memcheck with zero

@@ -1,0 +1,16 @@
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/ct_lookup -artifact_prefix=/home/workstation/Documents/SiCaS/fuzz/artifacts/ct_lookup/ -runs=10000000 /home/workstation/Documents/SiCaS/fuzz/corpus/ct_lookup`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3771821739
+INFO: Loaded 1 modules   (364 inline 8-bit counters): 364 [0x56383fc093b0, 0x56383fc0951c), 
+INFO: Loaded 1 PC tables (364 PCs): 364 [0x56383fc09520,0x56383fc0abe0), 
+INFO:        3 files found in /home/workstation/Documents/SiCaS/fuzz/corpus/ct_lookup
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 3 min: 1b max: 264b total: 522b rss: 33Mb
+#4	INITED cov: 23 ft: 24 corp: 3/522b exec/s: 0 rss: 34Mb
+#2097152	pulse  cov: 23 ft: 24 corp: 3/522b lim: 4096 exec/s: 699050 rss: 449Mb
+#4194304	pulse  cov: 23 ft: 24 corp: 3/522b lim: 4096 exec/s: 599186 rss: 450Mb
+#8388608	pulse  cov: 23 ft: 24 corp: 3/522b lim: 4096 exec/s: 645277 rss: 450Mb
+#10000000	DONE   cov: 23 ft: 24 corp: 3/522b lim: 4096 exec/s: 625000 rss: 450Mb
+Done 10000000 runs in 16 second(s)
