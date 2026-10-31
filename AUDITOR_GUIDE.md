@@ -44,7 +44,7 @@ Valgrind reports zero errors across five test binaries.
 The full run writes `SUMMARY.md` and raw logs under `evidence/local-proof-<timestamp>/`.
 It covers fmt, strict Clippy, tests, doctests, Miri, Kani, ASan, Valgrind, mutation,
 coverage, five fuzz campaigns including the 64-block bitsliced batch, cross-architecture
-tests, leakage model, statistics differential, zeroization-boundary tests, release
+tests, leakage model, AES S-box DPA with synthetic key recovery, statistics differential, zeroization-boundary tests, release
 validation, signing dry run, and reproducible builds.
 
 ## Verify the evidence bundle

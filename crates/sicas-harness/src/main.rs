@@ -98,8 +98,12 @@ fn run_dpa(args: &[String]) -> Result<(), String> {
     let report = dpa_bit(&traces, &plaintexts).map_err(|error| error.to_string())?;
 
     println!(
-        "DPA: best key = 0x{:02x}, bit = {}, |difference| = {:.3}, sample = {}",
-        report.best_key, report.best_bit, report.best_difference, report.best_sample
+        "DPA: best key = 0x{:02x}, bit = {}, |difference| = {:.3}, signed = {:.3}, sample = {}",
+        report.best_key,
+        report.best_bit,
+        report.best_difference,
+        report.best_signed_difference,
+        report.best_sample
     );
     Ok(())
 }

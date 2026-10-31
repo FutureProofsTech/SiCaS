@@ -126,16 +126,21 @@ words. The published run is in
 
 ## DPA
 
-The harness includes a first-order difference-of-means DPA over one bit of
-`plaintext XOR key`:
+The harness includes a first-order difference-of-means DPA over one bit of the AES
+S-box output `SBOX[plaintext XOR key]`:
 
 ```bash
 cargo run -p sicas-harness -- dpa --traces traces.bin --plaintexts plaintexts.bin
 ```
 
-A single-bit partition identifies that key bit, not necessarily the full key; keys that
-share the selected bit produce the same partition. Use multiple bits or an
-algorithm-specific model to recover the full key.
+The S-box supplies the nonlinearity that makes the partition key-dependent. The
+synthetic tests recover the exact key from a noise-free single-bit leak at bit 0 and at
+bit 3, including the sign of the difference. A single-bit partition may not uniquely
+recover the full key from noisy traces; combine several bits or samples before treating
+a key as recovered.
+
+The DPA command is offline analysis code. It is not constant-time and must not be used
+to process live secret material.
 
 ## Timing
 

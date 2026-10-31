@@ -21,6 +21,7 @@ Covers:
 - zeroization assembly inspection;
 - differential statistics validation against an independent Python model;
 - first-order leakage-model check with a negative control;
+- first-order DPA key recovery on synthetic AES S-box traces;
 - release-manifest validator tests;
 - evidence bundle generation.
 
@@ -53,11 +54,15 @@ The full proof ran on commit `8c41e4b`:
 LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-final-audit ./tools/local_proof.sh full
 ```
 
-All gates passed, including full-workspace Miri, 30 Kani harnesses, 134 ASan tests,
-zero missed viable mutants, 97.20% line coverage, five 1M-execution fuzz campaigns,
-AArch64 QEMU, i686, release validation, the local signing dry run, and the
-reproducible-build comparison. The performance gate passed at 7.26×, meeting the 10×
-hard ceiling; the 5× target remains open. The summary is
+All gates passed, including full-workspace Miri, 30 Kani harnesses, 133 ASan tests,
+zero missed viable mutants in the blocking core and reference runs, 97.23% line
+coverage, five 1M-execution fuzz campaigns, AArch64 QEMU, i686, release validation,
+the local signing dry run, and the reproducible-build comparison. The performance gate
+passed at 7.15×, meeting the 10× hard ceiling; the 5× target remains open.
+
+The report-only workspace mutation run recorded one miss in the then-untested
+`ZeroizingBytes` drop path. Commit `92af463` added the drop-path test, and the
+workspace mutation rerun records zero missed viable mutants. The summary is
 [`evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`](../evidence/local-proof-2026-10-31-final-audit/SUMMARY.md).
 
 ## Interpretation
