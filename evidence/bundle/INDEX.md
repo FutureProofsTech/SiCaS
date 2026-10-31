@@ -1,7 +1,7 @@
 # SiCaS Evidence Bundle
 
 - Code commit under test: `ef13675`
-- Generated: `2026-10-31T12:36:05.079088+00:00`
+- Generated: `2026-10-31T12:36:24.726149+00:00`
 - Files: 101
 
 | File | SHA-256 |
@@ -22,7 +22,7 @@
 | `rust-toolchain.toml` | `b377894f4717223cfb2e38f5a6c9b439ceb6633b12a9f563843c771c25c00524` |
 | `docs/THREAT_MODEL.md` | `af119b1739524991e4f672cdb1273379a50cb543c9fa3581d5dbe13f7eb64f65` |
 | `docs/SECURITY_CLAIMS.md` | `5deee3ed75e637be041c43451934a87b9d46fbf261d7f5e58256aa888442bd96` |
-| `docs/PROOF_OBLIGATIONS.md` | `adc1f8330714c6c97593ce0638fc557253111b47df962ffac5d82bf2445b1aba` |
+| `docs/PROOF_OBLIGATIONS.md` | `b942c564b88339b837b83cad864b70ba75fcefc8cd0469a720b099be9092810c` |
 | `docs/ASSURANCE.md` | `5d62051f95a7fa2138d0101f301d141c17c4655d9e763035d9f1a10d8d43a09c` |
 | `docs/BITSLICED_MASKING.md` | `4fe9876ababbbaf170835adbfdccf98a2076da7dbcd82877b3a3dea5287e7ba9` |
 | `docs/CODE_QUALITY.md` | `0b3c552c839fcca159b9c1ac3ef96cb704b7f7224ee506ea2b958134781954bd` |
