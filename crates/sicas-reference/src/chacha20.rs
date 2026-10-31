@@ -169,12 +169,13 @@ impl MaskedChaCha20 {
         }
 
         let output = transpose_output(&working);
+        let state_mask = entropy.mask_u32()?;
         let next_counter = self
             .counter
             .wrapping_add(u32::try_from(BATCH_LANES).unwrap_or(u32::MAX));
         self.counter = next_counter;
         if let Some(slot) = self.state.get_mut(12) {
-            *slot = Masked::<u32>::mask(next_counter, entropy.mask_u32()?);
+            *slot = Masked::<u32>::mask(next_counter, state_mask);
         }
 
         Ok(output)
@@ -489,6 +490,21 @@ mod tests {
         }
     }
 
+    struct FailOnMaskU32(TestRng);
+
+    impl EntropySource for FailOnMaskU32 {
+        fn fill_bytes(&mut self, destination: &mut [u8]) -> Result<(), EntropyError> {
+            for byte in destination {
+                *byte = self.0.next_u8();
+            }
+            Ok(())
+        }
+
+        fn mask_u32(&mut self) -> Result<u32, EntropyError> {
+            Err(EntropyError::Unavailable)
+        }
+    }
+
     fn reference_quarter_round(state: &mut [u32; 16], a: usize, b: usize, c: usize, d: usize) {
         state[a] = state[a].wrapping_add(state[b]);
         state[d] ^= state[a];
@@ -682,6 +698,50 @@ mod tests {
 
     #[test]
     #[cfg_attr(miri, ignore)] // Native batch sweep; Miri covers the core gadgets.
+    fn bitsliced_batch_handles_counter_wrap() {
+        let key = [0x42_u8; 32];
+        let nonce = [0x24_u8; 12];
+        let counter = u32::MAX - 2;
+        let mut entropy = TestEntropy::new(0x99);
+        let mut cipher = MaskedChaCha20::new(&key, &nonce, counter, &mut entropy).unwrap();
+        let blocks = cipher.keystream_blocks(&mut entropy).unwrap();
+
+        for (lane, block) in blocks.iter().enumerate() {
+            let expected = reference_block(
+                &key,
+                &nonce,
+                counter.wrapping_add(u32::try_from(lane).unwrap()),
+            );
+            assert_eq!(*block, expected);
+        }
+    }
+
+    #[test]
+    #[cfg_attr(miri, ignore)] // Native batch sweep; Miri covers the core gadgets.
+    fn scalar_then_batch_is_consistent() {
+        let key = [0x42_u8; 32];
+        let nonce = [0x24_u8; 12];
+        let mut entropy = TestEntropy::new(0x99);
+        let mut cipher = MaskedChaCha20::new(&key, &nonce, 7, &mut entropy).unwrap();
+
+        assert_eq!(
+            cipher.keystream_block(&mut entropy).unwrap(),
+            reference_block(&key, &nonce, 7)
+        );
+        let blocks = cipher.keystream_blocks(&mut entropy).unwrap();
+        assert_eq!(blocks[0], reference_block(&key, &nonce, 8));
+        assert_eq!(
+            blocks[BATCH_LANES - 1],
+            reference_block(
+                &key,
+                &nonce,
+                8_u32.wrapping_add(u32::try_from(BATCH_LANES - 1).unwrap())
+            )
+        );
+    }
+
+    #[test]
+    #[cfg_attr(miri, ignore)] // Native batch sweep; Miri covers the core gadgets.
     fn bitsliced_counter_advances_by_a_batch() {
         let key = [0x42_u8; 32];
         let nonce = [0x24_u8; 12];
@@ -711,6 +771,24 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native batch failure path; Miri covers core gadgets.
+    fn batch_counter_mask_failure_does_not_advance_state() {
+        let key = [0x42_u8; 32];
+        let nonce = [0x24_u8; 12];
+        let mut entropy = TestEntropy::new(1);
+        let mut cipher = MaskedChaCha20::new(&key, &nonce, 0, &mut entropy).unwrap();
+        let mut failing = FailOnMaskU32(TestRng::new(2));
+
+        assert!(matches!(
+            cipher.keystream_blocks(&mut failing),
+            Err(EntropyError::Unavailable)
+        ));
+
+        let next = cipher.keystream_block(&mut entropy).unwrap();
+        assert_eq!(next, reference_block(&key, &nonce, 0));
+    }
+
+    #[test]
     fn bitsliced_entropy_failure_is_propagated() {
         let key = [0_u8; 32];
         let nonce = [0_u8; 12];
@@ -722,6 +800,11 @@ mod tests {
             cipher.keystream_blocks(&mut failing),
             Err(EntropyError::Unavailable)
         ));
+
+        // A failed batch must not advance the counter or desynchronize the
+        // scalar and bitsliced paths.
+        let next = cipher.keystream_block(&mut entropy).unwrap();
+        assert_eq!(next, reference_block(&key, &nonce, 0));
     }
 
     #[test]
