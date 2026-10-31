@@ -5,8 +5,8 @@ assessment.
 
 ## Status
 
-The full local proof is at commit `5478c19`. The bitsliced masked-ChaCha20 batch
-meets the 10× performance hard ceiling at 7.27×; the 5× target is open. The project is **not audited, not hardware-validated, and must not be used
+The full local proof is at commit `160180f`. The bitsliced masked-ChaCha20 batch
+meets the 10× performance hard ceiling at 7.39×; the 5× target is open. The project is **not audited, not hardware-validated, and must not be used
 to protect real secrets yet**. The current public label is **SAL-2 locally**. The
 production target is SAL-4 as defined in [`PLAN.md`](PLAN.md) and
 [`docs/ASSURANCE.md`](docs/ASSURANCE.md).
@@ -61,6 +61,7 @@ See:
 - [`docs/TEST_MATRIX.md`](docs/TEST_MATRIX.md) — property-to-test map
 - [`docs/AUDIT_PACKAGE.md`](docs/AUDIT_PACKAGE.md) — audit scope and evidence index
 - [`docs/AUDIT_REPORT_2026-10-30.md`](docs/AUDIT_REPORT_2026-10-30.md) — adversarial review findings and fixes
+- [`docs/SELF_AUDIT_2026-10-31.md`](docs/SELF_AUDIT_2026-10-31.md) — current self-audit and fix record
 - [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) — remaining external gates
 - [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md) — one-command local proof runner
 - [`docs/POST_PROOF_BACKLOG.md`](docs/POST_PROOF_BACKLOG.md) — work after local proof, before external review

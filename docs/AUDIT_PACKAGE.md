@@ -9,12 +9,12 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 
 ## Reviewed state
 
-- Code commit: `5478c19`
-- Evidence tag: `local-proof-2026-10-31-speed-size`
+- Code commit: `160180f`
+- Evidence tag: `local-proof-2026-10-31-self-audit`
 - Public label: SAL-2 locally
 - Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
 - Release size: 383,160 bytes
-- Masked ChaCha20: 7.27× in the full-proof run; 10× hard ceiling met
+- Masked ChaCha20: 7.39× in the full-proof run; 10× hard ceiling met
 
 ## Scope
 
@@ -56,6 +56,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Release and signing | `docs/RELEASE.md` |
 | Red-team program | `docs/RED_TEAM.md` |
 | Local adversarial audit | `docs/AUDIT_REPORT_2026-10-30.md` |
+| Self-audit 2026-10-31 | `docs/SELF_AUDIT_2026-10-31.md` |
 | Tool inventory | `docs/TOOLING.md` |
 | Local proof runner | `docs/LOCAL_PROOF.md` |
 | Zeroization review | `docs/ZEROIZATION.md` |

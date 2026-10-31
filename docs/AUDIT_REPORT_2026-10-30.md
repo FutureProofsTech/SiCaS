@@ -145,6 +145,28 @@ been performed.
 
 **Disposition:** Recorded in `docs/GAP_REPORT.md`; no production claim is made.
 
+### A-12 — Medium — Batch counter state desynchronized on final entropy failure
+
+**Baseline behavior:** `MaskedChaCha20::keystream_blocks` advanced `self.counter` before
+acquiring the final `mask_u32` used to refresh the scalar counter share. If that entropy
+call failed, the batch returned an error but the counter had advanced while
+`self.state[12]` still held the old counter.
+
+**Impact:** A subsequent scalar `keystream_block` could emit a block with a stale
+counter share after a failed batch. This is a fail-closed/state-consistency defect, not
+a key-disclosure path.
+
+**Fix:** acquire `state_mask` before mutating `self.counter` or `self.state[12]`. Added
+regression tests for early entropy failure, final counter-mask failure, counter
+wraparound, and scalar/batch interoperability.
+
+**Evidence:** `crates/sicas-reference/src/chacha20.rs`; tests
+`batch_counter_mask_failure_does_not_advance_state`,
+`bitsliced_batch_handles_counter_wrap`, and `scalar_then_batch_is_consistent`.
+
+**Residual risk:** None for this path after the fix. Hardware leakage remains an
+external gate.
+
 ## Positive controls observed
 
 - No `unsafe` in published crates.
@@ -163,25 +185,25 @@ been performed.
 - Core: 20 tests.
 - Harness: 91 library, 7 main, 5 CLI tests.
 - Platform: 4 tests.
-- Reference: 11 tests.
+- Reference: 14 tests.
 - Doctests: 3 pass, 4 compile-fail.
 - Miri: full workspace passes (core 20; harness 82 passed with 9 native-only
   statistical sweeps ignored; main 5 passed with 2 file/timing tests ignored; platform
-  2 passed with 2 OS-entropy tests ignored; reference 7 passed with 4 batch/statistical sweeps
+  2 passed with 2 OS-entropy tests ignored; reference 7 passed with 7 batch/statistical sweeps
   ignored; 7 doctests pass). Ignored tests are blocked by Miri isolation or are
   exhaustive native sweeps; none are deleted.
-- ASan: 126 workspace library tests pass.
-- AArch64 QEMU: 126 workspace library tests pass.
-- i686 native: 138 all-target tests pass.
+- ASan: 129 workspace library tests pass.
+- AArch64 QEMU: 129 workspace library tests pass.
+- i686 native: 141 all-target tests pass.
 - Kani: 30 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 112 caught/0 missed; reference 69 caught/0 missed; workspace 542
   caught, 0 missed, 51 unviable (100% of viable mutants).
-- Coverage: 97.11% lines, 94.66% regions.
+- Coverage: 97.18% lines, 94.75% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
-- Full local proof: all gates pass at commit `5478c19`, including the performance gate
-  at 7.27×; see `evidence/local-proof-2026-10-31-speed-size/SUMMARY.md`.
+- Full local proof: all gates pass at commit `160180f`, including the performance gate
+  at 7.39×; see `evidence/local-proof-2026-10-31-self-audit/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 
@@ -211,7 +233,7 @@ Additional local hardening was completed after the initial audit pass:
 - A local signing dry run produces and verifies a detached signature with an ephemeral
   test key; it is not a production identity.
 - The scalar masked ChaCha20 measured ~600× overhead. A 64-block bitsliced batch path
-  with a fast 64×64 transpose now measures 7.27× vs unmasked. The 10× hard ceiling
+  with a fast 64×64 transpose now measures 7.39× vs unmasked. The 10× hard ceiling
   is met; the 5× target remains open in `docs/PERFORMANCE_EVIDENCE.md`.
 
 These changes strengthen the local evidence. They do not change the external-only

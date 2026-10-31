@@ -5,12 +5,12 @@ attack SiCaS. It is a review aid, not evidence that an independent review has ha
 
 ## Reviewed state
 
-- Code commit: `5478c19`
-- Evidence commit/tag: `83ae51b` / `local-proof-2026-10-31-speed-size`
+- Code commit: `160180f`
+- Evidence commit/tag: `local-proof-2026-10-31-self-audit`
 - Public label: **SAL-2 locally**
 - Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
 - Release binary size: 383,160 bytes
-- Masked ChaCha20: 7.27× vs unmasked in the full-proof run, 10× hard ceiling met
+- Masked ChaCha20: 7.39× vs unmasked in the full-proof run, 10× hard ceiling met
 
 ## What to read first
 

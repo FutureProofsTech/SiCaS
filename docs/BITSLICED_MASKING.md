@@ -32,7 +32,11 @@ initial state used by the final addition is independently refreshed before the r
 5. The batch output matches the independent unmasked ChaCha20 reference for randomized
    keys, nonces, and counters, including counter wraparound.
 6. Entropy failure is propagated, not silently replaced.
-7. The reference mutation run has zero missed viable mutants.
+7. Entropy failure is fail-closed and leaves the counter and scalar state
+   synchronized; this is covered by early-failure, final counter-mask-failure, and
+   scalar/batch interoperability tests.
+8. Counter wraparound is covered by a dedicated batch test.
+9. The reference mutation run has zero missed viable mutants.
 
 ## What is proven locally
 

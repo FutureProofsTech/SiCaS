@@ -26,26 +26,26 @@ validation.
   requires an audited unsafe boundary.
 - [x] Add release-manifest/SBOM/provenance consistency validation with tests.
 - [x] Re-run the full local proof after all changes. All security gates pass at
-  `5478c19`; see `evidence/local-proof-2026-10-31-speed-size/SUMMARY.md`.
+  `160180f`; see `evidence/local-proof-2026-10-31-self-audit/SUMMARY.md`.
 - [x] Extend assembly evidence to an optimization/codegen/panic/LTO matrix.
 - [x] Add Valgrind Memcheck and differential statistics validation.
 - [x] Add a local signing dry run with an ephemeral test key.
 - [x] Run a long fuzz campaign: 10M on the three fast targets and 1M on ChaCha20.
 - [x] Replace the scalar masked path with a 64-block bitsliced batch and a fast
-  64×64 bit-matrix transpose. The hard 10× ceiling is met at 7.27×.
+  64×64 bit-matrix transpose. The hard 10× ceiling is met at 7.39×.
 - [ ] Continue optimizing toward the 5× target. See `docs/PERFORMANCE_EVIDENCE.md`.
 
 ## Gate 2 — Freeze the local proof
 
 - [x] Freeze the code and documentation.
-- [x] Run the full proof on the frozen commit (`5478c19`).
+- [x] Run the full proof on the frozen commit (`160180f`).
 - [x] Publish the evidence bundle and its hashes.
 - [x] Record the supported platform and compiler matrix in `docs/SUPPORT_MATRIX.md`.
 - [x] Record every remaining gap in `docs/GAP_REPORT.md`.
 
 ## Gate 3 — External second opinion
 
-Status: the local proof is frozen at `5478c19`; none of these external gates has been
+Status: the local proof is frozen at `160180f`; none of these external gates has been
 started or simulated.
 
 Only after Gate 2:

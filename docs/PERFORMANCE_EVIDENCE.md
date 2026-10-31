@@ -2,7 +2,7 @@
 
 Date: 2026-10-31
 
-Commit: `5478c19` (full local-proof run)
+Commit: `160180f` (full local-proof run)
 
 Target: x86_64-unknown-linux-gnu
 
@@ -20,10 +20,10 @@ The scalar reference remains slow. The bitsliced batch path processes 64 blocks
 together; the tuned release profile also shrinks the binary:
 
 ```text
-scalar masked: 331.139x vs unmasked
-batch masked:  7.267x vs unmasked
-batch ns/byte: 19.074257
-unmasked ns/byte: 2.624855
+scalar masked: 322.443x vs unmasked
+batch masked:  7.387x vs unmasked
+batch ns/byte: 19.358845
+unmasked ns/byte: 2.620739
 target_ratio<=5 hard_ceiling<=10
 sicas-harness release size: 383,160 bytes (was 625,080)
 ```
@@ -31,7 +31,7 @@ sicas-harness release size: 383,160 bytes (was 625,080)
 ## Interpretation
 
 The scalar reference is approximately **331× slower** than the unmasked reference in the full-proof run. The
-bitsliced batch path is **7.27×** slower, so the hard ceiling of 10× is **met** with
+bitsliced batch path is **7.39×** slower, so the hard ceiling of 10× is **met** with
 margin. The initial ≤5× target is **not met**.
 
 The release profile uses `opt-level=z`, fat LTO, one codegen unit, panic=abort, and
