@@ -23,6 +23,7 @@ exercises it.
 | Dudect timing | `sicas-harness ct` | `cargo run --release -p sicas-harness -- ct --samples 1000000 --warmup 100000 --trials 3` |
 | TVLA correctness | `tvla::tests::*` | `cargo test -p sicas-harness tvla` |
 | CPA correctness | `cpa::tests::*` | `cargo test -p sicas-harness cpa` |
+| DPA correctness | `dpa::tests::*` | `cargo test -p sicas-harness dpa` |
 | Trace parser | `trace::tests::*`, `fuzz/targets/trace_parser.rs` | `cargo test -p sicas-harness trace`; `cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=1000000` |
 | Bitsliced batch fuzz | `fuzz/fuzz_targets/chacha20_batch.rs` | `cargo +nightly-2026-08-03 fuzz run chacha20_batch -- -runs=1000000` |
 | Preprocessing bounds | `preprocess::tests::*` | `cargo test -p sicas-harness preprocess` |

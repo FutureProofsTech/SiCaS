@@ -124,6 +124,19 @@ statistical check that the masked ChaCha20 key shares are uncorrelated with the 
 words. The published run is in
 [`evidence/leakage/2026-10-31-x86_64.md`](../evidence/leakage/2026-10-31-x86_64.md).
 
+## DPA
+
+The harness includes a first-order difference-of-means DPA over one bit of
+`plaintext XOR key`:
+
+```bash
+cargo run -p sicas-harness -- dpa --traces traces.bin --plaintexts plaintexts.bin
+```
+
+A single-bit partition identifies that key bit, not necessarily the full key; keys that
+share the selected bit produce the same partition. Use multiple bits or an
+algorithm-specific model to recover the full key.
+
 ## Timing
 
 The timing command runs a dudect-style fixed-vs-random comparison of `ct::eq_u32`:

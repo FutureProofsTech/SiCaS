@@ -18,6 +18,7 @@ evidence. It is a self-audit record, not an independent review.
 | Constant-time inspection | 69-configuration assembly matrix | `evidence/ct/asm-2026-10-31.md` |
 | Timing analysis | dudect debug and release profiles | `docs/CT_EVIDENCE.md` |
 | Leakage modeling | First-order checks with negative control | `evidence/leakage/2026-10-31-x86_64.md` |
+| DPA | Single-bit difference-of-means on synthetic traces | `crates/sicas-harness/src/dpa.rs` tests |
 | Fault injection | Entropy failure, final-mask failure, counter wrap | `crates/sicas-reference/src/chacha20.rs` tests |
 | Parser/DoS | Fuzzing and trace limits | `fuzz/fuzz_targets/trace_parser.rs` |
 | Supply chain | Zero dependencies, audit, deny, SBOM | `docs/PROOF_OBLIGATIONS.md` |

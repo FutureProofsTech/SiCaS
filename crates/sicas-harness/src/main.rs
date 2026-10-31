@@ -8,6 +8,7 @@ use std::process::ExitCode;
 
 use sicas_core::{Choice, EntropyError, EntropySource, Masked, ct};
 use sicas_harness::cpa::cpa_hamming_weight;
+use sicas_harness::dpa::dpa_bit;
 use sicas_harness::leakage::{
     DEFAULT_SAMPLES, DEFAULT_SEED, DEFAULT_THRESHOLD, LeakageConfig, check_all,
     check_unmasked_control,
@@ -40,6 +41,7 @@ fn run() -> Result<(), String> {
     match command.as_str() {
         "tvla" => run_tvla(command_args),
         "cpa" => run_cpa(command_args),
+        "dpa" => run_dpa(command_args),
         "synthetic" => run_synthetic_tvla(command_args),
         "synthetic-cpa" => run_synthetic_cpa(command_args),
         "timing" => run_timing(command_args),
@@ -83,6 +85,21 @@ fn run_cpa(args: &[String]) -> Result<(), String> {
     println!(
         "CPA: best key = 0x{:02x}, |corr| = {:.6}, sample = {}",
         report.best_key, report.best_correlation, report.best_sample
+    );
+    Ok(())
+}
+
+fn run_dpa(args: &[String]) -> Result<(), String> {
+    let traces_path = required(args, "--traces")?;
+    let plaintexts_path = required(args, "--plaintexts")?;
+    let traces = read_trace_set(traces_path)?;
+    let plaintexts = std::fs::read(plaintexts_path)
+        .map_err(|error| format!("failed to read plaintexts: {error}"))?;
+    let report = dpa_bit(&traces, &plaintexts).map_err(|error| error.to_string())?;
+
+    println!(
+        "DPA: best key = 0x{:02x}, bit = {}, |difference| = {:.3}, sample = {}",
+        report.best_key, report.best_bit, report.best_difference, report.best_sample
     );
     Ok(())
 }
@@ -500,6 +517,7 @@ fn print_usage() {
 Usage:
   sicas-harness tvla --fixed <file> --random <file> [--threshold 4.5]
   sicas-harness cpa --traces <file> --plaintexts <file>
+  sicas-harness dpa --traces <file> --plaintexts <file>
   sicas-harness synthetic --fixed-out <file> --random-out <file> \\
       --fixed-count <n> --random-count <n> --samples <n> --secret <byte> \\
       [--fixed-plaintext <byte>] [--noise <n>] [--leakage <n>] [--seed <n>]
@@ -574,6 +592,28 @@ mod tests {
     fn timing_rejects_an_invalid_threshold() {
         let args = arguments(&["--samples", "10", "--warmup", "0", "--threshold", "0"]);
         assert!(run_timing(&args).is_err());
+    }
+
+    #[test]
+    fn dpa_rejects_mismatched_inputs() {
+        let traces = TraceSet::from_traces(vec![vec![1], vec![2]]).unwrap();
+        let directory = std::env::temp_dir();
+        let traces_path = directory.join(format!("sicas-dpa-traces-{}.bin", std::process::id()));
+        let plaintexts_path =
+            directory.join(format!("sicas-dpa-plaintexts-{}.bin", std::process::id()));
+        let file = File::create(&traces_path).unwrap();
+        traces.write_to(file).unwrap();
+        std::fs::write(&plaintexts_path, [0_u8]).unwrap();
+        let args = arguments(&[
+            "--traces",
+            traces_path.to_str().unwrap(),
+            "--plaintexts",
+            plaintexts_path.to_str().unwrap(),
+        ]);
+
+        assert!(run_dpa(&args).is_err());
+        let _ = std::fs::remove_file(traces_path);
+        let _ = std::fs::remove_file(plaintexts_path);
     }
 
     #[test]

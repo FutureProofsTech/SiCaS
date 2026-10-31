@@ -31,7 +31,7 @@ External audit is the final second opinion; the local proof is complete first.
   - Byte-oriented CPA with Hamming-weight and custom leakage models.
   - Deterministic synthetic trace generation.
   - Dudect-style timing tooling.
-  - CLI: `tvla`, `cpa`, `synthetic`, `synthetic-cpa`, `timing`, `ct`, `trim`,
+  - CLI: `tvla`, `cpa`, `dpa`, `synthetic`, `synthetic-cpa`, `timing`, `ct`, `trim`,
     `filter`, `align`, `leakage-check`.
 - `sicas-reference`: `no_std`, zero third-party dependencies.
   - First-order Boolean masked ChaCha20 keystream blocks.

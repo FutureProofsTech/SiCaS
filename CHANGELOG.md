@@ -46,6 +46,7 @@
 - Zeroization design review and adapter checklist.
 - Compiler-matrix assembly evidence: 69 configurations across opt levels, codegen units,
   panic strategies, and x86_64 thin/fat LTO.
+- First-order DPA difference-of-means tool and synthetic tests.
 - Dedicated `chacha20_batch` fuzz target for the 64-block bitsliced path.
 - Experimental `sicas-zeroize` crate with volatile byte writes, compiler fence, and
   redacted `ZeroizingBytes`; isolated, non-published, and unaudited.
