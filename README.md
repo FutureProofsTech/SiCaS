@@ -7,7 +7,7 @@
 [![Runtime dependencies: zero](https://img.shields.io/badge/runtime%20dependencies-zero-success)](#design-principles)
 [![Unsafe: forbidden in core](https://img.shields.io/badge/unsafe-forbidden%20in%20core-success)](#crate-matrix)
 [![Rust: 1.99](https://img.shields.io/badge/rust-1.99-orange)](rust-toolchain.toml)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue)](#license)
+[![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-blue)](#license)
 
 > **Pre-release security software.** SiCaS is **not independently audited**, **not
 > hardware-validated**, and **not production-ready**. The current public label is
@@ -16,10 +16,19 @@
 > TVLA/CPA/DPA, and a production signing identity. See [Status](#status) and
 > [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md).
 
+## What is SiCaS?
+
+SiCaS is a safe-Rust, zero-runtime-dependency workspace that combines first-order
+Boolean-masked primitives and a masked ChaCha20 reference implementation with a
+leakage-assessment harness for TVLA, CPA, DPA, and timing analysis. It is a locally
+proven, audit-ready engineering package at SAL-2, not a certified or production-ready
+cryptographic product.
+
 ---
 
 ## Table of contents
 
+- [What is SiCaS?](#what-is-sicas)
 - [Overview](#overview)
 - [Status](#status)
 - [At a glance](#at-a-glance)
@@ -120,7 +129,7 @@ All workspace crates are `publish = false` until the external gates pass.
 | Evidence tag | `final-audit-2026-10-31-dpa` |
 | Release binary | 386,232 bytes |
 | Release SHA-256 | `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da` |
-| License | MIT OR Apache-2.0 |
+| License | GPL-3.0-only |
 | Public label | **SAL-2 locally** |
 | Production status | **Not certified; do not use for real secrets** |
 
@@ -859,12 +868,13 @@ Include:
 
 ## License
 
-Licensed under either of:
+SiCaS is licensed under the **GNU General Public License v3.0 only**
+(`GPL-3.0-only`). The full license text is in [`LICENSE`](LICENSE).
 
-- Apache License, Version 2.0 — [`LICENSE-APACHE`](LICENSE-APACHE)
-- MIT License — [`LICENSE-MIT`](LICENSE-MIT)
-
-at your option.
+This is a copyleft license: derivative works that are distributed must be licensed
+under GPLv3. Previously built evidence artifacts remain under the license that was in
+effect at their build commit; the current repository and future builds are
+GPL-3.0-only.
 
 ---
 
