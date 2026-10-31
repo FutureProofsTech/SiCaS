@@ -36,6 +36,7 @@ External audit is the final second opinion; the local proof is complete first.
 - `sicas-reference`: `no_std`, zero third-party dependencies.
   - First-order Boolean masked ChaCha20 keystream blocks.
   - RFC 8439 vector and differential tests against an unmasked reference.
+- `sicas-zeroize`: experimental, non-published volatile zeroization boundary; unaudited.
 - `sicas-platform`: safe, zero third-party dependencies.
   - Fail-closed OS entropy adapter for Unix-like systems.
   - Unsupported platforms return `EntropyError::Unavailable`.

@@ -18,6 +18,7 @@ evidence here. Missing evidence downgrades or removes the claim.
 | Supply-chain integrity | No hidden runtime dependencies; artifacts are reproducible | `cargo-audit`, `cargo-deny`, `cargo-vet`, SBOM, reproducible builds | Dependency and build reports | Zero third-party deps; `cargo audit`/`cargo deny` pass; reproducible binary hash match locally |
 | Performance | Overhead stays within the declared budget | `cargo-bloat`, `iai-callgrind`, `perf`, Callgrind | Benchmark reports | Bitsliced batch masked ChaCha20 measures 7.26× vs unmasked; the 10× hard ceiling is met, the ≤5× target is not. See `docs/PERFORMANCE_EVIDENCE.md` |
 | Documentation | Every public item is documented and links resolve | `rustdoc -D warnings`, `missing_docs` | Doc build log | `missing_docs` enforced; CI pending |
+| Volatile zeroization | Secret bytes are erased before memory reuse | Volatile writes, compiler fence, independent review | Source, tests, assembly review | Experimental `sicas-zeroize` adapter implemented; independent review pending |
 | Release integrity | Artifacts are signed, traceable, and reproducible | Sigstore/minisign, SLSA provenance, SBOM, manifest validator | Signature and provenance verification | Manifest, SBOM, provenance, and consistency validator pass in the full local proof; local test-key signing dry run passes; production signing/SLSA pending |
 
 The harness CLI (`crates/sicas-harness/src/main.rs`) is excluded from the mutation score.

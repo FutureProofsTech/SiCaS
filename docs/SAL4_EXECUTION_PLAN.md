@@ -19,6 +19,7 @@ see `AUDIT_REQUEST.md`.
 | Signed release | trusted signing identity, signature, verification | Local dry run only | Run the release workflow with a production identity |
 | No open critical/high findings | audit + red-team closure | No open local critical/high; independent findings pending | Close external findings and retest |
 | Public evidence bundle | hashed bundle, claims, gaps, raw data | Complete locally | Publish after independent results |
+| Volatile zeroization | audited unsafe boundary or platform guarantee | Experimental `sicas-zeroize` adapter implemented; unaudited | Independent review of the unsafe boundary |
 
 ## Local completion rule
 

@@ -18,5 +18,6 @@
 No protection against higher-order DPA, fault injection, invasive attacks, all
 algorithms, all platforms, all compilers, or all side channels. No "zero leakage"
 claim. No throughput or production-performance claim: the masked reference currently
-exceeds the declared performance budget. The public claim is "SAL-4 under threat model
+exceeds the declared performance budget. No production zeroization claim: the
+experimental adapter is unaudited. The public claim is "SAL-4 under threat model
 T" once every SAL-4 criterion is met and independently verified.

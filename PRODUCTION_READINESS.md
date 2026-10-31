@@ -32,7 +32,7 @@ release” from “certified for production secrets.”
 | Independent red team | Pending | Requires an independent team |
 | Hardware power/EM TVLA/CPA/DPA | Pending | Requires a physical target and acquisition lab |
 | Production signing identity / SLSA | Pending | Requires a trusted release identity |
-| Volatile zeroization | Design review only | Requires an audited unsafe boundary or platform guarantee |
+| Volatile zeroization | Experimental adapter implemented | `sicas-zeroize` is isolated and unaudited; it is not used by published crates |
 | 5× performance target | Open | 10× hard ceiling is met; 5× needs further optimization |
 
 ## Release commands

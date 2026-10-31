@@ -14,7 +14,7 @@ physical, or require credentials and therefore cannot be truthfully completed he
 | Release signing | Prepared | Requires a release identity and signing key/OIDC | Run `.github/workflows/release.yml` with Sigstore identity |
 | SLSA provenance | Prepared | Requires a GitHub Actions run | Run the release workflow and publish the attestation |
 | Production version claim | Not claimed | External gates above are incomplete | Keep the release labelled pre-production |
-| Volatile zeroization | Not guaranteed | Safe Rust cannot guarantee volatile erasure without an audited unsafe boundary | Design and review an isolated zeroization adapter; see `docs/ZEROIZATION.md` |
+| Volatile zeroization | Experimental adapter implemented; not audited | `sicas-zeroize` uses volatile writes and a compiler fence, but the unsafe boundary needs independent review | Review `crates/sicas-zeroize`; see `docs/ZEROIZATION.md` |
 | Full masked-ChaCha20 audit | Internal adversarial review only | No independent cryptographic review | Include it in the external audit scope; see `docs/AUDIT_REPORT_2026-10-30.md` |
 
 ## Local engineering gaps

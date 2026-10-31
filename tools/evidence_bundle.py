@@ -98,6 +98,8 @@ REQUIRED = [
     "crates/sicas-core/examples/ct_asm.rs",
     "crates/sicas-harness/examples/stats_fixture.rs",
     "crates/sicas-reference/examples/benchmark.rs",
+    "crates/sicas-zeroize/Cargo.toml",
+    "crates/sicas-zeroize/src/lib.rs",
 ]
 
 OPTIONAL = [
