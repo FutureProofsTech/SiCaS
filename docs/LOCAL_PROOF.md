@@ -77,7 +77,8 @@ All quick gates passed, including 141 ASan workspace library tests, the DPA
 key-recovery tests, five-binary Valgrind Memcheck, zeroization assembly inspection, and
 the evidence-bundle gate. Targeted Miri passes the DPA safe paths (3 passed, 4
 native sweeps ignored). AArch64 QEMU and i686 reruns pass 141 and 154 tests
-respectively. The summary is
+respectively. Coverage on the same tree passes at 97.28% lines and 94.89% regions; the
+DPA module is at 100% line coverage. The summary is
 [`evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md`](../evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md).
 
 The full proof predates the DPA addition and the zeroization adapter. Targeted Miri,

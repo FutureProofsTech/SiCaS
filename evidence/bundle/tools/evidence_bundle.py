@@ -83,6 +83,8 @@ REQUIRED = [
     "evidence/stats/2026-10-31-x86_64.md",
     "evidence/valgrind/2026-10-31-x86_64.md",
     "evidence/mutation/2026-10-31-workspace.md",
+    "evidence/coverage/2026-10-31-dpa.md",
+    "evidence/coverage/2026-10-31-dpa.log",
     "evidence/mutation/2026-10-31-workspace.log",
     "evidence/mutation/2026-10-31-dpa.log",
     "evidence/zeroize/2026-10-31-x86_64.md",

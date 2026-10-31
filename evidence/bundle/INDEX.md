@@ -1,8 +1,8 @@
 # SiCaS Evidence Bundle
 
 - Code commit under test: `ef13675`
-- Generated: `2026-10-31T12:35:23.440632+00:00`
-- Files: 99
+- Generated: `2026-10-31T12:36:05.079088+00:00`
+- Files: 101
 
 | File | SHA-256 |
 |---|---|
@@ -22,7 +22,7 @@
 | `rust-toolchain.toml` | `b377894f4717223cfb2e38f5a6c9b439ceb6633b12a9f563843c771c25c00524` |
 | `docs/THREAT_MODEL.md` | `af119b1739524991e4f672cdb1273379a50cb543c9fa3581d5dbe13f7eb64f65` |
 | `docs/SECURITY_CLAIMS.md` | `5deee3ed75e637be041c43451934a87b9d46fbf261d7f5e58256aa888442bd96` |
-| `docs/PROOF_OBLIGATIONS.md` | `4cd30c8c258bff5e2fd094d76303def33646a015c40fa5f1783835c29163fb82` |
+| `docs/PROOF_OBLIGATIONS.md` | `adc1f8330714c6c97593ce0638fc557253111b47df962ffac5d82bf2445b1aba` |
 | `docs/ASSURANCE.md` | `5d62051f95a7fa2138d0101f301d141c17c4655d9e763035d9f1a10d8d43a09c` |
 | `docs/BITSLICED_MASKING.md` | `4fe9876ababbbaf170835adbfdccf98a2076da7dbcd82877b3a3dea5287e7ba9` |
 | `docs/CODE_QUALITY.md` | `0b3c552c839fcca159b9c1ac3ef96cb704b7f7224ee506ea2b958134781954bd` |
@@ -44,7 +44,7 @@
 | `docs/AUDIT_REPORT_2026-10-30.md` | `769d3cdf1d2c397a9be1b398afa19621202ee579b3563e4bf8c99d609b2f8da9` |
 | `docs/SELF_AUDIT_2026-10-31.md` | `58dd70fa69692eb3ff2949dde6840d3c733d3836cb3472b9151956ee66c25b4c` |
 | `docs/GAP_REPORT.md` | `48073530d1fa8431a1b4762d0c8dd2850f256ebb5b7fcb3ab8ad73a991faa02a` |
-| `docs/LOCAL_PROOF.md` | `5057ce8f912f108d2ef6250de5441436bb71ca276639b3f9ea1a7a8ad836895c` |
+| `docs/LOCAL_PROOF.md` | `45eb7f564b02d4f6f11f85776ccf69b590f4a596a55d84b0445e52a56d95442a` |
 | `docs/POST_PROOF_BACKLOG.md` | `9b1e4fd000d428a783c7d68126635439afe8741cfa5cde6a098b6c8d9d1b90bf` |
 | `docs/SAL4_LOCAL_READINESS.md` | `e8dca6b77836e88b41b1772b6c34e39a329249543d196ae92fd3bbfdffa44637` |
 | `docs/SAL4_EXECUTION_PLAN.md` | `678820567dd1298252b150a745774e1d08fac9d8e646cf73793cf8f503cadb46` |
@@ -77,6 +77,8 @@
 | `evidence/stats/2026-10-31-x86_64.md` | `00e9c6edbe07dfa843764a70a28ad1e4e74752b4d51e7cc1af651c590eba26c2` |
 | `evidence/valgrind/2026-10-31-x86_64.md` | `7635216c8ccff4fdd9f869234239ce97020aa18626213afbc306f32820aaf953` |
 | `evidence/mutation/2026-10-31-workspace.md` | `870406f39e9bbf6f142814d7440e16153b26a983714bd899aa3a06aa15024a9f` |
+| `evidence/coverage/2026-10-31-dpa.md` | `4dc112e690c031cb164fe1126c34f137c7d78122ff435caee157c56b04f75107` |
+| `evidence/coverage/2026-10-31-dpa.log` | `cb5f77adcfabe0df7a47538fd68ef4750d1a35423a39a1db16ecaecdec66afb2` |
 | `evidence/mutation/2026-10-31-workspace.log` | `e6c84af01e99d62798861827d912c80fb7bdda724fb6f512b8e0e00f7bf9e494` |
 | `evidence/mutation/2026-10-31-dpa.log` | `747d981c4e5f726826456d87d96f429df315871bda6353e64880f15c3bce2dd6` |
 | `evidence/zeroize/2026-10-31-x86_64.md` | `e8d9ac6f1344c539e07514c6bbfb4686fb52560401121175b477c8fb68143323` |
@@ -96,7 +98,7 @@
 | `tools/local-signing-dry-run.sh` | `21df91a1ae3606d8ccf05345f0b1f1bcc4833c492dd289aafb84c5c602b83eed` |
 | `tools/run-release-timing.sh` | `72b8eee1b6237363764646f695fcb96d14bd2df1f680dbdb0a02a381bb8a7458` |
 | `tools/release_manifest.py` | `6a70220cc39fed0be06d7759e87ace6157aea92f010d9c43981e830c3d98417f` |
-| `tools/evidence_bundle.py` | `10617289ad07f96fe0ab3131740dcbfaac04ea7f58519f8e8f9a0bc85f231dd8` |
+| `tools/evidence_bundle.py` | `142d365e896341e2a1a97a1db315fe82aca67bad9b2937231fd749865bfad79f` |
 | `tools/validate_release_manifest.py` | `9946db59f5f40bfcbd0321e47ae3f404159e8a209d0b4086bc545dd23147ba42` |
 | `tools/test_validate_release_manifest.py` | `80076b4529869a615bfe5e16acd55014f729fb60bfaf63d5b70ed6ae32e96c9b` |
 | `crates/sicas-core/examples/ct_asm.rs` | `1be3d4493323abe74418abdcd0b46b25c5a28d751081b26fbbf2ea769015205d` |
