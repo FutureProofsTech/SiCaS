@@ -1,7 +1,7 @@
 # SiCaS Evidence Bundle
 
 - Code commit under test: `ac06c1c`
-- Generated: `2026-10-31T00:59:28.694580+00:00`
+- Generated: `2026-10-31T01:00:47.570288+00:00`
 - Files: 70
 
 | File | SHA-256 |
@@ -12,7 +12,7 @@
 | `README.md` | `693ceb8f867309f508d725951e57b28cac6b33c29716f18046c2bebd50aea683` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `48a7efb9d0f47efae152f428efa5068822ba983bfcc6d545e8cc7d51c36af383` |
+| `CHANGELOG.md` | `eb6d5d23132d7d7e98361f50f70cde33c793673e1bdc44cdc73ffc1b28d1ded4` |
 | `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
 | `Cargo.toml` | `c421edf0865b8225ebe80488f6c00dc2922989571f8b8251503c846ce65cb633` |
 | `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
@@ -23,7 +23,7 @@
 | `docs/ASSURANCE.md` | `a586691c922ed32f4b60b1107896afe599b7b45f8d31dee72e1dd1f5ef5eda67` |
 | `docs/BITSLICED_MASKING.md` | `45e663cfbbe346dae2a678d4a323d042a0b5a6aebc92e1689e6e069c467d964b` |
 | `docs/CODE_QUALITY.md` | `0b3c552c839fcca159b9c1ac3ef96cb704b7f7224ee506ea2b958134781954bd` |
-| `docs/SUPPORT_MATRIX.md` | `4295f6c2e5cd769153bda5dd3928eb34abdec9b05f07dbb2998b8db804bb165e` |
+| `docs/SUPPORT_MATRIX.md` | `99440e73418d58ecd66fba3ecead240373874b33256f94a1674b5a9d19df4d98` |
 | `docs/EVALUATION.md` | `53859bffc6f375f4f96ccac5ea13db58f093d8361e1409e413d429df67221fe3` |
 | `docs/CT_EVIDENCE.md` | `a09b2a2567ae1420271c21963f009dcb3d4eda3fcbe0c4e86df7aa0e94100f7b` |
 | `docs/CROSS_ARCH_EVIDENCE.md` | `ecf62696d31b869bdd85bf2895deddcf0c51ab6b46197e24ed4d7a731d0064bc` |
