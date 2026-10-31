@@ -4,7 +4,7 @@
 
 Date: 2026-10-31
 
-Commit: `e0d2e3e` (full local-proof commit)
+Commit: `ac06c1c` (full local-proof commit)
 
 Target: `aarch64-unknown-linux-gnu`  
 Runner: `qemu-aarch64` user mode  
@@ -15,8 +15,8 @@ Command: `./tools/run-aarch64-tests.sh`
 | `sicas-core` | 20 | pass |
 | `sicas-harness` | 91 | pass |
 | `sicas-platform` | 4 | pass |
-| `sicas-reference` | 7 | pass |
-| **Total** | **122** | **pass** |
+| `sicas-reference` | 11 | pass |
+| **Total** | **126** | **pass** |
 
 The run covers all workspace library tests, including masked addition, masked
 ChaCha20 RFC 8439 vectors and differential checks, trace parsing, preprocessing, TVLA,
@@ -53,8 +53,8 @@ Command: `./tools/run-i686-tests.sh`
 | `sicas-harness` main | 7 | pass |
 | `sicas-harness` CLI | 5 | pass |
 | `sicas-platform` | 4 | pass |
-| `sicas-reference` | 7 | pass |
-| **Total** | **134** | **pass** |
+| `sicas-reference` | 11 | pass |
+| **Total** | **138** | **pass** |
 
 This proves functional behavior on a 32-bit little-endian target, including masked
 addition, masked ChaCha20, trace parsing, preprocessing, TVLA, CPA, CLI workflows, and

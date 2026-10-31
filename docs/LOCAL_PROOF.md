@@ -44,20 +44,20 @@ Adds:
 The full run can take 20+ minutes. It writes everything under
 `evidence/local-proof-<timestamp>/` unless `LOCAL_PROOF_LOG_DIR` is set.
 
-## Last full local proof
+## Full local proof
 
-The last full proof ran on commit `e0d2e3e`:
+The full proof ran on commit `ac06c1c`:
 
 ```bash
-LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-final ./tools/local_proof.sh full
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-bitsliced ./tools/local_proof.sh full
 ```
 
-That run passed all security gates. After it, the masked ChaCha20 path was replaced by a
-64-block bitsliced batch. The new path passes unit tests, strict Clippy, and reference
-mutation testing, and measures 9.3×–9.6× vs unmasked, meeting the 10× hard ceiling. A
-full re-proof of the new path is pending; the 5× target remains open. The historical
-summary is
-[`evidence/local-proof-2026-10-31-final/SUMMARY.md`](../evidence/local-proof-2026-10-31-final/SUMMARY.md).
+All gates passed, including full-workspace Miri, 30 Kani harnesses, 126 ASan tests,
+zero missed viable mutants, 97.11% line coverage, four 1M-execution fuzz campaigns,
+AArch64 QEMU, i686, release validation, the local signing dry run, and the
+reproducible-build comparison. The performance gate passed at 9.17×, meeting the 10×
+hard ceiling; the 5× target remains open. The summary is
+[`evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md`](../evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md).
 
 ## Interpretation
 

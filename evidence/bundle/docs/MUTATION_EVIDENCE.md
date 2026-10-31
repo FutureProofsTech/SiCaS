@@ -1,7 +1,7 @@
 # Mutation Testing Evidence
 
 - Date: 2026-10-31
-- Commit: `e0d2e3e` (full local-proof commit)
+- Commit: `ac06c1c` (full local-proof commit)
 - Tool: `cargo-mutants 27.1.0`
 - Command: `cargo mutants --workspace --no-shuffle`
 - Per-crate commands: `cargo mutants -p <crate> --no-shuffle`
@@ -12,12 +12,14 @@
 |---|---:|---:|---:|---:|
 | `sicas-core` | 112 | 0 | 19 | 112 |
 | `sicas-harness` | 357 | 0 | 23 | 357 |
-| `sicas-reference` | 6 | 0 | 0 | 6 |
+| `sicas-reference` | 69 | 0 | 8 | 69 |
 | `sicas-platform` | 2 | 0 | 1 | 2 |
-| **Workspace** | **477** | **0** | **43** | **477** |
+| **Workspace** | **542** | **0** | **51** | **542** |
 
-All viable mutants were caught. Unviable mutants are those that cargo-mutants could not
-build or that the compiler rejected; they are excluded from the score.
+All viable mutants were caught in the final full proof. The reference crate accounts
+for 69 caught, 0 missed, and 8 unviable mutants. Unviable mutants are those that
+cargo-mutants could not build or that the compiler rejected; they are excluded from the
+score.
 
 ## What this covers
 

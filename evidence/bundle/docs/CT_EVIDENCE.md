@@ -42,10 +42,10 @@ tools/run-release-timing.sh evidence/ct/2026-10-31-x86_64-release.md
 
 | Check | Max absolute t across 3 trials | Result |
 |-------|--------------------------------|--------|
-| `ct::eq_u32` | 2.2201 | pass |
-| `ct::select_u32` | 1.3684 | pass |
-| `ct::lookup_u8` | 0.9748 | pass |
-| `Masked::<u32>::add_masked` | 2.2461 | pass |
+| `ct::eq_u32` | 1.4412 | pass |
+| `ct::select_u32` | 2.1196 | pass |
+| `ct::lookup_u8` | 0.9354 | pass |
+| `Masked::<u32>::add_masked` | 2.1196 | pass |
 
 All trials are below `|t| > 4.5`. The full report is in
 [`evidence/ct/2026-10-31-x86_64-release.md`](../evidence/ct/2026-10-31-x86_64-release.md).

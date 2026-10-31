@@ -78,7 +78,7 @@ if [ "$mode" = "full" ]; then
   run mutation-core cargo mutants -p sicas-core --no-shuffle
   run mutation-reference cargo mutants -p sicas-reference --no-shuffle
   report mutation-workspace cargo mutants --workspace --no-shuffle
-  report performance cargo run --quiet --release -p sicas-reference --example benchmark
+  run performance cargo run --quiet --release -p sicas-reference --example benchmark
   run coverage cargo llvm-cov --workspace --all-features --fail-under-lines 90 --summary-only
   run fuzz-masked cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=1000000
   run fuzz-lookup cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=1000000

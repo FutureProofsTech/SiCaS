@@ -27,6 +27,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Code-quality standard | `docs/CODE_QUALITY.md` |
 | Constant-time timing | `evidence/ct/2026-10-30-x86_64.md`, `evidence/ct/2026-10-31-x86_64-release.md` |
 | Assembly checks | `evidence/ct/asm-2026-10-31.md` |
+| Bitsliced masking argument | `docs/BITSLICED_MASKING.md` |
 | First-order leakage model | `evidence/leakage/2026-10-31-x86_64.md` |
 | Valgrind Memcheck | `evidence/valgrind/2026-10-31-x86_64.md` |
 | Statistics differential test | `evidence/stats/2026-10-31-x86_64.md` |

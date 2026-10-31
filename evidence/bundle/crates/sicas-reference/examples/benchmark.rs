@@ -26,10 +26,11 @@ use std::hint::black_box;
 use std::time::Instant;
 
 use sicas_core::{EntropyError, EntropySource};
-use sicas_reference::chacha20::MaskedChaCha20;
+use sicas_reference::chacha20::{BATCH_LANES, MaskedChaCha20};
 
 const CONSTANTS: [u32; 4] = [0x6170_7865, 0x3320_646e, 0x7962_2d32, 0x6b20_6574];
 const BLOCKS: usize = 4_096;
+const BATCHES: usize = 64;
 const WARMUP: usize = 64;
 
 struct XorShift(u64);
@@ -50,6 +51,13 @@ impl EntropySource for XorShift {
         self.0 ^= self.0 >> 7;
         self.0 ^= self.0 << 17;
         Ok(self.0 as u32)
+    }
+
+    fn mask_u64(&mut self) -> Result<u64, EntropyError> {
+        self.0 ^= self.0 << 13;
+        self.0 ^= self.0 >> 7;
+        self.0 ^= self.0 << 17;
+        Ok(self.0)
     }
 }
 
@@ -140,14 +148,30 @@ fn main() {
     let unmasked_per_byte = nanos_per_byte(unmasked_ns, BLOCKS);
     let ratio = masked_per_byte / unmasked_per_byte;
 
+    let mut batch_cipher = MaskedChaCha20::new(&key, &nonce, 0, &mut entropy).unwrap();
+    for _ in 0..2 {
+        black_box(batch_cipher.keystream_blocks(&mut entropy).unwrap());
+    }
+    let batch_start = Instant::now();
+    for _ in 0..BATCHES {
+        black_box(batch_cipher.keystream_blocks(&mut entropy).unwrap());
+    }
+    let batch_ns = batch_start.elapsed().as_secs_f64() * 1_000_000_000.0;
+    let batch_blocks = BATCHES * BATCH_LANES;
+    let batch_per_byte = nanos_per_byte(batch_ns, batch_blocks);
+    let batch_ratio = batch_per_byte / unmasked_per_byte;
+
     println!("masked_blocks={BLOCKS}");
     println!("masked_ns_per_byte={masked_per_byte:.6}");
     println!("unmasked_ns_per_byte={unmasked_per_byte:.6}");
-    println!("ratio={ratio:.3}");
+    println!("scalar_ratio={ratio:.3}");
+    println!("batch_blocks={batch_blocks}");
+    println!("batch_ns_per_byte={batch_per_byte:.6}");
+    println!("batch_ratio={batch_ratio:.3}");
     println!("target_ratio<=5 hard_ceiling<=10");
 
-    if ratio > 10.0 {
-        eprintln!("masked ChaCha20 exceeded the hard 10x overhead ceiling");
+    if batch_ratio > 10.0 {
+        eprintln!("bitsliced masked ChaCha20 exceeded the hard 10x overhead ceiling");
         std::process::exit(1);
     }
 }
