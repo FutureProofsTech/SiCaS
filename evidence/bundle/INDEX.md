@@ -1,7 +1,7 @@
 # SiCaS Evidence Bundle
 
 - Code commit under test: `ef13675`
-- Generated: `2026-10-31T13:06:20.641866+00:00`
+- Generated: `2026-10-31T13:09:36.541832+00:00`
 - Files: 102
 
 | File | SHA-256 |
@@ -12,7 +12,7 @@
 | `PRODUCTION_READINESS.md` | `f4c2e2702f21421a4db9caf496af39d0b60580174d47edae4aa736e9f764e48c` |
 | `opencode.json` | `9a148bd21e7b229629e87c8e5eeccbe438b71ced0d0cae03161438533aad4809` |
 | `PLAN.md` | `72e9b666cf187fab6f5203e8ebeb59a5ae77608378297e2fa0f4b5df29382a90` |
-| `README.md` | `415f9bfbeb3534f2110285b22a568ac74d304cf76c603d9bf8a902b675f4b660` |
+| `README.md` | `9663fefaa9319fce306d40c8e71909627b5a6b46b9e551fe794346e50a840eaf` |
 | `LICENSE` | `3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |

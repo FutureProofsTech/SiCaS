@@ -24,6 +24,10 @@ leakage-assessment harness for TVLA, CPA, DPA, and timing analysis. It is a loca
 proven, audit-ready engineering package at SAL-2, not a certified or production-ready
 cryptographic product.
 
+> **In plain terms:** SiCaS helps engineers build and test software that is harder to
+> attack by measuring the unintended power and electromagnetic signals a chip gives off
+> while it runs, so side-channel weaknesses can be found before deployment.
+
 ---
 
 ## Table of contents
