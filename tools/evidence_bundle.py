@@ -53,6 +53,7 @@ REQUIRED = [
     "evidence/ct/2026-10-31-x86_64-release.md",
     "evidence/leakage/2026-10-31-x86_64.md",
     "evidence/local-proof-2026-10-31/SUMMARY.md",
+    "evidence/local-proof-2026-10-31-final/SUMMARY.md",
     "evidence/release/2026-10-30-x86_64.md",
     "evidence/signing/2026-10-31-x86_64.md",
     "evidence/fuzz-long/SUMMARY.md",

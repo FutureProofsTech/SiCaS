@@ -1,0 +1,6 @@
+masked_blocks=4096
+masked_ns_per_byte=721.418518
+unmasked_ns_per_byte=1.165668
+ratio=618.888
+target_ratio<=5 hard_ceiling<=10
+masked ChaCha20 exceeded the hard 10x overhead ceiling

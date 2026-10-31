@@ -2,7 +2,7 @@
 
 Date: 2026-10-31
 
-Commit: working tree after `c349329`
+Commit: `e0d2e3e` (full local-proof run)
 
 Target: x86_64-unknown-linux-gnu
 
@@ -18,15 +18,15 @@ cargo run --release -p sicas-reference --example benchmark
 
 ```text
 masked_blocks=4096
-masked_ns_per_byte=780.155254
-unmasked_ns_per_byte=1.306652
-ratio=597.064
+masked_ns_per_byte=721.418518
+unmasked_ns_per_byte=1.165668
+ratio=618.888
 target_ratio<=5 hard_ceiling<=10
 ```
 
 ## Interpretation
 
-The masked reference is approximately **597× slower** than the unmasked reference on
+The masked reference is approximately **619× slower** than the unmasked reference on
 this host. The PLAN's initial budget is ≤5× with a hard ceiling of 10×. The budget is
 **not met**.
 

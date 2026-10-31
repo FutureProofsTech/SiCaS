@@ -1,0 +1,102 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-10-31T00:08:02.113841+00:00",
+    "tools": [
+      {
+        "vendor": "SiCaS",
+        "name": "release_manifest",
+        "version": "0.1.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "SiCaS",
+      "version": "0.1.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/sicas-core@0.1.0",
+      "name": "sicas-core",
+      "version": "0.1.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:cargo/sicas-core@0.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/sicas-harness@0.1.0",
+      "name": "sicas-harness",
+      "version": "0.1.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:cargo/sicas-harness@0.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/sicas-platform@0.1.0",
+      "name": "sicas-platform",
+      "version": "0.1.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:cargo/sicas-platform@0.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/sicas-reference@0.1.0",
+      "name": "sicas-reference",
+      "version": "0.1.0",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:cargo/sicas-reference@0.1.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:cargo/sicas-core@0.1.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:cargo/sicas-harness@0.1.0",
+      "dependsOn": [
+        "pkg:cargo/sicas-core@0.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:cargo/sicas-platform@0.1.0",
+      "dependsOn": [
+        "pkg:cargo/sicas-core@0.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:cargo/sicas-reference@0.1.0",
+      "dependsOn": [
+        "pkg:cargo/sicas-core@0.1.0"
+      ]
+    }
+  ]
+}

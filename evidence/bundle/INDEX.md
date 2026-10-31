@@ -1,52 +1,76 @@
 # SiCaS Evidence Bundle
 
-- Code commit under test: `c349329`
-- Generated: `2026-10-30T23:23:33.184331+00:00`
-- Files: 44
+- Code commit under test: `e0d2e3e`
+- Generated: `2026-10-31T00:10:06.449787+00:00`
+- Files: 68
 
 | File | SHA-256 |
 |---|---|
 | `AGENTS.md` | `2d972877001d5ea217c6055e71750962f62ba467cc4783771fa5c884115b5eba` |
 | `opencode.json` | `9a148bd21e7b229629e87c8e5eeccbe438b71ced0d0cae03161438533aad4809` |
 | `PLAN.md` | `8b4b122ac6cf9794197035a67f7b2498c04d15211546b1c32d52f0cc67edea29` |
-| `README.md` | `4c32cc99365eb6bd4fbe8cd91b18352aad18645ebe698d9df37de4534b21f3da` |
+| `README.md` | `fdcaafbc1f27b76c6903d9efdb1e35f8f63873c217f92f415a0fd7d098377d60` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `c45c77a6ed3387d601a952a96a6fc38ba76905996404027c37a3a2d2de853c4b` |
+| `CHANGELOG.md` | `1479f8d30a0dc996a1231efda4dac2c826c7169b895f58760a1eacdf9fd382c8` |
 | `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
 | `Cargo.toml` | `c421edf0865b8225ebe80488f6c00dc2922989571f8b8251503c846ce65cb633` |
 | `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
 | `rust-toolchain.toml` | `b377894f4717223cfb2e38f5a6c9b439ceb6633b12a9f563843c771c25c00524` |
 | `docs/THREAT_MODEL.md` | `af119b1739524991e4f672cdb1273379a50cb543c9fa3581d5dbe13f7eb64f65` |
-| `docs/SECURITY_CLAIMS.md` | `3d0787013597e984a82ca20d1ee2eda2c38ad347b602c72d3469add10d889805` |
-| `docs/PROOF_OBLIGATIONS.md` | `2ae5f3ee5ffbd2eb27448bc75bc779c8d0e5681f942d31df8233211a201c4dd6` |
-| `docs/ASSURANCE.md` | `e29f24fb765f83c412251fa1b61aba3ff5381e6a1e992dcd5ef4b24a5f9a0ef1` |
-| `docs/CODE_QUALITY.md` | `661cb914979a4b6f96c430883df8bd51ea72002b52110a1167430dd0009d796a` |
+| `docs/SECURITY_CLAIMS.md` | `7fc59d04a3f6f548a50389832c003e57123cdf19df9516b3922417ad0415d11d` |
+| `docs/PROOF_OBLIGATIONS.md` | `345f5f30635c0590fc90803c133e4ae2e43d634be74ee2f027b4fa9a496037e6` |
+| `docs/ASSURANCE.md` | `f19136ae26d8ef34a36cff4b44a020476c3f014f627ab8643279871039c1e083` |
+| `docs/CODE_QUALITY.md` | `0b3c552c839fcca159b9c1ac3ef96cb704b7f7224ee506ea2b958134781954bd` |
 | `docs/SUPPORT_MATRIX.md` | `4295f6c2e5cd769153bda5dd3928eb34abdec9b05f07dbb2998b8db804bb165e` |
 | `docs/EVALUATION.md` | `53859bffc6f375f4f96ccac5ea13db58f093d8361e1409e413d429df67221fe3` |
-| `docs/CT_EVIDENCE.md` | `53de21063e911fb78298143cbc5f18f897cef22dd125ca3c590252d91c5722da` |
-| `docs/CROSS_ARCH_EVIDENCE.md` | `146053e10454de179c3b61f0b7fc29bae88459a9e34f42232d698902d0b1de44` |
-| `docs/FUZZ_EVIDENCE.md` | `6746d1741ca0e81d0e86359b1b5b971f46d7b818b5550875d8a4f2483c5f1fe8` |
-| `docs/MUTATION_EVIDENCE.md` | `d3f2517de8f9d45873521fce42eeb882688cfdad7b378ad22b610e48f1e1c608` |
+| `docs/CT_EVIDENCE.md` | `2a307529098da50694a66d4659aad31dfd541b592405d3717fda3a3608f6f9c5` |
+| `docs/CROSS_ARCH_EVIDENCE.md` | `84458ce18b097a0e73cb489a11a8c6a06615e1c4781df11da7b6d2dd36a4c9c7` |
+| `docs/FUZZ_EVIDENCE.md` | `5b642029896ee3677d9a762d70f8d9276da4d71aaacf6a9216d756fffccab546` |
+| `docs/MUTATION_EVIDENCE.md` | `248f4d8b835fefd979d941a74be14bf360974ec956d26e1b18f11578e245c338` |
+| `docs/PERFORMANCE_EVIDENCE.md` | `f3a68d0fc53af2ab64c801aca6e9c178dd2ed0d7bed390c1d579d8d356e124c9` |
 | `docs/HARDWARE.md` | `9ef8f41e77fab8522cc3ff61f09e669bff55e0ba0a252344880b73bb9f451b83` |
-| `docs/RELEASE.md` | `217a0bbdd10d4a0f051731129b188001927758fb34bbf9b98e124a3207f2b797` |
+| `docs/RELEASE.md` | `ca158eab2869bc3e01e6e60f61e50e68a9dd2ae30b86aacb11a920a95e4af253` |
 | `docs/RED_TEAM.md` | `e29859a364eeb526586511b67bf7507c7b1d555ae7f4d357b63056718938db9f` |
-| `docs/TOOLING.md` | `b93b8d95b13e8b9e5728cc0cd8ad2413c9805ca2861d3c6383f711b35df28239` |
-| `docs/AUDIT_PACKAGE.md` | `9928280bad15a5d1131a1dee70f8e5f0718c0eb935a6d7b94569bb6767a761dd` |
-| `docs/AUDIT_REPORT_2026-10-30.md` | `5b271c099b98db593c73f57461e9dd800231e5b2648b3102e75893086dc34416` |
-| `docs/GAP_REPORT.md` | `16174b2da8657d9b06fb85962e0326553ede1032450686d32b40815cb5845642` |
-| `docs/LOCAL_PROOF.md` | `8aef432e1302c725e39332caf45133a897ad63e72b04d896c9df12fb30034867` |
-| `docs/POST_PROOF_BACKLOG.md` | `c3b2564d7821091c4bd0621ce5f2981afbaaaadc8747d996a9cfaacc949aa0fc` |
+| `docs/TOOLING.md` | `f0c53aea3558632918984cd3559629a95439b0f1f4363399b6d8d1fede60be7b` |
+| `docs/AUDIT_PACKAGE.md` | `32b67ca8cb6acbb26c16943e111948933c4a361fc1fc063bfd3ec9cbecd18fd9` |
+| `docs/AUDIT_REPORT_2026-10-30.md` | `eb4f2303590a1b0e495311771e3cf9e307da93cff3a9bc9ec9bae42d82842e8d` |
+| `docs/GAP_REPORT.md` | `4a203561407718ecb8e5991c2405ef4790836295cb16f3c2613e8fa7d272be6d` |
+| `docs/LOCAL_PROOF.md` | `057c8ce4fc5e11eb85d470b3ef7794015c2dc839265289b0cc381545a13b8514` |
+| `docs/POST_PROOF_BACKLOG.md` | `df1934614d804dcad72b64bc27d90bf1554cb48de044d7c62111b1cb690c3668` |
+| `docs/SAL4_LOCAL_READINESS.md` | `100e40d36b0fc22f149ba1a73d1158fc44f50f03e74c5774f21c90ecdd55a43e` |
 | `docs/WORKING_AGREEMENT.md` | `379d2591db7a580a7e71658a73fc25f95b26b60de429de40a5c06d0639925f3e` |
 | `docs/ZEROIZATION.md` | `0778bded164359cd6f8acb9fa5eaab7cc607be19c28d57a909660ead82c9d3fc` |
 | `evidence/ct/2026-10-30-x86_64.md` | `14fb6a37def5f22f0a15f6089b07750ff92d2422abdeb93550fffc9ac0d454bf` |
 | `evidence/ct/asm-2026-10-30.md` | `3c810f92d72253fec1278b8a40698c9d87476101a20582044383f8c6b7f945bd` |
-| `evidence/leakage/2026-10-31-x86_64.md` | `0229fb1531fbbde21abd17d57a3ccd1f888ccd63f98b2de7de224d9fc7d41175` |
+| `evidence/ct/asm-2026-10-31.md` | `ecdf81cf70c511afc0f5a92d1df095cd74a7a9b793a08a6ab61e6ab84fbb5a3b` |
+| `evidence/ct/2026-10-31-x86_64-release.md` | `bacc637b108310882b457712f68fc503958885a4886339ee71f4796c745587e7` |
+| `evidence/leakage/2026-10-31-x86_64.md` | `05b1c861127a173a91cb7d4119db18a9e36849d7f3994c63a4aa6b4b021cb449` |
 | `evidence/local-proof-2026-10-31/SUMMARY.md` | `5475ae1cbfb8a49aa91d44eb847713c145c84d2290bc9b5df34823b67a302532` |
+| `evidence/local-proof-2026-10-31-final/SUMMARY.md` | `661626301a535596b4f6cebb0cc9cb7ef6e61b1db53558f92800bf1515ff8bac` |
 | `evidence/release/2026-10-30-x86_64.md` | `94337c355f4a73ca2fa59734a9c98c46329b3318fac4dbdc3beaa3f16646faf2` |
-| `evidence/release/2026-10-31-x86_64.md` | `00b7af89a4bbde072c028ac26a77478069b8071f606a4dca20930174b7d8834d` |
-| `tools/local_proof.sh` | `6ec375e1220fa1e1c931f5301bb7d6fbf3d371271d54c0a75571359064fe25db` |
+| `evidence/signing/2026-10-31-x86_64.md` | `7d6ce23bf697c2f81e23a86e2891b4c51c83ace4b485441c79ba41de31080559` |
+| `evidence/fuzz-long/SUMMARY.md` | `707c62e99c22d603fa415a5623f904e8c7a614478557da9b618c3b9db6395db0` |
+| `evidence/fuzz-long/masked_ops.log` | `83e03e86ba15c4f13957af00f26435b6fe359d22388147c55bdc5bcf505c7ba6` |
+| `evidence/fuzz-long/ct_lookup.log` | `5059f215b70a616703e681047fc6ba4b48d0687ad0856918fb0c9de8bdaac769` |
+| `evidence/fuzz-long/trace_parser.log` | `75ba18716e35f6af11b32eaedc02844cb369a245080854bf3fcd046e03720237` |
+| `evidence/fuzz-long/chacha20.log` | `46c5aa2dcdd2f4e8fe3e9fe3893a0f2339f3caf1bc48fd85ef7bd980dc9ffcb6` |
+| `evidence/stats/2026-10-31-x86_64.md` | `00e9c6edbe07dfa843764a70a28ad1e4e74752b4d51e7cc1af651c590eba26c2` |
+| `evidence/valgrind/2026-10-31-x86_64.md` | `11f85f3622c9542ed0a02f6d87b53526261642078b8ac1597c8f352f90bee032` |
+| `evidence/release/2026-10-31-x86_64.md` | `e21d29f6dfb273efec481e77aec7f52f1cc84773d9848d67d82835f81053fa99` |
+| `tools/local_proof.sh` | `abea05925a1488bff7da99e634fbec863896e1464647e212a4d22f57c6e5f327` |
 | `tools/run-aarch64-tests.sh` | `b62da82f4344aaa721c12cd6017ac7a38a5887024116436dccc223ad2f137e0a` |
 | `tools/run-i686-tests.sh` | `55300da0df309831335d99f131e32af1e40b93d5e99aeae365a22672ed3521df` |
+| `tools/ct_asm_check.py` | `6a4d98af8fc53211f9f7425ed2c4471901f5645e7821fb31d68312d254224d0f` |
+| `tools/check_stats.py` | `7140ec60df5d577ded4aef812bc8829ebfc7d7abeff9faaab057e7cd9e2b7272` |
+| `tools/run-valgrind.sh` | `870573e7541b9324a661d1a19b3132882d64e7f2de3b1f98ffc045a831a5efae` |
+| `tools/run-fuzz-long.sh` | `6f79d85d567e90a1f51c421d4ea2d6fc985fec8b3c78d4554bc1d85c9c938ed2` |
+| `tools/local-signing-dry-run.sh` | `21df91a1ae3606d8ccf05345f0b1f1bcc4833c492dd289aafb84c5c602b83eed` |
+| `tools/run-release-timing.sh` | `72b8eee1b6237363764646f695fcb96d14bd2df1f680dbdb0a02a381bb8a7458` |
+| `tools/release_manifest.py` | `6a70220cc39fed0be06d7759e87ace6157aea92f010d9c43981e830c3d98417f` |
+| `tools/evidence_bundle.py` | `e4279c6ba312ef1e2c241ec2bc4564c3db265a94f8099beed62a136a56f8fef5` |
 | `tools/validate_release_manifest.py` | `9946db59f5f40bfcbd0321e47ae3f404159e8a209d0b4086bc545dd23147ba42` |
 | `tools/test_validate_release_manifest.py` | `80076b4529869a615bfe5e16acd55014f729fb60bfaf63d5b70ed6ae32e96c9b` |
+| `crates/sicas-core/examples/ct_asm.rs` | `1be3d4493323abe74418abdcd0b46b25c5a28d751081b26fbbf2ea769015205d` |
+| `crates/sicas-harness/examples/stats_fixture.rs` | `3865ea932b1669ac30b1ab885151b06ad417d2d204e0b5961104e290aada79e3` |
+| `crates/sicas-reference/examples/benchmark.rs` | `e5b6730597066392da71c13d8098dfb92c6c6f58a00b146d4c88eb5ee6cea4b1` |

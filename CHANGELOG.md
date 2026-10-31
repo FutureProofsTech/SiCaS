@@ -52,13 +52,14 @@
 - Release-profile dudect evidence: 3×1M samples per check, max |t| = 2.2461.
 - Differential statistics validation: 200 deterministic cases match an independent
   Python implementation.
-- Performance benchmark for masked ChaCha20. Measured ~597× overhead vs the unmasked
+- Performance benchmark for masked ChaCha20. Measured ~619× overhead vs the unmasked
   reference; the ≤5× target and 10× hard ceiling are not met and are tracked as an
   open local gap.
-- Full local proof at commit `c349329`: all gates pass, including full-workspace Miri,
-  30 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
-  four 1M-execution fuzz campaigns, cross-architecture tests, release validation, and
-  reproducible-build comparison.
+- Full local proof at commit `e0d2e3e`: all security gates pass, including
+  full-workspace Miri, 30 Kani harnesses, 122 ASan tests, zero missed viable mutants,
+  96.90% line coverage, four 1M-execution fuzz campaigns, cross-architecture tests,
+  release validation, and reproducible-build comparison. The performance row is
+  report-only and records the open gap.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance

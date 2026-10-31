@@ -32,41 +32,64 @@ cargo run -p sicas-harness -- ct \
 All trials are below the `|t| > 4.5` threshold. The complete per-trial report is in
 [`evidence/ct/2026-10-30-x86_64.md`](../evidence/ct/2026-10-30-x86_64.md).
 
-## Assembly inspection
+## Release-profile timing — 2026-10-31
 
-Run the multi-target assembly checker:
+The release-profile run uses `opt-level=3` and the same five-check suite:
 
 ```bash
-python3 tools/ct_asm_check.py --output evidence/ct/asm-2026-10-30.md
+tools/run-release-timing.sh evidence/ct/2026-10-31-x86_64-release.md
 ```
 
-It builds `sicas-core` at `-C opt-level=0` for x86_64, AArch64, Thumbv7em, and
-RISC-V, extracts `ct::eq_u32`, `ct::select_u32`, and `ct::is_zero_u32`, and rejects
-conditional branches.
+| Check | Max absolute t across 3 trials | Result |
+|-------|--------------------------------|--------|
+| `ct::eq_u32` | 2.2201 | pass |
+| `ct::select_u32` | 1.3684 | pass |
+| `ct::lookup_u8` | 0.9748 | pass |
+| `Masked::<u32>::add_masked` | 2.2461 | pass |
 
-| Target | `eq_u32` | `select_u32` | `is_zero_u32` |
-|---|---|---|---|
-| x86_64 | no branches | no branches | no branches |
-| AArch64 | no branches | no branches | no branches |
-| Thumbv7em | no branches | no branches | no branches |
-| RISC-V 32 | no branches | no branches | no branches |
+All trials are below `|t| > 4.5`. The full report is in
+[`evidence/ct/2026-10-31-x86_64-release.md`](../evidence/ct/2026-10-31-x86_64-release.md).
 
-The full generated report is in
-[`evidence/ct/asm-2026-10-30.md`](../evidence/ct/asm-2026-10-30.md).
+## Assembly inspection
+
+Run the assembly matrix checker:
+
+```bash
+python3 tools/ct_asm_check.py --matrix --lto \
+  --output evidence/ct/asm-2026-10-31.md
+```
+
+The default rows build `sicas-core` at `-C opt-level=0` for x86_64, AArch64,
+Thumbv7em, and RISC-V, extract `ct::eq_u32`, `ct::select_u32`, and
+`ct::is_zero_u32`, and reject conditional branches.
+
+The matrix rows build the `ct_asm` example on x86_64 and AArch64 for:
+
+- debug `opt-level=0` and `1`;
+- release `opt-level=2`, `3`, and `s`;
+- release `codegen-units=1`;
+- release `panic=abort`.
+
+The LTO rows build linked x86_64 binaries with thin and fat LTO and inspect the
+disassembly.
+
+All 60 inspected configurations report no conditional branches in the three
+constant-time functions. The full generated report is in
+[`evidence/ct/asm-2026-10-31.md`](../evidence/ct/asm-2026-10-31.md).
 `ct::lookup_u8` is excluded from this check because it intentionally contains the
 public 256-iteration loop branch; its selection is performed by constant-time
 equality.
 
-This is supporting evidence for the inspected targets and optimization level. It is
-not a proof for all architectures, optimization levels, or microarchitectural states.
+This is supporting evidence for the inspected targets and configurations. It is not a
+proof for all architectures, all LTO combinations, or microarchitectural states.
 
 ## Limitations
 
 - Timing evidence is x86_64 Linux only in this report.
 - Timing is environment-sensitive; the report records the exact sample count, trials,
   threshold, toolchain, and commit.
-- Assembly inspection was performed at `-C opt-level=0`; release inlining and
-  architecture-specific code generation must be re-inspected for every supported
-  target and optimization level.
+- Assembly inspection covers opt-level 0 for four targets, an optimization/codegen/
+  panic matrix on x86_64 and AArch64, and thin/fat LTO on x86_64. Other architectures
+  and LTO combinations still need inspection.
 - No hardware EM/power evidence yet.
 - A passing timing test does not prove absence of all microarchitectural leakage.

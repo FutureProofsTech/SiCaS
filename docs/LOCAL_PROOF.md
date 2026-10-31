@@ -46,16 +46,17 @@ The full run can take 20+ minutes. It writes everything under
 
 ## Final local proof
 
-The frozen local proof ran on commit `c349329`:
+The frozen local proof ran on commit `e0d2e3e`:
 
 ```bash
-LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31 ./tools/local_proof.sh full
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-final ./tools/local_proof.sh full
 ```
 
-All gates passed, including full-workspace Miri, 30 Kani harnesses, 122 ASan tests,
-zero missed viable mutants, 96.90% line coverage, four 1M-execution fuzz campaigns,
-AArch64 QEMU, i686, release validation, and the reproducible-build comparison. The
-summary is [`evidence/local-proof-2026-10-31/SUMMARY.md`](../evidence/local-proof-2026-10-31/SUMMARY.md).
+All security gates passed, including full-workspace Miri, 30 Kani harnesses, 122 ASan
+tests, zero missed viable mutants, 96.90% line coverage, four 1M-execution fuzz
+campaigns, AArch64 QEMU, i686, release validation, and the reproducible-build
+comparison. The performance row is report-only and records the open gap. The
+summary is [`evidence/local-proof-2026-10-31-final/SUMMARY.md`](../evidence/local-proof-2026-10-31-final/SUMMARY.md).
 
 ## Interpretation
 

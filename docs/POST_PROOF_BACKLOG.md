@@ -10,7 +10,7 @@ validation.
 - Fix every FAIL, not the test.
 - Re-run the affected gates.
 - Re-run the full proof on the final commit.
-- Update `evidence/local-proof-final/SUMMARY.md` and the evidence bundle.
+- Update `evidence/local-proof-2026-10-31-final/SUMMARY.md` and the evidence bundle.
 
 ## Gate 1 — Local proof hardening
 
@@ -26,26 +26,26 @@ validation.
   requires an audited unsafe boundary.
 - [x] Add release-manifest/SBOM/provenance consistency validation with tests.
 - [x] Re-run the full local proof after all changes. All security gates pass at
-  `c349329`; see `evidence/local-proof-2026-10-31/SUMMARY.md`.
+  `e0d2e3e`; see `evidence/local-proof-2026-10-31-final/SUMMARY.md`.
 - [x] Extend assembly evidence to an optimization/codegen/panic/LTO matrix.
 - [x] Add Valgrind Memcheck and differential statistics validation.
 - [x] Add a local signing dry run with an ephemeral test key.
 - [x] Run a long fuzz campaign: 10M on the three fast targets and 1M on ChaCha20.
-- [ ] Optimize masked ChaCha20 from the measured ~597× overhead toward the ≤5× target
+- [ ] Optimize masked ChaCha20 from the measured ~619× overhead toward the ≤5× target
   and 10× hard ceiling, or revise the performance budget with evidence. See
   `docs/PERFORMANCE_EVIDENCE.md`.
 
 ## Gate 2 — Freeze the local proof
 
 - [x] Freeze the code and documentation.
-- [x] Run the full proof on the frozen commit (`c349329`).
+- [x] Run the full proof on the frozen commit (`e0d2e3e`).
 - [x] Publish the evidence bundle and its hashes.
 - [x] Record the supported platform and compiler matrix in `docs/SUPPORT_MATRIX.md`.
 - [x] Record every remaining gap in `docs/GAP_REPORT.md`.
 
 ## Gate 3 — External second opinion
 
-Status: the local proof is frozen at `c349329`; none of these external gates has been
+Status: the local proof is frozen at `e0d2e3e`; none of these external gates has been
 started or simulated.
 
 Only after Gate 2:

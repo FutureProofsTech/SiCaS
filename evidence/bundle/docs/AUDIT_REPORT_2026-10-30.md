@@ -150,7 +150,8 @@ been performed.
 - No `unsafe` in published crates.
 - Zero third-party runtime dependencies.
 - `Secret` deliberately lacks equality, indexing, and cloning.
-- Constant-time assembly checks on four architectures.
+- Constant-time assembly checks on four architectures, plus a 60-configuration
+  optimization/codegen/panic/LTO matrix.
 - x86_64 dudect evidence below threshold.
 - Kani proofs for core gadgets and every masked operation, including addition,
   refresh, selection, equality, and share reconstruction.
@@ -172,15 +173,16 @@ been performed.
 - ASan: 122 workspace library tests pass.
 - AArch64 QEMU: 122 workspace library tests pass.
 - i686 native: 134 all-target tests pass.
-- Kani: 27 harnesses pass.
+- Kani: 30 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 112 caught/0 missed; reference 6 caught/0 missed; workspace 477
   caught, 0 missed, 43 unviable (100% of viable mutants).
 - Coverage: 96.90% lines, 94.60% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
-- Full local proof: all gates pass at commit `c349329`; see
-  `evidence/local-proof-2026-10-31/SUMMARY.md`.
+- Full local proof: all security gates pass at commit `e0d2e3e`; the performance row is
+  report-only; see
+  `evidence/local-proof-2026-10-31-final/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 
@@ -201,6 +203,17 @@ Additional local hardening was completed after the initial audit pass:
   dependencies, workspace versions, timestamps, and the current commit.
 - A zeroization design review records the limitation and the requirements for a future
   audited adapter.
+- The assembly checker now covers 60 configurations: opt-level 0 on four targets,
+  opt-levels 0/1/2/3/s and codegen/panic variants on x86_64 and AArch64, and x86_64
+  thin/fat LTO.
+- Valgrind Memcheck passes with zero errors on all four library test binaries.
+- Statistics were differentially validated against an independent Python model over
+  200 deterministic cases.
+- A local signing dry run produces and verifies a detached signature with an ephemeral
+  test key; it is not a production identity.
+- A masked ChaCha20 benchmark measured ~619× overhead vs the unmasked reference. The
+  PLAN target (≤5×) and hard ceiling (10×) are not met; this is tracked as an open local
+  performance gap in `docs/PERFORMANCE_EVIDENCE.md`.
 
 These changes strengthen the local evidence. They do not change the external-only
 gates: hardware leakage measurement, independent audit, independent red team,

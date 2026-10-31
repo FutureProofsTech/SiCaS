@@ -16,7 +16,9 @@ Covers:
 - Kani;
 - AddressSanitizer;
 - `cargo audit` and `cargo deny check`;
-- multi-architecture assembly checks;
+- multi-architecture assembly matrix, including optimization, codegen, panic, and x86_64 LTO variants;
+- Valgrind Memcheck over the workspace library tests;
+- differential statistics validation against an independent Python model;
 - first-order leakage-model check with a negative control;
 - release-manifest validator tests;
 - evidence bundle generation.
@@ -36,7 +38,7 @@ Adds:
 - four 1M-execution fuzz campaigns;
 - AArch64 QEMU functional tests;
 - i686 native all-target tests;
-- release manifest, SBOM, provenance, validator, and reproducible-build comparison;
+- release manifest, SBOM, provenance, validator, local signing dry run, and reproducible-build comparison;
 - final evidence bundle.
 
 The full run can take 20+ minutes. It writes everything under
@@ -44,21 +46,24 @@ The full run can take 20+ minutes. It writes everything under
 
 ## Final local proof
 
-The frozen local proof ran on commit `c349329`:
+The frozen local proof ran on commit `e0d2e3e`:
 
 ```bash
-LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31 ./tools/local_proof.sh full
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-final ./tools/local_proof.sh full
 ```
 
-All gates passed, including full-workspace Miri, 27 Kani harnesses, 122 ASan tests,
-zero missed viable mutants, 96.90% line coverage, four 1M-execution fuzz campaigns,
-AArch64 QEMU, i686, release validation, and the reproducible-build comparison. The
-summary is [`evidence/local-proof-2026-10-31/SUMMARY.md`](../evidence/local-proof-2026-10-31/SUMMARY.md).
+All security gates passed, including full-workspace Miri, 30 Kani harnesses, 122 ASan
+tests, zero missed viable mutants, 96.90% line coverage, four 1M-execution fuzz
+campaigns, AArch64 QEMU, i686, release validation, and the reproducible-build
+comparison. The performance row is report-only and records the open gap. The
+summary is [`evidence/local-proof-2026-10-31-final/SUMMARY.md`](../evidence/local-proof-2026-10-31-final/SUMMARY.md).
 
 ## Interpretation
 
-A PASS in `SUMMARY.md` means the command exited successfully. A report-only mutation
-line records accepted misses in the analysis harness; core and reference mutation runs
-are blocking. External-only gates remain in `docs/GAP_REPORT.md` and are not simulated.
+A PASS in `SUMMARY.md` means the command exited successfully. Report-only rows are not
+passes: the workspace mutation row records the full mutation report, and the performance
+row records the measured masked-ChaCha20 overhead, which currently exceeds the budget.
+Core and reference mutation runs are blocking. External-only gates remain in
+`docs/GAP_REPORT.md` and are not simulated.
 
 External audit is the second opinion after this local proof package is complete.

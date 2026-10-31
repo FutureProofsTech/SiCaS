@@ -1,8 +1,8 @@
 # Gap Report
 
-All local engineering gates that can be executed in this environment are implemented.
-The following gates are external, physical, or require credentials and therefore cannot
-be truthfully completed here.
+All local security gates that can be executed in this environment are implemented. One
+local performance gap remains and is recorded below. The following gates are external,
+physical, or require credentials and therefore cannot be truthfully completed here.
 
 | Gate | Status | Why it remains | Required next action |
 |---|---|---|---|
@@ -17,6 +17,17 @@ be truthfully completed here.
 | Volatile zeroization | Not guaranteed | Safe Rust cannot guarantee volatile erasure without an audited unsafe boundary | Design and review an isolated zeroization adapter; see `docs/ZEROIZATION.md` |
 | Full masked-ChaCha20 audit | Internal adversarial review only | No independent cryptographic review | Include it in the external audit scope; see `docs/AUDIT_REPORT_2026-10-30.md` |
 
+## Local engineering gaps
+
+| Gap | Status | Evidence | Required next action |
+|---|---|---|---|
+| Masked ChaCha20 performance | Open | `docs/PERFORMANCE_EVIDENCE.md`: measured ~619× vs unmasked; target ≤5×, hard ceiling 10× | Optimize the masked adder (bitslicing/word-level carry) or revise the production budget before any performance claim |
+
+## Local readiness matrix
+
+[`SAL4_LOCAL_READINESS.md`](SAL4_LOCAL_READINESS.md) maps every SAL-4 criterion to its
+local evidence and records the remaining performance and zeroization gaps.
+
 ## Current label
 
 `SAL-2 locally` — strong local verification and evidence, not a production security
@@ -28,10 +39,14 @@ claim.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
 - 1M-execution fuzz campaigns on four targets.
-- Full local proof at `c349329`: all gates pass, including full-workspace Miri,
-  27 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line coverage,
-  audit, deny, and reproducible-build comparison.
+- Full local proof at `e0d2e3e`: all security gates pass, including full-workspace
+  Miri, 30 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line
+  coverage, audit, deny, and reproducible-build comparison. The performance row is
+  report-only and records the open gap.
 - Masked ChaCha20 RFC 8439 and differential validation.
+- Compiler-matrix assembly evidence (60 configurations), Valgrind Memcheck with zero
+  errors, differential statistics validation, release-profile timing, a long fuzz
+  campaign, and a local signing dry run.
 - Trace preprocessing, TVLA, CPA, timing, and synthetic validation.
 - SBOM, checksums, provenance, and a release workflow.
 - Threat model, claims, proof obligations, audit package, and red-team program.

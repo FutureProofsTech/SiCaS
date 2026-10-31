@@ -3,7 +3,8 @@
 ## Current level
 
 **SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The local
-proof is frozen at commit `c349329`; every locally executable gate passes. The target for
+proof is frozen at commit `e0d2e3e`; every local security gate passes, with the
+performance gap documented. The target for
 v1.0 is **SAL-4**. CI, hardware evidence, independent audit, and red team are still
 pending.
 
@@ -31,6 +32,9 @@ pending.
 - Kani/model-checking proofs and assumptions.
 - Constant-time assembly and dudect reports.
 - First-order leakage-model checks with a negative control.
+- Compiler-matrix assembly checks and Valgrind Memcheck reports.
+- Differential statistics validation and a local signing dry run.
+- Performance measurements and the documented masked-ChaCha20 gap.
 - TVLA/CPA/DPA raw traces and analysis scripts.
 - Red-team and audit reports, remediation, retest.
 - Local adversarial audit report and remediation record.

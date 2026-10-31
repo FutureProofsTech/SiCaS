@@ -180,8 +180,9 @@ been performed.
 - Coverage: 96.90% lines, 94.60% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
-- Full local proof: all gates pass at commit `c349329`; see
-  `evidence/local-proof-2026-10-31/SUMMARY.md`.
+- Full local proof: all security gates pass at commit `e0d2e3e`; the performance row is
+  report-only; see
+  `evidence/local-proof-2026-10-31-final/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 
@@ -210,7 +211,7 @@ Additional local hardening was completed after the initial audit pass:
   200 deterministic cases.
 - A local signing dry run produces and verifies a detached signature with an ephemeral
   test key; it is not a production identity.
-- A masked ChaCha20 benchmark measured ~597× overhead vs the unmasked reference. The
+- A masked ChaCha20 benchmark measured ~619× overhead vs the unmasked reference. The
   PLAN target (≤5×) and hard ceiling (10×) are not met; this is tracked as an open local
   performance gap in `docs/PERFORMANCE_EVIDENCE.md`.
 

@@ -12,7 +12,9 @@
 | cargo-deny | 0.20.2 | license, source, ban, advisory policy |
 | Miri | nightly component | undefined behavior |
 | AddressSanitizer | nightly `-Zsanitizer=address` | memory errors |
-| Python | 3.x | release manifest, manifest validator, evidence bundler, and assembly checker |
+| Valgrind Memcheck | 3.27.1 | native memory errors and definite leaks |
+| GnuPG | 2.4.9 | local signing dry run with an ephemeral test key |
+| Python | 3.x | release manifest, manifest validator, evidence bundler, assembly checker, and statistics differential model |
 
 ## Policy
 

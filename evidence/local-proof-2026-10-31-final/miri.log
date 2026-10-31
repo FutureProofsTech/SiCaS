@@ -1,0 +1,200 @@
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+   Compiling sicas-harness v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-harness)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/miri/x86_64-unknown-linux-gnu/debug/build/sicas-core/ad5330ac47aa2460/out/sicas_core-ad5330ac47aa2460)
+
+running 20 tests
+test ct::tests::equality_is_exact_for_all_byte_pairs ... ok
+test ct::tests::lookup_scans_the_whole_table_correctly ... ok
+test ct::tests::selection_is_exact_for_all_byte_pairs ... ok
+test ct::tests::swap_swaps_only_when_selected ... ok
+test ct::tests::wide_equality_and_selection_work ... ok
+test ct::tests::wide_integer_edges_are_covered ... ok
+test ct::tests::zero_detection_is_exact_for_all_bytes ... ok
+test entropy::tests::failure_is_propagated ... ok
+test entropy::tests::mask_is_little_endian ... ok
+test masked::tests::all_integer_widths_round_trip_and_operate ... ok
+test masked::tests::bit_extraction_is_correct ... ok
+test masked::tests::constant_time_equality_is_exact ... ok
+test masked::tests::debug_does_not_reveal_shares ... ok
+test masked::tests::linear_operations_match_unmasked_reference ... ok
+test masked::tests::mask_and_unmask_round_trip ... ok
+test masked::tests::masked_addition_fails_closed ... ok
+test masked::tests::masked_addition_matches_reference ... ok
+test masked::tests::refresh_preserves_the_logical_value ... ok
+test masked::tests::selection_keeps_masking ... ok
+test masked::tests::shares_reconstruct_the_value ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.21s
+
+     Running unittests src/lib.rs (target/miri/x86_64-unknown-linux-gnu/debug/build/sicas-harness/6f6cd7acd1534ff0/out/sicas_harness-6f6cd7acd1534ff0)
+
+running 91 tests
+test cpa::tests::constant_traces_have_zero_correlation ... ok
+test cpa::tests::custom_model_recovers_a_key ... ignored
+test cpa::tests::custom_model_recovers_every_tested_key ... ignored
+test cpa::tests::duplicate_leakage_samples_keep_the_first_sample ... ignored
+test cpa::tests::empty_input_is_rejected ... ok
+test cpa::tests::error_display_is_populated ... ok
+test cpa::tests::exactly_two_traces_are_supported ... ok
+test cpa::tests::hamming_weight_model_has_complement_symmetry ... ignored
+test cpa::tests::mismatched_counts_are_rejected ... ok
+test cpa::tests::recovers_a_hamming_weight_key ... ignored
+test cpa::tests::recovers_every_tested_hamming_weight_key ... ignored
+test leakage::tests::display_and_error_text_are_populated ... ok
+test leakage::tests::entropy_sequence_is_stable ... ok
+test leakage::tests::hamming_weight_is_exact ... ok
+test leakage::tests::invalid_configuration_is_rejected ... ok
+test leakage::tests::masked_checks_stay_below_the_default_threshold ... ignored
+test leakage::tests::negative_control_detects_unmasked_leakage ... ok
+test leakage::tests::report_threshold_is_strict ... ok
+test leakage::tests::rng_sequence_is_stable ... ok
+test leakage::tests::small_reports_are_deterministic ... ok
+test leakage::tests::small_sample_check_runs ... ok
+test leakage::tests::tracker_keeps_the_first_signal_on_ties ... ok
+test leakage::tests::two_samples_are_accepted ... ok
+test preprocess::tests::align_breaks_ties_toward_the_first_shift ... ok
+test preprocess::tests::align_recovers_a_known_shift ... ok
+test preprocess::tests::align_recovers_every_supported_shift ... ok
+test preprocess::tests::align_rejects_an_invalid_reference ... ok
+test preprocess::tests::correlation_matches_the_normalized_dot_product ... ok
+test preprocess::tests::correlation_without_overlap_is_negative_infinity ... ok
+test preprocess::tests::errors_have_display_text ... ok
+test preprocess::tests::moving_average_does_not_overflow_on_large_windows ... ignored
+test preprocess::tests::moving_average_preserves_constant_traces ... ok
+test preprocess::tests::moving_average_rejects_zero_window ... ok
+test preprocess::tests::moving_average_smooths_an_impulse ... ok
+test preprocess::tests::shift_trace_moves_and_zero_fills ... ok
+test preprocess::tests::trace_error_source_is_preserved ... ok
+test preprocess::tests::trim_accepts_the_full_length ... ok
+test preprocess::tests::trim_keeps_the_requested_range ... ok
+test preprocess::tests::trim_matches_direct_slicing ... ok
+test preprocess::tests::trim_rejects_invalid_ranges ... ok
+test preprocess::tests::window_of_one_leaves_traces_unchanged ... ok
+test preprocess::tests::zero_shift_limit_returns_the_input ... ok
+test stats::tests::boundary_lengths_are_handled ... ok
+test stats::tests::mean_and_variance_are_correct ... ok
+test stats::tests::pearson_from_sums_matches_the_slice_version ... ok
+test stats::tests::pearson_has_the_expected_value ... ok
+test stats::tests::pearson_is_negative_for_inverse_relationship ... ok
+test stats::tests::pearson_is_one_for_linear_relationship ... ok
+test stats::tests::welch_t_detects_a_shift ... ok
+test stats::tests::welch_t_from_sums_matches_the_slice_version ... ok
+test stats::tests::welch_t_has_the_expected_value ... ok
+test stats::tests::welch_t_is_zero_for_identical_samples ... ok
+test synthetic::tests::cpa_recovers_the_synthetic_secret ... ignored
+test synthetic::tests::generated_dimensions_are_correct ... ok
+test synthetic::tests::leakage_is_clamped_to_i16 ... ok
+test synthetic::tests::noise_is_deterministic ... ok
+test synthetic::tests::tvla_detects_the_synthetic_leak ... ok
+test timing::tests::class_schedule_is_alternating_and_deterministic ... ok
+test timing::tests::configuration_boundaries_are_exact ... ok
+test timing::tests::display_and_errors_are_populated ... ok
+test timing::tests::duration_conversion_is_in_nanoseconds ... ok
+test timing::tests::leakage_threshold_is_strict ... ok
+test timing::tests::produces_a_finite_report ... ok
+test timing::tests::rejects_invalid_configuration ... ok
+test timing::tests::rng_sequence_is_stable ... ok
+test timing::tests::small_sample_counts_are_supported ... ok
+test trace::tests::debug_is_a_summary ... ok
+test trace::tests::dimension_limits_are_enforced ... ok
+test trace::tests::empty_trace_sets_are_rejected ... ok
+test trace::tests::error_display_and_source_are_populated ... ok
+test trace::tests::invalid_magic_is_rejected ... ok
+test trace::tests::ragged_traces_are_rejected ... ok
+test trace::tests::round_trip_preserves_traces ... ok
+test trace::tests::split_at_end_produces_an_empty_right_side ... ok
+test trace::tests::split_out_of_range_is_rejected ... ok
+test trace::tests::split_preserves_dimensions ... ok
+test trace::tests::unsupported_version_is_rejected ... ok
+test trace::tests::zero_dimensions_are_rejected ... ok
+test tvla::tests::empty_groups_are_rejected ... ok
+test tvla::tests::equal_statistics_keep_the_first_sample ... ok
+test tvla::tests::error_display_is_populated ... ok
+test tvla::tests::exact_statistic_matches_an_asymmetric_reference ... ok
+test tvla::tests::exact_statistic_matches_the_reference ... ok
+test tvla::tests::exactly_two_traces_are_supported ... ok
+test tvla::tests::identical_groups_have_no_leakage ... ok
+test tvla::tests::invalid_threshold_is_rejected ... ok
+test tvla::tests::mismatched_dimensions_are_rejected ... ok
+test tvla::tests::report_display_and_leakage_are_correct ... ok
+test tvla::tests::shifted_group_is_detected ... ok
+test tvla::tests::threshold_is_strictly_exceeded ... ok
+test tvla::tests::too_few_traces_are_rejected ... ok
+
+test result: ok. 82 passed; 0 failed; 9 ignored; 0 measured; 0 filtered out; finished in 27.35s
+
+     Running unittests src/main.rs (target/miri/x86_64-unknown-linux-gnu/debug/build/sicas-harness/a37a46581a0d82ca/out/sicas_harness-a37a46581a0d82ca)
+
+running 7 tests
+test tests::ct_rejects_zero_trials ... ok
+test tests::ct_writes_a_report ... ignored
+test tests::leakage_check_runs_with_a_negative_control ... ignored
+test tests::numeric_parsers_accept_valid_values ... ok
+test tests::numeric_parsers_reject_invalid_values ... ok
+test tests::required_and_optional_arguments_are_parsed ... ok
+test tests::timing_rejects_an_invalid_threshold ... ok
+
+test result: ok. 5 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.84s
+
+     Running tests/cli.rs (target/miri/x86_64-unknown-linux-gnu/debug/build/sicas-harness/4d08f9793efc779e/out/cli-4d08f9793efc779e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/lib.rs (target/miri/x86_64-unknown-linux-gnu/debug/build/sicas-platform/b3a06753260b31ff/out/sicas_platform-b3a06753260b31ff)
+
+running 4 tests
+test entropy::tests::debug_is_redacted ... ok
+test entropy::tests::failing_reader_fails_closed ... ok
+test entropy::tests::os_entropy_fills_a_buffer ... ignored, Miri isolation blocks opening /dev/urandom
+test entropy::tests::os_entropy_produces_a_mask ... ignored, Miri isolation blocks opening /dev/urandom
+
+test result: ok. 2 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.45s
+
+     Running unittests src/lib.rs (target/miri/x86_64-unknown-linux-gnu/debug/build/sicas-reference/ec63d46e5f2e5885/out/sicas_reference-ec63d46e5f2e5885)
+
+running 7 tests
+test chacha20::tests::block_entropy_failure_is_propagated ... ok
+test chacha20::tests::counter_advances_by_one ... ok
+test chacha20::tests::debug_is_redacted ... ok
+test chacha20::tests::entropy_failure_is_propagated ... ok
+test chacha20::tests::masked_blocks_match_the_reference ... ok
+test chacha20::tests::masked_key_shares_have_no_first_order_correlation ... ignored
+test chacha20::tests::rfc8439_keystream_block_is_correct ... ok
+
+test result: ok. 6 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 474.70s
+
+   Doc-tests sicas_core
+
+running 7 tests
+test crates/sicas-core/src/secret.rs - secret::Secret (line 29) - compile fail ... ok
+test crates/sicas-core/src/secret.rs - secret::Secret (line 39) - compile fail ... ok
+test crates/sicas-core/src/masked.rs - masked::Masked (line 35) - compile fail ... ok
+test crates/sicas-core/src/secret.rs - secret::Secret (line 48) - compile fail ... ok
+test crates/sicas-core/src/lib.rs - (line 15) ... ok
+test crates/sicas-core/src/masked.rs - masked::Masked (line 24) ... ok
+test crates/sicas-core/src/secret.rs - secret::Secret (line 19) ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+all doctests ran in 0.08s; merged doctests compilation took 0.01s
+   Doc-tests sicas_harness
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sicas_platform
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sicas_reference
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

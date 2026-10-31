@@ -1,0 +1,21 @@
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.01s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/trace_parser -artifact_prefix=/home/workstation/Documents/SiCaS/fuzz/artifacts/trace_parser/ -runs=1000000 /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3765060978
+INFO: Loaded 1 modules   (564 inline 8-bit counters): 564 [0x55da1cfae530, 0x55da1cfae764), 
+INFO: Loaded 1 PC tables (564 PCs): 564 [0x55da1cfae768,0x55da1cfb0aa8), 
+INFO:      106 files found in /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 106 min: 1b max: 2058b total: 18679b rss: 33Mb
+#107	INITED cov: 91 ft: 269 corp: 39/4293b exec/s: 0 rss: 73Mb
+#65536	pulse  cov: 91 ft: 269 corp: 39/4293b lim: 2707 exec/s: 21845 rss: 82Mb
+#131072	pulse  cov: 91 ft: 269 corp: 39/4293b lim: 3356 exec/s: 21845 rss: 83Mb
+#262144	pulse  cov: 91 ft: 269 corp: 39/4293b lim: 4096 exec/s: 21845 rss: 83Mb
+#524288	pulse  cov: 91 ft: 269 corp: 39/4293b lim: 4096 exec/s: 20971 rss: 83Mb
+#732596	REDUCE cov: 91 ft: 269 corp: 39/4291b lim: 4096 exec/s: 20931 rss: 84Mb L: 32/2058 MS: 4 ChangeBinInt-ChangeBinInt-ChangeByte-EraseBytes-
+#749492	REDUCE cov: 91 ft: 269 corp: 39/4290b lim: 4096 exec/s: 20819 rss: 84Mb L: 31/2058 MS: 1 EraseBytes-
+#750278	RELOAD cov: 91 ft: 270 corp: 40/4322b lim: 4096 exec/s: 20841 rss: 84Mb
+#765139	REDUCE cov: 91 ft: 270 corp: 40/4313b lim: 4096 exec/s: 21253 rss: 84Mb L: 22/2058 MS: 1 EraseBytes-
+#1000000	DONE   cov: 91 ft: 270 corp: 40/4313b lim: 4096 exec/s: 22222 rss: 85Mb
+Done 1000000 runs in 45 second(s)
