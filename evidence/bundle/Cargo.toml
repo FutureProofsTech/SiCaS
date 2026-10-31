@@ -1,0 +1,47 @@
+[workspace]
+members = [
+    "crates/sicas-core",
+    "crates/sicas-harness",
+    "crates/sicas-platform",
+    "crates/sicas-zeroize",
+    "crates/sicas-reference",
+]
+exclude = ["fuzz"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.99"
+license = "GPL-3.0-only"
+authors = ["SiCaS contributors"]
+description = "Side-channel attenuation and leakage-assessment primitives"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+missing_docs = "deny"
+missing_debug_implementations = "deny"
+unreachable_pub = "deny"
+unused_must_use = "deny"
+rust_2018_idioms = { level = "deny", priority = -1 }
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(kani)", "cfg(miri)"] }
+
+[workspace.lints.clippy]
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+dbg_macro = "deny"
+indexing_slicing = "deny"
+arithmetic_side_effects = "deny"
+integer_division = "deny"
+as_conversions = "deny"
+
+[profile.release]
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"

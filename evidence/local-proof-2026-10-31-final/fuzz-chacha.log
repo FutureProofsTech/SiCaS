@@ -1,0 +1,20 @@
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/chacha20 -artifact_prefix=/home/workstation/Documents/SiCaS/fuzz/artifacts/chacha20/ -runs=1000000 /home/workstation/Documents/SiCaS/fuzz/corpus/chacha20`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2534000673
+INFO: Loaded 1 modules   (596 inline 8-bit counters): 596 [0x5575819d2950, 0x5575819d2ba4), 
+INFO: Loaded 1 PC tables (596 PCs): 596 [0x5575819d2ba8,0x5575819d50e8), 
+INFO:        2 files found in /home/workstation/Documents/SiCaS/fuzz/corpus/chacha20
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 2 min: 1b max: 48b total: 49b rss: 33Mb
+#3	INITED cov: 84 ft: 86 corp: 2/49b exec/s: 0 rss: 34Mb
+#8192	pulse  cov: 84 ft: 86 corp: 2/49b lim: 128 exec/s: 4096 rss: 42Mb
+#16384	pulse  cov: 84 ft: 86 corp: 2/49b lim: 205 exec/s: 4096 rss: 43Mb
+#32768	pulse  cov: 84 ft: 86 corp: 2/49b lim: 373 exec/s: 3640 rss: 45Mb
+#65536	pulse  cov: 84 ft: 86 corp: 2/49b lim: 697 exec/s: 3640 rss: 48Mb
+#131072	pulse  cov: 84 ft: 86 corp: 2/49b lim: 1350 exec/s: 3640 rss: 55Mb
+#262144	pulse  cov: 84 ft: 86 corp: 2/49b lim: 2655 exec/s: 3542 rss: 69Mb
+#524288	pulse  cov: 84 ft: 86 corp: 2/49b lim: 4096 exec/s: 3518 rss: 97Mb
+#1000000	DONE   cov: 84 ft: 86 corp: 2/49b lim: 4096 exec/s: 3496 rss: 147Mb
+Done 1000000 runs in 286 second(s)

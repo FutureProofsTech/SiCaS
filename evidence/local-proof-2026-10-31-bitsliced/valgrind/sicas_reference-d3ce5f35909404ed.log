@@ -1,0 +1,70 @@
+==6256== Memcheck, a memory error detector
+==6256== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==6256== Using Valgrind-3.27.1 and LibVEX; rerun with -h for copyright info
+==6256== Command: target/debug/deps/sicas_reference-d3ce5f35909404ed --test-threads=1
+==6256== 
+
+running 11 tests
+test chacha20::tests::bitsliced_addition_is_lane_independent ... ok
+test chacha20::tests::bitsliced_blocks_match_the_reference ... ok
+test chacha20::tests::bitsliced_counter_advances_by_a_batch ... ok
+test chacha20::tests::bitsliced_entropy_failure_is_propagated ... ok
+test chacha20::tests::block_entropy_failure_is_propagated ... ok
+test chacha20::tests::counter_advances_by_one ... ok
+test chacha20::tests::debug_is_redacted ... ok
+test chacha20::tests::entropy_failure_is_propagated ... ok
+test chacha20::tests::masked_blocks_match_the_reference ... ok
+test chacha20::tests::masked_key_shares_have_no_first_order_correlation ... ok
+test chacha20::tests::rfc8439_keystream_block_is_correct ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.25s
+
+==6256== 
+==6256== HEAP SUMMARY:
+==6256==     in use at exit: 596 bytes in 3 blocks
+==6256==   total heap usage: 879 allocs, 876 frees, 3,939,238 bytes allocated
+==6256== 
+==6256== 48 bytes in 1 blocks are possibly lost in loss record 2 of 3
+==6256==    at 0x4935AE6: malloc (vg_replace_malloc.c:447)
+==6256==    by 0x40B329E: alloc (unix.rs:31)
+==6256==    by 0x40B329E: alloc_impl (alloc.rs:161)
+==6256==    by 0x40B329E: allocate (alloc.rs:223)
+==6256==    by 0x40B329E: {closure#0}<std::thread::thread::Inner, std::alloc::System> (sync.rs:823)
+==6256==    by 0x40B329E: allocate_for_layout<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>, alloc::sync::{impl#17}::new_uninit_in::{closure_env#0}<std::thread::thread::Inner, std::alloc::System>, fn(*mut u8) -> *mut alloc::sync::ArcInner<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>>> (sync.rs:2191)
+==6256==    by 0x40B329E: new_uninit_in<std::thread::thread::Inner, std::alloc::System> (sync.rs:821)
+==6256==    by 0x40B329E: <std::thread::thread::Thread>::new (thread.rs:102)
+==6256==    by 0x40C3299: std::thread::current::init_current (current.rs:294)
+==6256==    by 0x40A7C6F: current_or_unnamed (current.rs:251)
+==6256==    by 0x40A7C6F: <std::sync::mpmc::context::Context>::new (context.rs:72)
+==6256==    by 0x40522AD: __rust_std_internal_init_fn (context.rs:43)
+==6256==    by 0x40522AD: call_once<fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()> (function.rs:250)
+==6256==    by 0x40522AD: unwrap_or_else<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (option.rs:1065)
+==6256==    by 0x40522AD: <std::sys::thread_local::native::lazy::Storage<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()>>::get_or_init_slow::<<std::sync::mpmc::context::Context>::with::CONTEXT::__rust_std_internal_init_fn> (lazy.rs:80)
+==6256==    by 0x406B3CB: get_or_init<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, (), fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (lazy.rs:62)
+==6256==    by 0x406B3CB: {closure#0} (mod.rs:97)
+==6256==    by 0x406B3CB: call_once<std::sync::mpmc::context::{impl#0}::with::CONTEXT::{constant#0}::{closure_env#0}, (core::option::Option<&mut core::option::Option<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>>>)> (function.rs:250)
+==6256==    by 0x406B3CB: try_with<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, std::sync::mpmc::context::{impl#0}::with::{closure_env#1}<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()>, ()> (local.rs:462)
+==6256==    by 0x406B3CB: with<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()> (context.rs:53)
+==6256==    by 0x406B3CB: <std::sync::mpmc::list::Channel<test::event::CompletedTest>>::recv (list.rs:442)
+==6256==    by 0x4077E49: recv<test::event::CompletedTest> (mod.rs:1025)
+==6256==    by 0x4077E49: recv<test::event::CompletedTest> (mpsc.rs:890)
+==6256==    by 0x4077E49: run_tests<test::console::run_tests_console::{closure_env#2}> (lib.rs:445)
+==6256==    by 0x4077E49: test::console::run_tests_console (console.rs:328)
+==6256==    by 0x4063DBC: test_main_inner<test::test_main_static::{closure_env#0}> (lib.rs:170)
+==6256==    by 0x4063DBC: test::test_main_static (lib.rs:195)
+==6256==    by 0x40475D2: sicas_reference::main (lib.rs:1)
+==6256==    by 0x4048C9A: <fn() as core::ops::function::FnOnce<()>>::call_once (library/core/src/ops/function.rs:250)
+==6256==    by 0x4049DAD: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+==6256==    by 0x4051A60: std::rt::lang_start::<()>::{closure#0} (library/std/src/rt.rs:206)
+==6256== 
+==6256== LEAK SUMMARY:
+==6256==    definitely lost: 0 bytes in 0 blocks
+==6256==    indirectly lost: 0 bytes in 0 blocks
+==6256==      possibly lost: 48 bytes in 1 blocks
+==6256==    still reachable: 548 bytes in 2 blocks
+==6256==         suppressed: 0 bytes in 0 blocks
+==6256== Reachable blocks (those to which a pointer was found) are not shown.
+==6256== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6256== 
+==6256== For lists of detected and suppressed errors, rerun with: -s
+==6256== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

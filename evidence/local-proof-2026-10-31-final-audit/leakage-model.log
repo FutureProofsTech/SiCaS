@@ -1,0 +1,4 @@
+leakage-model unmasked control: max |r| = 1.000000 (secret vs secret), samples = 50000, threshold = 0.02
+leakage-model masked byte: max |r| = 0.010067 (HW(share0) vs HW(secret)), samples = 50000, threshold = 0.02
+leakage-model masked AND: max |r| = 0.003381 (share0 vs b), samples = 50000, threshold = 0.02
+leakage-model masked add u32: max |r| = 0.011356 (share0 vs a+b), samples = 50000, threshold = 0.02

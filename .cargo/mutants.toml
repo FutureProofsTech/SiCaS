@@ -1,0 +1,4 @@
+exclude_globs = [
+    "crates/sicas-core/src/proofs.rs",
+    "crates/sicas-harness/src/main.rs",
+]

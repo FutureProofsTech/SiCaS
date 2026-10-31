@@ -1,0 +1,51 @@
+[package]
+name = "sicas-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+sicas-core = { path = "../crates/sicas-core", version = "0.1.0" }
+sicas-harness = { path = "../crates/sicas-harness", version = "0.1.0" }
+sicas-reference = { path = "../crates/sicas-reference", version = "0.1.0" }
+
+[[bin]]
+name = "masked_ops"
+path = "fuzz_targets/masked_ops.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ct_lookup"
+path = "fuzz_targets/ct_lookup.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "trace_parser"
+path = "fuzz_targets/trace_parser.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "chacha20"
+path = "fuzz_targets/chacha20.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "chacha20_batch"
+path = "fuzz_targets/chacha20_batch.rs"
+test = false
+doc = false
+bench = false
+
+[workspace]

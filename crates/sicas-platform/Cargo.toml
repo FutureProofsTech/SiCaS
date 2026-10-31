@@ -1,0 +1,15 @@
+[package]
+name = "sicas-platform"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Safe OS platform adapters for SiCaS"
+publish = false
+
+[dependencies]
+sicas-core = { path = "../sicas-core", version = "0.1.0" }
+
+[lints]
+workspace = true

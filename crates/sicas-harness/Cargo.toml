@@ -1,0 +1,19 @@
+[package]
+name = "sicas-harness"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Zero-dependency TVLA, CPA, and timing harness for SiCaS"
+publish = false
+
+[dependencies]
+sicas-core = { path = "../sicas-core", version = "0.1.0" }
+
+[[bin]]
+name = "sicas-harness"
+path = "src/main.rs"
+
+[lints]
+workspace = true

@@ -1,0 +1,62 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag
+        required: true
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.99.0"
+
+      - name: Build release manifest
+        run: python3 tools/release_manifest.py --output release
+
+      - name: Verify checksums and metadata
+        run: |
+          cd release
+          sha256sum -c SHA256SUMS
+          python3 -m json.tool sbom.cdx.json >/dev/null
+          python3 -m json.tool provenance.json >/dev/null
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: release/sicas-harness
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign release artifact
+        run: |
+          cosign sign-blob --yes \
+            --bundle release/sicas-harness.sigstore.json \
+            release/sicas-harness
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sicas-release
+          path: release/
+
+      - name: Create draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          draft: true
+          files: release/*

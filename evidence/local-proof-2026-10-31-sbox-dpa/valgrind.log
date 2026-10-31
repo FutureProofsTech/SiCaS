@@ -1,0 +1,15 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+  Executable unittests src/lib.rs (target/debug/deps/sicas_core-e658f22069d033e8)
+  Executable unittests src/lib.rs (target/debug/deps/sicas_harness-3a5c227f90f3ec55)
+  Executable unittests src/lib.rs (target/debug/deps/sicas_platform-33c17315e38f5917)
+  Executable unittests src/lib.rs (target/debug/deps/sicas_reference-d3ce5f35909404ed)
+  Executable unittests src/lib.rs (target/debug/deps/sicas_zeroize-1b57f67ee536d31f)
+# Valgrind Memcheck Evidence
+
+| Binary | Result |
+|---|---|
+| sicas_core | PASS |
+| sicas_harness | PASS |
+| sicas_platform | PASS |
+| sicas_reference | PASS |
+| sicas_zeroize | PASS |

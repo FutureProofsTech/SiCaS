@@ -1,0 +1,8 @@
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+   Compiling sicas-zeroize v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-zeroize)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s

@@ -1,0 +1,13 @@
+msrv = "1.99"
+doc-valid-idents = [
+    "SiCaS",
+    "ChaCha20",
+    "RISC-V",
+    "Cortex-M4",
+    "S-box",
+    "TVLA",
+    "CPA",
+    "DPA",
+    "SPA",
+    "SAL-4",
+]

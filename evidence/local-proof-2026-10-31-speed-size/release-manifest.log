@@ -1,0 +1,4 @@
+   Compiling sicas-platform v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-platform)
+    Finished `release` profile [optimized] target(s) in 0.03s
+wrote evidence/local-proof-2026-10-31-speed-size/release/sicas-harness
+sha256 fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b
