@@ -11,6 +11,7 @@ exercises it.
 | Masked addition | `masked::tests::masked_addition_matches_reference`, Kani `masked_u32_add_matches_reference` | `cargo test -p sicas-core masked_addition` |
 | Share uniformity | Kani `masked_u8_share0_covers_all_values`, `masked_u32_share0_covers_all_values`, `masked_u8_and_share0_covers_all_values` | `cargo kani --workspace` |
 | Bitsliced lane independence | `chacha20::tests::bitsliced_addition_is_lane_independent` | `cargo test -p sicas-reference bitsliced_addition` |
+| Bitsliced key-plane balance | `chacha20::tests::bitsliced_key_planes_are_balanced` | `cargo test -p sicas-reference bitsliced_key_planes` |
 | Bitsliced batch correctness | `chacha20::tests::bitsliced_blocks_match_the_reference` | `cargo test -p sicas-reference bitsliced_blocks` |
 | Bitsliced counter advance | `chacha20::tests::bitsliced_counter_advances_by_a_batch` | `cargo test -p sicas-reference bitsliced_counter` |
 | Entropy failure in batch | `chacha20::tests::bitsliced_entropy_failure_is_propagated` | `cargo test -p sicas-reference bitsliced_entropy` |
@@ -23,6 +24,7 @@ exercises it.
 | TVLA correctness | `tvla::tests::*` | `cargo test -p sicas-harness tvla` |
 | CPA correctness | `cpa::tests::*` | `cargo test -p sicas-harness cpa` |
 | Trace parser | `trace::tests::*`, `fuzz/targets/trace_parser.rs` | `cargo test -p sicas-harness trace`; `cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=1000000` |
+| Bitsliced batch fuzz | `fuzz/fuzz_targets/chacha20_batch.rs` | `cargo +nightly-2026-08-03 fuzz run chacha20_batch -- -runs=1000000` |
 | Preprocessing bounds | `preprocess::tests::*` | `cargo test -p sicas-harness preprocess` |
 | Statistics differential | `tools/check_stats.py` | `python3 tools/check_stats.py` |
 | Memory safety | Miri, ASan, Valgrind | `cargo miri test --workspace`; ASan/Valgrind scripts |

@@ -84,6 +84,7 @@ if [ "$mode" = "full" ]; then
   run fuzz-lookup cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=1000000
   run fuzz-trace cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=1000000
   run fuzz-chacha cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=1000000
+  run fuzz-chacha-batch cargo +nightly-2026-08-03 fuzz run chacha20_batch -- -runs=1000000
   run aarch64 ./tools/run-aarch64-tests.sh
   run i686 ./tools/run-i686-tests.sh
 

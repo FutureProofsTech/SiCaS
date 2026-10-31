@@ -46,6 +46,7 @@
 - Zeroization design review and adapter checklist.
 - Compiler-matrix assembly evidence: 69 configurations across opt levels, codegen units,
   panic strategies, and x86_64 thin/fat LTO.
+- Dedicated `chacha20_batch` fuzz target for the 64-block bitsliced path.
 - Valgrind Memcheck evidence: four workspace library binaries, zero errors.
 - Local signing dry run with an ephemeral test key: detached signature produced and
   verified; production identity remains open.
@@ -57,7 +58,7 @@
   10× hard ceiling; the ≤5× target remains open.
 - Full local proof at commit `160180f`: all security gates pass, including
   full-workspace Miri, 30 Kani harnesses, 129 ASan tests, zero missed viable mutants,
-  97.18% line coverage, four 1M-execution fuzz campaigns, cross-architecture tests,
+  97.18% line coverage, five 1M-execution fuzz campaigns, cross-architecture tests,
   release validation, reproducible-build comparison, and the performance gate at
   7.39×. The 10× hard ceiling is met; the 5× target remains open.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and

@@ -19,7 +19,8 @@ independent audit and does not support a SAL-4 claim.
 - lane-independent addition tests over 64 lanes;
 - counter wraparound and scalar/batch interoperability tests;
 - entropy-failure injection at early and final mask acquisition;
-- mutation testing, Miri, ASan, Valgrind, fuzzing, and assembly inspection;
+- mutation testing, Miri, ASan, Valgrind, five fuzz campaigns including the
+  64-block bitsliced batch, and assembly inspection;
 - statistical leakage checks with a negative control.
 
 ## Findings and fixes
@@ -43,6 +44,8 @@ external-only gates.
 - Reference mutation has zero missed viable mutants.
 - Assembly matrix covers 69 configurations, including `opt-level=z` and fat LTO.
 - Bitsliced batch meets the 10× performance hard ceiling.
+- Bitsliced key planes are statistically balanced across fresh masks.
+- The dedicated batch fuzz target has a 1,000,000-execution campaign.
 - Release binary is reproducible and smaller than the previous profile.
 
 ## Residual risk

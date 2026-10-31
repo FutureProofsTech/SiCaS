@@ -29,7 +29,8 @@ initial state used by the final addition is independently refreshed before the r
    not consume correlated shares.
 4. The bitsliced addition is lane-independent; the distinct-lane test compares all 64
    lanes against `wrapping_add` over 32 randomized inputs.
-5. The batch output matches the independent unmasked ChaCha20 reference for randomized
+5. Key bitplanes are statistically balanced across 2,048 fresh masks per bit.
+6. The batch output matches the independent unmasked ChaCha20 reference for randomized
    keys, nonces, and counters, including counter wraparound.
 6. Entropy failure is propagated, not silently replaced.
 7. Entropy failure is fail-closed and leaves the counter and scalar state

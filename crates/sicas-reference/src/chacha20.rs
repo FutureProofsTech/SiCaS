@@ -667,6 +667,28 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native statistical sweep; Miri covers the core gadgets.
+    fn bitsliced_key_planes_are_balanced() {
+        let mut entropy = TestEntropy::new(0xba1a_4ced);
+        let samples = 2_048_usize;
+
+        for bit in 0..32 {
+            let mut ones = 0_usize;
+            for _ in 0..samples {
+                let word = Masked::<u32>::mask(u32::MAX, entropy.mask_u32().unwrap());
+                let planes = masked_word_planes(&word, &mut entropy).unwrap();
+                let (share0, _) = planes[bit].shares();
+                ones += usize::from((*share0 & 1) == 1);
+            }
+            let deviation = ones.abs_diff(samples / 2);
+            assert!(
+                deviation < samples / 20,
+                "bitplane {bit} has a biased share: {ones} ones"
+            );
+        }
+    }
+
+    #[test]
     #[cfg_attr(miri, ignore)] // Native batch sweep; Miri covers the core gadgets.
     fn bitsliced_blocks_match_the_reference() {
         let mut rng = TestRng::new(0xb175_c0de);

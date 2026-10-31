@@ -38,13 +38,14 @@ Valgrind reports zero errors.
 
 ```bash
 ./tools/local_proof.sh quick   # fast gate set
-./tools/local_proof.sh full    # full proof, roughly 30 minutes
+./tools/local_proof.sh full    # full proof, roughly 30–45 minutes
 ```
 
 The full run writes `SUMMARY.md` and raw logs under `evidence/local-proof-<timestamp>/`.
 It covers fmt, strict Clippy, tests, doctests, Miri, Kani, ASan, Valgrind, mutation,
-coverage, fuzzing, cross-architecture tests, leakage model, statistics differential,
-release validation, signing dry run, and reproducible builds.
+coverage, five fuzz campaigns including the 64-block bitsliced batch, cross-architecture
+tests, leakage model, statistics differential, release validation, signing dry run,
+and reproducible builds.
 
 ## Verify the evidence bundle
 

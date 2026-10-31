@@ -38,7 +38,7 @@ claim.
 - Safe Rust core, zero third-party runtime dependencies.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
-- 1M-execution fuzz campaigns on four targets.
+- 1M-execution fuzz campaigns on five targets.
 - Full local proof at `160180f`: all gates passed, including the performance gate at
   7.39×. The 10× hard ceiling is met; the 5× target remains open.
 - Masked ChaCha20 RFC 8439 and differential validation.

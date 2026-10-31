@@ -14,6 +14,7 @@ cargo +nightly-2026-08-03 fuzz run masked_ops -- -runs=1000000
 cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=1000000
 cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=1000000
 cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=1000000
+cargo +nightly-2026-08-03 fuzz run chacha20_batch -- -runs=1000000
 ```
 
 | Target | Executions | Result | Notes |
@@ -22,6 +23,10 @@ cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=1000000
 | `ct_lookup` | 1,000,000 | no crashes | 256-byte constant-time lookup |
 | `trace_parser` | 1,000,000 | no crashes | malformed trace input |
 | `chacha20` | 1,000,000 | no crashes | masked output vs reference |
+| `chacha20_batch` | 1,000,000 | no crashes | 64-block bitsliced batch vs reference |
+
+The `chacha20_batch` target processes 64 blocks per input, so its execution rate is
+lower than the scalar targets; it still receives a full 1,000,000-execution campaign.
 
 ## Long campaign — 2026-10-31
 

@@ -35,13 +35,13 @@ Adds:
 - core and reference mutation testing;
 - report-only workspace mutation testing;
 - coverage with a 90% line threshold;
-- four 1M-execution fuzz campaigns;
+- five 1M-execution fuzz campaigns;
 - AArch64 QEMU functional tests;
 - i686 native all-target tests;
 - release manifest, SBOM, provenance, validator, local signing dry run, and reproducible-build comparison;
 - final evidence bundle.
 
-The full run can take 20+ minutes. It writes everything under
+The full run can take 30–45 minutes. It writes everything under
 `evidence/local-proof-<timestamp>/` unless `LOCAL_PROOF_LOG_DIR` is set.
 
 ## Full local proof
@@ -53,7 +53,7 @@ LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-self-audit ./tools/local_pro
 ```
 
 All gates passed, including full-workspace Miri, 30 Kani harnesses, 129 ASan tests,
-zero missed viable mutants, 97.18% line coverage, four 1M-execution fuzz campaigns,
+zero missed viable mutants, 97.18% line coverage, five 1M-execution fuzz campaigns,
 AArch64 QEMU, i686, release validation, the local signing dry run, and the
 reproducible-build comparison. The performance gate passed at 7.39×, meeting the 10×
 hard ceiling; the 5× target remains open. The summary is

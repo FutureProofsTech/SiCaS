@@ -77,7 +77,7 @@ See:
 ```
 
 The full run covers formatting, strict Clippy, all tests and doctests, full-workspace
-Miri, Kani, ASan, mutation testing, coverage, four 1M-execution fuzz campaigns,
+Miri, Kani, ASan, mutation testing, coverage, five 1M-execution fuzz campaigns,
 cross-architecture tests, leakage-model checks, release validation, and reproducible
 builds. See [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md).
 

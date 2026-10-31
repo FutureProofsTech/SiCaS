@@ -243,6 +243,12 @@ zeroization adapter review, and production signing remain incomplete.
 ## Conclusion
 
 No open critical or high-severity defect remains in the locally reviewable scope after
-the fixes above. The remaining risk is concentrated in physical leakage validation,
-independent review, zeroization, and release signing — none of which can be completed
-truthfully on this local machine alone.
+the fixes above. Every locally executable audit technique has been run: source review,
+differential testing, fuzzing, mutation, Miri, ASan, Valgrind, Kani, assembly
+inspection, leakage modeling, release validation, and self-audit.
+
+The remaining risk is not unexamined code. It is independent verification and physical
+measurement: an independent audit, an independent red team, real hardware power/EM
+traces, an audited unsafe zeroization boundary, and a trusted production signing
+identity. Self-audit cannot make itself independent, and software cannot produce
+physical traces from hardware it does not have. Those are the only open items.
