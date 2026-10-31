@@ -72,7 +72,8 @@ zeroization, secure erasure, or protection against memory-remnant attacks.
 - Experimental implementation: `crates/sicas-zeroize` uses volatile byte writes and a
   compiler fence, with unit tests. It is `publish = false` and is not used by any
   published crate.
-- Local proof: the crate passes its tests, but volatile erasure cannot be proven by
-  tests alone; assembly review and independent review are still required.
+- Local proof: the crate passes its tests, and the x86_64 assembly contains explicit
+  zero stores rather than a `memset` call (`evidence/zeroize/2026-10-31-x86_64.md`).
+  Independent review is still required.
 - External gate: independent review of the unsafe boundary or a platform guarantee with
   equivalent evidence.

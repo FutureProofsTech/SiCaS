@@ -77,6 +77,7 @@ REQUIRED = [
     "evidence/fuzz-long/chacha20.log",
     "evidence/stats/2026-10-31-x86_64.md",
     "evidence/valgrind/2026-10-31-x86_64.md",
+    "evidence/zeroize/2026-10-31-x86_64.md",
     "evidence/release/2026-10-31-x86_64.md",
     "tools/local_proof.sh",
     "tools/auditor_smoke.sh",

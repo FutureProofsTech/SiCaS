@@ -46,6 +46,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Bitsliced masking argument | `docs/BITSLICED_MASKING.md` |
 | First-order leakage model | `evidence/leakage/2026-10-31-x86_64.md` |
 | Valgrind Memcheck | `evidence/valgrind/2026-10-31-x86_64.md` |
+| Zeroization assembly | `evidence/zeroize/2026-10-31-x86_64.md` |
 | Statistics differential test | `evidence/stats/2026-10-31-x86_64.md` |
 | Fuzz campaigns | `docs/FUZZ_EVIDENCE.md` |
 | Mutation testing | `docs/MUTATION_EVIDENCE.md` |

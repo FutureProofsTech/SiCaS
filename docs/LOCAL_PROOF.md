@@ -18,6 +18,7 @@ Covers:
 - `cargo audit` and `cargo deny check`;
 - multi-architecture assembly matrix, including optimization, codegen, panic, and x86_64 LTO variants;
 - Valgrind Memcheck over the workspace library tests;
+- zeroization assembly inspection;
 - differential statistics validation against an independent Python model;
 - first-order leakage-model check with a negative control;
 - release-manifest validator tests;
