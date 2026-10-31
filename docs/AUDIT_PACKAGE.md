@@ -7,6 +7,15 @@ Nothing in this package is submitted externally until the local proof package is
 complete: every locally provable claim has evidence, every local gate is green, and
 every remaining gap is explicitly hardware-, credential-, or independent-party-only.
 
+## Reviewed state
+
+- Code commit: `5478c19`
+- Evidence tag: `local-proof-2026-10-31-speed-size`
+- Public label: SAL-2 locally
+- Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
+- Release size: 383,160 bytes
+- Masked ChaCha20: 7.27× in the full-proof run; 10× hard ceiling met
+
 ## Scope
 
 - `sicas-core`: constant-time primitives, two-share Boolean masking, masked addition.
@@ -15,6 +24,13 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 - `sicas-platform`: OS entropy adapter.
 - Build, CI, release, SBOM, and reproducibility paths.
 - Threat model, claims matrix, and proof obligations.
+
+## Reviewer start
+
+- `AUDITOR_GUIDE.md` — shortest path, expected results, and claim map.
+- `docs/AUDITOR_CHECKLIST.md` — reproducible review checklist.
+- `docs/TEST_MATRIX.md` — property-to-test map.
+- `tools/auditor_smoke.sh` — fast auditor smoke test.
 
 ## Evidence index
 
@@ -44,6 +60,9 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Local proof runner | `docs/LOCAL_PROOF.md` |
 | Zeroization review | `docs/ZEROIZATION.md` |
 | Local SAL-4 readiness | `docs/SAL4_LOCAL_READINESS.md` |
+| Test matrix | `docs/TEST_MATRIX.md` |
+| Reviewer checklist | `docs/AUDITOR_CHECKLIST.md` |
+| Auditor smoke evidence | `evidence/auditor-smoke/2026-10-31.md` |
 | Known gaps | `docs/GAP_REPORT.md` |
 
 Generate a self-contained bundle:

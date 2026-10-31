@@ -56,6 +56,9 @@ See:
 - [`docs/PERFORMANCE_EVIDENCE.md`](docs/PERFORMANCE_EVIDENCE.md) — masked ChaCha20 performance and open gap
 - [`docs/RELEASE.md`](docs/RELEASE.md) — release, SBOM, and signing
 - [`docs/RED_TEAM.md`](docs/RED_TEAM.md) — independent review program
+- [`AUDITOR_GUIDE.md`](AUDITOR_GUIDE.md) — auditor quick start and claim map
+- [`docs/AUDITOR_CHECKLIST.md`](docs/AUDITOR_CHECKLIST.md) — reproducible review checklist
+- [`docs/TEST_MATRIX.md`](docs/TEST_MATRIX.md) — property-to-test map
 - [`docs/AUDIT_PACKAGE.md`](docs/AUDIT_PACKAGE.md) — audit scope and evidence index
 - [`docs/AUDIT_REPORT_2026-10-30.md`](docs/AUDIT_REPORT_2026-10-30.md) — adversarial review findings and fixes
 - [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) — remaining external gates

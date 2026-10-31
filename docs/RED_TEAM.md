@@ -46,6 +46,18 @@ Fault injection and physical probing are in scope only on dedicated lab hardware
 | Protocol/usage | Nonce reuse, key lifetime, error oracles, unsafe configuration |
 | Detection/response | Can the team detect, triage, remediate, and retest? |
 
+## Reviewer commands
+
+```bash
+tools/auditor_smoke.sh /tmp/sicas-auditor-smoke
+cargo test -p sicas-reference bitsliced
+cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=1000000
+cargo mutants -p sicas-core -p sicas-reference --no-shuffle
+```
+
+The smoke test covers core masking, bitsliced ChaCha20, leakage model, statistics,
+assembly matrix, and short timing. Use `AUDITOR_GUIDE.md` for the full path.
+
 ## Severity and remediation
 
 | Severity | Examples | SLA | Release impact |

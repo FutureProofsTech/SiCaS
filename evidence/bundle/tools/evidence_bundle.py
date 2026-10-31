@@ -13,6 +13,7 @@ import sys
 
 REQUIRED = [
     "AGENTS.md",
+    "AUDITOR_GUIDE.md",
     "opencode.json",
     "PLAN.md",
     "README.md",
@@ -41,6 +42,8 @@ REQUIRED = [
     "docs/RED_TEAM.md",
     "docs/TOOLING.md",
     "docs/AUDIT_PACKAGE.md",
+    "docs/AUDITOR_CHECKLIST.md",
+    "docs/TEST_MATRIX.md",
     "docs/AUDIT_REPORT_2026-10-30.md",
     "docs/GAP_REPORT.md",
     "docs/LOCAL_PROOF.md",
@@ -51,6 +54,7 @@ REQUIRED = [
     "evidence/ct/2026-10-30-x86_64.md",
     "evidence/ct/asm-2026-10-30.md",
     "evidence/ct/asm-2026-10-31.md",
+    "evidence/auditor-smoke/2026-10-31.md",
     "evidence/ct/2026-10-31-x86_64-release.md",
     "evidence/leakage/2026-10-31-x86_64.md",
     "evidence/local-proof-2026-10-31/SUMMARY.md",
@@ -68,6 +72,7 @@ REQUIRED = [
     "evidence/valgrind/2026-10-31-x86_64.md",
     "evidence/release/2026-10-31-x86_64.md",
     "tools/local_proof.sh",
+    "tools/auditor_smoke.sh",
     "tools/run-aarch64-tests.sh",
     "tools/run-i686-tests.sh",
     "tools/ct_asm_check.py",
