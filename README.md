@@ -88,7 +88,7 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 | Workspace mutation | **630 mutants, 574 caught, 0 missed, 56 unviable** | [`evidence/mutation/2026-10-31-workspace.md`](evidence/mutation/2026-10-31-workspace.md) |
 | Line coverage | **97.28%** | [`evidence/coverage/2026-10-31-dpa.md`](evidence/coverage/2026-10-31-dpa.md) |
 | Release artifact | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
-| Evidence bundle | **101 files**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
+| Evidence bundle | **102 files**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
 | Independent external audit | **PENDING** | [`AUDIT_REQUEST.md`](AUDIT_REQUEST.md) |
 | Independent red team | **PENDING** | [`docs/RED_TEAM.md`](docs/RED_TEAM.md) |
 | Hardware TVLA/CPA/DPA | **PENDING** | [`docs/HARDWARE.md`](docs/HARDWARE.md) |
@@ -127,6 +127,7 @@ All workspace crates are `publish = false` until the external gates pass.
 | Full local proof | PASS at `8c41e4b` |
 | DPA quick proof | PASS at `ef13675` |
 | Evidence tag | `final-audit-2026-10-31-dpa` |
+| Release build commit | `123eb69` (proof code `ef13675`) |
 | Release binary | 386,232 bytes |
 | Release SHA-256 | `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da` |
 | License | GPL-3.0-only |
@@ -613,7 +614,7 @@ and the open-gap analysis.
 | Release manifest / validator | PASS |
 | Signing dry run | PASS with ephemeral test key |
 | Reproducible build comparison | PASS |
-| Evidence bundle | 101 files, hashes verified |
+| Evidence bundle | 102 files, hashes verified |
 
 ### Evidence bundle
 
@@ -656,8 +657,8 @@ python3 tools/validate_release_manifest.py \
 ```
 
 The `--skip-commit` flag is required when validating from the evidence tag because the
-manifest records code commit `ef13675`, while the tag includes later docs/evidence
-commits.
+manifest records build commit `123eb69` (proof code commit `ef13675`), while the tag
+includes later docs/evidence commits.
 
 Verify the artifact hash:
 

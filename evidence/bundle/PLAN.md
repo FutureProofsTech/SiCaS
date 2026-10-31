@@ -275,8 +275,7 @@ SiCaS/
 ├── .cargo/config.toml         # aliases, target settings
 ├── .github/workflows/ci.yml
 ├── README.md
-├── LICENSE-MIT
-├── LICENSE-APACHE
+├── LICENSE                    # GPL-3.0-only
 ├── SECURITY.md
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md

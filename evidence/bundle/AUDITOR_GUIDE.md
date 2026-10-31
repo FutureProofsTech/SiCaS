@@ -6,6 +6,7 @@ attack SiCaS. It is a review aid, not evidence that an independent review has ha
 ## Reviewed state
 
 - Code commit: `ef13675`
+- Release build commit: `123eb69`
 - Evidence commit/tag: `final-audit-2026-10-31-dpa`
 - Public label: **SAL-2 locally**
 - Release SHA-256: `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`
@@ -84,8 +85,8 @@ also bundled.
   `tools/check_stats.py`.
 - **Release integrity:** `tools/release_manifest.py`,
   `tools/validate_release_manifest.py`, and `evidence/bundle`. The release manifest
-  records code commit `ef13675`; the evidence tag points to a later docs/evidence
-  commit, so add `--skip-commit` when validating from the tag.
+  records build commit `123eb69` (proof code commit `ef13675`); the evidence tag points
+  to a later docs/evidence commit, so add `--skip-commit` when validating from the tag.
 
 ## Known limits
 

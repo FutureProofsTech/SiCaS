@@ -3,6 +3,7 @@
 ## Status
 
 - Code commit: `ef13675`
+- Release build commit: `123eb69`
 - Evidence tag: `final-audit-2026-10-31-dpa`
 - Public label: **SAL-2 locally**
 - Production status: **not certified**
@@ -42,7 +43,8 @@ release” from “certified for production secrets.”
 python3 tools/release_manifest.py --output release
 python3 tools/validate_release_manifest.py --manifest release
 # Add --skip-commit when validating from the evidence tag: the manifest records
-# code commit ef13675, while the tag includes later docs/evidence commits.
+# build commit 123eb69 (proof code ef13675), while the tag includes later
+# docs/evidence commits.
 tools/local-signing-dry-run.sh release evidence/signing
 ```
 
@@ -64,7 +66,7 @@ Give the reviewer:
 4. `docs/AUDIT_TECHNIQUE_MATRIX.md`
 5. `docs/AUDIT_PACKAGE.md`
 6. `evidence/bundle/`
-7. the repository at `ef13675`
+7. the proof code at `ef13675` and the release build commit `123eb69`
 
 The reviewer can verify the bundle with:
 

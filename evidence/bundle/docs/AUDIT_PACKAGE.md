@@ -15,8 +15,9 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 - Release SHA-256: `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`
 - Release size: 386,232 bytes
 - Masked ChaCha20: 7.15× in the final full proof; 10× hard ceiling met
-- Release validation: the manifest records code commit `ef13675`; use
-  `--skip-commit` when validating from the evidence tag
+- Release build commit: `123eb69`
+- Release validation: the manifest records build commit `123eb69` (proof code
+  `ef13675`); use `--skip-commit` when validating from the evidence tag
 
 ## Scope
 

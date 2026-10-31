@@ -19,6 +19,7 @@ REQUIRED = [
     "opencode.json",
     "PLAN.md",
     "README.md",
+    "LICENSE",
     "SECURITY.md",
     "CONTRIBUTING.md",
     "CHANGELOG.md",

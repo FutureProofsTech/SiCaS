@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Relicensed the project from MIT OR Apache-2.0 to GPL-3.0-only.
+
 ### Added
 
 - `sicas-core` safe, `no_std`, zero-dependency constant-time primitives.

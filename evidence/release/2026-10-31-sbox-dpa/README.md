@@ -1,6 +1,6 @@
 # SiCaS release artifacts
 
-- Commit: `ef13675a9d44e881e1420f4cd5b9313043f13b73`
+- Commit: `123eb69169199e3566980695d9723a61d5561481`
 - Host: `x86_64-unknown-linux-gnu`
 - Rust: `rustc 1.99.0 (b940084d7 2026-09-28)`
 - Artifact: `sicas-harness`

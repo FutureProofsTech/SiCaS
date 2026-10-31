@@ -45,7 +45,7 @@ def build_manifest(root: pathlib.Path) -> tuple[pathlib.Path, dict[str, str]]:
             "bom-ref": "pkg:cargo/sicas-harness@0.1.0",
             "name": "sicas-harness",
             "version": "0.1.0",
-            "licenses": [{"license": {"name": "MIT OR Apache-2.0"}}],
+            "licenses": [{"license": {"name": "GPL-3.0-only"}}],
             "purl": "pkg:cargo/sicas-harness@0.1.0",
         },
         {
@@ -53,7 +53,7 @@ def build_manifest(root: pathlib.Path) -> tuple[pathlib.Path, dict[str, str]]:
             "bom-ref": "pkg:cargo/sicas-core@0.1.0",
             "name": "sicas-core",
             "version": "0.1.0",
-            "licenses": [{"license": {"name": "MIT OR Apache-2.0"}}],
+            "licenses": [{"license": {"name": "GPL-3.0-only"}}],
             "purl": "pkg:cargo/sicas-core@0.1.0",
         },
     ]

@@ -1,23 +1,24 @@
 # SiCaS Evidence Bundle
 
 - Code commit under test: `ef13675`
-- Generated: `2026-10-31T12:59:18.204976+00:00`
-- Files: 101
+- Generated: `2026-10-31T13:06:20.641866+00:00`
+- Files: 102
 
 | File | SHA-256 |
 |---|---|
 | `AGENTS.md` | `2d972877001d5ea217c6055e71750962f62ba467cc4783771fa5c884115b5eba` |
-| `AUDITOR_GUIDE.md` | `08b58d8c31c03753f381f0f0a9573dbbbdc2f1aaa074745f40d625e1dd2dd7a4` |
-| `AUDIT_REQUEST.md` | `260960aa59a3e83b6e156c557ff6af2c4ada84d7e6c7c2cd0a3c6336bfc0b576` |
-| `PRODUCTION_READINESS.md` | `45f1c78d7ebb6fa7642999d39efa04fa04e1baf5ceef7bbeab1f29f2dc2a70b4` |
+| `AUDITOR_GUIDE.md` | `bde4684a53666379a2fee5bf4b434e2ea5f5414c1904f5afe74019b22e48c450` |
+| `AUDIT_REQUEST.md` | `9af961368c8cc377f70ebec336f637d284b7e63816348e57ee78156e7e0a9181` |
+| `PRODUCTION_READINESS.md` | `f4c2e2702f21421a4db9caf496af39d0b60580174d47edae4aa736e9f764e48c` |
 | `opencode.json` | `9a148bd21e7b229629e87c8e5eeccbe438b71ced0d0cae03161438533aad4809` |
-| `PLAN.md` | `8b4b122ac6cf9794197035a67f7b2498c04d15211546b1c32d52f0cc67edea29` |
-| `README.md` | `e6b839cd40f3a4a9eb756f87a330de004dbc1b11f5745d1fd912c77bd715bf3e` |
+| `PLAN.md` | `72e9b666cf187fab6f5203e8ebeb59a5ae77608378297e2fa0f4b5df29382a90` |
+| `README.md` | `415f9bfbeb3534f2110285b22a568ac74d304cf76c603d9bf8a902b675f4b660` |
+| `LICENSE` | `3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `9f43cd0f9f0ab8a922961d27c4e8d927d30b628e273f2457acce93bd1da3f0d3` |
-| `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
-| `Cargo.toml` | `e50ce12e5acf1ed8b26ef0ff211a8d047dfb6dac9a8dc72efaab4148e6e94e1b` |
+| `CHANGELOG.md` | `f72a011f8fc914bfc8bab282c6b79682fe29c9f399b6e1ad74b9be4d0c7c3638` |
+| `deny.toml` | `f34b92d44fd471e7ffe80375fd4ca0b64473e6f48f1100c4fe9178afcb942090` |
+| `Cargo.toml` | `5a1876610f22738767f83f7edc082c0d980fafbd0f009690c4fe0edb8088b09b` |
 | `Cargo.lock` | `3b87141280b45fa7ab8067c398c6596384f1c5c46b339a65eb9a42531b276bbd` |
 | `rust-toolchain.toml` | `b377894f4717223cfb2e38f5a6c9b439ceb6633b12a9f563843c771c25c00524` |
 | `docs/THREAT_MODEL.md` | `af119b1739524991e4f672cdb1273379a50cb543c9fa3581d5dbe13f7eb64f65` |
@@ -37,8 +38,8 @@
 | `docs/RELEASE.md` | `e400da9c744888fe6ab964ca2dedcf3fc42360407841d530198834be9bfcd5c3` |
 | `docs/RED_TEAM.md` | `0488173170a29993e5ce04891b5a5bc6dad0d4a3169744080e904bb4f1374785` |
 | `docs/TOOLING.md` | `f0c53aea3558632918984cd3559629a95439b0f1f4363399b6d8d1fede60be7b` |
-| `docs/AUDIT_PACKAGE.md` | `5bae7ee5e5005ff66723e1870906d903f997646970474e21c67f1a8f2aff39e8` |
-| `docs/AUDITOR_CHECKLIST.md` | `3e27bad2d2bcab6c6d315f26b75d2ca8f71c835f823937f8277fb8fc6dc4deb9` |
+| `docs/AUDIT_PACKAGE.md` | `3f99dd61ab5ef96d08444bce3a10aa537671fdb2fb8c08b659ed251a43333197` |
+| `docs/AUDITOR_CHECKLIST.md` | `16a9f8ff05d51e59d37b7da5cb87a0682972560d8b803762633b9bb47ba70f87` |
 | `docs/AUDIT_TECHNIQUE_MATRIX.md` | `06a7f32a2c15c29eed522167ee02cdddc05b81fbdbfd28e55a4e4fd6a08ddf53` |
 | `docs/TEST_MATRIX.md` | `4154ca4edd0c5007c3f642cf448475a2c0ab26b3fa463fcee617205aaf1e0ed0` |
 | `docs/AUDIT_REPORT_2026-10-30.md` | `769d3cdf1d2c397a9be1b398afa19621202ee579b3563e4bf8c99d609b2f8da9` |
@@ -68,7 +69,7 @@
 | `evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md` | `87c8d414117efa88d276e0c803f3c547ff45ba1ba4516dc14a7e91cc2dbc255c` |
 | `evidence/release/2026-10-30-x86_64.md` | `94337c355f4a73ca2fa59734a9c98c46329b3318fac4dbdc3beaa3f16646faf2` |
 | `evidence/signing/2026-10-31-x86_64.md` | `7d6ce23bf697c2f81e23a86e2891b4c51c83ace4b485441c79ba41de31080559` |
-| `evidence/signing/2026-10-31-sbox-dpa/SUMMARY.md` | `4f14a4a09f9cb3ebb602f4001b1435103eb952bc983561e275c0f66b0c6b0f4b` |
+| `evidence/signing/2026-10-31-sbox-dpa/SUMMARY.md` | `ebe880a93a2eeb9b27edfe96b3a32f14fea1a7888f2d30e5f5446093279d6687` |
 | `evidence/fuzz-long/SUMMARY.md` | `707c62e99c22d603fa415a5623f904e8c7a614478557da9b618c3b9db6395db0` |
 | `evidence/fuzz-long/masked_ops.log` | `83e03e86ba15c4f13957af00f26435b6fe359d22388147c55bdc5bcf505c7ba6` |
 | `evidence/fuzz-long/ct_lookup.log` | `5059f215b70a616703e681047fc6ba4b48d0687ad0856918fb0c9de8bdaac769` |
@@ -83,7 +84,7 @@
 | `evidence/mutation/2026-10-31-dpa.log` | `747d981c4e5f726826456d87d96f429df315871bda6353e64880f15c3bce2dd6` |
 | `evidence/zeroize/2026-10-31-x86_64.md` | `e8d9ac6f1344c539e07514c6bbfb4686fb52560401121175b477c8fb68143323` |
 | `evidence/release/2026-10-31-x86_64.md` | `ebf41674f5cbf99713fdd69f5c3accd9d0df079a6fcee35361a62f7779f9b421` |
-| `evidence/release/2026-10-31-sbox-dpa/README.md` | `b58081a6f5f8f4979900b8e4e80ca7c17fd92f30edcc503aa162ad51e02a68d7` |
+| `evidence/release/2026-10-31-sbox-dpa/README.md` | `13c68fbbe65e5ce68e5ec6cd5fe99677ecae966a49e625a8f49683af4f541eab` |
 | `tools/local_proof.sh` | `6f7ddb87160d627cfcf3813ba5e9636bd0757c114da2e5ecb550cb73442f47e9` |
 | `tools/auditor_smoke.sh` | `d9a4356a7dd8d38a542857f4c2baf73bb3d05bd6a905a08439c1e083f794560c` |
 | `fuzz/Cargo.toml` | `895aa0ff918d97b5b20790e18b3f2f0f8acbb670744b319b35ae75c67e9b231e` |
@@ -98,9 +99,9 @@
 | `tools/local-signing-dry-run.sh` | `21df91a1ae3606d8ccf05345f0b1f1bcc4833c492dd289aafb84c5c602b83eed` |
 | `tools/run-release-timing.sh` | `72b8eee1b6237363764646f695fcb96d14bd2df1f680dbdb0a02a381bb8a7458` |
 | `tools/release_manifest.py` | `6a70220cc39fed0be06d7759e87ace6157aea92f010d9c43981e830c3d98417f` |
-| `tools/evidence_bundle.py` | `142d365e896341e2a1a97a1db315fe82aca67bad9b2937231fd749865bfad79f` |
+| `tools/evidence_bundle.py` | `59d360694fd29c131a207ada73aeab48b42a697039668c14b3ea789475c9d1c7` |
 | `tools/validate_release_manifest.py` | `9946db59f5f40bfcbd0321e47ae3f404159e8a209d0b4086bc545dd23147ba42` |
-| `tools/test_validate_release_manifest.py` | `80076b4529869a615bfe5e16acd55014f729fb60bfaf63d5b70ed6ae32e96c9b` |
+| `tools/test_validate_release_manifest.py` | `78fa26609bff7532ce95cdea29eb4ac05eb59720169724b996af36040a1c21fe` |
 | `crates/sicas-core/examples/ct_asm.rs` | `1be3d4493323abe74418abdcd0b46b25c5a28d751081b26fbbf2ea769015205d` |
 | `crates/sicas-harness/examples/stats_fixture.rs` | `3865ea932b1669ac30b1ab885151b06ad417d2d204e0b5961104e290aada79e3` |
 | `crates/sicas-harness/src/dpa.rs` | `fcbfd3e2ade5ae3959e50af9069e84a72d6d33aabbc63a4b57636668cd051247` |
