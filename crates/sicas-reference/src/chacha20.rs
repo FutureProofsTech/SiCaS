@@ -619,27 +619,39 @@ mod tests {
         ));
     }
 
+    fn planes_from_words(words: &[u32; BATCH_LANES]) -> Planes {
+        core::array::from_fn(|bit| {
+            let mut plane = 0_u64;
+            for (lane, word) in words.iter().enumerate() {
+                if (word >> bit) & 1 == 1 {
+                    plane |= 1_u64 << lane;
+                }
+            }
+            Plane::from_parts(plane, 0)
+        })
+    }
+
     #[test]
-    fn bitsliced_addition_matches_scalar_addition() {
+    #[cfg_attr(miri, ignore)] // Native lane sweep; Miri covers the core gadgets.
+    fn bitsliced_addition_is_lane_independent() {
         let mut rng = TestRng::new(0xadd1_7e57);
         let mut entropy = TestEntropy::new(0x1234_5678);
 
-        for _ in 0..64 {
-            let a = rng.next_u32();
-            let b = rng.next_u32();
-            let a_planes = public_planes(a);
-            let b_planes = public_planes(b);
-            let sum = add_planes(&a_planes, &b_planes, &mut entropy).unwrap();
+        for _ in 0..32 {
+            let a: [u32; BATCH_LANES] = core::array::from_fn(|_| rng.next_u32());
+            let b: [u32; BATCH_LANES] = core::array::from_fn(|_| rng.next_u32());
+            let sum =
+                add_planes(&planes_from_words(&a), &planes_from_words(&b), &mut entropy).unwrap();
             let words = transpose_word(&sum);
-            let expected = a.wrapping_add(b);
 
-            for word in words {
-                assert_eq!(word, expected);
+            for lane in 0..BATCH_LANES {
+                assert_eq!(words[lane], a[lane].wrapping_add(b[lane]));
             }
         }
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native batch sweep; Miri covers the core gadgets.
     fn bitsliced_blocks_match_the_reference() {
         let mut rng = TestRng::new(0xb175_c0de);
 
@@ -669,6 +681,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // Native batch sweep; Miri covers the core gadgets.
     fn bitsliced_counter_advances_by_a_batch() {
         let key = [0x42_u8; 32];
         let nonce = [0x24_u8; 12];

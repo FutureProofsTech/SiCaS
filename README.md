@@ -62,6 +62,7 @@ See:
 - [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md) — one-command local proof runner
 - [`docs/POST_PROOF_BACKLOG.md`](docs/POST_PROOF_BACKLOG.md) — work after local proof, before external review
 - [`docs/SAL4_LOCAL_READINESS.md`](docs/SAL4_LOCAL_READINESS.md) — local SAL-4 evidence matrix
+- [`docs/BITSLICED_MASKING.md`](docs/BITSLICED_MASKING.md) — bitsliced masking security argument
 - [`docs/ZEROIZATION.md`](docs/ZEROIZATION.md) — zeroization limitation and adapter review checklist
 
 ## Quality gates

@@ -27,6 +27,7 @@ REQUIRED = [
     "docs/SECURITY_CLAIMS.md",
     "docs/PROOF_OBLIGATIONS.md",
     "docs/ASSURANCE.md",
+    "docs/BITSLICED_MASKING.md",
     "docs/CODE_QUALITY.md",
     "docs/SUPPORT_MATRIX.md",
     "docs/EVALUATION.md",
