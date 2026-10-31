@@ -2,8 +2,8 @@
 
 ## Current level
 
-**SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The full local proof is at `160180f`. The bitsliced masked-ChaCha20 batch
-meets the 10× performance hard ceiling at 7.39×; the 5× target is open. The target for
+**SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The full local proof is at `6ad9c10`. The bitsliced masked-ChaCha20 batch
+meets the 10× performance hard ceiling at 7.26×; the 5× target is open. The target for
 v1.0 is **SAL-4**. CI, hardware evidence, independent audit, and red team are still
 pending.
 

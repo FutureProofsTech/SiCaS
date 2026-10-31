@@ -1,0 +1,15 @@
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+   Compiling sicas-fuzz v0.0.0 (/home/workstation/Documents/SiCaS/fuzz)
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.34s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/masked_ops -artifact_prefix=/home/workstation/Documents/SiCaS/fuzz/artifacts/masked_ops/ -runs=1000000 /home/workstation/Documents/SiCaS/fuzz/corpus/masked_ops`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3058676139
+INFO: Loaded 1 modules   (376 inline 8-bit counters): 376 [0x55688015e310, 0x55688015e488), 
+INFO: Loaded 1 PC tables (376 PCs): 376 [0x55688015e488,0x55688015fc08), 
+INFO:        3 files found in /home/workstation/Documents/SiCaS/fuzz/corpus/masked_ops
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 3 min: 1b max: 24b total: 45b rss: 33Mb
+#4	INITED cov: 28 ft: 29 corp: 2/21b exec/s: 0 rss: 33Mb
+#1000000	DONE   cov: 28 ft: 29 corp: 2/21b lim: 4096 exec/s: 1000000 rss: 126Mb
+Done 1000000 runs in 1 second(s)

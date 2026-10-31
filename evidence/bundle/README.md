@@ -5,8 +5,8 @@ assessment.
 
 ## Status
 
-The full local proof is at commit `160180f`. The bitsliced masked-ChaCha20 batch
-meets the 10× performance hard ceiling at 7.39×; the 5× target is open. The project is **not audited, not hardware-validated, and must not be used
+The full local proof is at commit `6ad9c10`. The bitsliced masked-ChaCha20 batch
+meets the 10× performance hard ceiling at 7.26×; the 5× target is open. The project is **not audited, not hardware-validated, and must not be used
 to protect real secrets yet**. The current public label is **SAL-2 locally**. The
 production target is SAL-4 as defined in [`PLAN.md`](PLAN.md) and
 [`docs/ASSURANCE.md`](docs/ASSURANCE.md).
@@ -59,6 +59,7 @@ See:
 - [`AUDITOR_GUIDE.md`](AUDITOR_GUIDE.md) — auditor quick start and claim map
 - [`docs/AUDITOR_CHECKLIST.md`](docs/AUDITOR_CHECKLIST.md) — reproducible review checklist
 - [`docs/TEST_MATRIX.md`](docs/TEST_MATRIX.md) — property-to-test map
+- [`docs/AUDIT_TECHNIQUE_MATRIX.md`](docs/AUDIT_TECHNIQUE_MATRIX.md) — auditor technique-to-evidence map
 - [`docs/AUDIT_PACKAGE.md`](docs/AUDIT_PACKAGE.md) — audit scope and evidence index
 - [`docs/AUDIT_REPORT_2026-10-30.md`](docs/AUDIT_REPORT_2026-10-30.md) — adversarial review findings and fixes
 - [`docs/SELF_AUDIT_2026-10-31.md`](docs/SELF_AUDIT_2026-10-31.md) — current self-audit and fix record
@@ -66,6 +67,7 @@ See:
 - [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md) — one-command local proof runner
 - [`docs/POST_PROOF_BACKLOG.md`](docs/POST_PROOF_BACKLOG.md) — work after local proof, before external review
 - [`docs/SAL4_LOCAL_READINESS.md`](docs/SAL4_LOCAL_READINESS.md) — local SAL-4 evidence matrix
+- [`docs/SAL4_EXECUTION_PLAN.md`](docs/SAL4_EXECUTION_PLAN.md) — SAL-4 criteria and execution status
 - [`docs/BITSLICED_MASKING.md`](docs/BITSLICED_MASKING.md) — bitsliced masking security argument
 - [`docs/ZEROIZATION.md`](docs/ZEROIZATION.md) — zeroization limitation and adapter review checklist
 
@@ -77,7 +79,7 @@ See:
 ```
 
 The full run covers formatting, strict Clippy, all tests and doctests, full-workspace
-Miri, Kani, ASan, mutation testing, coverage, four 1M-execution fuzz campaigns,
+Miri, Kani, ASan, mutation testing, coverage, five 1M-execution fuzz campaigns,
 cross-architecture tests, leakage-model checks, release validation, and reproducible
 builds. See [`docs/LOCAL_PROOF.md`](docs/LOCAL_PROOF.md).
 

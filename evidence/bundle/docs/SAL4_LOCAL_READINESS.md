@@ -18,10 +18,24 @@ Current public label: **SAL-2 locally**.
 | Reproducible release | Three-build hash comparison, SBOM, provenance, manifest validator | Complete locally |
 | Signing process | Ephemeral test-key signing and verification dry run | Process proven; production identity not established |
 | Zeroization | Design review and adapter checklist | Not implemented |
-| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.39× vs unmasked; 5× target open |
+| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.26× vs unmasked; 5× target open |
 | Physical power/EM TVLA/CPA/DPA | None | Not software-local |
 | ARM/RISC-V runtime timing on hardware | None | Not software-local |
 | Independent adversarial review | Local adversarial audit only | Not software-local |
+
+## Evidence beyond SAL-2
+
+The local package already contains several SAL-3 prerequisites:
+
+- 30 Kani harnesses for core masking and constant-time gadgets;
+- self-audit with a fixed batch state-consistency defect;
+- first-order leakage model with a negative control;
+- 64-lane bitsliced masking and lane-independent addition tests;
+- five 1M-execution fuzz campaigns, including the bitsliced batch;
+- 69-configuration assembly matrix and release-profile timing.
+
+Those are necessary but not sufficient for SAL-3. SAL-3 still requires real-hardware
+TVLA and independent audit; SAL-4 adds independent red team and production signing.
 
 ## Interpretation
 

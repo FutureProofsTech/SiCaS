@@ -5,12 +5,12 @@ attack SiCaS. It is a review aid, not evidence that an independent review has ha
 
 ## Reviewed state
 
-- Code commit: `160180f`
-- Evidence commit/tag: `local-proof-2026-10-31-self-audit`
+- Code commit: `6ad9c10`
+- Evidence commit/tag: `local-proof-2026-10-31-self-audit-final`
 - Public label: **SAL-2 locally**
 - Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
 - Release binary size: 383,160 bytes
-- Masked ChaCha20: 7.39× vs unmasked in the full-proof run, 10× hard ceiling met
+- Masked ChaCha20: 7.26× vs unmasked in the full-proof run, 10× hard ceiling met
 
 ## What to read first
 
@@ -38,13 +38,14 @@ Valgrind reports zero errors.
 
 ```bash
 ./tools/local_proof.sh quick   # fast gate set
-./tools/local_proof.sh full    # full proof, roughly 30 minutes
+./tools/local_proof.sh full    # full proof, roughly 30–45 minutes
 ```
 
 The full run writes `SUMMARY.md` and raw logs under `evidence/local-proof-<timestamp>/`.
 It covers fmt, strict Clippy, tests, doctests, Miri, Kani, ASan, Valgrind, mutation,
-coverage, fuzzing, cross-architecture tests, leakage model, statistics differential,
-release validation, signing dry run, and reproducible builds.
+coverage, five fuzz campaigns including the 64-block bitsliced batch, cross-architecture
+tests, leakage model, statistics differential, release validation, signing dry run,
+and reproducible builds.
 
 ## Verify the evidence bundle
 

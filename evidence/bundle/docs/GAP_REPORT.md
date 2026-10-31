@@ -21,7 +21,7 @@ physical, or require credentials and therefore cannot be truthfully completed he
 
 | Gap | Status | Evidence | Required next action |
 |---|---|---|---|
-| Masked ChaCha20 performance | Hard ceiling met; target open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 7.39× vs unmasked, so the 10× hard ceiling is met; the 5× target is not | Continue optimizing toward 5× with wider SIMD lanes or a faster audited mask stream |
+| Masked ChaCha20 performance | Hard ceiling met; target open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 7.26× vs unmasked, so the 10× hard ceiling is met; the 5× target is not | Continue optimizing toward 5× with wider SIMD lanes or a faster audited mask stream |
 
 ## Local readiness matrix
 
@@ -38,9 +38,9 @@ claim.
 - Safe Rust core, zero third-party runtime dependencies.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
-- 1M-execution fuzz campaigns on four targets.
-- Full local proof at `160180f`: all gates passed, including the performance gate at
-  7.39×. The 10× hard ceiling is met; the 5× target remains open.
+- 1M-execution fuzz campaigns on five targets.
+- Full local proof at `6ad9c10`: all gates passed, including the performance gate at
+  7.26×. The 10× hard ceiling is met; the 5× target remains open.
 - Masked ChaCha20 RFC 8439 and differential validation.
 - Compiler-matrix assembly evidence (69 configurations), Valgrind Memcheck with zero
   errors, differential statistics validation, release-profile timing, a long fuzz

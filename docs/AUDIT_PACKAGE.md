@@ -9,12 +9,12 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 
 ## Reviewed state
 
-- Code commit: `160180f`
-- Evidence tag: `local-proof-2026-10-31-self-audit`
+- Code commit: `6ad9c10`
+- Evidence tag: `local-proof-2026-10-31-self-audit-final`
 - Public label: SAL-2 locally
 - Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
 - Release size: 383,160 bytes
-- Masked ChaCha20: 7.39× in the full-proof run; 10× hard ceiling met
+- Masked ChaCha20: 7.26× in the full-proof run; 10× hard ceiling met
 
 ## Scope
 
@@ -61,7 +61,9 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Local proof runner | `docs/LOCAL_PROOF.md` |
 | Zeroization review | `docs/ZEROIZATION.md` |
 | Local SAL-4 readiness | `docs/SAL4_LOCAL_READINESS.md` |
+| SAL-4 execution plan | `docs/SAL4_EXECUTION_PLAN.md` |
 | Test matrix | `docs/TEST_MATRIX.md` |
+| Audit technique matrix | `docs/AUDIT_TECHNIQUE_MATRIX.md` |
 | Reviewer checklist | `docs/AUDITOR_CHECKLIST.md` |
 | Auditor smoke evidence | `evidence/auditor-smoke/2026-10-31.md` |
 | Known gaps | `docs/GAP_REPORT.md` |

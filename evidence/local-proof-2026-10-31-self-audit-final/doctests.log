@@ -1,0 +1,38 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+   Doc-tests sicas_core
+
+running 3 tests
+test crates/sicas-core/src/secret.rs - secret::Secret (line 19) ... ok
+test crates/sicas-core/src/lib.rs - (line 15) ... ok
+test crates/sicas-core/src/masked.rs - masked::Masked (line 24) ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test crates/sicas-core/src/masked.rs - masked::Masked (line 35) - compile fail ... ok
+test crates/sicas-core/src/secret.rs - secret::Secret (line 39) - compile fail ... ok
+test crates/sicas-core/src/secret.rs - secret::Secret (line 29) - compile fail ... ok
+test crates/sicas-core/src/secret.rs - secret::Secret (line 48) - compile fail ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+all doctests ran in 0.13s; merged doctests compilation took 0.11s
+   Doc-tests sicas_harness
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sicas_platform
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sicas_reference
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

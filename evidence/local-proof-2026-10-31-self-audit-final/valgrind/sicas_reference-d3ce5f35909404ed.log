@@ -1,0 +1,74 @@
+==965233== Memcheck, a memory error detector
+==965233== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==965233== Using Valgrind-3.27.1 and LibVEX; rerun with -h for copyright info
+==965233== Command: target/debug/deps/sicas_reference-d3ce5f35909404ed --test-threads=1
+==965233== 
+
+running 15 tests
+test chacha20::tests::batch_counter_mask_failure_does_not_advance_state ... ok
+test chacha20::tests::bitsliced_addition_is_lane_independent ... ok
+test chacha20::tests::bitsliced_batch_handles_counter_wrap ... ok
+test chacha20::tests::bitsliced_blocks_match_the_reference ... ok
+test chacha20::tests::bitsliced_counter_advances_by_a_batch ... ok
+test chacha20::tests::bitsliced_entropy_failure_is_propagated ... ok
+test chacha20::tests::bitsliced_key_planes_are_balanced ... ok
+test chacha20::tests::block_entropy_failure_is_propagated ... ok
+test chacha20::tests::counter_advances_by_one ... ok
+test chacha20::tests::debug_is_redacted ... ok
+test chacha20::tests::entropy_failure_is_propagated ... ok
+test chacha20::tests::masked_blocks_match_the_reference ... ok
+test chacha20::tests::masked_key_shares_have_no_first_order_correlation ... ok
+test chacha20::tests::rfc8439_keystream_block_is_correct ... ok
+test chacha20::tests::scalar_then_batch_is_consistent ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.54s
+
+==965233== 
+==965233== HEAP SUMMARY:
+==965233==     in use at exit: 596 bytes in 3 blocks
+==965233==   total heap usage: 958 allocs, 955 frees, 3,945,019 bytes allocated
+==965233== 
+==965233== 48 bytes in 1 blocks are possibly lost in loss record 2 of 3
+==965233==    at 0x493AAE6: malloc (vg_replace_malloc.c:447)
+==965233==    by 0x40B763E: alloc (unix.rs:31)
+==965233==    by 0x40B763E: alloc_impl (alloc.rs:161)
+==965233==    by 0x40B763E: allocate (alloc.rs:223)
+==965233==    by 0x40B763E: {closure#0}<std::thread::thread::Inner, std::alloc::System> (sync.rs:823)
+==965233==    by 0x40B763E: allocate_for_layout<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>, alloc::sync::{impl#17}::new_uninit_in::{closure_env#0}<std::thread::thread::Inner, std::alloc::System>, fn(*mut u8) -> *mut alloc::sync::ArcInner<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>>> (sync.rs:2191)
+==965233==    by 0x40B763E: new_uninit_in<std::thread::thread::Inner, std::alloc::System> (sync.rs:821)
+==965233==    by 0x40B763E: <std::thread::thread::Thread>::new (thread.rs:102)
+==965233==    by 0x40C7639: std::thread::current::init_current (current.rs:294)
+==965233==    by 0x40AC00F: current_or_unnamed (current.rs:251)
+==965233==    by 0x40AC00F: <std::sync::mpmc::context::Context>::new (context.rs:72)
+==965233==    by 0x405664D: __rust_std_internal_init_fn (context.rs:43)
+==965233==    by 0x405664D: call_once<fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()> (function.rs:250)
+==965233==    by 0x405664D: unwrap_or_else<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (option.rs:1065)
+==965233==    by 0x405664D: <std::sys::thread_local::native::lazy::Storage<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()>>::get_or_init_slow::<<std::sync::mpmc::context::Context>::with::CONTEXT::__rust_std_internal_init_fn> (lazy.rs:80)
+==965233==    by 0x406F76B: get_or_init<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, (), fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (lazy.rs:62)
+==965233==    by 0x406F76B: {closure#0} (mod.rs:97)
+==965233==    by 0x406F76B: call_once<std::sync::mpmc::context::{impl#0}::with::CONTEXT::{constant#0}::{closure_env#0}, (core::option::Option<&mut core::option::Option<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>>>)> (function.rs:250)
+==965233==    by 0x406F76B: try_with<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, std::sync::mpmc::context::{impl#0}::with::{closure_env#1}<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()>, ()> (local.rs:462)
+==965233==    by 0x406F76B: with<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()> (context.rs:53)
+==965233==    by 0x406F76B: <std::sync::mpmc::list::Channel<test::event::CompletedTest>>::recv (list.rs:442)
+==965233==    by 0x407C1E9: recv<test::event::CompletedTest> (mod.rs:1025)
+==965233==    by 0x407C1E9: recv<test::event::CompletedTest> (mpsc.rs:890)
+==965233==    by 0x407C1E9: run_tests<test::console::run_tests_console::{closure_env#2}> (lib.rs:445)
+==965233==    by 0x407C1E9: test::console::run_tests_console (console.rs:328)
+==965233==    by 0x406815C: test_main_inner<test::test_main_static::{closure_env#0}> (lib.rs:170)
+==965233==    by 0x406815C: test::test_main_static (lib.rs:195)
+==965233==    by 0x4049B12: sicas_reference::main (lib.rs:1)
+==965233==    by 0x404B2DA: <fn() as core::ops::function::FnOnce<()>>::call_once (library/core/src/ops/function.rs:250)
+==965233==    by 0x404C5CD: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+==965233==    by 0x4055E00: std::rt::lang_start::<()>::{closure#0} (library/std/src/rt.rs:206)
+==965233== 
+==965233== LEAK SUMMARY:
+==965233==    definitely lost: 0 bytes in 0 blocks
+==965233==    indirectly lost: 0 bytes in 0 blocks
+==965233==      possibly lost: 48 bytes in 1 blocks
+==965233==    still reachable: 548 bytes in 2 blocks
+==965233==         suppressed: 0 bytes in 0 blocks
+==965233== Reachable blocks (those to which a pointer was found) are not shown.
+==965233== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==965233== 
+==965233== For lists of detected and suppressed errors, rerun with: -s
+==965233== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

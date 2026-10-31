@@ -52,5 +52,6 @@ initial state used by the final addition is independently refreshed before the r
 - This is a first-order Boolean-masking argument, not a hardware TVLA/CPA result.
 - It does not cover higher-order attacks, glitches, fault injection, or
   microarchitectural leakage.
-- The 64-lane batch uses more stack memory than the scalar path.
+- The 64-lane batch uses roughly 16 KiB of stack for the working and initial states,
+  plus a 4 KiB output array. Embedded callers must verify stack capacity.
 - The 5× performance target is not yet met; the 10× hard ceiling is met.
