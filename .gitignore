@@ -10,3 +10,4 @@ __pycache__/
 *.pyc
 /evidence/local-proof-*/repro*/
 /evidence/local-proof-*/release/sicas-harness
+/evidence/local-proof-*/bundle/
