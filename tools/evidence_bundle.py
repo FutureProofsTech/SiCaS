@@ -14,6 +14,8 @@ import sys
 REQUIRED = [
     "AGENTS.md",
     "AUDITOR_GUIDE.md",
+    "AUDIT_REQUEST.md",
+    "PRODUCTION_READINESS.md",
     "opencode.json",
     "PLAN.md",
     "README.md",

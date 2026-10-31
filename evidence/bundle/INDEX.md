@@ -1,16 +1,18 @@
 # SiCaS Evidence Bundle
 
 - Code commit under test: `6ad9c10`
-- Generated: `2026-10-31T02:34:27.870099+00:00`
-- Files: 84
+- Generated: `2026-10-31T02:38:11.826509+00:00`
+- Files: 86
 
 | File | SHA-256 |
 |---|---|
 | `AGENTS.md` | `2d972877001d5ea217c6055e71750962f62ba467cc4783771fa5c884115b5eba` |
 | `AUDITOR_GUIDE.md` | `cb7ca1abf5a40264e806c14f39eeae050ea64e9ea29b3b5881ba520700832f88` |
+| `AUDIT_REQUEST.md` | `9fedaa5116a16b47826dd91fb84086afcbf0b75ee6e7f389342658db4b9a7a47` |
+| `PRODUCTION_READINESS.md` | `509ac022e094d132d7d2450442775424215cb62dd1c1aadc7d812987fff377c0` |
 | `opencode.json` | `9a148bd21e7b229629e87c8e5eeccbe438b71ced0d0cae03161438533aad4809` |
 | `PLAN.md` | `8b4b122ac6cf9794197035a67f7b2498c04d15211546b1c32d52f0cc67edea29` |
-| `README.md` | `c4cc6c14ff7aa8c53e1d70a1a0c6a65bd4b0b350ec5bf92997c7b32f777c88be` |
+| `README.md` | `fe31056812a6d12b50e54ac2d7deccef29f6baf0c28b3ec9027273b55ae6af05` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
 | `CHANGELOG.md` | `5bc3e02865eff9aae2b5d38cad83f1015d4cba0caba29e42ca1ccb68ecd2c5a2` |
@@ -35,7 +37,7 @@
 | `docs/RELEASE.md` | `e02b2bbd91ee9a9a51b1ca8cee5aac6edbafd774ab11b08a56887c3650b3ed87` |
 | `docs/RED_TEAM.md` | `0488173170a29993e5ce04891b5a5bc6dad0d4a3169744080e904bb4f1374785` |
 | `docs/TOOLING.md` | `f0c53aea3558632918984cd3559629a95439b0f1f4363399b6d8d1fede60be7b` |
-| `docs/AUDIT_PACKAGE.md` | `5f3e01c6a1aea3943a6b8d83b7ab3dc4c52310b5529113397f61500102d3eefa` |
+| `docs/AUDIT_PACKAGE.md` | `a2d4aa75f0cad02bf24f30a35ceb392184eafb224dc120502b60901476a0b5dc` |
 | `docs/AUDITOR_CHECKLIST.md` | `464136b18f9098bbde312ab33476737516d1bf369dfa2764fc9d8579f50141d7` |
 | `docs/AUDIT_TECHNIQUE_MATRIX.md` | `27179a90f2a9bc8a0faa21cb51b7530c46d67c1b12d7a64df74e4ed3f926b5ad` |
 | `docs/TEST_MATRIX.md` | `d05c4560464aef7006101c118d3c9b864b8a66877fcf39a1d964a1cf62990411` |
@@ -45,7 +47,7 @@
 | `docs/LOCAL_PROOF.md` | `f283accf1e45ccbbf8d7d956a2c13f15b9bddaa79dfd8e8056c9d36a712da00b` |
 | `docs/POST_PROOF_BACKLOG.md` | `11f3f271ef50c6e2d37aef82ec1a28ba6e9327cf28bac8519c65172ce41deb73` |
 | `docs/SAL4_LOCAL_READINESS.md` | `8a8c26faad92856a9d6fea901640536bb8cf0b9392ded9e10c4096d97c64c936` |
-| `docs/SAL4_EXECUTION_PLAN.md` | `f6c8baafaa41485d6663928f9dbb30769c28a515264be7d839490fbf3b97f2a1` |
+| `docs/SAL4_EXECUTION_PLAN.md` | `33bc44abf6dd8cfc2d82b72d34c82f8d0e368e5f946140dfc54d74687c997eca` |
 | `docs/WORKING_AGREEMENT.md` | `379d2591db7a580a7e71658a73fc25f95b26b60de429de40a5c06d0639925f3e` |
 | `docs/ZEROIZATION.md` | `0778bded164359cd6f8acb9fa5eaab7cc607be19c28d57a909660ead82c9d3fc` |
 | `evidence/ct/2026-10-30-x86_64.md` | `14fb6a37def5f22f0a15f6089b07750ff92d2422abdeb93550fffc9ac0d454bf` |
@@ -84,7 +86,7 @@
 | `tools/local-signing-dry-run.sh` | `21df91a1ae3606d8ccf05345f0b1f1bcc4833c492dd289aafb84c5c602b83eed` |
 | `tools/run-release-timing.sh` | `72b8eee1b6237363764646f695fcb96d14bd2df1f680dbdb0a02a381bb8a7458` |
 | `tools/release_manifest.py` | `6a70220cc39fed0be06d7759e87ace6157aea92f010d9c43981e830c3d98417f` |
-| `tools/evidence_bundle.py` | `d8697daa08bab5d5f3745fe2d61ba8f15a347af1895f0bcf542b188f420a4222` |
+| `tools/evidence_bundle.py` | `b746448b4ba419ce67d63e8c42f95573319ac9429afc6bed793705a7f06a44a5` |
 | `tools/validate_release_manifest.py` | `9946db59f5f40bfcbd0321e47ae3f404159e8a209d0b4086bc545dd23147ba42` |
 | `tools/test_validate_release_manifest.py` | `80076b4529869a615bfe5e16acd55014f729fb60bfaf63d5b70ed6ae32e96c9b` |
 | `crates/sicas-core/examples/ct_asm.rs` | `1be3d4493323abe74418abdcd0b46b25c5a28d751081b26fbbf2ea769015205d` |

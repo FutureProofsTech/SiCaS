@@ -3,6 +3,9 @@
 SAL-4 is the target. This plan tracks every criterion, the evidence required, and what
 is locally complete versus pending independent execution. It is not a SAL-4 claim.
 
+For the release/deployment view, see `PRODUCTION_READINESS.md`. For the formal handoff,
+see `AUDIT_REQUEST.md`.
+
 ## Criteria
 
 | SAL-4 criterion | Required evidence | Local status | Next execution |
