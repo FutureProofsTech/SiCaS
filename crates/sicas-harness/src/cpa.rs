@@ -109,8 +109,8 @@ where
             for (trace, model_value) in traces.traces().iter().zip(&model) {
                 let observed = f64::from(trace.get(sample).copied().unwrap_or(0));
                 sample_sum += observed;
-                sample_sum_of_squares += observed * observed;
-                cross_sum += model_value * observed;
+                sample_sum_of_squares = observed.mul_add(observed, sample_sum_of_squares);
+                cross_sum = model_value.mul_add(observed, cross_sum);
             }
 
             let Some(correlation) = pearson_from_sums(

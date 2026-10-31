@@ -45,7 +45,7 @@ pub fn zeroize_bytes(buffer: &mut [u8]) {
 /// A fixed-size byte buffer that zeroizes its contents on drop.
 ///
 /// The contents are exposed only through explicit [`Self::as_bytes`] and
-/// [`Self::as_mut`] calls.
+/// [`Self::as_mut_bytes`] calls.
 #[must_use]
 pub struct ZeroizingBytes<const N: usize>([u8; N]);
 

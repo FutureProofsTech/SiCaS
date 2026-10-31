@@ -134,7 +134,7 @@ pub fn tvla(
         for trace in fixed.traces() {
             let value = f64::from(trace.get(sample).copied().unwrap_or(0));
             fixed_sum += value;
-            fixed_sum_of_squares += value * value;
+            fixed_sum_of_squares = value.mul_add(value, fixed_sum_of_squares);
         }
 
         let mut random_sum = 0.0;
@@ -142,7 +142,7 @@ pub fn tvla(
         for trace in random.traces() {
             let value = f64::from(trace.get(sample).copied().unwrap_or(0));
             random_sum += value;
-            random_sum_of_squares += value * value;
+            random_sum_of_squares = value.mul_add(value, random_sum_of_squares);
         }
 
         let statistic = welch_t_from_sums(

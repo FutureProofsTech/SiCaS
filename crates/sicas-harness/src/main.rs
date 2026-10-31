@@ -599,6 +599,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg_attr(miri, ignore)] // File I/O is exercised natively.
     fn dpa_rejects_mismatched_inputs() {
         let traces = TraceSet::from_traces(vec![vec![1], vec![2]]).unwrap();
         let directory = std::env::temp_dir();
