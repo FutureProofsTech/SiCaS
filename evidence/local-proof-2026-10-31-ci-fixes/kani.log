@@ -1,0 +1,9 @@
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+   Compiling sicas-harness v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-harness)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.17s
+   Compiling sicas-harness v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-harness)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.20s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+   Compiling sicas-zeroize v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-zeroize)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
