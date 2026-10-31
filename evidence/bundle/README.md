@@ -822,7 +822,8 @@ Read:
 - [ ] New behavior has tests and documentation
 - [ ] Security-relevant claims link to evidence
 - [ ] No new third-party runtime dependencies
-- [ ] No unsafe code in published crates
+- [ ] No unsafe code in `sicas-core`, `sicas-reference`, `sicas-platform`, or
+      `sicas-harness`; `sicas-zeroize` changes require an explicit boundary review
 - [ ] `CHANGELOG.md` is updated
 - [ ] `docs/PROOF_OBLIGATIONS.md` and `docs/GAP_REPORT.md` are updated when claims
       or evidence change
