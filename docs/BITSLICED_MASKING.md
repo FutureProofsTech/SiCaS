@@ -39,7 +39,7 @@ initial state used by the final addition is independently refreshed before the r
 - Core masked-gadget correctness: Kani.
 - Bitsliced addition: differential lane test.
 - Full batch composition: RFC 8439 and randomized reference tests.
-- Constant-time assembly matrix: 60 configurations.
+- Constant-time assembly matrix: 69 configurations.
 - First-order leakage model: deterministic checks with a negative control.
 
 ## Limits

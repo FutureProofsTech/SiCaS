@@ -150,7 +150,7 @@ been performed.
 - No `unsafe` in published crates.
 - Zero third-party runtime dependencies.
 - `Secret` deliberately lacks equality, indexing, and cloning.
-- Constant-time assembly checks on four architectures, plus a 60-configuration
+- Constant-time assembly checks on four architectures, plus a 69-configuration
   optimization/codegen/panic/LTO matrix.
 - x86_64 dudect evidence below threshold.
 - Kani proofs for core gadgets and every masked operation, including addition,
@@ -181,7 +181,7 @@ been performed.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
 - Full local proof: all gates pass at commit `ac06c1c`, including the performance gate
-  at 9.17×; see `evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md`.
+  at 6.1×; see `evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 
@@ -202,7 +202,7 @@ Additional local hardening was completed after the initial audit pass:
   dependencies, workspace versions, timestamps, and the current commit.
 - A zeroization design review records the limitation and the requirements for a future
   audited adapter.
-- The assembly checker now covers 60 configurations: opt-level 0 on four targets,
+- The assembly checker now covers 69 configurations: opt-level 0 on four targets,
   opt-levels 0/1/2/3/s and codegen/panic variants on x86_64 and AArch64, and x86_64
   thin/fat LTO.
 - Valgrind Memcheck passes with zero errors on all four library test binaries.
@@ -211,7 +211,7 @@ Additional local hardening was completed after the initial audit pass:
 - A local signing dry run produces and verifies a detached signature with an ephemeral
   test key; it is not a production identity.
 - The scalar masked ChaCha20 measured ~600× overhead. A 64-block bitsliced batch path
-  with a fast 64×64 transpose now measures 9.17× vs unmasked. The 10× hard ceiling
+  with a fast 64×64 transpose now measures 6.1× vs unmasked. The 10× hard ceiling
   is met; the 5× target remains open in `docs/PERFORMANCE_EVIDENCE.md`.
 
 These changes strengthen the local evidence. They do not change the external-only

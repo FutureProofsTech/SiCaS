@@ -55,7 +55,7 @@ LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-bitsliced ./tools/local_proo
 All gates passed, including full-workspace Miri, 30 Kani harnesses, 126 ASan tests,
 zero missed viable mutants, 97.11% line coverage, four 1M-execution fuzz campaigns,
 AArch64 QEMU, i686, release validation, the local signing dry run, and the
-reproducible-build comparison. The performance gate passed at 9.17×, meeting the 10×
+reproducible-build comparison. The performance gate passed at 6.1×, meeting the 10×
 hard ceiling; the 5× target remains open. The summary is
 [`evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md`](../evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md).
 

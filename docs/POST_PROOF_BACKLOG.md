@@ -32,7 +32,7 @@ validation.
 - [x] Add a local signing dry run with an ephemeral test key.
 - [x] Run a long fuzz campaign: 10M on the three fast targets and 1M on ChaCha20.
 - [x] Replace the scalar masked path with a 64-block bitsliced batch and a fast
-  64×64 bit-matrix transpose. The hard 10× ceiling is met at 9.17×.
+  64×64 bit-matrix transpose. The hard 10× ceiling is met at 6.1×.
 - [ ] Continue optimizing toward the 5× target. See `docs/PERFORMANCE_EVIDENCE.md`.
 
 ## Gate 2 — Freeze the local proof

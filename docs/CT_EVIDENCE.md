@@ -34,7 +34,7 @@ All trials are below the `|t| > 4.5` threshold. The complete per-trial report is
 
 ## Release-profile timing — 2026-10-31
 
-The release-profile run uses `opt-level=3` and the same five-check suite:
+The release-profile run uses the tuned `opt-level=z` profile and the same five-check suite:
 
 ```bash
 tools/run-release-timing.sh evidence/ct/2026-10-31-x86_64-release.md
@@ -42,10 +42,10 @@ tools/run-release-timing.sh evidence/ct/2026-10-31-x86_64-release.md
 
 | Check | Max absolute t across 3 trials | Result |
 |-------|--------------------------------|--------|
-| `ct::eq_u32` | 1.4412 | pass |
-| `ct::select_u32` | 2.1196 | pass |
-| `ct::lookup_u8` | 0.9354 | pass |
-| `Masked::<u32>::add_masked` | 2.1196 | pass |
+| `ct::eq_u32` | 1.0009 | pass |
+| `ct::select_u32` | 1.1235 | pass |
+| `ct::lookup_u8` | 1.2704 | pass |
+| `Masked::<u32>::add_masked` | 1.6038 | pass |
 
 All trials are below `|t| > 4.5`. The full report is in
 [`evidence/ct/2026-10-31-x86_64-release.md`](../evidence/ct/2026-10-31-x86_64-release.md).
@@ -66,12 +66,12 @@ Thumbv7em, and RISC-V, extract `ct::eq_u32`, `ct::select_u32`, and
 The matrix rows build the `ct_asm` example on x86_64 and AArch64 for:
 
 - debug `opt-level=0` and `1`;
-- release `opt-level=2`, `3`, and `s`;
+- release `opt-level=2`, `3`, `s`, and `z`;
 - release `codegen-units=1`;
 - release `panic=abort`.
 
-The LTO rows build linked x86_64 binaries with thin and fat LTO and inspect the
-disassembly.
+The LTO rows build linked x86_64 binaries with thin and fat LTO, including the
+`opt-level=z` profile, and inspect the disassembly.
 
 All 60 inspected configurations report no conditional branches in the three
 constant-time functions. The full generated report is in

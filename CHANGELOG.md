@@ -44,7 +44,7 @@
 - Release-manifest validator with checksum, provenance, SBOM, workspace, and commit
   consistency tests.
 - Zeroization design review and adapter checklist.
-- Compiler-matrix assembly evidence: 60 configurations across opt levels, codegen units,
+- Compiler-matrix assembly evidence: 69 configurations across opt levels, codegen units,
   panic strategies, and x86_64 thin/fat LTO.
 - Valgrind Memcheck evidence: four workspace library binaries, zero errors.
 - Local signing dry run with an ephemeral test key: detached signature produced and
@@ -53,13 +53,13 @@
 - Differential statistics validation: 200 deterministic cases match an independent
   Python implementation.
 - Bitsliced masked ChaCha20 batch: 64 blocks per mask stream and a fast 64×64
-  bit-matrix transpose. The measured overhead is 9.17× vs unmasked, meeting the
+  bit-matrix transpose. The measured overhead is 6.1× vs unmasked, meeting the
   10× hard ceiling; the ≤5× target remains open.
 - Full local proof at commit `ac06c1c`: all security gates pass, including
   full-workspace Miri, 30 Kani harnesses, 126 ASan tests, zero missed viable mutants,
   97.11% line coverage, four 1M-execution fuzz campaigns, cross-architecture tests,
   release validation, reproducible-build comparison, and the performance gate at
-  9.17×. The 10× hard ceiling is met; the 5× target remains open.
+  6.1×. The 10× hard ceiling is met; the 5× target remains open.
 - Release manifest/SBOM/provenance tooling, Sigstore/SLSA release workflow, and
   audit/red-team/release documentation.
 - Threat model, security claims, proof obligations, code-quality standard, assurance

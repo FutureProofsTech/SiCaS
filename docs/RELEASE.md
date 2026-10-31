@@ -72,7 +72,9 @@ GitHub release. It requires a release tag and GitHub OIDC permissions.
 - `deny.toml` enforces license, advisory, source, wildcard, and duplicate-version
   policy.
 - `Cargo.lock` is committed.
-- The build uses a pinned toolchain.
+- The release profile uses `opt-level=z`, fat LTO, one codegen unit, `panic=abort`, and
+stripped symbols. The measured release binary is 390,088 bytes and the masked-ChaCha20
+batch is 6.1× vs unmasked. The build uses a pinned toolchain.
 - The SBOM lists every workspace component and dependency edge.
 - SLSA provenance is planned but not yet implemented.
 
