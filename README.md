@@ -26,7 +26,7 @@ cryptographic product.
 
 > **In plain terms:** SiCaS helps engineers build and test software that is harder to
 > attack by measuring the unintended power and electromagnetic signals a chip gives off
-> while it runs, so side-channel weaknesses can be found before deployment.
+> while it runs, so weaknesses can be found before deployment.
 
 ---
 
