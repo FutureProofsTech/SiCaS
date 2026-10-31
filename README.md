@@ -83,7 +83,7 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 | Independent external audit | **PENDING** | [`AUDIT_REQUEST.md`](AUDIT_REQUEST.md) |
 | Independent red team | **PENDING** | [`docs/RED_TEAM.md`](docs/RED_TEAM.md) |
 | Hardware TVLA/CPA/DPA | **PENDING** | [`docs/HARDWARE.md`](docs/HARDWARE.md) |
-| ARM/RISC-V runtime timing | **PENDING** | [`docs/CROSS_ARCH_EVIDENCE.md`](docs/CROSS_ARCH_EVIDENCE.md) |
+| ARM/RISC-V runtime timing | **PENDING** | [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) |
 | Production signing identity | **PENDING** | [`docs/RELEASE.md`](docs/RELEASE.md) |
 | Audited zeroization adapter | **PENDING** | [`docs/ZEROIZATION.md`](docs/ZEROIZATION.md) |
 | SAL-4 | **NOT CLAIMED** | [`docs/ASSURANCE.md`](docs/ASSURANCE.md) |
