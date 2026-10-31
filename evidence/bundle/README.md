@@ -56,6 +56,7 @@ cryptographic product.
 - [Reproducibility and release](#reproducibility-and-release)
 - [Platform support](#platform-support)
 - [Repository layout](#repository-layout)
+- [Papers](#papers)
 - [Documentation](#documentation)
 - [Toolchain](#toolchain)
 - [Contributing](#contributing)
@@ -92,7 +93,7 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 | Workspace mutation | **630 mutants, 574 caught, 0 missed, 56 unviable** | [`evidence/mutation/2026-10-31-workspace.md`](evidence/mutation/2026-10-31-workspace.md) |
 | Line coverage | **97.28%** | [`evidence/coverage/2026-10-31-dpa.md`](evidence/coverage/2026-10-31-dpa.md) |
 | Release artifact | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
-| Evidence bundle | **102 files**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
+| Evidence bundle | **109 files**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
 | Independent external audit | **PENDING** | [`AUDIT_REQUEST.md`](AUDIT_REQUEST.md) |
 | Independent red team | **PENDING** | [`docs/RED_TEAM.md`](docs/RED_TEAM.md) |
 | Hardware TVLA/CPA/DPA | **PENDING** | [`docs/HARDWARE.md`](docs/HARDWARE.md) |
@@ -127,6 +128,7 @@ All workspace crates are `publish = false` until the external gates pass.
 | Unsafe code | Forbidden in core/reference/platform/harness; isolated experimental boundary in `sicas-zeroize` |
 | Masking | Two-share first-order Boolean masking for `u8`, `u16`, `u32`, `u64`, `u128` |
 | Reference algorithm | Masked ChaCha20, scalar and 64-block bitsliced batch |
+| Papers | White paper and yellow paper (LaTeX + PDF) |
 | Analysis | TVLA, CPA, AES S-box DPA, dudect-style timing, leakage model |
 | Full local proof | PASS at `8c41e4b` |
 | DPA quick proof | PASS at `ef13675` |
@@ -618,7 +620,7 @@ and the open-gap analysis.
 | Release manifest / validator | PASS |
 | Signing dry run | PASS with ephemeral test key |
 | Reproducible build comparison | PASS |
-| Evidence bundle | 102 files, hashes verified |
+| Evidence bundle | 109 files, hashes verified |
 
 ### Evidence bundle
 
@@ -720,6 +722,7 @@ SiCaS/
 ├── tools/                   # proof runner, assembly checker, evidence bundler,
 │                            # release manifest/validator, statistics differential
 ├── docs/                    # threat model, claims, proof obligations, audit package
+├── papers/                  # white paper and yellow paper (LaTeX + PDF)
 ├── evidence/                # proof logs, mutation, coverage, release, signing, bundle
 ├── .github/workflows/       # CI and release workflows
 ├── AGENTS.md                # persistent project instructions
@@ -730,6 +733,20 @@ SiCaS/
 ├── SECURITY.md              # vulnerability disclosure policy
 └── CHANGELOG.md             # change history
 ```
+
+---
+
+## Papers
+
+Two companion documents describe the project in academic form:
+
+| Paper | PDF | LaTeX | Scope |
+|---|---|---|---|
+| White paper | [`SiCaS-Whitepaper.pdf`](papers/whitepaper/SiCaS-Whitepaper.pdf) | [`SiCaS-Whitepaper.tex`](papers/whitepaper/SiCaS-Whitepaper.tex) | Motivation, threat model, architecture, masking design, assessment methodology, evaluation, limitations, roadmap. |
+| Yellow paper | [`SiCaS-Yellowpaper.pdf`](papers/yellowpaper/SiCaS-Yellowpaper.pdf) | [`SiCaS-Yellowpaper.tex`](papers/yellowpaper/SiCaS-Yellowpaper.tex) | Formal specification, invariants, algorithms, security definitions, proof obligations, data formats, conformance. |
+
+See [`papers/VERSIONS.md`](papers/VERSIONS.md) for the document version log and
+[`papers/README.md`](papers/README.md) for build instructions.
 
 ---
 

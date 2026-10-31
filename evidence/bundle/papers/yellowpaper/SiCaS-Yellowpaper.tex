@@ -1,0 +1,1063 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\usepackage[round,authoryear]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+
+\newcommand{\paperversion}{1.0.0}
+\newcommand{\codecommit}{\texttt{ef13675}}
+\newcommand{\evidencetag}{\texttt{final-\allowbreak audit-\allowbreak 2026-10-\allowbreak 31-\allowbreak dpa}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\Rec}{\mathsf{Rec}}
+\newcommand{\Share}{\mathsf{Share}}
+\newcommand{\HW}{\mathsf{HW}}
+\newcommand{\Sbox}{\mathsf{SBOX}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\Adv}{\mathcal{A}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prb}{\Pr}
+\newcommand{\negl}{\mathsf{negl}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{claim}[theorem]{Claim}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcounter{algblock}
+\newenvironment{algorithmblock}[1]{%
+  \par\medskip\refstepcounter{algblock}%
+  \noindent\textbf{Algorithm \thealgblock} --- #1\par\nopagebreak
+  \noindent\begin{minipage}{\linewidth}\small
+}{%
+  \end{minipage}\par\medskip
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small SiCaS Yellow Paper}
+\fancyhead[R]{\small Version \paperversion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  pdftitle={SiCaS Yellow Paper: Formal Specification and Verification Obligations},
+  pdfauthor={SiCaS Contributors},
+  pdfsubject={Formal specification of side-channel attenuation and leakage assessment},
+  pdfkeywords={formal specification, Boolean masking, TVLA, CPA, DPA, ChaCha20, Rust, verification},
+  colorlinks=true,
+  linkcolor=blue!45!black,
+  citecolor=blue!45!black,
+  urlcolor=blue!45!black
+}
+
+\title{%
+  \vspace{-1.2cm}
+  {\LARGE\bfseries SiCaS}\\[0.35cm]
+  {\Large Yellow Paper}\\[0.25cm]
+  {\large Formal Specification and Verification Obligations}
+}
+\author{SiCaS Contributors}
+\date{Version \paperversion \quad 31 October 2026}
+
+\setlength{\emergencystretch}{2em}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Document & Yellow paper \\
+Version & \paperversion \\
+Date & 31 October 2026 \\
+Code commit & \codecommit \\
+Release build commit & \texttt{123eb69} \\
+Evidence tag & \evidencetag \\
+Public label & SAL-2 locally \\
+Production status & Not certified, not audited, not hardware-validated \\
+License & GPL-3.0-only \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{abstract}
+This yellow paper specifies the functional behaviour, data formats, security
+definitions, and verification obligations of SiCaS, a safe-Rust workspace for
+first-order side-channel attenuation and leakage assessment. It defines the two-share
+Boolean masking model, the masked operations, the masked ChaCha20 reference
+integration, the 64-block bitsliced batch path, the trace format, the TVLA/CPA/DPA
+algorithms, the timing and leakage-model checks, and the release manifest. It states
+the correctness theorems and the first-order security argument, lists the assumptions
+under which those statements hold, and maps each public claim to a proof obligation and
+an evidence artifact. The specification is deliberately explicit about what is not
+proven: physical leakage, higher-order attacks, fault injection, template attacks,
+production zeroization, and independent audit remain outside the current claim set. The
+document is a specification and verification plan, not a substitute for independent
+review.
+\end{abstract}
+
+\vspace{0.3cm}
+\noindent\textbf{Keywords:} formal specification, Boolean masking, TVLA, CPA, DPA,
+ChaCha20, Rust, proof obligations, assurance.
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Scope and relationship to the white paper}
+
+This document is the formal companion to the SiCaS white paper. The white paper
+explains the motivation, architecture, and evaluation at a technical-management level.
+The yellow paper specifies:
+
+\begin{enumerate}[leftmargin=1.5em]
+  \item the data types and invariants of the core masking library;
+  \item the functional behaviour of the masked operations;
+  \item the ChaCha20 reference integration and the bitsliced batch path;
+  \item the trace format and the TVLA, CPA, and DPA algorithms;
+  \item the security definitions and the assumptions behind the first-order claim;
+  \item the verification obligations and the evidence mapping;
+  \item the release, provenance, and reproducibility formats.
+\end{enumerate}
+
+The specification is written against code commit \codecommit{} and evidence tag
+\evidencetag. It is a \emph{specification of the current implementation}, not a
+specification of an ideal cryptographic library. Where the implementation has a known
+limitation, the limitation is stated.
+
+\section{Notation and conventions}
+
+\begin{description}[leftmargin=1.5em]
+  \item[\(\bits\)] The set \(\{0,1\}\).
+  \item[\(\bits^n\)] The set of \(n\)-bit strings.
+  \item[\(\F_2\)] The field with two elements.
+  \item[\(\F_{2^8}\)] The AES field, represented as bytes with the AES reduction
+        polynomial.
+  \item[\(\oplus\)] Bitwise XOR.
+  \item[\(\wedge\)] Bitwise AND.
+  \item[\(\neg\)] Bitwise complement.
+  \item[\(\ll\)] Left shift.
+  \item[\(\gg\)] Right shift.
+  \item[\(\lll\)] Rotate left.
+  \item[\(\ggg\)] Rotate right.
+  \item[\(\HW(x)\)] Hamming weight of \(x\).
+  \item[\(x_b\)] Bit \(b\) of \(x\), with \(x_0\) the least significant bit.
+  \item[{\([n]\)}] The set \(\{0,\ldots,n-1\}\).
+  \item[\(\gets\)] Uniform random sampling.
+  \item[\(\gets_{\$}\)] Uniform random sampling from a finite set.
+  \item[{\(\Prb[E]\)}] Probability of event \(E\).
+  \item[{\(\E[X]\)}] Expectation of random variable \(X\).
+  \item[\(\negl(\lambda)\)] A negligible function in security parameter \(\lambda\).
+\end{description}
+
+All arithmetic on \(n\)-bit words is modulo \(2^n\) unless stated otherwise. Byte order
+in the trace format is little-endian. The notation \(u16_{\mathrm{le}}\) and
+\(u32_{\mathrm{le}}\) denotes little-endian encoding.
+
+\section{Formal model}\label{sec:model}
+
+\subsection{Values, shares, and reconstruction}
+
+\begin{definition}[Two-share Boolean sharing]\label{def:sharing}
+For \(x\in\bits^n\), a two-share Boolean sharing is a pair
+\((s_0,s_1)\in\bits^n\times\bits^n\) such that
+\[
+  \Rec(s_0,s_1) := s_0\oplus s_1 = x.
+\]
+The sharing is \emph{fresh} if it is generated as
+\[
+  r\gets_{\$}\bits^n,\qquad s_1:=r,\qquad s_0:=x\oplus r.
+\]
+\end{definition}
+
+\begin{definition}[Masked operation]\label{def:masked-op}
+Let \(f:(\bits^n)^m\to\bits^n\) be an \(m\)-ary operation. A masked implementation
+\(f^\ast\) takes \(m\) fresh sharings and returns a sharing
+\((c_0,c_1)\) such that
+\[
+  \Rec(c_0,c_1) = f(x_1,\ldots,x_m)
+\]
+for all inputs \(x_1,\ldots,x_m\), with overwhelming probability over the fresh masks.
+\end{definition}
+
+\begin{definition}[Declassification boundary]\label{def:declass}
+A declassification boundary is an operation that intentionally reveals a value that
+was protected by a secret type or a sharing. Examples are \code{Secret::expose\_secret},
+\code{Masked::unmask}, and the ChaCha20 keystream output.
+\end{definition}
+
+\subsection{Leakage functions and first-order game}
+
+\begin{definition}[Leakage function]\label{def:leakage}
+A leakage function is a map \(L:\bits^m\to\mathcal{Y}\) for some output set
+\(\mathcal{Y}\). A first-order single-share leakage function depends on at most one
+share of a sharing.
+\end{definition}
+
+\begin{definition}[First-order single-share game]\label{def:game}
+Let \(\lambda\) be a security parameter and \(n=n(\lambda)\). The game
+\(\mathsf{Exp}^{\mathsf{fo}}_{\Adv,\mathcal{L}}(n)\) proceeds as follows:
+\begin{enumerate}[leftmargin=1.5em]
+  \item The challenger samples \(x\gets_{\$}\bits^n\), \(r\gets_{\$}\bits^n\), and
+        sets \(s_0:=x\oplus r\), \(s_1:=r\).
+  \item The adversary \(\Adv\) chooses a leakage function
+        \(L\in\mathcal{L}\) and a bit \(b\gets_{\$}\bits\).
+  \item The challenger returns \(L(s_b)\) to \(\Adv\).
+  \item \(\Adv\) outputs a guess \(b'\).
+\end{enumerate}
+The advantage is
+\[
+  \mathsf{Adv}^{\mathsf{fo}}_{\Adv,\mathcal{L}}(n)
+  := \left|\Prb[b'=b]-\frac{1}{2}\right|.
+\]
+\end{definition}
+
+\begin{theorem}[Ideal single-share security]\label{thm:ideal}
+For any \(x\in\bits^n\), any uniform independent mask \(r\), and any leakage function
+\(L\) that depends on only one share, the distribution of \(L(s_b)\) is independent of
+\(x\). Consequently, for all adversaries \(\Adv\),
+\[
+  \mathsf{Adv}^{\mathsf{fo}}_{\Adv,\mathcal{L}}(n)=0
+\]
+in the ideal model.
+\end{theorem}
+
+\begin{proof}
+Each share is uniform on \(\bits^n\) and independent of \(x\): \(s_1=r\) is uniform,
+and \(s_0=x\oplus r\) is uniform for every fixed \(x\). Therefore the marginal
+distribution of either share is the uniform distribution, which does not depend on
+\(x\). Any function of a single share has a distribution that depends only on that
+share's distribution.
+\end{proof}
+
+\begin{remark}[What the theorem does not say]
+Theorem~\ref{thm:ideal} models an ideal single-share leakage function. It does not
+model glitches, transitions, coupling between shares, register reuse, or a physical
+probe that observes a function of both shares. Those effects are outside the current
+claim and are the reason hardware validation is required.
+\end{remark}
+
+\subsection{Assumptions}
+
+\begin{assumption}[Fresh masks]\label{asm:fresh}
+Every mask is sampled uniformly from \(\bits^n\), is independent of the secret and of
+all other masks, and is used at most once.
+\end{assumption}
+
+\begin{assumption}[Entropy]\label{asm:entropy}
+The entropy source is a secure CSPRNG when it reports success. A failure is reported as
+an error and is never replaced by a weak fallback.
+\end{assumption}
+
+\begin{assumption}[Constant-time compilation]\label{asm:ct}
+The compiler preserves the data-independent control flow and memory-access pattern of
+the constant-time gadgets on the evaluated target.
+\end{assumption}
+
+\begin{assumption}[Leakage model]\label{asm:model}
+The assessment uses a leakage model that is appropriate for the target. A passing test
+under an inappropriate model is not evidence of absence of leakage.
+\end{assumption}
+
+\begin{assumption}[No faults or invasive access]\label{asm:fault}
+The adversary does not inject faults, modify the device, or perform invasive probing.
+\end{assumption}
+
+\section{Core data types and invariants}\label{sec:types}
+
+\subsection{\code{Choice}}
+
+\code{Choice} is a one-bit value used for branchless selection. It exposes
+\code{from\_bool}, \code{as\_u8}, and mask/selection helpers. The invariant is that a
+\code{Choice} is represented by a value in \(\{0,1\}\) and that no operation on it
+branches on a secret.
+
+\subsection{\code{Secret<T>}}
+
+\code{Secret<T>} wraps a value and deliberately does not implement \code{PartialEq},
+\code{Ord}, \code{Hash}, \code{Index}, \code{Clone}, or \code{Copy}. The only ways to
+read the value are \code{expose\_secret} and \code{into\_inner}, both of which are
+declassification boundaries. The type does not guarantee zeroization.
+
+\subsection{\code{Masked<T>}}
+
+A \code{Masked<T>} value is a pair of shares \((s_0,s_1)\). The invariant is
+\[
+  s_0\oplus s_1 = x
+\]
+where \(x\) is the logical value. The shares are not exposed except through
+\code{shares}, \code{unmask}, and the explicit analysis boundary. A fresh sharing is
+constructed by \code{Masked::mask(value, mask)} with a caller-supplied uniform mask, or
+by \code{Masked::from\_parts(s\_0,s\_1)} when the caller has already constructed a valid
+sharing.
+
+\subsection{\code{EntropySource}}
+
+\begin{definition}[Entropy source contract]\label{def:entropy}
+An \code{EntropySource} implementation must either fill the entire destination buffer
+with cryptographically secure random bytes and return \code{Ok(())}, or return
+\code{Err(EntropyError::Unavailable)} without claiming success. Partial fill followed
+by success is a contract violation.
+\end{definition}
+
+\subsection{Invariants}
+
+\begin{longtable}{@{}p{0.08\linewidth}p{0.50\linewidth}p{0.36\linewidth}@{}}
+\caption{Core invariants.}\label{tab:invariants}\\
+\toprule
+ID & Invariant & Enforcement \\
+\midrule
+\endfirsthead
+\toprule
+ID & Invariant & Enforcement \\
+\midrule
+\endhead
+I1 & Reconstruction: \(s_0\oplus s_1=x\) for every \code{Masked<T>}. & Tests, Kani \\
+I2 & Freshness: every mask is uniform, independent, and used once. & API contract, review \\
+I3 & Share independence: each share is uniform under a fresh mask. & Kani, statistical tests \\
+I4 & Constant time: no secret-dependent branch or index in the core gadgets. & Assembly, dudect \\
+I5 & Fail closed: entropy errors propagate as \code{Err}. & Tests, code review \\
+I6 & No unsafe code in core, reference, platform, or harness. & \code{forbid(unsafe\_code)} \\
+I7 & Parser bounds: trace dimensions are checked before allocation. & Tests, fuzzing \\
+I8 & Release reproducibility: identical artifact hash across independent builds. & Two-build compare \\
+\bottomrule
+\end{longtable}
+
+\section{Constant-time primitives}\label{sec:ct}
+
+\subsection{Comparison}
+
+For \(n\in\{8,16,32,64,128\}\), \code{ct::eq\_n(a,b)} returns a \code{Choice} that is
+\(1\) iff \(a=b\). The implementation is branchless:
+\[
+  \code{eq}_n(a,b) = \neg\bigvee_{i=0}^{n-1}(a_i\oplus b_i).
+\]
+The \code{is\_zero\_n} family is the same predicate with \(b=0\).
+
+\subsection{Selection and swap}
+
+For a public \code{Choice} \(c\),
+\[
+  \code{select}_n(c,a,b) = (a\wedge \code{mask}(c))\oplus(b\wedge\neg\code{mask}(c)),
+\]
+where \(\code{mask}(c)\) is the all-ones word when \(c=1\) and zero otherwise. The swap
+operation uses the same mask to exchange two words without a branch.
+
+\subsection{Table lookup}
+
+\code{lookup\_u8(table, index)} scans all 256 entries and selects the entry whose index
+matches, without a secret-dependent memory access. The table must have exactly 256
+entries. The implementation is constant-time with respect to the index.
+
+\begin{theorem}[Constant-time lookup correctness]\label{thm:lookup}
+For every table \(T\in(\bits^8)^{256}\) and every index \(i\in\bits^8\),
+\(\code{lookup\_u8}(T,i)=T[i]\).
+\end{theorem}
+
+\begin{proof}
+The scan accumulates \(T[j]\) exactly when \(j=i\), using a branchless equality mask.
+All other terms are masked out. The result is \(T[i]\).
+\end{proof}
+
+\section{Masked arithmetic}\label{sec:masked}
+
+\subsection{XOR, complement, shifts, and rotations}
+
+These operations are share-wise:
+\begin{align}
+  (a_0,a_1)\oplus(b_0,b_1) &= (a_0\oplus b_0,\;a_1\oplus b_1),\\
+  \neg(a_0,a_1) &= (\neg a_0,\;a_1),\\
+  (a_0,a_1)\lll k &= (a_0\lll k,\;a_1\lll k),\\
+  (a_0,a_1)\ggg k &= (a_0\ggg k,\;a_1\ggg k),\\
+  (a_0,a_1)\ll k &= (a_0\ll k,\;a_1\ll k),\\
+  (a_0,a_1)\gg k &= (a_0\gg k,\;a_1\gg k).
+\end{align}
+For shifts, amounts greater than or equal to the word width produce zero. The
+implementation uses checked shifts and returns zero for out-of-range amounts.
+
+\subsection{Refresh}
+
+\[
+  \code{refresh}((a_0,a_1),r) = (a_0\oplus r,\;a_1\oplus r).
+\]
+The logical value is unchanged, and the new shares are randomized by \(r\).
+
+\subsection{AND}
+
+\begin{algorithmblock}{Masked AND}\label{alg:and}
+\begin{verbatim}
+Input:  shares (a0, a1), (b0, b1), fresh uniform mask r
+Output: shares (c0, c1)
+
+c0 <- (a0 & b0) ^ r
+c1 <- (a0 & b1) ^ (a1 & b0) ^ (a1 & b1) ^ r
+return (c0, c1)
+\end{verbatim}
+\end{algorithmblock}
+
+\begin{theorem}[Masked AND correctness]\label{thm:and}
+For all \(a,b\in\bits^n\) and all valid sharings, the output of
+Algorithm~\ref{alg:and} satisfies \(c_0\oplus c_1=a\wedge b\).
+\end{theorem}
+
+\begin{proof}
+Expand \((a_0\oplus a_1)\wedge(b_0\oplus b_1)\) into the four products. The two
+occurrences of \(r\) cancel under XOR.
+\end{proof}
+
+\begin{theorem}[Masked AND first-order freshness]\label{thm:and-fresh}
+If \(r\) is uniform and independent of the inputs, then each output share is uniform
+and independent of the logical value.
+\end{theorem}
+
+\begin{proof}
+\(c_0\) is the XOR of a fixed value with the uniform mask \(r\), hence uniform. \(c_1\)
+is also the XOR of a fixed value with \(r\), hence uniform. The pair reconstructs
+\(a\wedge b\) by Theorem~\ref{thm:and}.
+\end{proof}
+
+\subsection{Masked addition}
+
+\begin{algorithmblock}{Masked 32-bit addition}\label{alg:add}
+\begin{verbatim}
+Input:  shares (a0, a1), (b0, b1), entropy source E
+Output: shares (c0, c1)
+
+result <- (0, 0)
+carry  <- (0, 0)
+for i = 0 .. 31:
+    a <- bit(a, i)
+    b <- bit(b, i)
+    sum <- a XOR b XOR carry
+    result <- result XOR sum
+    if i == 31: break
+    first  <- AND(a, b, E.mask_u32())
+    second <- AND(a, carry, E.mask_u32())
+    third  <- AND(b, carry, E.mask_u32())
+    carry  <- (first XOR second XOR third) << 1
+return result
+\end{verbatim}
+\end{algorithmblock}
+
+\begin{theorem}[Masked addition correctness]\label{thm:add}
+For all \(a,b\in\bits^{32}\), the output of Algorithm~\ref{alg:add} satisfies
+\(\Rec(c_0,c_1)=(a+b)\bmod 2^{32}\).
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+The reconstructed sum bit at position \(i\) is \(a_i\oplus b_i\oplus c_i\), and the
+reconstructed carry is
+\((a_i\wedge b_i)\oplus(a_i\wedge c_i)\oplus(b_i\wedge c_i)\), shifted left by one.
+This is the standard full-adder recurrence. Induction on \(i\) from \(c_0=0\) gives
+the 32-bit sum modulo \(2^{32}\). Each masked AND preserves the reconstructed value by
+Theorem~\ref{thm:and}, so the masked implementation computes the same function.
+\end{proof}
+
+\begin{remark}[Fresh masks]
+The correctness proof does not require fresh masks; the security argument does. Reusing
+a mask across ANDs invalidates Assumption~\ref{asm:fresh} and the first-order claim.
+\end{remark}
+
+\subsection{Selection, equality, and bit extraction}
+
+Selection selects each share independently with a public \code{Choice}. Equality
+compares \(a_0\oplus b_0\) with \(a_1\oplus b_1\) in constant time. Bit extraction masks
+both shares with \(1\ll i\), returning zero for \(i\ge n\). These operations preserve
+the reconstruction invariant.
+
+\section{ChaCha20 specification}\label{sec:chacha}
+
+\subsection{State and constants}
+
+The ChaCha20 state is sixteen 32-bit words:
+\[
+  \text{state} = (c_0,c_1,c_2,c_3,\;k_0,\ldots,k_7,\;counter,\;n_0,n_1,n_2),
+\]
+where the constants are
+\[
+  (c_0,c_1,c_2,c_3) = (\texttt{0x61707865},\texttt{0x3320646e},
+  \texttt{0x79622d32},\texttt{0x6b206574}),
+\]
+the key is 256 bits, the counter is 32 bits, and the nonce is 96 bits.
+
+\subsection{Quarter round}
+
+\begin{algorithmblock}{ChaCha20 quarter round}
+\begin{verbatim}
+Input:  state words a, b, c, d
+Output: updated state words
+
+a <- a + b
+d <- (d XOR a) <<< 16
+c <- c + d
+b <- (b XOR c) <<< 12
+a <- a + b
+d <- (d XOR a) <<< 8
+c <- c + d
+b <- (b XOR c) <<< 7
+\end{verbatim}
+\end{algorithmblock}
+
+\subsection{Block function}
+
+\begin{algorithmblock}{ChaCha20 block}
+\begin{verbatim}
+Input:  key (32 bytes), nonce (12 bytes), counter (u32)
+Output: 64-byte keystream block
+
+state <- constants || key || counter || nonce
+initial <- state
+for 10 double rounds:
+    quarter_round(state, 0, 4, 8, 12)
+    quarter_round(state, 1, 5, 9, 13)
+    quarter_round(state, 2, 6, 10, 14)
+    quarter_round(state, 3, 7, 11, 15)
+    quarter_round(state, 0, 5, 10, 15)
+    quarter_round(state, 1, 6, 11, 12)
+    quarter_round(state, 2, 7, 8, 13)
+    quarter_round(state, 3, 4, 9, 14)
+for i = 0 .. 15:
+    state[i] <- state[i] + initial[i]
+return little_endian_bytes(state)
+\end{verbatim}
+\end{algorithmblock}
+
+\subsection{Masked scalar implementation}
+
+The scalar implementation stores the state as sixteen \code{Masked<u32>} words. The
+initial state is masked with fresh randomness. For each block, the working state and
+the initial state used by the final addition are independently refreshed. The quarter
+round uses masked addition, XOR, and rotation. The final addition uses the masked
+adder. The keystream output is unmasked only at the declassification boundary.
+
+\subsection{Bitsliced batch implementation}
+
+The batch implementation processes \(B=64\) blocks. For each of the 16 state words and
+each of the 32 bit positions, a \code{Masked<u64>} plane holds one bit from each of the
+64 lanes. The quarter round operates on planes. The masked adder is a ripple-carry
+adder over the 32 bit planes:
+\[
+  \text{carry}_{i+1} =
+  (a_i\wedge b_i)\oplus(a_i\wedge \text{carry}_i)\oplus(b_i\wedge \text{carry}_i),
+\]
+with a fresh mask for each AND. After the final addition, the planes are transposed
+into lane-major output.
+
+\begin{algorithmblock}{Bitsliced masked addition}\label{alg:add-planes}
+\begin{verbatim}
+Input:  planes a[0..31], b[0..31], entropy source E
+Output: planes result[0..31]
+
+carry <- zero plane
+for i = 0 .. 31:
+    xor <- a[i] XOR b[i]
+    result[i] <- xor XOR carry
+    if i == 31: break
+    generate   <- AND(a[i], b[i], E.mask_u64())
+    propagated <- AND(xor, carry, E.mask_u64())
+    carry      <- generate XOR propagated
+return result
+\end{verbatim}
+\end{algorithmblock}
+
+\begin{remark}
+Algorithm~\ref{alg:add-planes} uses the generate/propagate form of the full adder.
+It is equivalent to the three-AND form in Algorithm~\ref{alg:add} after XOR
+simplification, but it uses two masked ANDs per bit instead of three.
+\end{remark}
+
+\subsection{Transpose}
+
+\begin{algorithmblock}{64x64 bit-matrix transpose}
+\begin{verbatim}
+Input:  32 planes, each a u64 row
+Output: 64 u32 lane words
+
+rows[0..31] <- unmask(planes[0..31])
+for width in [32, 16, 8, 4, 2, 1]:
+    mask <- stage_mask(width)
+    for row in 0 .. 63:
+        if row & width == 0:
+            swap <- (rows[row] XOR (rows[row+width] << width)) & mask
+            rows[row] <- rows[row] XOR swap
+            rows[row+width] <- rows[row+width] XOR (swap >> width)
+return rows[0..63] truncated to u32
+\end{verbatim}
+\end{algorithmblock}
+
+The transpose is a standard butterfly network. It is applied to the unmasked output
+planes; the unmasking is a declassification boundary at the keystream output. The
+transpose is validated by differential tests against the scalar and unmasked
+references.
+
+\section{Harness specification}\label{sec:harness}
+
+\subsection{Trace format}
+
+\begin{verbatim}
+TraceFile ::= Magic Version SamplesPerTrace TraceCount Sample*
+Magic            ::= "SiCaSTR1"                    (8 bytes)
+Version          ::= u16le(1)
+SamplesPerTrace  ::= u32le
+TraceCount       ::= u32le
+Sample           ::= i16le
+\end{verbatim}
+
+The parser enforces:
+\begin{enumerate}[leftmargin=1.5em]
+  \item magic equals \code{SiCaSTR1};
+  \item version equals 1;
+  \item \(1\le \text{trace\_count}\le 10^6\);
+  \item \(1\le \text{samples\_per\_trace}\le 10^6\);
+  \item \(\text{trace\_count}\cdot\text{samples\_per\_trace}\le 10^8\);
+  \item the file contains exactly the declared number of samples.
+\end{enumerate}
+
+\subsection{Preprocessing}
+
+\begin{description}[leftmargin=1.5em]
+  \item[Trim.] \(T'_{i,j}=T_{i,j+s}\) for \(j\in[0,e-s)\).
+  \item[Filter.] \(T'_{i,j}=\lfloor\frac{1}{|W_j|}\sum_{k\in W_j}T_{i,k}\rfloor\),
+        where \(W_j=[\max(0,j-r),\min(n-1,j+r)]\) and \(r=\lfloor w/2\rfloor\).
+  \item[Align.] Choose \(d^\ast=\arg\max_{d\in[-m,m]}\rho(R,T_i,d)\), then shift
+        \(T_i\) by \(d^\ast\) and zero-fill.
+\end{description}
+
+\subsection{TVLA}
+
+\begin{algorithmblock}{Fixed-vs-random TVLA}
+\begin{verbatim}
+Input:  fixed traces F[0..n0-1], random traces R[0..n1-1], threshold t
+Output: report
+
+for sample j = 0 .. samples-1:
+    compute means, variances, and Welch t_j
+    track max |t_j|, its sample, and the count above t
+return report
+\end{verbatim}
+\end{algorithmblock}
+
+The statistic is
+\[
+  t_j = \frac{\bar{F}_j-\bar{R}_j}
+             {\sqrt{s_F^2/n_0+s_R^2/n_1}},
+\]
+with \(s^2\) the sample variance. The implementation clamps negative variances to zero
+and returns zero when the denominator is zero.
+
+\subsection{CPA}
+
+\begin{algorithmblock}{CPA}
+\begin{verbatim}
+Input:  traces T[0..n-1][0..s-1], plaintexts p[0..n-1], model M
+Output: report
+
+for key k = 0 .. 255:
+    model[i] <- M(p[i], k)
+    for sample j = 0 .. s-1:
+        rho[k][j] <- Pearson(model, T[:,j])
+    best[k] <- max_j |rho[k][j]|
+return argmax_k best[k]
+\end{verbatim}
+\end{algorithmblock}
+
+\begin{lemma}[Hamming-weight complement symmetry]\label{lem:hw}
+For all \(x,k\in\bits^8\),
+\[
+  \HW(x\oplus k) + \HW(x\oplus k\oplus \texttt{0xFF}) = 8.
+\]
+Therefore the Hamming-weight model has perfectly negatively correlated predictions for
+\(k\) and \(k\oplus\texttt{0xFF}\), and the tie-break returns the lower key.
+\end{lemma}
+
+\begin{proof}
+Complementing all eight bits of a byte maps a byte of weight \(w\) to a byte of weight
+\(8-w\). The sum is 8.
+\end{proof}
+
+\subsection{DPA}
+
+\begin{algorithmblock}{AES S-box DPA}
+\begin{verbatim}
+Input:  traces T[0..n-1][0..s-1], plaintexts p[0..n-1]
+Output: report
+
+for key k = 0 .. 255:
+    for bit b = 0 .. 7:
+        for sample j = 0 .. s-1:
+            S0 <- {i : SBOX[p[i] XOR k]_b = 0}
+            S1 <- {i : SBOX[p[i] XOR k]_b = 1}
+            if S0 or S1 is empty: continue
+            delta <- mean(T[S1][j]) - mean(T[S0][j])
+            track max |delta|, signed delta, key, bit, sample
+return report
+\end{verbatim}
+\end{algorithmblock}
+
+\begin{lemma}[Why the S-box matters]\label{lem:sbox}
+For a single-bit leakage function \(L(p,k)=(p\oplus k)_b\), the absolute difference of
+means is independent of the key bits other than \(b\). Consequently, a single-bit
+partition of \(p\oplus k\) cannot distinguish the full key in the ideal model.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+For fixed \(b\), \((p\oplus k)_b=p_b\oplus k_b\). Changing \(k_b\) swaps the two
+partitions; changing any other key bit leaves the partition unchanged. Swapping the
+partitions negates the difference but preserves its absolute value. Therefore all keys
+with the same bit \(b\) have the same absolute difference, and keys with the other bit
+value have the same absolute difference as well. The absolute value is independent of
+the key.
+\end{proof}
+
+The AES S-box provides a nonlinear map from \(p\oplus k\) to the partition bit, so the
+partition depends on all key bits. This is why the DPA implementation uses
+\(\Sbox[p\oplus k]_b\) rather than \((p\oplus k)_b\).
+
+\subsection{Timing and leakage model}
+
+The timing command compares fixed and random classes with Welch's \(t\)-test. The
+leakage-model command computes the Pearson correlation between each share and the
+secret for masked byte, masked AND, and masked addition. A negative control must be
+detected. The thresholds and sample counts are parameters and must be published with
+the result.
+
+\section{Security definitions and claims}\label{sec:claims}
+
+\subsection{First-order security definition}
+
+\begin{definition}[First-order security]\label{def:fo-secure}
+An implementation is first-order secure for a leakage class \(\mathcal{L}\) if, for
+every adversary \(\Adv\) and every \(L\in\mathcal{L}\), the advantage in
+Definition~\ref{def:game} is negligible in the security parameter.
+\end{definition}
+
+The ideal argument of Theorem~\ref{thm:ideal} gives first-order security for
+single-share leakage under Assumptions~\ref{asm:fresh} and~\ref{asm:entropy}. The
+physical implementation is not proven first-order secure; it is designed to satisfy the
+model and evaluated with local evidence.
+
+\subsection{Claims}
+
+\begin{longtable}{@{}p{0.06\linewidth}p{0.44\linewidth}p{0.42\linewidth}@{}}
+\caption{Public claims and status.}\label{tab:claims}\\
+\toprule
+ID & Claim & Status \\
+\midrule
+\endfirsthead
+\toprule
+ID & Claim & Status \\
+\midrule
+\endhead
+C1 & The safe API prevents accidental secret-dependent branching/indexing. &
+Compile-fail tests pass. \\
+C2 & Constant-time gadgets are data-independent on supported targets. &
+Dudect and assembly evidence on x86\_64; other targets pending. \\
+C3 & First-order Boolean masking reduces first-order DPA below the TVLA threshold for
+the reference algorithm. &
+Synthetic/model evidence; hardware TVLA pending. \\
+C4 & Entropy failure is fail-closed. &
+Local tests pass. \\
+C5 & Zero runtime dependencies. &
+Verified locally. \\
+C6 & No unsafe code in core logic crates. &
+\code{forbid(unsafe\_code)}. \\
+C7 & Builds are reproducible. &
+Two-build compare passes. \\
+C8 & Critical invariants are model-checked. &
+30 Kani harnesses pass. \\
+C9 & v1.0 meets SAL-4. &
+Pending independent verification. \\
+C10 & Release artifacts are signed and traceable. &
+Local signing dry run; production pending. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Proof obligations}
+
+\begin{longtable}{@{}p{0.08\linewidth}p{0.46\linewidth}p{0.38\linewidth}@{}}
+\caption{Proof obligations and evidence.}\label{tab:obligations}\\
+\toprule
+ID & Obligation & Evidence / status \\
+\midrule
+\endfirsthead
+\toprule
+ID & Obligation & Evidence / status \\
+\midrule
+\endhead
+PO1 & \code{Choice} and \code{ct} gadgets are branchless. & Assembly matrix, dudect; pass on x86\_64. \\
+PO2 & \code{Secret} prevents accidental equality/indexing/cloning. & Compile-fail doctests; pass. \\
+PO3 & \code{Masked} reconstruction is correct. & Unit tests, Kani; pass. \\
+PO4 & Masked AND is correct and fresh. & Kani, tests; pass. \\
+PO5 & Masked addition is correct. & Kani, tests; pass. \\
+PO6 & Refresh preserves the value and randomizes shares. & Kani, tests; pass. \\
+PO7 & Entropy failure propagates. & Tests; pass. \\
+PO8 & ChaCha20 matches RFC~8439. & Test vectors; pass. \\
+PO9 & Bitsliced batch matches scalar/unmasked. & Differential tests; pass. \\
+PO10 & Trace parser rejects malformed input. & Fuzzing, Miri; pass. \\
+PO11 & TVLA/CPA/DPA are correct on synthetic data. & Unit tests; pass. \\
+PO12 & No unsafe code in core/reference/platform/harness. & Lints, source audit; pass. \\
+PO13 & Release artifact is reproducible. & Two-build compare; pass. \\
+PO14 & Zeroization drop path erases bytes. & Tests, Miri, assembly; pass for the adapter. \\
+PO15 & Performance hard ceiling is met. & Benchmark; 7.15$\times$; pass. \\
+PO16 & External audit, red team, hardware, production signing. & Pending. \\
+\bottomrule
+\end{longtable}
+
+\section{Verification methodology}\label{sec:verification}
+
+\subsection{Testing}
+
+The workspace uses unit tests, property-style randomized tests, differential tests,
+compile-fail doctests, and integration tests. The core tests cover the constant-time
+gadgets, secret handling, masking, refresh, reconstruction, and addition. The reference
+tests cover RFC~8439 vectors, differential checks, lane independence, key-plane balance,
+batch/scalar interoperability, counter wrap, and entropy failure. The harness tests
+cover parsing, preprocessing, TVLA, CPA, DPA, timing, synthetic generation, and leakage
+model checks.
+
+\subsection{Kani}
+
+Kani \citep{kani} is used for bounded model checking of the core gadgets. The 30
+harnesses cover constant-time comparison, selection, swap, lookup, masking, refresh,
+share reconstruction, addition, and share uniformity. The proofs are bounded to the
+declared integer widths and the assumptions in the harness.
+
+\subsection{Miri and sanitizers}
+
+Miri \citep{miri} checks the Rust mid-level IR for undefined behaviour on the covered
+paths. AddressSanitizer \citep{serebryany2012asan} checks native memory errors.
+Valgrind \citep{nethercote2007valgrind} checks native memory errors and definite leaks
+on five test binaries. The statistical, OS, and subprocess paths that Miri cannot
+execute are documented and run natively.
+
+\subsection{Fuzzing and mutation}
+
+Five libFuzzer campaigns \citep{libfuzzer} cover masked operations, constant-time
+lookup, trace parsing, ChaCha20, and the bitsliced batch path. Mutation testing
+\citep{jia2011mutation} measures the strength of the test suite: the current workspace
+run tests 630 mutants, catches 574, misses 0, and classifies 56 as unviable.
+
+\subsection{Assembly and timing}
+
+The assembly checker inspects the generated code for secret-dependent branches and
+memory accesses across optimization levels, codegen units, panic strategies, and LTO
+variants. The dudect-style timing tests \citep{reparaz2017dudect} compare fixed and
+random classes. The results are local measurements, not a proof for every target.
+
+\subsection{Release verification}
+
+The release manifest validator checks the artifact hash, checksum file, provenance,
+SBOM component graph, workspace versions, timestamp, and (optionally) the current
+commit. The reproducible-build comparison builds the artifact twice in independent
+target directories and compares the bytes. The local signing dry run signs and verifies
+a detached signature with an ephemeral test key.
+
+\section{Data formats}\label{sec:formats}
+
+\subsection{Trace and plaintext files}
+
+The trace format is defined in Section~\ref{sec:harness}. The plaintext file is a raw
+byte sequence with one byte per trace. The trace count and plaintext count must match
+for CPA and DPA.
+
+\subsection{Reports}
+
+The harness prints human-readable reports. The TVLA report contains \code{max\_abs\_t},
+\code{max\_sample}, \code{exceeding\_samples}, \code{sample\_count},
+\code{fixed\_traces}, \code{random\_traces}, and \code{threshold}. The CPA report
+contains \code{best\_key}, \code{best\_correlation}, \code{best\_sample}, and a
+per-key correlation vector. The DPA report contains \code{best\_key}, \code{best\_bit},
+\code{best\_sample}, \code{best\_difference}, and \code{best\_signed\_difference}.
+
+\subsection{Release manifest}
+
+The release manifest directory contains:
+
+\begin{description}[leftmargin=1.5em]
+  \item[\code{sicas-harness}] The release binary.
+  \item[\code{SHA256SUMS}] The SHA-256 checksum of the binary.
+  \item[\code{provenance.json}] Project, commit, rustc, host, build command, artifact,
+        SHA-256, and timestamp.
+  \item[\code{sbom.cdx.json}] CycloneDX SBOM with workspace components and dependency
+        edges.
+  \item[\code{README.md}] Human-readable summary with commit, host, Rust version,
+        artifact, and SHA-256.
+\end{description}
+
+\subsection{Evidence bundle}
+
+The evidence bundle contains the proof summaries, mutation and coverage evidence,
+cross-architecture results, release metadata, signing dry-run record, and a source
+snapshot. The bundle has an \code{INDEX.md} and a \code{MANIFEST.sha256}; the manifest is
+verified with \code{sha256sum -c MANIFEST.sha256}.
+
+\section{Error model and fail-closed behaviour}\label{sec:errors}
+
+\begin{description}[leftmargin=1.5em]
+  \item[\code{EntropyError::Unavailable}] The entropy source failed or is not
+        supported. The caller must not fall back to a weak source.
+  \item[\code{TraceError}] Invalid magic, unsupported version, invalid dimensions,
+        oversized input, length mismatch, or I/O error. The parser returns a typed
+        error and does not panic.
+  \item[\code{TvlaError}] Empty group, too few traces, dimension mismatch, or invalid
+        threshold.
+  \item[\code{CpaError}] Empty input, length mismatch, or too few traces.
+  \item[\code{DpaError}] Empty input, length mismatch, or too few traces.
+  \item[\code{PreprocessError}] Empty trace, invalid range, invalid window, invalid
+        reference, invalid shift limit, or trace rebuild failure.
+\end{description}
+
+The fail-closed principle applies to entropy and to release validation. A missing or
+invalid input produces an error, not a silent fallback.
+
+\section{Performance model}\label{sec:performance}
+
+\subsection{Complexity}
+
+\begin{itemize}[leftmargin=1.5em]
+  \item Scalar ChaCha20: \(O(1)\) per 64-byte block; the state is fixed-size.
+  \item Bitsliced batch: \(O(B)\) work for \(B=64\) blocks, with \(O(1)\) state per
+        lane and a \(64\times64\) transpose.
+  \item TVLA: \(O(N\cdot S)\) time and \(O(S)\) auxiliary space.
+  \item CPA: \(O(256\cdot N\cdot S)\) time and \(O(S)\) auxiliary space per key.
+  \item DPA: \(O(256\cdot 8\cdot N\cdot S)\) time and \(O(S)\) auxiliary space.
+\end{itemize}
+
+\subsection{Measured results}
+
+The final full proof measures a scalar masked overhead of approximately \(320\times\)
+and a bitsliced batch overhead of \(7.15\times\) versus the unmasked reference. The
+10$\times$ hard ceiling is met. The 5$\times$ target is open; reaching it requires SIMD
+or a faster audited mask stream.
+
+\section{Conformance and test vectors}\label{sec:conformance}
+
+\subsection{RFC 8439}
+
+The reference tests include the RFC~8439 ChaCha20 block test vector and the
+encryption test vector. The masked scalar and bitsliced paths are checked against the
+unmasked reference for randomized keys, nonces, and counters. The tests also cover
+counter wrap and batch/scalar interoperability.
+
+\subsection{Differential statistics}
+
+The TVLA, CPA, and DPA statistics are validated against an independent Python model
+over 200 deterministic cases. The leakage-model check includes a negative control that
+must be detected.
+
+\subsection{Release conformance}
+
+The release manifest validator checks that the artifact hash, checksum file,
+provenance, SBOM, workspace versions, timestamp, and commit agree. The reproducible
+build comparison checks that two independent builds produce identical bytes.
+
+\section{Versioning and change log}\label{sec:versioning}
+
+The document and the code are versioned separately. The document version follows
+semantic versioning: major changes to the specification, minor additions, and patch
+clarifications. The code version is the workspace version \code{0.1.0} until the
+external gates pass. Every proof run records the code commit and the evidence tag.
+
+\small
+\begin{longtable}{@{}p{0.12\linewidth}p{0.18\linewidth}p{0.24\linewidth}p{0.38\linewidth}@{}}
+\caption{Yellow paper revision history.}\label{tab:history}\\
+\toprule
+Version & Date & Code / evidence & Changes \\
+\midrule
+\endfirsthead
+\toprule
+Version & Date & Code / evidence & Changes \\
+\midrule
+\endhead
+0.1.0 & 2026-10-30 & initial tree & Core types, masking model, trace format. \\
+0.9.0 & 2026-10-31 & \code{8c41e4b} & Full proof obligations, evaluation mapping, release format. \\
+1.0.0 & 2026-10-31 & \code{ef13675}, \evidencetag & AES S-box DPA, GPL-3.0-only, final audit package. \\
+\bottomrule
+\end{longtable}
+
+\appendix
+
+\section{API index}
+
+\begin{longtable}{@{}p{0.34\linewidth}p{0.58\linewidth}@{}}
+\caption{Public API index (selected).}\label{tab:api}\\
+\toprule
+Item & Role \\
+\midrule
+\endfirsthead
+\toprule
+Item & Role \\
+\midrule
+\endhead
+\code{Choice::from\_bool}, \code{as\_u8} & Branchless one-bit value. \\
+\code{ct::eq\_*}, \code{select\_*}, \code{swap\_u32}, \code{lookup\_u8} &
+Constant-time comparison, selection, swap, and lookup. \\
+\code{Secret::new}, \code{expose\_secret}, \code{into\_inner} &
+Opaque secret wrapper and declassification. \\
+\code{Masked::mask}, \code{from\_parts}, \code{shares}, \code{unmask} &
+Sharing construction and reconstruction. \\
+\code{Masked::refresh}, \code{xor}, \code{and}, \code{add\_masked} &
+Masked operations. \\
+\code{EntropySource::fill\_bytes}, \code{mask\_u32}, \code{mask\_u64} &
+Fail-closed entropy contract. \\
+\code{MaskedChaCha20::new}, \code{keystream\_block}, \code{keystream\_blocks} &
+Masked ChaCha20 scalar and batch. \\
+\code{TraceSet::from\_traces}, \code{read\_from}, \code{write\_to} &
+Trace storage and I/O. \\
+\code{tvla}, \code{cpa\_hamming\_weight}, \code{cpa\_with\_model}, \code{dpa\_bit} &
+Leakage analysis. \\
+\code{preprocess::trim}, \code{moving\_average}, \code{align} &
+Trace preprocessing. \\
+\code{timing::dudect}, \code{leakage::check\_all} &
+Timing and leakage-model checks. \\
+\code{OsEntropy::new} & Safe OS entropy adapter. \\
+\code{zeroize\_bytes}, \code{ZeroizingBytes} & Experimental zeroization boundary. \\
+\bottomrule
+\end{longtable}
+
+\section{Conformance checklist}
+
+\begin{enumerate}[leftmargin=1.5em]
+  \item Build the workspace with the pinned toolchain.
+  \item Run all workspace tests and doctests.
+  \item Run the quick local proof.
+  \item Run the full local proof for the release candidate.
+  \item Verify the evidence bundle manifest.
+  \item Verify the release manifest and artifact hash.
+  \item Compare the release SHA-256 with the published value.
+  \item Check the claim-to-evidence map for the claimed assurance level.
+  \item Record every external gate that remains open.
+\end{enumerate}
+
+\bibliographystyle{plainnat}
+\bibliography{../references}
+
+\end{document}

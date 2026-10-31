@@ -51,6 +51,7 @@
 - Compiler-matrix assembly evidence: 69 configurations across opt levels, codegen units,
   panic strategies, and x86_64 thin/fat LTO.
 - First-order DPA difference-of-means tool over the AES S-box output, with synthetic key-recovery tests.
+- White paper and yellow paper in LaTeX with PDF builds and a document version log.
 - Dedicated `chacha20_batch` fuzz target for the 64-block bitsliced path.
 - Experimental `sicas-zeroize` crate with volatile byte writes, compiler fence, and
   redacted `ZeroizingBytes`; isolated, non-published, and unaudited.

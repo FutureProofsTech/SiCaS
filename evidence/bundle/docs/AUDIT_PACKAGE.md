@@ -23,7 +23,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 
 - `sicas-core`: constant-time primitives, two-share Boolean masking, masked addition.
 - `sicas-reference`: masked ChaCha20 reference integration.
-- `sicas-harness`: trace format, preprocessing, TVLA, CPA, timing, CLI.
+- `sicas-harness`: trace format, preprocessing, TVLA, CPA, DPA, timing, CLI.
 - `sicas-platform`: OS entropy adapter.
 - Build, CI, release, SBOM, and reproducibility paths.
 - Threat model, claims matrix, and proof obligations.
@@ -71,6 +71,9 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Test matrix | `docs/TEST_MATRIX.md` |
 | Audit technique matrix | `docs/AUDIT_TECHNIQUE_MATRIX.md` |
 | Reviewer checklist | `docs/AUDITOR_CHECKLIST.md` |
+| White paper | `papers/whitepaper/SiCaS-Whitepaper.pdf` |
+| Yellow paper | `papers/yellowpaper/SiCaS-Yellowpaper.pdf` |
+| Paper version log | `papers/VERSIONS.md` |
 | Auditor smoke evidence | `evidence/auditor-smoke/2026-10-31.md` |
 | Known gaps | `docs/GAP_REPORT.md` |
 
