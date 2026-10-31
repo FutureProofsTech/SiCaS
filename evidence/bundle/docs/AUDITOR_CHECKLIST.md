@@ -5,7 +5,8 @@ commit.
 
 ## 1. State
 
-- [ ] Check out code commit `ef13675` or the tag `final-audit-2026-10-31-dpa`.
+- [ ] Check out code commit `ef13675` for release validation, or the evidence tag
+      `final-audit-2026-10-31-dpa` for the full package.
 - [ ] Confirm the working tree is clean.
 - [ ] Read `docs/THREAT_MODEL.md`, `docs/SECURITY_CLAIMS.md`, and
       `docs/BITSLICED_MASKING.md`.
@@ -51,6 +52,8 @@ statistics match Python; assembly matrix has no branches; timing stays below `|t
 
 - [ ] `python3 tools/release_manifest.py --output /tmp/sicas-release`
 - [ ] `python3 tools/validate_release_manifest.py --manifest /tmp/sicas-release`
+      (add `--skip-commit` when validating from the evidence tag; the manifest records
+      code commit `ef13675`)
 - [ ] `tools/local-signing-dry-run.sh /tmp/sicas-release /tmp/sicas-signing`
 - [ ] Run `./tools/local_proof.sh full`.
 - [ ] Verify `evidence/bundle/MANIFEST.sha256`.

@@ -41,6 +41,8 @@ release” from “certified for production secrets.”
 ./tools/local_proof.sh full
 python3 tools/release_manifest.py --output release
 python3 tools/validate_release_manifest.py --manifest release
+# Add --skip-commit when validating from the evidence tag: the manifest records
+# code commit ef13675, while the tag includes later docs/evidence commits.
 tools/local-signing-dry-run.sh release evidence/signing
 ```
 

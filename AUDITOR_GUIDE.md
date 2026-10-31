@@ -83,7 +83,9 @@ also bundled.
 - **Statistics:** `crates/sicas-harness/src/{tvla,cpa,stats}.rs` and
   `tools/check_stats.py`.
 - **Release integrity:** `tools/release_manifest.py`,
-  `tools/validate_release_manifest.py`, and `evidence/bundle`.
+  `tools/validate_release_manifest.py`, and `evidence/bundle`. The release manifest
+  records code commit `ef13675`; the evidence tag points to a later docs/evidence
+  commit, so add `--skip-commit` when validating from the tag.
 
 ## Known limits
 
