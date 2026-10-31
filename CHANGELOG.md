@@ -52,9 +52,9 @@
 - Release-profile dudect evidence: 3×1M samples per check, max |t| = 2.2461.
 - Differential statistics validation: 200 deterministic cases match an independent
   Python implementation.
-- Performance benchmark for masked ChaCha20. Measured ~619× overhead vs the unmasked
-  reference; the ≤5× target and 10× hard ceiling are not met and are tracked as an
-  open local gap.
+- Bitsliced masked ChaCha20 batch: 64 blocks per mask stream and a fast 64×64
+  bit-matrix transpose. The measured overhead is 9.3×–9.6× vs unmasked, meeting the
+  10× hard ceiling; the ≤5× target remains open.
 - Full local proof at commit `e0d2e3e`: all security gates pass, including
   full-workspace Miri, 30 Kani harnesses, 122 ASan tests, zero missed viable mutants,
   96.90% line coverage, four 1M-execution fuzz campaigns, cross-architecture tests,

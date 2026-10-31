@@ -20,7 +20,8 @@ Command: `./tools/run-aarch64-tests.sh`
 
 The run covers all workspace library tests, including masked addition, masked
 ChaCha20 RFC 8439 vectors and differential checks, trace parsing, preprocessing, TVLA,
-CPA, timing logic, the first-order leakage model, and the OS entropy adapter.
+CPA, timing logic, the first-order leakage model, and the OS entropy adapter. The
+bitsliced batch added after this run has not yet been included in a cross-arch rerun.
 
 ## What this proves
 

@@ -5,8 +5,8 @@ assessment.
 
 ## Status
 
-The local proof is complete and frozen at commit `e0d2e3e`; every local security gate
-passes, with the performance gap documented. The project is **not audited, not hardware-validated, and must not be used
+The last full local proof is at commit `e0d2e3e`. A bitsliced masked-ChaCha20 batch
+now meets the 10× performance hard ceiling; its full re-proof is pending. The project is **not audited, not hardware-validated, and must not be used
 to protect real secrets yet**. The current public label is **SAL-2 locally**. The
 production target is SAL-4 as defined in [`PLAN.md`](PLAN.md) and
 [`docs/ASSURANCE.md`](docs/ASSURANCE.md).

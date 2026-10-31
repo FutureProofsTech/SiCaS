@@ -12,12 +12,14 @@
 |---|---:|---:|---:|---:|
 | `sicas-core` | 112 | 0 | 19 | 112 |
 | `sicas-harness` | 357 | 0 | 23 | 357 |
-| `sicas-reference` | 6 | 0 | 0 | 6 |
+| `sicas-reference` | 69 | 0 | 8 | 69 |
 | `sicas-platform` | 2 | 0 | 1 | 2 |
-| **Workspace** | **477** | **0** | **43** | **477** |
+| **Workspace** | **477** | **0** | **43** | **477** (before bitsliced batch) |
 
-All viable mutants were caught. Unviable mutants are those that cargo-mutants could not
-build or that the compiler rejected; they are excluded from the score.
+All viable mutants were caught. The reference crate was re-run after the bitsliced
+batch (69 caught, 0 missed, 8 unviable); the workspace total shown is from before that
+change and a full re-run is pending. Unviable mutants are those that cargo-mutants could
+not build or that the compiler rejected; they are excluded from the score.
 
 ## What this covers
 

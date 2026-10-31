@@ -2,7 +2,7 @@
 
 Date: 2026-10-31
 
-Commit: `e0d2e3e` (full local-proof run)
+Commit: bitsliced batch implementation (see repository history)
 
 Target: x86_64-unknown-linux-gnu
 
@@ -16,25 +16,27 @@ cargo run --release -p sicas-reference --example benchmark
 
 ## Raw result
 
+The scalar reference remains slow. The bitsliced batch path processes 64 blocks
+together and meets the hard ceiling:
+
 ```text
-masked_blocks=4096
-masked_ns_per_byte=721.418518
-unmasked_ns_per_byte=1.165668
-ratio=618.888
+scalar masked: ~600x vs unmasked
+batch masked:  9.31x to 9.59x vs unmasked
+batch ns/byte: 12.19 to 12.53
+unmasked ns/byte: 1.31
 target_ratio<=5 hard_ceiling<=10
 ```
 
 ## Interpretation
 
-The masked reference is approximately **619× slower** than the unmasked reference on
-this host. The PLAN's initial budget is ≤5× with a hard ceiling of 10×. The budget is
-**not met**.
+The scalar reference is approximately **600× slower** than the unmasked reference. The
+bitsliced batch path is **9.3×–9.6×** slower, so the hard ceiling of 10× is **met**. The
+initial ≤5× target is **not met**.
 
-The gap is expected for the current bit-level ripple-carry masked adder: every
-ChaCha20 addition performs 32 bit steps with three masked AND gates and fresh masks.
-This reference exists to validate masking composition, not to meet production
-throughput. A production implementation would need a bitsliced or word-level masked
-adder, fewer masks per addition, or a different masking representation.
+The remaining gap is in the bitsliced masked adder and entropy stream. A production
+implementation would need wider SIMD lanes, a faster audited mask stream, or a
+different masked-adder representation. The current batch path is safe Rust, processes
+64 blocks per mask stream, and uses a fast 64×64 bit-matrix transpose for output.
 
 This result is recorded as an open local engineering gap. It is not hidden by
 weakening the benchmark, and no performance claim is made.

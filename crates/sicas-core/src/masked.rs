@@ -60,6 +60,7 @@ macro_rules! impl_masked {
             /// The caller is responsible for the shares being independent and
             /// for not using the result as a fresh mask without
             /// re-randomization.
+            #[inline]
             pub const fn from_parts(share0: $type, share1: $type) -> Self {
                 Self { share0, share1 }
             }
@@ -69,6 +70,7 @@ macro_rules! impl_masked {
             /// # Security
             ///
             /// `mask` must be uniformly random and independent of `value`.
+            #[inline]
             pub const fn mask(value: $type, mask: $type) -> Self {
                 Self {
                     share0: value ^ mask,
@@ -83,6 +85,7 @@ macro_rules! impl_masked {
             /// Raw shares are sensitive material. Use them only inside an
             /// explicit leakage-analysis or composition boundary. Never branch
             /// on, log, or publish individual shares.
+            #[inline]
             pub const fn shares(&self) -> (&$type, &$type) {
                 (&self.share0, &self.share1)
             }
@@ -91,6 +94,7 @@ macro_rules! impl_masked {
             ///
             /// This is a declassification boundary. The caller must justify it
             /// in the surrounding leakage contract.
+            #[inline]
             pub const fn unmask(&self) -> Secret<$type> {
                 Secret::new(self.share0 ^ self.share1)
             }
@@ -99,6 +103,7 @@ macro_rules! impl_masked {
             ///
             /// The logical value is unchanged. `fresh_mask` must be independent
             /// of the current shares and must not be reused.
+            #[inline]
             pub const fn refresh(&self, fresh_mask: $type) -> Self {
                 Self {
                     share0: self.share0 ^ fresh_mask,
@@ -107,6 +112,7 @@ macro_rules! impl_masked {
             }
 
             /// XORs two masked values.
+            #[inline]
             pub const fn xor(&self, other: &Self) -> Self {
                 Self {
                     share0: self.share0 ^ other.share0,
@@ -115,6 +121,7 @@ macro_rules! impl_masked {
             }
 
             /// Returns the bitwise complement of the masked value.
+            #[inline]
             pub const fn complement(&self) -> Self {
                 Self {
                     share0: !self.share0,
@@ -125,6 +132,7 @@ macro_rules! impl_masked {
             /// Rotates the masked value left by `amount` bits.
             ///
             /// The amount is reduced modulo the bit width.
+            #[inline]
             pub const fn rotate_left(&self, amount: u32) -> Self {
                 Self {
                     share0: self.share0.rotate_left(amount),
@@ -135,6 +143,7 @@ macro_rules! impl_masked {
             /// Rotates the masked value right by `amount` bits.
             ///
             /// The amount is reduced modulo the bit width.
+            #[inline]
             pub const fn rotate_right(&self, amount: u32) -> Self {
                 Self {
                     share0: self.share0.rotate_right(amount),
@@ -145,6 +154,7 @@ macro_rules! impl_masked {
             /// Shifts the masked value left by `amount` bits.
             ///
             /// Amounts greater than or equal to the bit width produce zero.
+            #[inline]
             pub const fn shift_left(&self, amount: u32) -> Self {
                 let share0 = match self.share0.checked_shl(amount) {
                     Some(value) => value,
@@ -160,6 +170,7 @@ macro_rules! impl_masked {
             /// Shifts the masked value right by `amount` bits.
             ///
             /// Amounts greater than or equal to the bit width produce zero.
+            #[inline]
             pub const fn shift_right(&self, amount: u32) -> Self {
                 let share0 = match self.share0.checked_shr(amount) {
                     Some(value) => value,
@@ -178,6 +189,7 @@ macro_rules! impl_masked {
             ///
             /// `fresh_mask` must be uniformly random, independent of both
             /// operands, and must not be reused.
+            #[inline]
             pub const fn and(&self, other: &Self, fresh_mask: $type) -> Self {
                 let share0 = (self.share0 & other.share0) ^ fresh_mask;
                 let share1 = (self.share0 & other.share1)
@@ -188,6 +200,7 @@ macro_rules! impl_masked {
             }
 
             /// Compares two masked values in constant time.
+            #[inline]
             pub const fn ct_eq(&self, other: &Self) -> Choice {
                 $eq(self.share0 ^ other.share0, self.share1 ^ other.share1)
             }
@@ -197,6 +210,7 @@ macro_rules! impl_masked {
             ///
             /// `choice` is a public selection bit. The shares are selected
             /// independently, so the result remains masked.
+            #[inline]
             pub const fn select(choice: Choice, a: &Self, b: &Self) -> Self {
                 Self {
                     share0: $select(choice, a.share0, b.share0),
@@ -217,6 +231,7 @@ impl Masked<u32> {
     /// Extracts one bit as a masked value.
     ///
     /// Bits outside `index` are zero. An index of 32 or greater returns zero.
+    #[inline]
     pub const fn bit(&self, index: u32) -> Self {
         let mask = match 1_u32.checked_shl(index) {
             Some(value) => value,
@@ -241,6 +256,7 @@ impl Masked<u32> {
     /// # Errors
     ///
     /// Returns [`EntropyError::Unavailable`] when the entropy source fails.
+    #[inline]
     pub fn add_masked<E: EntropySource>(
         &self,
         other: &Self,

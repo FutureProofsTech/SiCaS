@@ -163,16 +163,16 @@ been performed.
 - Core: 20 tests.
 - Harness: 91 library, 7 main, 5 CLI tests.
 - Platform: 4 tests.
-- Reference: 7 tests.
+- Reference: 11 tests (native; cross-arch rerun pending).
 - Doctests: 3 pass, 4 compile-fail.
 - Miri: full workspace passes (core 20; harness 82 passed with 9 native-only
   statistical sweeps ignored; main 5 passed with 2 file/timing tests ignored; platform
   2 passed with 2 OS-entropy tests ignored; reference 6 passed with 1 statistical sweep
   ignored; 7 doctests pass). Ignored tests are blocked by Miri isolation or are
   exhaustive native sweeps; none are deleted.
-- ASan: 122 workspace library tests pass.
-- AArch64 QEMU: 122 workspace library tests pass.
-- i686 native: 134 all-target tests pass.
+- ASan: 122 workspace library tests pass (before the bitsliced batch).
+- AArch64 QEMU: 122 workspace library tests pass (before the bitsliced batch).
+- i686 native: 134 all-target tests pass (before the bitsliced batch).
 - Kani: 30 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 112 caught/0 missed; reference 6 caught/0 missed; workspace 477
@@ -211,9 +211,9 @@ Additional local hardening was completed after the initial audit pass:
   200 deterministic cases.
 - A local signing dry run produces and verifies a detached signature with an ephemeral
   test key; it is not a production identity.
-- A masked ChaCha20 benchmark measured ~619× overhead vs the unmasked reference. The
-  PLAN target (≤5×) and hard ceiling (10×) are not met; this is tracked as an open local
-  performance gap in `docs/PERFORMANCE_EVIDENCE.md`.
+- The scalar masked ChaCha20 measured ~600× overhead. A 64-block bitsliced batch path
+  with a fast 64×64 transpose now measures 9.3×–9.6× vs unmasked. The 10× hard ceiling
+  is met; the 5× target remains open in `docs/PERFORMANCE_EVIDENCE.md`.
 
 These changes strengthen the local evidence. They do not change the external-only
 gates: hardware leakage measurement, independent audit, independent red team,

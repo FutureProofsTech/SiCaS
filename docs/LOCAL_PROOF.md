@@ -44,26 +44,26 @@ Adds:
 The full run can take 20+ minutes. It writes everything under
 `evidence/local-proof-<timestamp>/` unless `LOCAL_PROOF_LOG_DIR` is set.
 
-## Final local proof
+## Last full local proof
 
-The frozen local proof ran on commit `e0d2e3e`:
+The last full proof ran on commit `e0d2e3e`:
 
 ```bash
 LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-final ./tools/local_proof.sh full
 ```
 
-All security gates passed, including full-workspace Miri, 30 Kani harnesses, 122 ASan
-tests, zero missed viable mutants, 96.90% line coverage, four 1M-execution fuzz
-campaigns, AArch64 QEMU, i686, release validation, and the reproducible-build
-comparison. The performance row is report-only and records the open gap. The
-summary is [`evidence/local-proof-2026-10-31-final/SUMMARY.md`](../evidence/local-proof-2026-10-31-final/SUMMARY.md).
+That run passed all security gates. After it, the masked ChaCha20 path was replaced by a
+64-block bitsliced batch. The new path passes unit tests, strict Clippy, and reference
+mutation testing, and measures 9.3×–9.6× vs unmasked, meeting the 10× hard ceiling. A
+full re-proof of the new path is pending; the 5× target remains open. The historical
+summary is
+[`evidence/local-proof-2026-10-31-final/SUMMARY.md`](../evidence/local-proof-2026-10-31-final/SUMMARY.md).
 
 ## Interpretation
 
-A PASS in `SUMMARY.md` means the command exited successfully. Report-only rows are not
-passes: the workspace mutation row records the full mutation report, and the performance
-row records the measured masked-ChaCha20 overhead, which currently exceeds the budget.
-Core and reference mutation runs are blocking. External-only gates remain in
-`docs/GAP_REPORT.md` and are not simulated.
+A PASS in `SUMMARY.md` means the command exited successfully. The workspace mutation
+row is report-only; core and reference mutation runs are blocking. The performance gate
+is blocking at the 10× hard ceiling and report-only for the 5× target. External-only
+gates remain in `docs/GAP_REPORT.md` and are not simulated.
 
 External audit is the second opinion after this local proof package is complete.

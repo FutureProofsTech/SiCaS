@@ -27,10 +27,24 @@ pub trait EntropySource {
     ///
     /// Returns [`EntropyError::Unavailable`] when secure entropy cannot be
     /// obtained.
+    #[inline]
     fn mask_u32(&mut self) -> Result<u32, EntropyError> {
         let mut bytes = [0_u8; 4];
         self.fill_bytes(&mut bytes)?;
         Ok(u32::from_le_bytes(bytes))
+    }
+
+    /// Returns a random `u64` mask.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`EntropyError::Unavailable`] when secure entropy cannot be
+    /// obtained.
+    #[inline]
+    fn mask_u64(&mut self) -> Result<u64, EntropyError> {
+        let mut bytes = [0_u8; 8];
+        self.fill_bytes(&mut bytes)?;
+        Ok(u64::from_le_bytes(bytes))
     }
 }
 
@@ -76,5 +90,8 @@ mod tests {
     fn mask_is_little_endian() {
         let mut source = FixedEntropy([0x78, 0x56, 0x34, 0x12]);
         assert_eq!(source.mask_u32(), Ok(0x1234_5678));
+
+        let mut source = FixedEntropy([0x78, 0x56, 0x34, 0x12]);
+        assert_eq!(source.mask_u64(), Ok(0x1234_5678));
     }
 }

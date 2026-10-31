@@ -1,7 +1,7 @@
 # Gap Report
 
-All local security gates that can be executed in this environment are implemented. One
-local performance gap remains and is recorded below. The following gates are external,
+All local security gates that can be executed in this environment are implemented. The
+masked-ChaCha20 hard performance ceiling is met; the 5× target remains open. The following gates are external,
 physical, or require credentials and therefore cannot be truthfully completed here.
 
 | Gate | Status | Why it remains | Required next action |
@@ -21,7 +21,7 @@ physical, or require credentials and therefore cannot be truthfully completed he
 
 | Gap | Status | Evidence | Required next action |
 |---|---|---|---|
-| Masked ChaCha20 performance | Open | `docs/PERFORMANCE_EVIDENCE.md`: measured ~619× vs unmasked; target ≤5×, hard ceiling 10× | Optimize the masked adder (bitslicing/word-level carry) or revise the production budget before any performance claim |
+| Masked ChaCha20 performance | Hard ceiling met; target open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 9.3×–9.6× vs unmasked, so the 10× hard ceiling is met; the 5× target is not | Continue optimizing toward 5× with wider SIMD lanes or a faster audited mask stream |
 
 ## Local readiness matrix
 
@@ -39,10 +39,9 @@ claim.
 - Constant-time assembly checks on four architectures.
 - x86_64 dudect timing evidence.
 - 1M-execution fuzz campaigns on four targets.
-- Full local proof at `e0d2e3e`: all security gates pass, including full-workspace
-  Miri, 30 Kani harnesses, 122 ASan tests, zero missed viable mutants, 96.90% line
-  coverage, audit, deny, and reproducible-build comparison. The performance row is
-  report-only and records the open gap.
+- Last full local proof at `e0d2e3e`: all security gates passed. The bitsliced masked
+  ChaCha20 batch now meets the 10× performance hard ceiling at 9.3×–9.6×; its full
+  re-proof is pending.
 - Masked ChaCha20 RFC 8439 and differential validation.
 - Compiler-matrix assembly evidence (60 configurations), Valgrind Memcheck with zero
   errors, differential statistics validation, release-profile timing, a long fuzz

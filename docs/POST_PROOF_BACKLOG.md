@@ -31,9 +31,9 @@ validation.
 - [x] Add Valgrind Memcheck and differential statistics validation.
 - [x] Add a local signing dry run with an ephemeral test key.
 - [x] Run a long fuzz campaign: 10M on the three fast targets and 1M on ChaCha20.
-- [ ] Optimize masked ChaCha20 from the measured ~619× overhead toward the ≤5× target
-  and 10× hard ceiling, or revise the performance budget with evidence. See
-  `docs/PERFORMANCE_EVIDENCE.md`.
+- [x] Replace the scalar masked path with a 64-block bitsliced batch and a fast
+  64×64 bit-matrix transpose. The hard 10× ceiling is met at 9.3×–9.6×.
+- [ ] Continue optimizing toward the 5× target. See `docs/PERFORMANCE_EVIDENCE.md`.
 
 ## Gate 2 — Freeze the local proof
 

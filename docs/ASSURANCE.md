@@ -2,9 +2,9 @@
 
 ## Current level
 
-**SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The local
-proof is frozen at commit `e0d2e3e`; every local security gate passes, with the
-performance gap documented. The target for
+**SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The last
+full local proof is at `e0d2e3e`. A bitsliced masked-ChaCha20 batch now meets the 10×
+performance hard ceiling; its full re-proof is pending, and the 5× target is open. The target for
 v1.0 is **SAL-4**. CI, hardware evidence, independent audit, and red team are still
 pending.
 
