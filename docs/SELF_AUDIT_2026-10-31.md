@@ -53,5 +53,6 @@ external-only gates.
 - No hardware power/EM TVLA/CPA/DPA.
 - No independent audit or red team.
 - No production signing identity or SLSA attestation.
-- Zeroization is design-only.
+- Zeroization has an experimental volatile-write adapter with tests and x86_64
+  assembly evidence; independent review is pending.
 - The 5× performance target is open.

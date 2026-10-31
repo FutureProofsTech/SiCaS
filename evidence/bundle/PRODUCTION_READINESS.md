@@ -2,8 +2,8 @@
 
 ## Status
 
-- Code commit: `6ad9c10`
-- Evidence tag: `local-proof-2026-10-31-self-audit-final`
+- Code commit: `8c41e4b`
+- Evidence tag: `local-proof-2026-10-31-final-audit`
 - Public label: **SAL-2 locally**
 - Production status: **not certified**
 - Deployment rule: **do not use to protect real secrets until the independent and physical gates below are complete**
@@ -32,7 +32,7 @@ release” from “certified for production secrets.”
 | Independent red team | Pending | Requires an independent team |
 | Hardware power/EM TVLA/CPA/DPA | Pending | Requires a physical target and acquisition lab |
 | Production signing identity / SLSA | Pending | Requires a trusted release identity |
-| Volatile zeroization | Design review only | Requires an audited unsafe boundary or platform guarantee |
+| Volatile zeroization | Experimental adapter implemented | `sicas-zeroize` is isolated and unaudited; it is not used by published crates |
 | 5× performance target | Open | 10× hard ceiling is met; 5× needs further optimization |
 
 ## Release commands
@@ -62,7 +62,7 @@ Give the reviewer:
 4. `docs/AUDIT_TECHNIQUE_MATRIX.md`
 5. `docs/AUDIT_PACKAGE.md`
 6. `evidence/bundle/`
-7. the repository at `6ad9c10`
+7. the repository at `8c41e4b`
 
 The reviewer can verify the bundle with:
 

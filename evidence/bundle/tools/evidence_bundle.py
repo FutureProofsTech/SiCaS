@@ -77,6 +77,7 @@ REQUIRED = [
     "evidence/fuzz-long/chacha20.log",
     "evidence/stats/2026-10-31-x86_64.md",
     "evidence/valgrind/2026-10-31-x86_64.md",
+    "evidence/zeroize/2026-10-31-x86_64.md",
     "evidence/release/2026-10-31-x86_64.md",
     "tools/local_proof.sh",
     "tools/auditor_smoke.sh",
@@ -98,6 +99,8 @@ REQUIRED = [
     "crates/sicas-core/examples/ct_asm.rs",
     "crates/sicas-harness/examples/stats_fixture.rs",
     "crates/sicas-reference/examples/benchmark.rs",
+    "crates/sicas-zeroize/Cargo.toml",
+    "crates/sicas-zeroize/src/lib.rs",
 ]
 
 OPTIONAL = [

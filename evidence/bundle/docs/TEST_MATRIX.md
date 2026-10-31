@@ -27,6 +27,7 @@ exercises it.
 | Bitsliced batch fuzz | `fuzz/fuzz_targets/chacha20_batch.rs` | `cargo +nightly-2026-08-03 fuzz run chacha20_batch -- -runs=1000000` |
 | Preprocessing bounds | `preprocess::tests::*` | `cargo test -p sicas-harness preprocess` |
 | Statistics differential | `tools/check_stats.py` | `python3 tools/check_stats.py` |
+| Zeroization | volatile stores, drop test, assembly check | `cargo test -p sicas-zeroize`; `python3 tools/zeroize_asm_check.py` |
 | Memory safety | Miri, ASan, Valgrind | `cargo miri test --workspace`; ASan/Valgrind scripts |
 | Mutation strength | `cargo-mutants` | `cargo mutants --workspace --no-shuffle` |
 | Coverage | `cargo-llvm-cov` | `cargo llvm-cov --workspace --all-features --fail-under-lines 90` |

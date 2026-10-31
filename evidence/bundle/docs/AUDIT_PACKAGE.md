@@ -9,8 +9,8 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 
 ## Reviewed state
 
-- Code commit: `6ad9c10`
-- Evidence tag: `local-proof-2026-10-31-self-audit-final`
+- Code commit: `8c41e4b`
+- Evidence tag: `local-proof-2026-10-31-final-audit`
 - Public label: SAL-2 locally
 - Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
 - Release size: 383,160 bytes
@@ -46,6 +46,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Bitsliced masking argument | `docs/BITSLICED_MASKING.md` |
 | First-order leakage model | `evidence/leakage/2026-10-31-x86_64.md` |
 | Valgrind Memcheck | `evidence/valgrind/2026-10-31-x86_64.md` |
+| Zeroization assembly | `evidence/zeroize/2026-10-31-x86_64.md` |
 | Statistics differential test | `evidence/stats/2026-10-31-x86_64.md` |
 | Fuzz campaigns | `docs/FUZZ_EVIDENCE.md` |
 | Mutation testing | `docs/MUTATION_EVIDENCE.md` |

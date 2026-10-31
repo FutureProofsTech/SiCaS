@@ -68,6 +68,7 @@ run asan env RUSTFLAGS=-Zsanitizer=address cargo +nightly-2026-08-03 test --work
 run audit cargo audit
 run deny cargo deny check
 run assembly python3 tools/ct_asm_check.py --matrix --lto --output "$log_dir/assembly.md"
+run zeroize-asm python3 tools/zeroize_asm_check.py --output "$log_dir/zeroize-asm.md"
 run leakage-model cargo run --quiet --release -p sicas-harness -- leakage-check --samples 50000 --threshold 0.02
 run stats-differential python3 tools/check_stats.py --output "$log_dir/stats.md"
 run valgrind tools/run-valgrind.sh "$log_dir/valgrind"

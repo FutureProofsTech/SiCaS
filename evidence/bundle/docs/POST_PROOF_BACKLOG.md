@@ -26,7 +26,7 @@ validation.
   requires an audited unsafe boundary.
 - [x] Add release-manifest/SBOM/provenance consistency validation with tests.
 - [x] Re-run the full local proof after all changes. All security gates pass at
-  `6ad9c10`; see `evidence/local-proof-2026-10-31-self-audit-final/SUMMARY.md`.
+  `8c41e4b`; see `evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`.
 - [x] Extend assembly evidence to an optimization/codegen/panic/LTO matrix.
 - [x] Add Valgrind Memcheck and differential statistics validation.
 - [x] Add a local signing dry run with an ephemeral test key.
@@ -38,14 +38,14 @@ validation.
 ## Gate 2 — Freeze the local proof
 
 - [x] Freeze the code and documentation.
-- [x] Run the full proof on the frozen commit (`6ad9c10`).
+- [x] Run the full proof on the frozen commit (`8c41e4b`).
 - [x] Publish the evidence bundle and its hashes.
 - [x] Record the supported platform and compiler matrix in `docs/SUPPORT_MATRIX.md`.
 - [x] Record every remaining gap in `docs/GAP_REPORT.md`.
 
 ## Gate 3 — External second opinion
 
-Status: the local proof is frozen at `6ad9c10`; none of these external gates has been
+Status: the local proof is frozen at `8c41e4b`; none of these external gates has been
 started or simulated.
 
 Only after Gate 2:

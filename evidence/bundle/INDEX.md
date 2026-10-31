@@ -1,61 +1,61 @@
 # SiCaS Evidence Bundle
 
-- Code commit under test: `6ad9c10`
-- Generated: `2026-10-31T02:38:11.826509+00:00`
-- Files: 86
+- Code commit under test: `8c41e4b`
+- Generated: `2026-10-31T03:15:23.229877+00:00`
+- Files: 89
 
 | File | SHA-256 |
 |---|---|
 | `AGENTS.md` | `2d972877001d5ea217c6055e71750962f62ba467cc4783771fa5c884115b5eba` |
-| `AUDITOR_GUIDE.md` | `cb7ca1abf5a40264e806c14f39eeae050ea64e9ea29b3b5881ba520700832f88` |
-| `AUDIT_REQUEST.md` | `9fedaa5116a16b47826dd91fb84086afcbf0b75ee6e7f389342658db4b9a7a47` |
-| `PRODUCTION_READINESS.md` | `509ac022e094d132d7d2450442775424215cb62dd1c1aadc7d812987fff377c0` |
+| `AUDITOR_GUIDE.md` | `99b0ed970c1eb6dd67e861310208a3253d9ddf743fb0144ea62426144de5d661` |
+| `AUDIT_REQUEST.md` | `a33c7d39e67a82cd3e7384a23b5417eedd0d377877807a36afe26e838caab29d` |
+| `PRODUCTION_READINESS.md` | `00b952732dc27a12dfd7e4f4fb5769d8aae17f22e1289143ab0abec88e5cfd4d` |
 | `opencode.json` | `9a148bd21e7b229629e87c8e5eeccbe438b71ced0d0cae03161438533aad4809` |
 | `PLAN.md` | `8b4b122ac6cf9794197035a67f7b2498c04d15211546b1c32d52f0cc67edea29` |
-| `README.md` | `fe31056812a6d12b50e54ac2d7deccef29f6baf0c28b3ec9027273b55ae6af05` |
+| `README.md` | `1759ac42dd96fcc0d871d9260559ddf22a4543881d225f030d0d4a9a2e8eb459` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `CONTRIBUTING.md` | `19f7199259bf10ad0f460f224f5defc2d80fed0686f10d42bb5ed80847275b2b` |
-| `CHANGELOG.md` | `5bc3e02865eff9aae2b5d38cad83f1015d4cba0caba29e42ca1ccb68ecd2c5a2` |
+| `CHANGELOG.md` | `924fcc4afe5f6542b8384a5599103540d3ce86f9badfa1850bb8c9b73cce5a7d` |
 | `deny.toml` | `57404a081b6bb12c51528abbed6cc9121990ecb3f9870edcd95af64badf3e930` |
-| `Cargo.toml` | `f4fde61ac5382fa62df216f36181385048abf16683e89e459abca73cc9114f8b` |
-| `Cargo.lock` | `7ee530e741de2983ae86471d965ce8d411c0ed15b5d29f0e8573ecb9cf135332` |
+| `Cargo.toml` | `e50ce12e5acf1ed8b26ef0ff211a8d047dfb6dac9a8dc72efaab4148e6e94e1b` |
+| `Cargo.lock` | `3b87141280b45fa7ab8067c398c6596384f1c5c46b339a65eb9a42531b276bbd` |
 | `rust-toolchain.toml` | `b377894f4717223cfb2e38f5a6c9b439ceb6633b12a9f563843c771c25c00524` |
 | `docs/THREAT_MODEL.md` | `af119b1739524991e4f672cdb1273379a50cb543c9fa3581d5dbe13f7eb64f65` |
-| `docs/SECURITY_CLAIMS.md` | `40baa5b0f0d3bb05c3ba5ddecca61ff72a02955e1880abb7741f207fbbcae5d6` |
-| `docs/PROOF_OBLIGATIONS.md` | `0571ca14606408f8e66631fc09ada9d18503520780519d4c05b30dd1c2279cd2` |
-| `docs/ASSURANCE.md` | `5133ad2bf71bdbe457df435713957c6881a7660d16050bbad593847e6dd0d52a` |
+| `docs/SECURITY_CLAIMS.md` | `5deee3ed75e637be041c43451934a87b9d46fbf261d7f5e58256aa888442bd96` |
+| `docs/PROOF_OBLIGATIONS.md` | `5517e045efb99ed3e007dac3ce16efea779567b69982d337f52732238174b734` |
+| `docs/ASSURANCE.md` | `f598f3dcd41aaa9a5ecca540ccf5999df99340bd6bcb25a7fa88f905bc5c22d0` |
 | `docs/BITSLICED_MASKING.md` | `4fe9876ababbbaf170835adbfdccf98a2076da7dbcd82877b3a3dea5287e7ba9` |
 | `docs/CODE_QUALITY.md` | `0b3c552c839fcca159b9c1ac3ef96cb704b7f7224ee506ea2b958134781954bd` |
-| `docs/SUPPORT_MATRIX.md` | `52903336c26f55f396c04e706771a86a04a4fdfe6b0189a7001129400d034fca` |
+| `docs/SUPPORT_MATRIX.md` | `8d2e582baa1278073e300be4a7620a4989cfc4c4e5f178a75b3c6b6ae7f89b6f` |
 | `docs/EVALUATION.md` | `53859bffc6f375f4f96ccac5ea13db58f093d8361e1409e413d429df67221fe3` |
 | `docs/CT_EVIDENCE.md` | `3bdcda4c3aa8804b6553d28e5a24734444a02378859f87b2bcb605a23c89fc24` |
-| `docs/CROSS_ARCH_EVIDENCE.md` | `df35ae112a1b7379d9ce53aa28b3c79757a2db6516a2693e49012dc7f49e4e04` |
+| `docs/CROSS_ARCH_EVIDENCE.md` | `c357ab96de6acb654cd2d6dd4b07ce98199c691d36ef799921440454ea00821e` |
 | `docs/FUZZ_EVIDENCE.md` | `2c1a0dcff94a505961f5971e78c337fec30448d3689ef9c0d62788482b470843` |
-| `docs/MUTATION_EVIDENCE.md` | `8fe67c761bdc2b3beeebcc105b3b58d63c94c074fb7bc7d3264f79f8bea4d230` |
-| `docs/PERFORMANCE_EVIDENCE.md` | `8945b789f20580db0f9cb56f57bc14823551595be9e019f2f3e93313a42e8981` |
+| `docs/MUTATION_EVIDENCE.md` | `121b1465694955c8e2d9c7277559ba7edeef7d414128cc0182a4639f334530b0` |
+| `docs/PERFORMANCE_EVIDENCE.md` | `a558a6ac8eaf7afbc02bb7c2d95b7ee8ff06ee405bb32e61169bc3567b8ac579` |
 | `docs/HARDWARE.md` | `9ef8f41e77fab8522cc3ff61f09e669bff55e0ba0a252344880b73bb9f451b83` |
 | `docs/RELEASE.md` | `e02b2bbd91ee9a9a51b1ca8cee5aac6edbafd774ab11b08a56887c3650b3ed87` |
 | `docs/RED_TEAM.md` | `0488173170a29993e5ce04891b5a5bc6dad0d4a3169744080e904bb4f1374785` |
 | `docs/TOOLING.md` | `f0c53aea3558632918984cd3559629a95439b0f1f4363399b6d8d1fede60be7b` |
-| `docs/AUDIT_PACKAGE.md` | `a2d4aa75f0cad02bf24f30a35ceb392184eafb224dc120502b60901476a0b5dc` |
-| `docs/AUDITOR_CHECKLIST.md` | `464136b18f9098bbde312ab33476737516d1bf369dfa2764fc9d8579f50141d7` |
-| `docs/AUDIT_TECHNIQUE_MATRIX.md` | `27179a90f2a9bc8a0faa21cb51b7530c46d67c1b12d7a64df74e4ed3f926b5ad` |
-| `docs/TEST_MATRIX.md` | `d05c4560464aef7006101c118d3c9b864b8a66877fcf39a1d964a1cf62990411` |
-| `docs/AUDIT_REPORT_2026-10-30.md` | `793e392707816261d755d5c329a60d27c0f674319d51783434cfef59f7ae3f47` |
-| `docs/SELF_AUDIT_2026-10-31.md` | `a3f6c2c671d75afe02602fc7fcb401ddee369ba2ce593f26b538adcde0d687ea` |
-| `docs/GAP_REPORT.md` | `63d5cda685e134559bb0b720a25a3dbb6e40411ece31dc9e072abc7a6c8546ea` |
-| `docs/LOCAL_PROOF.md` | `f283accf1e45ccbbf8d7d956a2c13f15b9bddaa79dfd8e8056c9d36a712da00b` |
-| `docs/POST_PROOF_BACKLOG.md` | `11f3f271ef50c6e2d37aef82ec1a28ba6e9327cf28bac8519c65172ce41deb73` |
-| `docs/SAL4_LOCAL_READINESS.md` | `8a8c26faad92856a9d6fea901640536bb8cf0b9392ded9e10c4096d97c64c936` |
-| `docs/SAL4_EXECUTION_PLAN.md` | `33bc44abf6dd8cfc2d82b72d34c82f8d0e368e5f946140dfc54d74687c997eca` |
+| `docs/AUDIT_PACKAGE.md` | `51b17978b96ff9a97be3aa224b5c3a8a9c353fe13be5060e8527afe679221342` |
+| `docs/AUDITOR_CHECKLIST.md` | `677145e454368d1cdc83615b2a1c4b30d3e2ff349b0b8698b3e11e942ce74d3c` |
+| `docs/AUDIT_TECHNIQUE_MATRIX.md` | `4ddfd19fdbd5cc615bd1c00affb304033adac389fca34dd820cbeb880b2c013f` |
+| `docs/TEST_MATRIX.md` | `fe5f5d03f82f586778b91015dded207af95fe028999e726d539999bddc096f81` |
+| `docs/AUDIT_REPORT_2026-10-30.md` | `31aa6615e4667fd336a0f2b88db530ad2d16339ec352db543ac2557346f2ab77` |
+| `docs/SELF_AUDIT_2026-10-31.md` | `58dd70fa69692eb3ff2949dde6840d3c733d3836cb3472b9151956ee66c25b4c` |
+| `docs/GAP_REPORT.md` | `aad8dd614e75e278a3764b11e7a2f1ef6c58c96c4274a9a413fe4b40fe90f2ed` |
+| `docs/LOCAL_PROOF.md` | `ceae6d4ebffef1953b6d2df4b0eb228b62398c69ebe358d105f5a8eaf03e55b0` |
+| `docs/POST_PROOF_BACKLOG.md` | `e8d13eb9d201c05bea8e003a6e0bb5e3a92184d03cfecf02a6580b9956cdba30` |
+| `docs/SAL4_LOCAL_READINESS.md` | `673cc535f475c5f7160bb46f6ee1b391dd6fce243c144e29ec4d4f118483bcfa` |
+| `docs/SAL4_EXECUTION_PLAN.md` | `678820567dd1298252b150a745774e1d08fac9d8e646cf73793cf8f503cadb46` |
 | `docs/WORKING_AGREEMENT.md` | `379d2591db7a580a7e71658a73fc25f95b26b60de429de40a5c06d0639925f3e` |
-| `docs/ZEROIZATION.md` | `0778bded164359cd6f8acb9fa5eaab7cc607be19c28d57a909660ead82c9d3fc` |
+| `docs/ZEROIZATION.md` | `a1336c77e398e8672e6a071471e6f1b39da70f7a177c1690a6b17d8ee0f78e81` |
 | `evidence/ct/2026-10-30-x86_64.md` | `14fb6a37def5f22f0a15f6089b07750ff92d2422abdeb93550fffc9ac0d454bf` |
 | `evidence/ct/asm-2026-10-30.md` | `3c810f92d72253fec1278b8a40698c9d87476101a20582044383f8c6b7f945bd` |
 | `evidence/ct/asm-2026-10-31.md` | `342beabcae8d4b386e093f5c5aebc20b90357c9a052cefe8160a3bc955c3c37a` |
 | `evidence/auditor-smoke/2026-10-31.md` | `2a3996f3416b21511b98a2b4cfb88535004f8f0875bfafcdc9f04eeb27d1ea2a` |
 | `evidence/ct/2026-10-31-x86_64-release.md` | `26ecd447cf9e9e7fc0a0c785afbba271c7d7825417b70908a275ce799f240837` |
-| `evidence/leakage/2026-10-31-x86_64.md` | `7dd32a642390ad6e6d3383935ae08d1f1ad4639fb2b5708e9d3154d2183c2552` |
+| `evidence/leakage/2026-10-31-x86_64.md` | `6aaa98f21a932855f43bd5c31f08cd4c131be917376dd5d7454c3ca622cc5d6e` |
 | `evidence/local-proof-2026-10-31/SUMMARY.md` | `5475ae1cbfb8a49aa91d44eb847713c145c84d2290bc9b5df34823b67a302532` |
 | `evidence/local-proof-2026-10-31-final/SUMMARY.md` | `661626301a535596b4f6cebb0cc9cb7ef6e61b1db53558f92800bf1515ff8bac` |
 | `evidence/local-proof-2026-10-31-bitsliced/SUMMARY.md` | `a91ecfdb4e17d07c870d38d268ffb7562497c5d0bb529aa1c019ab85dd54e416` |
@@ -71,8 +71,9 @@
 | `evidence/fuzz-long/chacha20.log` | `46c5aa2dcdd2f4e8fe3e9fe3893a0f2339f3caf1bc48fd85ef7bd980dc9ffcb6` |
 | `evidence/stats/2026-10-31-x86_64.md` | `00e9c6edbe07dfa843764a70a28ad1e4e74752b4d51e7cc1af651c590eba26c2` |
 | `evidence/valgrind/2026-10-31-x86_64.md` | `11f85f3622c9542ed0a02f6d87b53526261642078b8ac1597c8f352f90bee032` |
-| `evidence/release/2026-10-31-x86_64.md` | `3f6306ae1abf4bc7766f9cf02c163d7021cb1b537d210c8ca2edb832ec323654` |
-| `tools/local_proof.sh` | `656784422d42cfba0e9c0ab598460857d0913be5f3500983dae2090dea2528b3` |
+| `evidence/zeroize/2026-10-31-x86_64.md` | `e8d9ac6f1344c539e07514c6bbfb4686fb52560401121175b477c8fb68143323` |
+| `evidence/release/2026-10-31-x86_64.md` | `ebf41674f5cbf99713fdd69f5c3accd9d0df079a6fcee35361a62f7779f9b421` |
+| `tools/local_proof.sh` | `6f7ddb87160d627cfcf3813ba5e9636bd0757c114da2e5ecb550cb73442f47e9` |
 | `tools/auditor_smoke.sh` | `d9a4356a7dd8d38a542857f4c2baf73bb3d05bd6a905a08439c1e083f794560c` |
 | `fuzz/Cargo.toml` | `895aa0ff918d97b5b20790e18b3f2f0f8acbb670744b319b35ae75c67e9b231e` |
 | `fuzz/fuzz_targets/chacha20_batch.rs` | `d8b35a7566a99301e56c20fc39c0849d51aa5644fa9ee9b9243c82f05cdacaac` |
@@ -86,9 +87,11 @@
 | `tools/local-signing-dry-run.sh` | `21df91a1ae3606d8ccf05345f0b1f1bcc4833c492dd289aafb84c5c602b83eed` |
 | `tools/run-release-timing.sh` | `72b8eee1b6237363764646f695fcb96d14bd2df1f680dbdb0a02a381bb8a7458` |
 | `tools/release_manifest.py` | `6a70220cc39fed0be06d7759e87ace6157aea92f010d9c43981e830c3d98417f` |
-| `tools/evidence_bundle.py` | `b746448b4ba419ce67d63e8c42f95573319ac9429afc6bed793705a7f06a44a5` |
+| `tools/evidence_bundle.py` | `0ab559b47cf5f630c526538dbf9b56332a78026773a8bf343b74ce02f84148c4` |
 | `tools/validate_release_manifest.py` | `9946db59f5f40bfcbd0321e47ae3f404159e8a209d0b4086bc545dd23147ba42` |
 | `tools/test_validate_release_manifest.py` | `80076b4529869a615bfe5e16acd55014f729fb60bfaf63d5b70ed6ae32e96c9b` |
 | `crates/sicas-core/examples/ct_asm.rs` | `1be3d4493323abe74418abdcd0b46b25c5a28d751081b26fbbf2ea769015205d` |
 | `crates/sicas-harness/examples/stats_fixture.rs` | `3865ea932b1669ac30b1ab885151b06ad417d2d204e0b5961104e290aada79e3` |
 | `crates/sicas-reference/examples/benchmark.rs` | `92e5f1ce3c2d66b5d1fe4889d5283f7011396818e97c0f61a5aab58d70a3d11b` |
+| `crates/sicas-zeroize/Cargo.toml` | `723f1c868460e333de703b38fd61ee475aeac25e5b0af3b51e102e77a9232676` |
+| `crates/sicas-zeroize/src/lib.rs` | `2f629e5a1345a60d76dda6dfdf5dee3de4d59ff7a1e8fb0ff65973232904bfd8` |

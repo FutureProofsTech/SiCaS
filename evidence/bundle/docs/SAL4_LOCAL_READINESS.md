@@ -40,9 +40,9 @@ TVLA and independent audit; SAL-4 adds independent red team and production signi
 ## Interpretation
 
 Every criterion that can be proven with local software and the available host is green,
-except the documented performance and zeroization gaps. The remaining SAL-4 criteria
-require physical targets or independent parties and cannot be truthfully completed by
-local software alone.
+except the documented 5× performance target. The experimental `sicas-zeroize` adapter
+is implemented but unaudited; the remaining SAL-4 criteria require physical targets or
+independent parties and cannot be truthfully completed by local software alone.
 
 The project therefore remains **SAL-2 locally**. A SAL-4 claim requires the external
 criteria to be completed and independently verified.

@@ -5,7 +5,7 @@ assessment.
 
 ## Status
 
-The full local proof is at commit `6ad9c10`. The bitsliced masked-ChaCha20 batch
+The full local proof is at commit `8c41e4b`. The bitsliced masked-ChaCha20 batch
 meets the 10× performance hard ceiling at 7.26×; the 5× target is open. The project is **not audited, not hardware-validated, and must not be used
 to protect real secrets yet**. The current public label is **SAL-2 locally**. The
 production target is SAL-4 as defined in [`PLAN.md`](PLAN.md) and
@@ -36,6 +36,7 @@ External audit is the final second opinion; the local proof is complete first.
 - `sicas-reference`: `no_std`, zero third-party dependencies.
   - First-order Boolean masked ChaCha20 keystream blocks.
   - RFC 8439 vector and differential tests against an unmasked reference.
+- `sicas-zeroize`: experimental, non-published volatile zeroization boundary; unaudited.
 - `sicas-platform`: safe, zero third-party dependencies.
   - Fail-closed OS entropy adapter for Unix-like systems.
   - Unsupported platforms return `EntropyError::Unavailable`.

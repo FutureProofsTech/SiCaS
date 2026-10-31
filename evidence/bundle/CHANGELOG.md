@@ -47,6 +47,8 @@
 - Compiler-matrix assembly evidence: 69 configurations across opt levels, codegen units,
   panic strategies, and x86_64 thin/fat LTO.
 - Dedicated `chacha20_batch` fuzz target for the 64-block bitsliced path.
+- Experimental `sicas-zeroize` crate with volatile byte writes, compiler fence, and
+  redacted `ZeroizingBytes`; isolated, non-published, and unaudited.
 - Valgrind Memcheck evidence: four workspace library binaries, zero errors.
 - Local signing dry run with an ephemeral test key: detached signature produced and
   verified; production identity remains open.
@@ -56,7 +58,7 @@
 - Bitsliced masked ChaCha20 batch: 64 blocks per mask stream and a fast 64×64
   bit-matrix transpose. The measured overhead is 7.26× vs unmasked, meeting the
   10× hard ceiling; the ≤5× target remains open.
-- Full local proof at commit `6ad9c10`: all security gates pass, including
+- Full local proof at commit `8c41e4b`: all security gates pass, including
   full-workspace Miri, 30 Kani harnesses, 130 ASan tests, zero missed viable mutants,
   97.20% line coverage, five 1M-execution fuzz campaigns, cross-architecture tests,
   release validation, reproducible-build comparison, and the performance gate at

@@ -18,6 +18,7 @@ Covers:
 - `cargo audit` and `cargo deny check`;
 - multi-architecture assembly matrix, including optimization, codegen, panic, and x86_64 LTO variants;
 - Valgrind Memcheck over the workspace library tests;
+- zeroization assembly inspection;
 - differential statistics validation against an independent Python model;
 - first-order leakage-model check with a negative control;
 - release-manifest validator tests;
@@ -46,18 +47,18 @@ The full run can take 30–45 minutes. It writes everything under
 
 ## Full local proof
 
-The full proof ran on commit `6ad9c10`:
+The full proof ran on commit `8c41e4b`:
 
 ```bash
-LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-self-audit-final ./tools/local_proof.sh full
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-final-audit ./tools/local_proof.sh full
 ```
 
-All gates passed, including full-workspace Miri, 30 Kani harnesses, 130 ASan tests,
+All gates passed, including full-workspace Miri, 30 Kani harnesses, 133 ASan tests,
 zero missed viable mutants, 97.20% line coverage, five 1M-execution fuzz campaigns,
 AArch64 QEMU, i686, release validation, the local signing dry run, and the
 reproducible-build comparison. The performance gate passed at 7.26×, meeting the 10×
 hard ceiling; the 5× target remains open. The summary is
-[`evidence/local-proof-2026-10-31-self-audit-final/SUMMARY.md`](../evidence/local-proof-2026-10-31-self-audit-final/SUMMARY.md).
+[`evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`](../evidence/local-proof-2026-10-31-final-audit/SUMMARY.md).
 
 ## Interpretation
 
