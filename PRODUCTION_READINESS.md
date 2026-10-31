@@ -2,8 +2,8 @@
 
 ## Status
 
-- Code commit: `8c41e4b`
-- Evidence tag: `local-proof-2026-10-31-final-audit`
+- Code commit: `ef13675`
+- Evidence tag: `final-audit-2026-10-31-dpa`
 - Public label: **SAL-2 locally**
 - Production status: **not certified**
 - Deployment rule: **do not use to protect real secrets until the independent and physical gates below are complete**
@@ -47,10 +47,10 @@ tools/local-signing-dry-run.sh release evidence/signing
 The release binary SHA-256 for the reviewed commit is:
 
 ```text
-fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b
+1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da
 ```
 
-Size: 383,160 bytes.
+Size: 386,232 bytes.
 
 ## Audit handoff
 
@@ -62,7 +62,7 @@ Give the reviewer:
 4. `docs/AUDIT_TECHNIQUE_MATRIX.md`
 5. `docs/AUDIT_PACKAGE.md`
 6. `evidence/bundle/`
-7. the repository at `8c41e4b`
+7. the repository at `ef13675`
 
 The reviewer can verify the bundle with:
 

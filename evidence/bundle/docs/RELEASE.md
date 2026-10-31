@@ -73,8 +73,8 @@ GitHub release. It requires a release tag and GitHub OIDC permissions.
   policy.
 - `Cargo.lock` is committed.
 - The release profile uses `opt-level=z`, fat LTO, one codegen unit, `panic=abort`, and
-stripped symbols. The measured release binary is 383,160 bytes and the masked-ChaCha20
-batch is 7.26× vs unmasked. The build uses a pinned toolchain.
+stripped symbols. The measured release binary is 386,232 bytes and the masked-ChaCha20
+batch is 7.15× vs unmasked in the final full proof (7.26× in an earlier run). The build uses a pinned toolchain.
 - The SBOM lists every workspace component and dependency edge.
 - SLSA provenance is planned but not yet implemented.
 

@@ -25,7 +25,7 @@ batch masked:  7.264x vs unmasked
 batch ns/byte: 18.835434
 unmasked ns/byte: 2.592857
 target_ratio<=5 hard_ceiling<=10
-sicas-harness release size: 383,160 bytes (was 625,080)
+sicas-harness release size: 383,160 bytes (historical full-proof build; was 625,080)
 ```
 
 ## Interpretation
@@ -33,6 +33,13 @@ sicas-harness release size: 383,160 bytes (was 625,080)
 The scalar reference is approximately **331× slower** than the unmasked reference in the full-proof run. The
 bitsliced batch path is **7.26×** slower, so the hard ceiling of 10× is **met** with
 margin. The initial ≤5× target is **not met**.
+
+## DPA build
+
+The AES S-box DPA addition changes the `sicas-harness` release binary to 386,232 bytes
+with SHA-256
+`1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`. It does not
+touch `sicas-reference`, so the masked ChaCha20 ratios above are unchanged.
 
 The release profile uses `opt-level=z`, fat LTO, one codegen unit, panic=abort, and
 stripped symbols. That is both faster and smaller than the previous `opt-level=3`

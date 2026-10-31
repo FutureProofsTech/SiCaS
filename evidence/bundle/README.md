@@ -5,9 +5,11 @@ assessment.
 
 ## Status
 
-The full local proof is at commit `8c41e4b`. The bitsliced masked-ChaCha20 batch
-meets the 10× performance hard ceiling at 7.26×; the 5× target is open. The project is **not audited, not hardware-validated, and must not be used
-to protect real secrets yet**. The current public label is **SAL-2 locally**. The
+The full local proof is at commit `8c41e4b`; the AES S-box DPA addition was verified by
+a quick proof at `ef13675`. The bitsliced masked-ChaCha20 batch meets the 10×
+performance hard ceiling at 7.15× in the final full proof; the 5× target is open. The
+project is **not audited, not hardware-validated, and must not be used to protect real
+secrets yet**. The current public label is **SAL-2 locally**. The
 production target is SAL-4 as defined in [`PLAN.md`](PLAN.md) and
 [`docs/ASSURANCE.md`](docs/ASSURANCE.md).
 
@@ -31,7 +33,7 @@ External audit is the final second opinion; the local proof is complete first.
   - Byte-oriented CPA with Hamming-weight and custom leakage models.
   - Deterministic synthetic trace generation.
   - Dudect-style timing tooling.
-  - CLI: `tvla`, `cpa`, `synthetic`, `synthetic-cpa`, `timing`, `ct`, `trim`,
+  - CLI: `tvla`, `cpa`, `dpa`, `synthetic`, `synthetic-cpa`, `timing`, `ct`, `trim`,
     `filter`, `align`, `leakage-check`.
 - `sicas-reference`: `no_std`, zero third-party dependencies.
   - First-order Boolean masked ChaCha20 keystream blocks.

@@ -65,6 +65,25 @@ The report-only workspace mutation run recorded one miss in the then-untested
 workspace mutation rerun records zero missed viable mutants. The summary is
 [`evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`](../evidence/local-proof-2026-10-31-final-audit/SUMMARY.md).
 
+## DPA quick proof
+
+The AES S-box DPA addition was verified by a quick proof on commit `ef13675`:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-sbox-dpa ./tools/local_proof.sh quick
+```
+
+All quick gates passed, including 141 ASan workspace library tests, the DPA
+key-recovery tests, five-binary Valgrind Memcheck, zeroization assembly inspection, and
+the evidence-bundle gate. Targeted Miri passes the DPA safe paths (3 passed, 4
+native sweeps ignored). AArch64 QEMU and i686 reruns pass 141 and 154 tests
+respectively. The summary is
+[`evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md`](../evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md).
+
+The full proof predates the DPA addition and the zeroization adapter. Targeted Miri,
+workspace mutation, AArch64, i686, and release checks were rerun on `ef13675`; the
+full-proof rows remain attributed to `8c41e4b`.
+
 ## Interpretation
 
 A PASS in `SUMMARY.md` means the command exited successfully. The workspace mutation

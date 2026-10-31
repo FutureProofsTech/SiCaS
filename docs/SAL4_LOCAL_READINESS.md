@@ -18,7 +18,7 @@ Current public label: **SAL-2 locally**.
 | Reproducible release | Three-build hash comparison, SBOM, provenance, manifest validator | Complete locally |
 | Signing process | Ephemeral test-key signing and verification dry run | Process proven; production identity not established |
 | Zeroization | Design review and adapter checklist | Not implemented |
-| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.26× vs unmasked; 5× target open |
+| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.15× vs unmasked in the final full proof; 5× target open |
 | Physical power/EM TVLA/CPA/DPA | None | Not software-local |
 | ARM/RISC-V runtime timing on hardware | None | Not software-local |
 | Independent adversarial review | Local adversarial audit only | Not software-local |

@@ -1,0 +1,79 @@
+==1675716== Memcheck, a memory error detector
+==1675716== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==1675716== Using Valgrind-3.27.1 and LibVEX; rerun with -h for copyright info
+==1675716== Command: target/debug/deps/sicas_core-e658f22069d033e8 --test-threads=1
+==1675716== 
+
+running 20 tests
+test ct::tests::equality_is_exact_for_all_byte_pairs ... ok
+test ct::tests::lookup_scans_the_whole_table_correctly ... ok
+test ct::tests::selection_is_exact_for_all_byte_pairs ... ok
+test ct::tests::swap_swaps_only_when_selected ... ok
+test ct::tests::wide_equality_and_selection_work ... ok
+test ct::tests::wide_integer_edges_are_covered ... ok
+test ct::tests::zero_detection_is_exact_for_all_bytes ... ok
+test entropy::tests::failure_is_propagated ... ok
+test entropy::tests::mask_is_little_endian ... ok
+test masked::tests::all_integer_widths_round_trip_and_operate ... ok
+test masked::tests::bit_extraction_is_correct ... ok
+test masked::tests::constant_time_equality_is_exact ... ok
+test masked::tests::debug_does_not_reveal_shares ... ok
+test masked::tests::linear_operations_match_unmasked_reference ... ok
+test masked::tests::mask_and_unmask_round_trip ... ok
+test masked::tests::masked_addition_fails_closed ... ok
+test masked::tests::masked_addition_matches_reference ... ok
+test masked::tests::refresh_preserves_the_logical_value ... ok
+test masked::tests::selection_keeps_masking ... ok
+test masked::tests::shares_reconstruct_the_value ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.47s
+
+==1675716== 
+==1675716== HEAP SUMMARY:
+==1675716==     in use at exit: 596 bytes in 3 blocks
+==1675716==   total heap usage: 1,040 allocs, 1,037 frees, 121,177 bytes allocated
+==1675716== 
+==1675716== 48 bytes in 1 blocks are possibly lost in loss record 2 of 3
+==1675716==    at 0x4929AE6: malloc (vg_replace_malloc.c:447)
+==1675716==    by 0x40A645E: alloc (unix.rs:31)
+==1675716==    by 0x40A645E: alloc_impl (alloc.rs:161)
+==1675716==    by 0x40A645E: allocate (alloc.rs:223)
+==1675716==    by 0x40A645E: {closure#0}<std::thread::thread::Inner, std::alloc::System> (sync.rs:823)
+==1675716==    by 0x40A645E: allocate_for_layout<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>, alloc::sync::{impl#17}::new_uninit_in::{closure_env#0}<std::thread::thread::Inner, std::alloc::System>, fn(*mut u8) -> *mut alloc::sync::ArcInner<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>>> (sync.rs:2191)
+==1675716==    by 0x40A645E: new_uninit_in<std::thread::thread::Inner, std::alloc::System> (sync.rs:821)
+==1675716==    by 0x40A645E: <std::thread::thread::Thread>::new (thread.rs:102)
+==1675716==    by 0x40B6459: std::thread::current::init_current (current.rs:294)
+==1675716==    by 0x409AE2F: current_or_unnamed (current.rs:251)
+==1675716==    by 0x409AE2F: <std::sync::mpmc::context::Context>::new (context.rs:72)
+==1675716==    by 0x404546D: __rust_std_internal_init_fn (context.rs:43)
+==1675716==    by 0x404546D: call_once<fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()> (function.rs:250)
+==1675716==    by 0x404546D: unwrap_or_else<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (option.rs:1065)
+==1675716==    by 0x404546D: <std::sys::thread_local::native::lazy::Storage<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()>>::get_or_init_slow::<<std::sync::mpmc::context::Context>::with::CONTEXT::__rust_std_internal_init_fn> (lazy.rs:80)
+==1675716==    by 0x405E58B: get_or_init<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, (), fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (lazy.rs:62)
+==1675716==    by 0x405E58B: {closure#0} (mod.rs:97)
+==1675716==    by 0x405E58B: call_once<std::sync::mpmc::context::{impl#0}::with::CONTEXT::{constant#0}::{closure_env#0}, (core::option::Option<&mut core::option::Option<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>>>)> (function.rs:250)
+==1675716==    by 0x405E58B: try_with<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, std::sync::mpmc::context::{impl#0}::with::{closure_env#1}<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()>, ()> (local.rs:462)
+==1675716==    by 0x405E58B: with<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()> (context.rs:53)
+==1675716==    by 0x405E58B: <std::sync::mpmc::list::Channel<test::event::CompletedTest>>::recv (list.rs:442)
+==1675716==    by 0x406B009: recv<test::event::CompletedTest> (mod.rs:1025)
+==1675716==    by 0x406B009: recv<test::event::CompletedTest> (mpsc.rs:890)
+==1675716==    by 0x406B009: run_tests<test::console::run_tests_console::{closure_env#2}> (lib.rs:445)
+==1675716==    by 0x406B009: test::console::run_tests_console (console.rs:328)
+==1675716==    by 0x4056F7C: test_main_inner<test::test_main_static::{closure_env#0}> (lib.rs:170)
+==1675716==    by 0x4056F7C: test::test_main_static (lib.rs:195)
+==1675716==    by 0x403FD82: sicas_core::main (lib.rs:1)
+==1675716==    by 0x403ADFA: <fn() as core::ops::function::FnOnce<()>>::call_once (library/core/src/ops/function.rs:250)
+==1675716==    by 0x4039EBD: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+==1675716==    by 0x403DD10: std::rt::lang_start::<()>::{closure#0} (library/std/src/rt.rs:206)
+==1675716== 
+==1675716== LEAK SUMMARY:
+==1675716==    definitely lost: 0 bytes in 0 blocks
+==1675716==    indirectly lost: 0 bytes in 0 blocks
+==1675716==      possibly lost: 48 bytes in 1 blocks
+==1675716==    still reachable: 548 bytes in 2 blocks
+==1675716==         suppressed: 0 bytes in 0 blocks
+==1675716== Reachable blocks (those to which a pointer was found) are not shown.
+==1675716== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1675716== 
+==1675716== For lists of detected and suppressed errors, rerun with: -s
+==1675716== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

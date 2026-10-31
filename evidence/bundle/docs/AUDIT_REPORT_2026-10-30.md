@@ -183,27 +183,30 @@ external gate.
 ## Verification after fixes
 
 - Core: 20 tests.
-- Harness: 91 library, 7 main, 5 CLI tests.
+- Harness: 91 library, 7 main, 5 CLI tests (at the full-proof commit).
 - Platform: 4 tests.
-- Reference: 15 tests; zeroization: 3 tests.
+- Reference: 15 tests; zeroization: 3 tests (at the full-proof commit).
 - Doctests: 3 pass, 4 compile-fail.
 - Miri: full workspace passes (core 20; harness 82 passed with 9 native-only
   statistical sweeps ignored; main 5 passed with 2 file/timing tests ignored; platform
   2 passed with 2 OS-entropy tests ignored; reference 7 passed with 8 batch/statistical sweeps
   ignored; 7 doctests pass). Ignored tests are blocked by Miri isolation or are
   exhaustive native sweeps; none are deleted.
-- ASan: 134 workspace library tests pass.
-- AArch64 QEMU: 134 workspace library tests pass.
+- ASan: 133 workspace library tests pass.
+- AArch64 QEMU: 133 workspace library tests pass.
 - i686 native: 146 all-target tests pass.
 - Kani: 30 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
-- Mutation: core 112 caught/0 missed; reference 69 caught/0 missed; workspace 542
-  caught, 0 missed, 51 unviable (100% of viable mutants).
-- Coverage: 97.20% lines, 94.77% regions.
+- Mutation: core 114 caught/0 missed/19 unviable; reference 69 caught/0 missed/8
+  unviable; report-only workspace 544 caught/1 missed/55 unviable. The single
+  workspace miss was the `ZeroizingBytes` drop path, which had no test at that
+  commit; commit `92af463` added the drop test and the workspace rerun records zero
+  missed viable mutants.
+- Coverage: 97.23% lines, 94.82% regions.
 - Audit, deny, reproducibility, and assembly evidence are recorded in the evidence
   bundle.
 - Full local proof: all gates pass at commit `8c41e4b`, including the performance gate
-  at 7.26×; see `evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`.
+  at 7.15×; see `evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`.
 
 ## Post-proof hardening (2026-10-31)
 
@@ -227,14 +230,27 @@ Additional local hardening was completed after the initial audit pass:
 - The assembly checker now covers 69 configurations: opt-level 0 on four targets,
   opt-levels 0/1/2/3/s and codegen/panic variants on x86_64 and AArch64, and x86_64
   thin/fat LTO.
-- Valgrind Memcheck passes with zero errors on all four library test binaries.
+- Valgrind Memcheck passes with zero errors on all four library test binaries at the
+  full-proof commit; the zeroization binary was added later, and the current
+  five-binary run also reports zero errors.
 - Statistics were differentially validated against an independent Python model over
   200 deterministic cases.
 - A local signing dry run produces and verifies a detached signature with an ephemeral
   test key; it is not a production identity.
 - The scalar masked ChaCha20 measured ~600× overhead. A 64-block bitsliced batch path
-  with a fast 64×64 transpose now measures 7.26× vs unmasked. The 10× hard ceiling
-  is met; the 5× target remains open in `docs/PERFORMANCE_EVIDENCE.md`.
+  with a fast 64×64 transpose measured 7.15× vs unmasked in the full proof (7.26× in
+  an earlier run). The 10× hard ceiling is met; the 5× target remains open in
+  `docs/PERFORMANCE_EVIDENCE.md`.
+- A first-order DPA difference-of-means tool was added to the harness with an AES
+  S-box target, synthetic single-bit key-recovery tests, and a CLI `dpa` command.
+- The experimental `sicas-zeroize` adapter now has a drop-path test, a volatile-write
+  assembly check, Miri coverage of its safe paths, mutation coverage, and five-binary
+  Valgrind Memcheck. It remains non-published and not integrated into the published
+  crates.
+- At commit `ef13675`, the workspace has 98 harness library tests, 8 harness main tests,
+  and 5 harness CLI tests; ASan passes 141 workspace library tests, AArch64 QEMU passes
+  141, i686 passes 154 all-target tests, and the report-only workspace mutation run has
+  zero missed viable mutants.
 
 These changes strengthen the local evidence. They do not change the external-only
 gates: hardware leakage measurement, independent audit, independent red team,

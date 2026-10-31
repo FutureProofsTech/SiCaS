@@ -247,6 +247,10 @@ Additional local hardening was completed after the initial audit pass:
   assembly check, Miri coverage of its safe paths, mutation coverage, and five-binary
   Valgrind Memcheck. It remains non-published and not integrated into the published
   crates.
+- At commit `ef13675`, the workspace has 98 harness library tests, 8 harness main tests,
+  and 5 harness CLI tests; ASan passes 141 workspace library tests, AArch64 QEMU passes
+  141, i686 passes 154 all-target tests, and the report-only workspace mutation run has
+  zero missed viable mutants.
 
 These changes strengthen the local evidence. They do not change the external-only
 gates: hardware leakage measurement, independent audit, independent red team,

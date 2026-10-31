@@ -5,7 +5,7 @@ commit.
 
 ## 1. State
 
-- [ ] Check out code commit `8c41e4b` or the tag `local-proof-2026-10-31-final-audit`.
+- [ ] Check out code commit `ef13675` or the tag `final-audit-2026-10-31-dpa`.
 - [ ] Confirm the working tree is clean.
 - [ ] Read `docs/THREAT_MODEL.md`, `docs/SECURITY_CLAIMS.md`, and
       `docs/BITSLICED_MASKING.md`.
@@ -55,7 +55,7 @@ statistics match Python; assembly matrix has no branches; timing stays below `|t
 - [ ] Run `./tools/local_proof.sh full`.
 - [ ] Verify `evidence/bundle/MANIFEST.sha256`.
 - [ ] Compare the release SHA-256 with
-      `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`.
+      `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`.
 
 ## 6. Findings
 

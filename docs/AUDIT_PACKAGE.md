@@ -9,12 +9,12 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 
 ## Reviewed state
 
-- Code commit: `8c41e4b`
-- Evidence tag: `local-proof-2026-10-31-final-audit`
+- Code commit: `ef13675`
+- Evidence tag: `final-audit-2026-10-31-dpa`
 - Public label: SAL-2 locally
-- Release SHA-256: `fe0ea5323ea55f97dfe9b19fbba7a9f00590b023cbf42afa84b08ff145004b8b`
-- Release size: 383,160 bytes
-- Masked ChaCha20: 7.26× in the full-proof run; 10× hard ceiling met
+- Release SHA-256: `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`
+- Release size: 386,232 bytes
+- Masked ChaCha20: 7.15× in the final full proof; 10× hard ceiling met
 
 ## Scope
 
