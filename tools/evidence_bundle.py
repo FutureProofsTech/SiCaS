@@ -68,6 +68,8 @@ REQUIRED = [
     "evidence/local-proof-2026-10-31-speed-size/SUMMARY.md",
     "evidence/local-proof-2026-10-31-self-audit/SUMMARY.md",
     "evidence/local-proof-2026-10-31-self-audit-final/SUMMARY.md",
+    "evidence/local-proof-2026-10-31-final-audit/SUMMARY.md",
+    "evidence/local-proof-2026-10-31-final-quick/SUMMARY.md",
     "evidence/release/2026-10-30-x86_64.md",
     "evidence/signing/2026-10-31-x86_64.md",
     "evidence/fuzz-long/SUMMARY.md",

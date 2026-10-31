@@ -53,7 +53,7 @@ The full proof ran on commit `8c41e4b`:
 LOCAL_PROOF_LOG_DIR=evidence/local-proof-2026-10-31-final-audit ./tools/local_proof.sh full
 ```
 
-All gates passed, including full-workspace Miri, 30 Kani harnesses, 133 ASan tests,
+All gates passed, including full-workspace Miri, 30 Kani harnesses, 134 ASan tests,
 zero missed viable mutants, 97.20% line coverage, five 1M-execution fuzz campaigns,
 AArch64 QEMU, i686, release validation, the local signing dry run, and the
 reproducible-build comparison. The performance gate passed at 7.26×, meeting the 10×

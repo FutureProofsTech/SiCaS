@@ -32,7 +32,7 @@ tools/run-valgrind.sh /tmp/sicas-valgrind
 
 Expected: all tests pass, the negative control reports correlation 1.0, every masked
 check stays below 0.02, the assembly matrix reports no conditional branches, and
-Valgrind reports zero errors.
+Valgrind reports zero errors across five test binaries.
 
 ## One-command local proof
 

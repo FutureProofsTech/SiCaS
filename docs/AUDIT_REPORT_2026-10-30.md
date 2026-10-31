@@ -192,9 +192,9 @@ external gate.
   2 passed with 2 OS-entropy tests ignored; reference 7 passed with 8 batch/statistical sweeps
   ignored; 7 doctests pass). Ignored tests are blocked by Miri isolation or are
   exhaustive native sweeps; none are deleted.
-- ASan: 133 workspace library tests pass.
-- AArch64 QEMU: 133 workspace library tests pass.
-- i686 native: 145 all-target tests pass.
+- ASan: 134 workspace library tests pass.
+- AArch64 QEMU: 134 workspace library tests pass.
+- i686 native: 146 all-target tests pass.
 - Kani: 30 harnesses pass.
 - Fuzz: masked ops, lookup, trace parser, and ChaCha20 campaigns.
 - Mutation: core 112 caught/0 missed; reference 69 caught/0 missed; workspace 542
