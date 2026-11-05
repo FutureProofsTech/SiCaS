@@ -43,6 +43,9 @@ jobs:
           python3 -m json.tool sbom.cdx.json >/dev/null
           python3 -m json.tool provenance.json >/dev/null
 
+      - name: Validate release manifest
+        run: python3 tools/validate_release_manifest.py --manifest release
+
       - name: Attest build provenance
         uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
         with:
