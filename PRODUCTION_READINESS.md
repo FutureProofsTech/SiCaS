@@ -3,6 +3,7 @@
 ## Status
 
 - Code commit: `ef13675`
+- Current full-proof commit: `f3112af`
 - Release build commit: `123eb69`
 - Evidence tag: `final-audit-2026-10-31-dpa`
 - Public label: **SAL-2 locally**
