@@ -48,6 +48,16 @@ external-only gates.
 - The dedicated batch fuzz target has a 1,000,000-execution campaign.
 - Release binary is reproducible and smaller than the previous profile.
 
+## Addendum — 2026-11-05 red-team review
+
+A later internal red-team review found issues that this self-audit missed: a
+secret-dependent branch in bitsliced key-plane extraction, a TVLA false negative for
+zero-variance groups, release-workflow tag binding, evidence-bundle source
+completeness, alignment normalization/DoS, synthetic-generator allocation order, and
+unbounded leakage/timing configuration. They are documented with PoCs and fixes in
+[`RED_TEAM_REPORT_2026-11-05.md`](RED_TEAM_REPORT_2026-11-05.md). This addendum does
+not make the earlier report an independent audit.
+
 ## Residual risk
 
 - No hardware power/EM TVLA/CPA/DPA.

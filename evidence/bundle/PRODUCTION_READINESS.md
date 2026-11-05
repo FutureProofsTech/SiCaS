@@ -23,7 +23,9 @@ release” from “certified for production secrets.”
 - Bitsliced masked ChaCha20 with a first-order masking argument and lane tests.
 - Reproducible release builds, SBOM, provenance, checksums, and manifest validation.
 - Local signing and verification dry run with an ephemeral test key.
-- Auditor guide, checklist, technique matrix, and hashed evidence bundle.
+- Auditor guide, checklist, technique matrix, and source-complete hashed evidence bundle.
+- Internal red-team review with PoCs and fixes at
+  `docs/RED_TEAM_REPORT_2026-11-05.md` (not an independent review).
 
 ## What blocks production certification
 

@@ -60,6 +60,8 @@ printf -- '- Generated: `%s`\n\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >>"$summary"
 printf '| Gate | Result |\n|---|---|\n' >>"$summary"
 
 run fmt cargo +nightly-2026-08-03 fmt --all -- --check
+run workflow-pins python3 tools/check_workflow_pins.py
+run workflow-pin-tests python3 tools/test_check_workflow_pins.py
 run clippy cargo +nightly-2026-08-03 clippy --workspace --all-targets --all-features --locked -- -D warnings -D clippy::pedantic -D clippy::nursery
 run tests cargo test --workspace --all-targets --all-features --locked
 run doctests cargo test --workspace --doc --locked

@@ -73,14 +73,19 @@ sicas-harness filter --in trimmed.bin --out filtered.bin --window 5
 sicas-harness align --in filtered.bin --out aligned.bin --reference 0 --max-shift 20
 ```
 
-`align` uses normalized cross-correlation against a reference trace and zero-fills
-samples outside the trace. `filter` applies a centered moving average with clipped
-edges. `trim` keeps a half-open sample range.
+`align` uses mean-centered, normalized cross-correlation against a reference trace
+and zero-fills samples outside the trace. The search range is capped at the trace
+length because a larger shift has no overlap and can never win. `filter` applies a
+centered moving average with clipped edges. `trim` keeps a half-open sample range.
 
 ## TVLA
 
 Fixed-vs-random TVLA compares a group with a fixed input against a group with random
 inputs using Welch's t-test per sample. `|t| > 4.5` is the default leakage indicator.
+If both groups have zero variance but different means, the statistic is infinite and
+the sample is reported as leakage; identical constant groups report zero. This avoids
+the false negative where a perfectly deterministic difference was previously treated
+as no leakage.
 
 Report fields:
 

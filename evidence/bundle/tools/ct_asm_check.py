@@ -91,7 +91,9 @@ def build_library(target: str) -> pathlib.Path:
     files = sorted(deps.glob("sicas_core-*.s"))
     if not files:
         raise SystemExit(f"no assembly file for {target} in {deps}")
-    return files[-1]
+    # A target directory can contain assembly from earlier builds. Inspecting a
+    # stale file would produce evidence for code that is not under test.
+    return max(files, key=lambda path: path.stat().st_mtime_ns)
 
 
 def build_example(
@@ -138,7 +140,7 @@ def build_example(
     files = sorted(target_dir.rglob("ct_asm*.s"))
     if not files:
         raise SystemExit(f"no example assembly for {name} on {target}")
-    return files[-1]
+    return max(files, key=lambda path: path.stat().st_mtime_ns)
 
 
 def build_lto_binary(name: str, lto: str, opt_level: str, target: str) -> pathlib.Path:

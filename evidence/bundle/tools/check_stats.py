@@ -10,7 +10,9 @@ import pathlib
 import subprocess
 import sys
 
-CASES = 200
+RANDOM_CASES = 200
+EDGE_CASES = 4
+CASES = RANDOM_CASES + EDGE_CASES
 
 
 def mean(values: list[float]) -> float:
@@ -29,7 +31,9 @@ def welch_t(a: list[float], b: list[float]) -> float:
     variance_b = variance(b)
     denominator = math.sqrt(variance_a / len(a) + variance_b / len(b))
     if denominator <= 0.0:
-        return 0.0
+        if mean_a == mean_b:
+            return 0.0
+        return math.inf if mean_a > mean_b else -math.inf
     return (mean_a - mean_b) / denominator
 
 
@@ -58,6 +62,8 @@ def parse_values(text: str) -> list[float]:
 def close(actual: float, expected: float) -> bool:
     if math.isnan(actual) or math.isnan(expected):
         return math.isnan(actual) and math.isnan(expected)
+    if math.isinf(actual) or math.isinf(expected):
+        return actual == expected
     return math.isclose(actual, expected, rel_tol=1e-12, abs_tol=1e-12)
 
 
@@ -124,7 +130,7 @@ def main() -> int:
                 failures.append(
                     f"case {case} {name}: rust={observed!r} python={reference!r}"
                 )
-            elif not math.isnan(observed):
+            elif math.isfinite(observed):
                 max_error = max(max_error, abs(observed - reference))
 
     status = "PASS" if not failures else "FAIL"

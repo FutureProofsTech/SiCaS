@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+### Security
+
+- Removed secret-dependent branches from bitsliced ChaCha20 key-plane extraction;
+  added a per-bit regression test and updated the constant-time evidence scope.
+- Fixed a TVLA/Welch false negative where two zero-variance groups with different
+  means were reported as `t = 0` instead of infinite leakage.
+- Release workflow now checks out and verifies the requested tag, rejects dirty
+  tracked trees in release manifests, and pins every action to a commit SHA.
+- Evidence bundles now include all crate, fuzz, tool, and workflow sources and
+  reject tracked working-tree modifications.
+- Bounded leakage-model samples, timing warm-up, and CT trials; buffered trace I/O;
+  validated synthetic dimensions before allocation; normalized alignment correlation
+  and capped its shift search.
+- Archived the superseded original vision document with an explicit non-claim notice.
+
 ### Changed
 
 - Relicensed the project from MIT OR Apache-2.0 to GPL-3.0-only.
@@ -59,7 +74,8 @@
 - Local signing dry run with an ephemeral test key: detached signature produced and
   verified; production identity remains open.
 - Release-profile dudect evidence: 3×1M samples per check, max |t| = 2.1196.
-- Differential statistics validation: 200 deterministic cases match an independent
+- Differential statistics validation: 204 deterministic cases (including zero-variance
+  edge cases) match an independent
   Python implementation.
 - Bitsliced masked ChaCha20 batch: 64 blocks per mask stream and a fast 64×64
   bit-matrix transpose. The measured overhead is 7.26× vs unmasked, meeting the

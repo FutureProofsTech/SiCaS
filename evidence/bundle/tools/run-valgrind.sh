@@ -17,7 +17,7 @@ printf '# Valgrind Memcheck Evidence\n\n' >"$output/SUMMARY.md"
 printf '| Binary | Result |\n|---|---|\n' >>"$output/SUMMARY.md"
 
 for crate in sicas_core sicas_harness sicas_platform sicas_reference sicas_zeroize; do
-  binary="$(find target/debug/deps -maxdepth 1 -type f -name "${crate}-*" ! -name '*.d' | sort | tail -1)"
+  binary="$(find target/debug/deps -maxdepth 1 -type f -name "${crate}-*" ! -name '*.d' -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2-)"
   if [ -z "$binary" ]; then
     printf '| %s | MISSING |\n' "$crate" >>"$output/SUMMARY.md"
     status=1

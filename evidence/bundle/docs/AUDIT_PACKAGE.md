@@ -61,6 +61,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Red-team program | `docs/RED_TEAM.md` |
 | Local adversarial audit | `docs/AUDIT_REPORT_2026-10-30.md` |
 | Self-audit 2026-10-31 | `docs/SELF_AUDIT_2026-10-31.md` |
+| Internal red-team review 2026-11-05 | `docs/RED_TEAM_REPORT_2026-11-05.md` |
 | Tool inventory | `docs/TOOLING.md` |
 | Production readiness | `PRODUCTION_READINESS.md` |
 | Audit request | `AUDIT_REQUEST.md` |

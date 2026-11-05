@@ -16,7 +16,7 @@
 
 use sicas_harness::stats::{mean, pearson, variance, welch_t};
 
-const CASES: usize = 200;
+const RANDOM_CASES: usize = 200;
 
 struct Rng(u64);
 
@@ -46,26 +46,37 @@ fn render(values: &[f64]) -> String {
         .join(",")
 }
 
+fn print_case(case: usize, a: &[f64], b: &[f64]) {
+    let mean_a = mean(a).unwrap();
+    let mean_b = mean(b).unwrap();
+    let variance_a = variance(a).unwrap();
+    let variance_b = variance(b).unwrap();
+    let statistic = welch_t(a, b).unwrap();
+    let correlation = pearson(a, b).unwrap_or(f64::NAN);
+
+    println!(
+        "{case}|{}|{}|{mean_a:.17e}|{mean_b:.17e}|{variance_a:.17e}|{variance_b:.17e}|{statistic:.17e}|{correlation:.17e}",
+        render(a),
+        render(b)
+    );
+}
+
 fn main() {
     let mut rng = Rng(0x5eed_1234_abcd_ef01);
 
-    for case in 0..CASES {
+    for case in 0..RANDOM_CASES {
         let length_a = 2 + (rng.next_u32() as usize % 19);
         let length_b = 2 + (rng.next_u32() as usize % 19);
         let a = values(&mut rng, length_a);
         let b = values(&mut rng, length_b);
-
-        let mean_a = mean(&a).unwrap();
-        let mean_b = mean(&b).unwrap();
-        let variance_a = variance(&a).unwrap();
-        let variance_b = variance(&b).unwrap();
-        let statistic = welch_t(&a, &b).unwrap();
-        let correlation = pearson(&a, &b).unwrap_or(f64::NAN);
-
-        println!(
-            "{case}|{}|{}|{mean_a:.17e}|{mean_b:.17e}|{variance_a:.17e}|{variance_b:.17e}|{statistic:.17e}|{correlation:.17e}",
-            render(&a),
-            render(&b)
-        );
+        print_case(case, &a, &b);
     }
+
+    // Deterministic zero-variance edge cases. These are the cases that a
+    // random fixture almost never reaches and that previously hid a TVLA
+    // false negative.
+    print_case(RANDOM_CASES, &[1.0; 4], &[1.0; 4]);
+    print_case(RANDOM_CASES + 1, &[10.0; 4], &[0.0; 4]);
+    print_case(RANDOM_CASES + 2, &[0.0; 4], &[10.0; 4]);
+    print_case(RANDOM_CASES + 3, &[-5.0; 2], &[5.0; 2]);
 }

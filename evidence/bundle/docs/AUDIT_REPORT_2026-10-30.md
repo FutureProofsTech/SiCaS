@@ -256,6 +256,17 @@ These changes strengthen the local evidence. They do not change the external-onl
 gates: hardware leakage measurement, independent audit, independent red team,
 zeroization adapter review, and production signing remain incomplete.
 
+## Addendum — 2026-11-05 red-team review
+
+The statement below that no open high-severity defect remains was true for the
+scope and techniques used at the time, but it was not exhaustive. A later internal
+red-team review found a secret-dependent branch in the bitsliced ChaCha20 key-plane
+extraction, a TVLA false negative for zero-variance groups, release-workflow tag
+binding and action-pinning gaps, and an evidence-bundle completeness gap. The new
+findings, PoCs, and fixes are in
+[`RED_TEAM_REPORT_2026-11-05.md`](RED_TEAM_REPORT_2026-11-05.md). This addendum is
+an internal review, not an independent audit.
+
 ## Conclusion
 
 No open critical or high-severity defect remains in the locally reviewable scope after
