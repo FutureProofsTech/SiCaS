@@ -10,10 +10,15 @@ import unittest
 import reference_ct_check as checker
 
 GOOD_SOURCE = """
+#[inline(never)]
+fn spread_bit(value: u64, bit_mask: u64) -> u64 {
+    u64::from(value & bit_mask != 0).wrapping_neg()
+}
+
 fn masked_word_planes(word: &Masked<u32>, entropy: &mut impl EntropySource) -> Result<Planes, EntropyError> {
     for (plane, bit_mask) in planes.iter_mut().zip(BIT_MASKS) {
-        let share0_bits = u64::from(u64::from(*share0) & bit_mask != 0).wrapping_neg();
-        let share1_bits = u64::from(u64::from(*share1) & bit_mask != 0).wrapping_neg();
+        let share0_bits = spread_bit(u64::from(*share0), bit_mask);
+        let share1_bits = spread_bit(u64::from(*share1), bit_mask);
         let mask = entropy.mask_u64()?;
         *plane = Plane::from_parts(share0_bits ^ mask, share1_bits ^ mask);
     }
@@ -22,6 +27,10 @@ fn masked_word_planes(word: &Masked<u32>, entropy: &mut impl EntropySource) -> R
 """
 
 BAD_SOURCE = """
+fn spread_bit(value: u64, bit_mask: u64) -> u64 {
+    u64::from(value & bit_mask != 0).wrapping_neg()
+}
+
 fn masked_word_planes(word: &Masked<u32>, entropy: &mut impl EntropySource) -> Result<Planes, EntropyError> {
     for bit in 0..32 {
         let shift = u32::try_from(bit).unwrap_or(0);
@@ -34,22 +43,26 @@ fn masked_word_planes(word: &Masked<u32>, entropy: &mut impl EntropySource) -> R
 """
 
 GOOD_ASSEMBLY = """
-.type _RNvNtCs_15sicas_reference8chacha2018masked_word_planes,@function
-_RNvNtCs_15sicas_reference8chacha2018masked_word_planes:
+.section .text._RNvNtCs_15sicas_reference8chacha2010spread_bit,"ax",@progbits
+.globl _RNvNtCs_15sicas_reference8chacha2010spread_bit
+.type _RNvNtCs_15sicas_reference8chacha2010spread_bit,@function
+_RNvNtCs_15sicas_reference8chacha2010spread_bit:
     setne %al
-    setne %bl
+    negq %rax
     retq
-.size _RNvNtCs_15sicas_reference8chacha2018masked_word_planes, .-_RNvNtCs_15sicas_reference8chacha2018masked_word_planes
+.size _RNvNtCs_15sicas_reference8chacha2010spread_bit, .-_RNvNtCs_15sicas_reference8chacha2010spread_bit
 """
 
 BAD_ASSEMBLY = """
-.type _RNvNtCs_15sicas_reference8chacha2018masked_word_planes,@function
-_RNvNtCs_15sicas_reference8chacha2018masked_word_planes:
+.section .text._RNvNtCs_15sicas_reference8chacha2010spread_bit,"ax",@progbits
+.globl _RNvNtCs_15sicas_reference8chacha2010spread_bit
+.type _RNvNtCs_15sicas_reference8chacha2010spread_bit,@function
+_RNvNtCs_15sicas_reference8chacha2010spread_bit:
     je .Lbranch
     jmp .Ldone
 .Lbranch:
     retq
-.size _RNvNtCs_15sicas_reference8chacha2018masked_word_planes, .-_RNvNtCs_15sicas_reference8chacha2018masked_word_planes
+.size _RNvNtCs_15sicas_reference8chacha2010spread_bit, .-_RNvNtCs_15sicas_reference8chacha2010spread_bit
 """
 
 
@@ -68,15 +81,33 @@ class ReferenceCtTests(unittest.TestCase):
             self.assertTrue(any("forbidden conditional" in error for error in errors))
             self.assertTrue(any("forbidden variable shift" in error for error in errors))
 
-    def test_setne_assembly_passes(self) -> None:
-        self.assertEqual(checker.check_assembly_text(GOOD_ASSEMBLY), [])
+    def test_branchless_assembly_passes(self) -> None:
+        errors, branches = checker.check_assembly(
+            GOOD_ASSEMBLY, "x86_64-unknown-linux-gnu"
+        )
+        self.assertEqual(errors, [])
+        self.assertEqual(branches, [])
 
     def test_branching_assembly_is_rejected(self) -> None:
-        errors = checker.check_assembly_text(BAD_ASSEMBLY)
-        self.assertTrue(any("setne" in error for error in errors))
+        errors, branches = checker.check_assembly(
+            BAD_ASSEMBLY, "x86_64-unknown-linux-gnu"
+        )
+        self.assertTrue(errors)
+        self.assertIn("je", branches)
 
     def test_missing_symbol_is_rejected(self) -> None:
-        self.assertTrue(checker.check_assembly_text(""))
+        errors, _ = checker.check_assembly("", "x86_64-unknown-linux-gnu")
+        self.assertTrue(errors)
+
+    def test_target_branch_patterns(self) -> None:
+        self.assertEqual(
+            checker.find_branches("cbz x0, .L1", "aarch64-unknown-linux-gnu"),
+            ["cbz"],
+        )
+        self.assertEqual(
+            checker.find_branches("beq a0, a1, .L1", "riscv32imac-unknown-none-elf"),
+            ["beq"],
+        )
 
 
 if __name__ == "__main__":

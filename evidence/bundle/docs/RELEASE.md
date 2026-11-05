@@ -81,8 +81,8 @@ with modifications is rejected for a release build.
 - `Cargo.lock` is committed.
 - The release profile uses `opt-level=z`, fat LTO, one codegen unit, `panic=abort`, and
 stripped symbols. The measured release binary is 386,232 bytes (historical signed
-baseline) and the masked-ChaCha20 batch is 7.515× vs unmasked in the 2026-11-05 full
-proof (7.15× in the earlier full proof). The build uses a pinned toolchain.
+baseline) and the masked-ChaCha20 batch is 7.052× vs unmasked in the 2026-11-06 full
+proof (7.515× at `f3112af`; 7.15× earlier). The build uses a pinned toolchain.
 - The SBOM lists every workspace component and dependency edge.
 - SLSA build provenance is attested by the release workflow through
   `actions/attest-build-provenance`; a real GitHub OIDC run and independent

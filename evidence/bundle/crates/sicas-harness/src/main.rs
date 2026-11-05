@@ -16,8 +16,8 @@ use sicas_harness::leakage::{
 use sicas_harness::preprocess::{align, moving_average, trim};
 use sicas_harness::synthetic::{SyntheticConfig, TvlaSyntheticConfig, generate, generate_tvla};
 use sicas_harness::timing::{TimingConfig, TimingReport, dudect};
-use sicas_harness::trace::TraceSet;
-use sicas_harness::tvla::{TvlaConfig, tvla};
+use sicas_harness::trace::{TraceReader, TraceSet};
+use sicas_harness::tvla::{TvlaConfig, tvla, tvla_streaming};
 
 fn main() -> ExitCode {
     match run() {
@@ -40,6 +40,7 @@ fn run() -> Result<(), String> {
 
     match command.as_str() {
         "tvla" => run_tvla(command_args),
+        "tvla-streaming" => run_tvla_streaming(command_args),
         "cpa" => run_cpa(command_args),
         "dpa" => run_dpa(command_args),
         "synthetic" => run_synthetic_tvla(command_args),
@@ -66,6 +67,28 @@ fn run_tvla(args: &[String]) -> Result<(), String> {
     let random = read_trace_set(random_path)?;
     let report =
         tvla(&fixed, &random, TvlaConfig { threshold }).map_err(|error| error.to_string())?;
+
+    println!("{report}");
+    if report.leakage() {
+        return Err("TVLA detected leakage".to_string());
+    }
+    Ok(())
+}
+
+fn run_tvla_streaming(args: &[String]) -> Result<(), String> {
+    let fixed_path = required(args, "--fixed")?;
+    let random_path = required(args, "--random")?;
+    let threshold = optional_f64(args, "--threshold")?.unwrap_or(4.5);
+    let fixed_file =
+        File::open(fixed_path).map_err(|error| format!("failed to open {fixed_path}: {error}"))?;
+    let random_file = File::open(random_path)
+        .map_err(|error| format!("failed to open {random_path}: {error}"))?;
+    let mut fixed = TraceReader::new(fixed_file)
+        .map_err(|error| format!("failed to read {fixed_path}: {error}"))?;
+    let mut random = TraceReader::new(random_file)
+        .map_err(|error| format!("failed to read {random_path}: {error}"))?;
+    let report = tvla_streaming(&mut fixed, &mut random, TvlaConfig { threshold })
+        .map_err(|error| error.to_string())?;
 
     println!("{report}");
     if report.leakage() {
@@ -529,6 +552,7 @@ fn print_usage() {
 
 Usage:
   sicas-harness tvla --fixed <file> --random <file> [--threshold 4.5]
+  sicas-harness tvla-streaming --fixed <file> --random <file> [--threshold 4.5]
   sicas-harness cpa --traces <file> --plaintexts <file>
   sicas-harness dpa --traces <file> --plaintexts <file>
   sicas-harness synthetic --fixed-out <file> --random-out <file> \\

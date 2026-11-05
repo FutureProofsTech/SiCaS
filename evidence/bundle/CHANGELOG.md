@@ -5,7 +5,8 @@
 ### Security
 
 - Removed secret-dependent branches from bitsliced ChaCha20 key-plane extraction;
-  added a per-bit regression test, a targeted source/`opt-level=0` `setne` gate
+  added a per-bit regression test, a 20-configuration source/assembly gate for the
+  `spread_bit` primitive across four targets and five optimization levels
   (`tools/reference_ct_check.py`), and updated the constant-time evidence scope.
 - Fixed a TVLA/Welch false negative where two zero-variance groups with different
   means were reported as `t = 0` instead of infinite leakage.
@@ -19,12 +20,14 @@
 - Bounded leakage-model samples, timing warm-up, and CT trials; buffered trace I/O;
   validated synthetic dimensions before allocation; normalized alignment correlation
   and capped its shift search.
+- Added `TraceReader` and `tvla-streaming` for bounded-memory TVLA over campaigns up
+  to 1,000,000,000 total samples (1M traces × 1k samples).
 - Fixed two mutation survivors: removed the equivalent `1_u64 << 0` expression and
   added a boundary test proving `samples == MAX_SAMPLES` is accepted.
-- Reran the full local proof at `f3112af`: all gates pass, including 673 workspace
-  mutants with zero missed, 95.03% line coverage, five 1M-execution fuzz campaigns,
+- Reran the full local proof at `b18c7df`: all gates pass, including 714 workspace
+  mutants with zero missed, 95.06% line coverage, five 1M-execution fuzz campaigns,
   AArch64/i686 tests, release validation, signing dry run, and reproducibility. The
-  bitsliced batch measured 7.515×; the 10× ceiling is met and the 5× target remains
+  bitsliced batch measured 7.052×; the 10× ceiling is met and the 5× target remains
   open.
 - Archived the superseded original vision document with an explicit non-claim notice.
 

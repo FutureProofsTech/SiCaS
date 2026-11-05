@@ -87,20 +87,22 @@ proof for all architectures, all LTO combinations, or microarchitectural states.
 
 The bitsliced ChaCha20 reference converts scalar key shares into 64-lane bitplanes in
 `masked_word_planes`. The 2026-11-05 review found a secret-dependent branch there. The
-function now uses a one-hot mask, `u64::from(bool)`, and `wrapping_neg`; a targeted gate
-checks both the source invariant and the `opt-level=0` x86_64 assembly:
+bit spread is now a separate `#[inline(never)]` primitive, `spread_bit`, and the gate
+checks both the source invariant and the emitted assembly across four targets and five
+optimization levels:
 
 ```bash
-python3 tools/reference_ct_check.py --assembly
+python3 tools/reference_ct_check.py --matrix --output evidence/ct/reference-ct.md
 python3 tools/test_reference_ct_check.py
 ```
 
 The source check rejects conditional statements, variable shifts, and missing
-`wrapping_neg` spreads inside `masked_word_planes`. The assembly check requires at
-least two `setne`-style bit selections in the compiled function, which is how the
-branchless spread is lowered on the pinned x86_64 toolchain. This is a regression gate
-for RT-01, not a full reference assembly matrix; other targets and optimization levels
-remain a hardening item.
+`wrapping_neg` spreads inside `masked_word_planes` and `spread_bit`. The assembly
+matrix covers x86_64, AArch64, Thumbv7em, and RISC-V at `opt-level` 0/1/2/3/s and
+requires no conditional branch in `spread_bit` (20 configurations). This closes the
+key-plane branch gap for the inspected targets and levels. It is not a proof of the
+entire reference composition; the remaining composition is covered by source review,
+differential tests, and the lane tests.
 
 ## Limitations
 

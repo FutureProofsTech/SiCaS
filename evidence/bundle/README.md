@@ -88,14 +88,15 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 
 | Area | State | Evidence |
 |---|---|---|
-| Full local proof (2026-11-05) | **PASS** at `f3112af` | [`evidence/local-proof-20261105-full/SUMMARY.md`](evidence/local-proof-20261105-full/SUMMARY.md) |
+| Full local proof (2026-11-06) | **PASS** at `b18c7df` | [`evidence/local-proof-20261105-final3/SUMMARY.md`](evidence/local-proof-20261105-final3/SUMMARY.md) |
+| Earlier full local proof (2026-11-05) | **PASS** at `f3112af` | [`evidence/local-proof-20261105-full/SUMMARY.md`](evidence/local-proof-20261105-full/SUMMARY.md) |
 | Historical full proof | **PASS** at `8c41e4b` | [`evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`](evidence/local-proof-2026-10-31-final-audit/SUMMARY.md) |
 | AES S-box DPA quick proof | **PASS** at `ef13675` | [`evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md`](evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md) |
 | 2026-11-05 red-team final quick proof | **PASS** at `18b5123` | [`evidence/local-proof-20261105-final/SUMMARY.md`](evidence/local-proof-20261105-final/SUMMARY.md) |
-| Workspace mutation | **673 mutants, 617 caught, 0 missed, 56 unviable** | [`evidence/local-proof-20261105-full/mutation-workspace.log`](evidence/local-proof-20261105-full/mutation-workspace.log) |
-| Line coverage | **95.03%** | [`evidence/local-proof-20261105-full/coverage.log`](evidence/local-proof-20261105-full/coverage.log) |
+| Workspace mutation | **714 mutants, 655 caught, 0 missed, 59 unviable** | [`evidence/local-proof-20261105-final3/mutation-workspace.log`](evidence/local-proof-20261105-final3/mutation-workspace.log) |
+| Line coverage | **95.06%** | [`evidence/local-proof-20261105-final3/coverage.log`](evidence/local-proof-20261105-final3/coverage.log) |
 | Release artifact (historical signed baseline) | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
-| Local full-proof release artifact | **389,112 bytes**, SHA-256 `30795099…e99d` | [`evidence/local-proof-20261105-full/release/README.md`](evidence/local-proof-20261105-full/release/README.md) |
+| Local full-proof release artifact | **393,784 bytes**, SHA-256 `021063c7…e304` | [`evidence/local-proof-20261105-final3/release/README.md`](evidence/local-proof-20261105-final3/release/README.md) |
 | Evidence bundle | **Source-complete**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
 | Independent external audit | **PENDING** | [`AUDIT_REQUEST.md`](AUDIT_REQUEST.md) |
 | Internal red-team review | **COMPLETE (internal)** | [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md) |
@@ -110,14 +111,15 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 sanitizers, fuzzing, Kani, mutation testing, coverage, assembly checks, and a
 reproducible evidence bundle. It is not `SAL-3` and not `SAL-4`.
 
-The full proof was rerun at `f3112af` after the 2026-11-05 red-team and CI mutation
-fixes. All full gates passed: full-workspace Miri, 30 Kani harnesses, 151 ASan tests,
-673 workspace mutants with zero missed, 95.03% line coverage, five 1M-execution fuzz
-campaigns, AArch64/i686 tests, release manifest/validator, signing dry run, and
-reproducible-build comparison. The bitsliced batch measured 7.515×; the 10× hard
-ceiling is met and the 5× target remains open. The AES S-box DPA and zeroization
-additions were verified earlier at `ef13675`; the red-team quick proofs are at
-`18b5123` and `356f70c`. Historical full-proof rows remain attributed to `8c41e4b`.
+The full proof was rerun at `b18c7df` after the streaming-TVLA and multi-target
+reference-gate work. All full gates passed: full-workspace Miri, 30 Kani harnesses,
+164 ASan tests, 714 workspace mutants with zero missed, 95.06% line coverage, five
+1M-execution fuzz campaigns, AArch64/i686 tests, release manifest/validator, signing
+dry run, and reproducible-build comparison. The bitsliced batch measured 7.052×; the
+10× hard ceiling is met and the 5× target remains open. The AES S-box DPA and
+zeroization additions were verified earlier at `ef13675`; the red-team quick proofs
+are at `18b5123` and `356f70c`. Historical full-proof rows remain attributed to
+`f3112af` and `8c41e4b`.
 
 All workspace crates are `publish = false` until the external gates pass.
 
@@ -138,7 +140,7 @@ All workspace crates are `publish = false` until the external gates pass.
 | Reference algorithm | Masked ChaCha20, scalar and 64-block bitsliced batch |
 | Papers | White paper and yellow paper (LaTeX + PDF) |
 | Analysis | TVLA, CPA, AES S-box DPA, dudect-style timing, leakage model |
-| Full local proof | PASS at `f3112af` |
+| Full local proof | PASS at `b18c7df` |
 | DPA quick proof | PASS at `ef13675` |
 | Evidence tag | `final-audit-2026-10-31-dpa` |
 | Release build commit | `123eb69` (proof code `ef13675`) |
@@ -474,7 +476,9 @@ Limits:
 
 - 1,000,000 traces;
 - 1,000,000 samples per trace;
-- 100,000,000 total samples.
+- 100,000,000 total samples for the in-memory `TraceSet` reader;
+- 1,000,000,000 total samples for the streaming reader, which keeps memory
+  proportional to one trace and supports a 1M-trace × 1k-sample TVLA campaign.
 
 The parser rejects invalid magic, unsupported versions, zero dimensions, ragged traces,
 oversized inputs, and truncated files with typed errors. It is exercised by a
@@ -485,6 +489,7 @@ libFuzzer target.
 | Command | Purpose |
 |---|---|
 | `tvla` | Fixed-vs-random TVLA with Welch’s t-test |
+| `tvla-streaming` | Streaming TVLA with memory proportional to one trace |
 | `cpa` | Byte-oriented correlation power analysis |
 | `dpa` | First-order difference-of-means DPA over the AES S-box output |
 | `synthetic` | Deterministic fixed-vs-random synthetic traces |
@@ -576,8 +581,8 @@ The performance target is a throughput/size tradeoff, not a security claim.
 
 | Metric | Result | Notes |
 |---|---:|---|
-| Scalar masked ChaCha20 | ≈328× vs unmasked | 2026-11-05 full proof; reference path, not optimized |
-| 64-block bitsliced batch | **7.515× vs unmasked** | 2026-11-05 full proof; 7.06–7.515× across runs |
+| Scalar masked ChaCha20 | ≈330× vs unmasked | 2026-11-06 full proof; reference path, not optimized |
+| 64-block bitsliced batch | **7.052× vs unmasked** | 2026-11-06 full proof; 7.05–7.52× across runs |
 | 10× hard ceiling | **MET** | The hard performance gate |
 | 5× target | **OPEN** | Requires SIMD or a new audited mask stream |
 | Release binary | **386,232 bytes** | `opt-level=z`, fat LTO, one codegen unit, `panic=abort`, stripped |
@@ -612,20 +617,20 @@ and the open-gap analysis.
 | Formatting and strict Clippy | PASS |
 | Workspace tests and doctests | PASS |
 | Kani | 30 harnesses PASS |
-| AddressSanitizer | 151 workspace library tests PASS (2026-11-05 full proof) |
+| AddressSanitizer | 164 workspace library tests PASS (2026-11-06 full proof) |
 | `cargo audit` / `cargo deny` | PASS |
 | Assembly matrix | 69 configurations PASS |
-| Reference key-plane gate | Source + `opt-level=0` `setne` check PASS |
+| Reference key-plane gate | 20 configurations across 4 targets and 5 opt levels PASS |
 | Zeroization assembly inspection | PASS |
 | Valgrind Memcheck | 5 binaries, 0 errors |
 | Leakage model with negative control | PASS |
 | Differential statistics | 204 deterministic cases PASS (including zero-variance edge cases) |
-| Miri | Full workspace at `f3112af` (also `8c41e4b`; DPA safe paths at `ef13675`) |
-| Mutation | 673 mutants, 617 caught, **0 missed**, 56 unviable |
-| Coverage | **95.03% lines**, 91.62% regions |
+| Miri | Full workspace at `b18c7df` (also `f3112af`, `8c41e4b`; DPA safe paths at `ef13675`) |
+| Mutation | 714 mutants, 655 caught, **0 missed**, 59 unviable |
+| Coverage | **95.06% lines**, 91.17% regions |
 | Fuzzing | Five 1M-execution campaigns |
-| AArch64 QEMU | 151 tests PASS |
-| i686 native | 165 tests PASS |
+| AArch64 QEMU | 164 tests PASS |
+| i686 native | 178 tests PASS |
 | Release manifest / validator | PASS |
 | Signing dry run | PASS with ephemeral test key |
 | Reproducible build comparison | PASS |

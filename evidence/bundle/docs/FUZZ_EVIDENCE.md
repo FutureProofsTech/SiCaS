@@ -48,11 +48,11 @@ script now includes the batch target, and the batch target already has a separat
 1,000,000-execution campaign above. The summary and per-target logs are in
 [`evidence/fuzz-long/SUMMARY.md`](../evidence/fuzz-long/SUMMARY.md).
 
-## 2026-11-05 full proof
+## 2026-11-06 full proof
 
-The full local proof at `f3112af` reran all five 1M-execution campaigns:
+The full local proof at `b18c7df` reran all five 1M-execution campaigns:
 `masked_ops`, `ct_lookup`, `trace_parser`, `chacha20`, and `chacha20_batch`. All
-passed. Raw logs are under `evidence/local-proof-20261105-full/`.
+passed. Raw logs are under `evidence/local-proof-20261105-final3/`.
 
 ## Limitations
 

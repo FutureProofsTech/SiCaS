@@ -102,6 +102,17 @@ fn synthetic_tvla_and_cpa_workflows_succeed() {
     assert!(String::from_utf8_lossy(&tvla.stdout).contains("TVLA"));
     assert!(String::from_utf8_lossy(&tvla.stderr).contains("TVLA detected leakage"));
 
+    let streaming_tvla = run(&[
+        "tvla-streaming",
+        "--fixed",
+        fixed.to_str().unwrap(),
+        "--random",
+        random.to_str().unwrap(),
+    ]);
+    assert!(!streaming_tvla.status.success());
+    assert!(String::from_utf8_lossy(&streaming_tvla.stdout).contains("TVLA"));
+    assert!(String::from_utf8_lossy(&streaming_tvla.stderr).contains("TVLA detected leakage"));
+
     let synthetic_cpa = run(&[
         "synthetic-cpa",
         "--out",

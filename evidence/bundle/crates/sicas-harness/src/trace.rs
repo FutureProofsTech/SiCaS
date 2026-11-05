@@ -21,8 +21,13 @@ pub const VERSION: u16 = 1;
 pub const MAX_TRACES: usize = 1_000_000;
 /// Maximum number of samples per trace accepted by the reader.
 pub const MAX_SAMPLES: usize = 1_000_000;
-/// Maximum total number of samples accepted by the reader.
+/// Maximum total number of samples accepted by the in-memory reader.
 pub const MAX_TOTAL_SAMPLES: usize = 100_000_000;
+/// Maximum total number of samples accepted by the streaming reader.
+///
+/// Streaming keeps memory proportional to one trace, so it can process a
+/// 1,000,000-trace × 1,000-sample campaign without loading the full set.
+pub const MAX_STREAM_TOTAL_SAMPLES: usize = 1_000_000_000;
 
 /// Errors produced by trace parsing, validation, and writing.
 #[derive(Debug)]
@@ -178,48 +183,18 @@ impl TraceSet {
     /// Returns an error for invalid magic, unsupported versions, malformed
     /// dimensions, truncated input, or size-limit violations.
     pub fn read_from<R: Read>(reader: R) -> Result<Self, TraceError> {
-        // Buffer the stream: the format stores one i16 per sample, so an
-        // unbuffered reader would issue one syscall per two input bytes.
-        let mut reader = BufReader::new(reader);
-        let mut magic = [0_u8; 8];
-        reader.read_exact(&mut magic)?;
-        if magic != MAGIC {
-            return Err(TraceError::InvalidMagic);
-        }
-
-        let version = read_u16(&mut reader)?;
-        if version != VERSION {
-            return Err(TraceError::UnsupportedVersion(version));
-        }
-
-        let samples_per_trace =
-            usize::try_from(read_u32(&mut reader)?).map_err(|_| TraceError::TooLarge)?;
-        let trace_count =
-            usize::try_from(read_u32(&mut reader)?).map_err(|_| TraceError::TooLarge)?;
-        validate_dimensions(samples_per_trace, trace_count)?;
-
+        let mut stream = TraceReader::with_total_limit(reader, MAX_TOTAL_SAMPLES)?;
         let mut traces = Vec::new();
         traces
-            .try_reserve_exact(trace_count)
+            .try_reserve_exact(stream.trace_count())
             .map_err(|_| TraceError::TooLarge)?;
 
-        let mut bytes = [0_u8; 2];
-        for _ in 0..trace_count {
-            let mut trace = Vec::new();
-            trace
-                .try_reserve_exact(samples_per_trace)
-                .map_err(|_| TraceError::TooLarge)?;
-
-            for _ in 0..samples_per_trace {
-                reader.read_exact(&mut bytes)?;
-                trace.push(i16::from_le_bytes(bytes));
-            }
-
-            traces.push(trace);
+        for trace in &mut stream {
+            traces.push(trace?);
         }
 
         Ok(Self {
-            samples_per_trace,
+            samples_per_trace: stream.samples_per_trace(),
             traces,
         })
     }
@@ -260,9 +235,140 @@ impl TraceSet {
     }
 }
 
+/// A streaming reader for the SiCaS binary trace format.
+///
+/// The reader validates the header once and then yields one trace at a time.
+/// It never stores the complete trace set, so a large campaign can be analyzed
+/// with memory proportional to one trace instead of the whole file.
+pub struct TraceReader<R: Read> {
+    reader: BufReader<R>,
+    samples_per_trace: usize,
+    trace_count: usize,
+    read_traces: usize,
+    failed: bool,
+}
+
+impl<R: Read> fmt::Debug for TraceReader<R> {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter
+            .debug_struct("TraceReader")
+            .field("samples_per_trace", &self.samples_per_trace)
+            .field("trace_count", &self.trace_count)
+            .field("read_traces", &self.read_traces)
+            .finish_non_exhaustive()
+    }
+}
+
+impl<R: Read> TraceReader<R> {
+    /// Reads and validates the trace header.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error for invalid magic, unsupported versions, malformed
+    /// dimensions, or size-limit violations.
+    pub fn new(reader: R) -> Result<Self, TraceError> {
+        Self::with_total_limit(reader, MAX_STREAM_TOTAL_SAMPLES)
+    }
+
+    pub(crate) fn with_total_limit(
+        reader: R,
+        max_total_samples: usize,
+    ) -> Result<Self, TraceError> {
+        let mut reader = BufReader::new(reader);
+        let mut magic = [0_u8; 8];
+        reader.read_exact(&mut magic)?;
+        if magic != MAGIC {
+            return Err(TraceError::InvalidMagic);
+        }
+
+        let version = read_u16(&mut reader)?;
+        if version != VERSION {
+            return Err(TraceError::UnsupportedVersion(version));
+        }
+
+        let samples_per_trace =
+            usize::try_from(read_u32(&mut reader)?).map_err(|_| TraceError::TooLarge)?;
+        let trace_count =
+            usize::try_from(read_u32(&mut reader)?).map_err(|_| TraceError::TooLarge)?;
+        validate_dimensions_with_limit(samples_per_trace, trace_count, max_total_samples)?;
+
+        Ok(Self {
+            reader,
+            samples_per_trace,
+            trace_count,
+            read_traces: 0,
+            failed: false,
+        })
+    }
+
+    /// Returns the number of samples in each trace.
+    #[must_use]
+    pub const fn samples_per_trace(&self) -> usize {
+        self.samples_per_trace
+    }
+
+    /// Returns the declared number of traces.
+    #[must_use]
+    pub const fn trace_count(&self) -> usize {
+        self.trace_count
+    }
+
+    /// Returns the number of traces already yielded.
+    #[must_use]
+    pub const fn read_traces(&self) -> usize {
+        self.read_traces
+    }
+
+    /// Reads the next trace, or returns `None` at the end of the stream.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`TraceError::Io`] for a truncated or failing stream, or
+    /// [`TraceError::TooLarge`] if the next trace cannot be allocated.
+    pub fn next_trace(&mut self) -> Option<Result<Vec<i16>, TraceError>> {
+        if self.failed || self.read_traces >= self.trace_count {
+            return None;
+        }
+
+        let mut trace = Vec::new();
+        if trace.try_reserve_exact(self.samples_per_trace).is_err() {
+            self.failed = true;
+            return Some(Err(TraceError::TooLarge));
+        }
+
+        let mut bytes = [0_u8; 2];
+        for _ in 0..self.samples_per_trace {
+            if let Err(error) = self.reader.read_exact(&mut bytes) {
+                self.failed = true;
+                return Some(Err(TraceError::Io(error)));
+            }
+            trace.push(i16::from_le_bytes(bytes));
+        }
+
+        self.read_traces = self.read_traces.saturating_add(1);
+        Some(Ok(trace))
+    }
+}
+
+impl<R: Read> Iterator for TraceReader<R> {
+    type Item = Result<Vec<i16>, TraceError>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.next_trace()
+    }
+}
+
 pub(crate) fn validate_dimensions(
     samples_per_trace: usize,
     trace_count: usize,
+) -> Result<(), TraceError> {
+    validate_dimensions_with_limit(samples_per_trace, trace_count, MAX_TOTAL_SAMPLES)
+}
+
+fn validate_dimensions_with_limit(
+    samples_per_trace: usize,
+    trace_count: usize,
+    max_total_samples: usize,
 ) -> Result<(), TraceError> {
     if samples_per_trace == 0 || trace_count == 0 {
         return Err(TraceError::InvalidDimensions);
@@ -273,7 +379,7 @@ pub(crate) fn validate_dimensions(
     let total_samples = samples_per_trace
         .checked_mul(trace_count)
         .ok_or(TraceError::TooLarge)?;
-    if total_samples > MAX_TOTAL_SAMPLES {
+    if total_samples > max_total_samples {
         return Err(TraceError::TooLarge);
     }
     Ok(())
@@ -332,6 +438,85 @@ mod tests {
             self.reads = self.reads.saturating_add(1);
             self.inner.read(buffer)
         }
+    }
+
+    #[test]
+    fn streaming_reader_matches_the_trace_set() {
+        let traces = sample_set();
+        let mut bytes = Vec::new();
+        traces.write_to(&mut bytes).unwrap();
+        let mut reader = TraceReader::new(&bytes[..]).unwrap();
+
+        assert_eq!(reader.samples_per_trace(), 3);
+        assert_eq!(reader.trace_count(), 2);
+        assert_eq!(reader.next_trace().unwrap().unwrap(), vec![1, 2, 3]);
+        assert_eq!(reader.next_trace().unwrap().unwrap(), vec![4, 5, 6]);
+        assert!(reader.next_trace().is_none());
+        assert_eq!(reader.read_traces(), 2);
+    }
+
+    #[test]
+    fn streaming_limit_accepts_one_billion_samples() {
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(&MAGIC);
+        bytes.extend_from_slice(&VERSION.to_le_bytes());
+        bytes.extend_from_slice(&1_000_u32.to_le_bytes());
+        bytes.extend_from_slice(&1_000_000_u32.to_le_bytes());
+
+        assert!(TraceReader::new(&bytes[..]).is_ok());
+    }
+
+    #[test]
+    fn in_memory_reader_rejects_one_billion_samples() {
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(&MAGIC);
+        bytes.extend_from_slice(&VERSION.to_le_bytes());
+        bytes.extend_from_slice(&1_000_u32.to_le_bytes());
+        bytes.extend_from_slice(&1_000_000_u32.to_le_bytes());
+
+        assert!(matches!(
+            TraceSet::read_from(&bytes[..]),
+            Err(TraceError::TooLarge)
+        ));
+    }
+
+    #[test]
+    fn streaming_limit_rejects_more_than_one_billion_samples() {
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(&MAGIC);
+        bytes.extend_from_slice(&VERSION.to_le_bytes());
+        bytes.extend_from_slice(&1_001_u32.to_le_bytes());
+        bytes.extend_from_slice(&1_000_000_u32.to_le_bytes());
+
+        assert!(matches!(
+            TraceReader::new(&bytes[..]),
+            Err(TraceError::TooLarge)
+        ));
+    }
+
+    #[test]
+    fn streaming_reader_reports_truncation_once() {
+        let traces = sample_set();
+        let mut bytes = Vec::new();
+        traces.write_to(&mut bytes).unwrap();
+        bytes.truncate(bytes.len().saturating_sub(1));
+        let mut reader = TraceReader::new(&bytes[..]).unwrap();
+
+        assert_eq!(reader.next_trace().unwrap().unwrap(), vec![1, 2, 3]);
+        assert!(matches!(reader.next_trace(), Some(Err(TraceError::Io(_)))));
+        assert!(reader.next_trace().is_none());
+    }
+
+    #[test]
+    fn streaming_reader_debug_is_a_summary() {
+        let traces = sample_set();
+        let mut bytes = Vec::new();
+        traces.write_to(&mut bytes).unwrap();
+        let reader = TraceReader::new(&bytes[..]).unwrap();
+        let rendered = std::format!("{reader:?}");
+
+        assert!(rendered.contains("TraceReader"));
+        assert!(rendered.contains("trace_count"));
     }
 
     #[test]

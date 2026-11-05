@@ -17,7 +17,7 @@ Covers:
 - AddressSanitizer;
 - `cargo audit` and `cargo deny check`;
 - multi-architecture assembly matrix, including optimization, codegen, panic, and x86_64 LTO variants;
-- targeted bitsliced-reference key-plane source and `opt-level=0` `setne` gate;
+- 20-configuration bitsliced-reference key-plane source and assembly gate across four targets and `opt-level` 0/1/2/3/s;
 - Valgrind Memcheck over the workspace library tests;
 - zeroization assembly inspection;
 - differential statistics validation against an independent Python model;
@@ -120,6 +120,19 @@ The summary is
 Local mutation for `sicas-reference` and `sicas-harness` then reported 530 mutants,
 498 caught, 32 unviable, and zero missed.
 
+## 2026-11-05 streaming/reference quick proof
+
+The streaming TVLA and multi-target reference gate were verified by a quick proof on
+commit `aaacdea`:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-20261105-streaming ./tools/local_proof.sh quick
+```
+
+All quick gates passed, including the 20-configuration reference key-plane matrix,
+streaming TVLA tests, Kani, ASan, Valgrind, and the evidence bundle. The summary is
+[`evidence/local-proof-20261105-streaming/SUMMARY.md`](../evidence/local-proof-20261105-streaming/SUMMARY.md).
+
 ## 2026-11-05 full local proof
 
 The complete local proof was rerun on commit `f3112af`:
@@ -135,6 +148,23 @@ AArch64 QEMU, i686 native, release manifest/validator, signing dry run, and the
 reproducible-build comparison. The bitsliced batch measured 7.515× versus unmasked;
 the 10× hard ceiling is met and the 5× target remains open. The summary is
 [`evidence/local-proof-20261105-full/SUMMARY.md`](../evidence/local-proof-20261105-full/SUMMARY.md).
+
+## 2026-11-06 full local proof
+
+The full proof was rerun at `b18c7df` after the streaming-TVLA and multi-target
+reference-gate work:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-20261105-final3 ./tools/local_proof.sh full
+```
+
+All gates passed, including full-workspace Miri, blocking core/reference mutation,
+report-only workspace mutation (714 mutants, 655 caught, 0 missed, 59 unviable),
+coverage at 95.06% lines and 91.17% regions, five 1M-execution fuzz campaigns,
+AArch64 QEMU, i686 native, release manifest/validator, signing dry run, and the
+reproducible-build comparison. The bitsliced batch measured 7.052×; the 10× hard
+ceiling is met and the 5× target remains open. The summary is
+[`evidence/local-proof-20261105-final3/SUMMARY.md`](../evidence/local-proof-20261105-final3/SUMMARY.md).
 
 ## Interpretation
 

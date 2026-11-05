@@ -194,7 +194,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1
         with:
           toolchain: "1.99.0"
-      - run: python3 tools/reference_ct_check.py --assembly
+          targets: thumbv7em-none-eabihf,riscv32imac-unknown-none-elf,aarch64-unknown-linux-gnu
+      - run: python3 tools/reference_ct_check.py --matrix --output evidence/ct/reference-ct-ci.md
       - run: python3 tools/test_reference_ct_check.py
 
   no-deps:
