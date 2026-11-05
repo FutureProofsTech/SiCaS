@@ -67,6 +67,13 @@ explicit release gate. `.github/workflows/release.yml` builds the manifest, atte
 provenance, signs the artifact with Sigstore keyless signing, and creates a draft
 GitHub release. It requires a release tag and GitHub OIDC permissions.
 
+The release workflow checks out the requested tag, verifies that the tag resolves to
+the checked-out commit, validates the manifest, and passes the tag through an
+environment variable rather than interpolating it into shell code. Every third-party
+action is pinned to a commit SHA; `tools/check_workflow_pins.py` enforces that in
+local and CI gates. The manifest records a `dirty` flag, and a tracked working tree
+with modifications is rejected for a release build.
+
 ## Supply chain
 
 - `deny.toml` enforces license, advisory, source, wildcard, and duplicate-version

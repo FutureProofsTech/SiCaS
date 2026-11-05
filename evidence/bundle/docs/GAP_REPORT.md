@@ -31,6 +31,9 @@ physical, or require credentials and therefore cannot be truthfully completed he
 | Trace I/O syscall amplification | Fixed 2026-11-05 | Buffered reader/writer; `trace::tests::parser_buffers_many_small_samples` | Consider a streaming API for traces larger than the declared 100M-sample limit |
 | TVLA performance target vs. trace limit | Documented 2026-11-05 | `PLAN.md` now states 1M traces × 100 samples (100M total); 1M × 1k would need a streaming format | Add a streaming trace format before a 1M × 1k campaign |
 | Unbounded leakage/timing configuration | Fixed 2026-11-05 | `MAX_SAMPLES`, `MAX_TIMING_WARMUP`, `MAX_CT_TRIALS` and regression tests | None |
+| Release tag shell injection | Fixed 2026-11-05 | `release.yml` passes the tag through `RELEASE_TAG`; no direct shell interpolation | None |
+| Long-fuzz cache staleness | Fixed 2026-11-05 | `run-fuzz-long.sh` requires a clean tree and records the commit stamp | None |
+| CI batch-fuzz coverage | Fixed 2026-11-05 | `ci.yml` runs `chacha20_batch` | None |
 
 ## Local readiness matrix
 
@@ -50,6 +53,10 @@ claim.
 - 1M-execution fuzz campaigns on five targets.
 - Full local proof at `8c41e4b`: all gates passed, including the performance gate at
   7.15×. The 10× hard ceiling is met; the 5× target remains open.
+- 2026-11-05 red-team quick proof at `42f390d`: all quick gates passed, including
+  workflow pinning, Kani, ASan, the 69-configuration assembly matrix, 204-case
+  statistics differential, Valgrind, and the source-complete evidence bundle.
+  Full-workspace Miri also passed on those changes. The full proof was not rerun.
 - Masked ChaCha20 RFC 8439 and differential validation.
 - Compiler-matrix assembly evidence (69 configurations), Valgrind Memcheck with zero
   errors, differential statistics validation, release-profile timing, a long fuzz

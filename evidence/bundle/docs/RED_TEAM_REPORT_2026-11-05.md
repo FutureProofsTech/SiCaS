@@ -45,6 +45,9 @@ Methods:
 | RT-11 | Medium | Evidence tools could inspect stale artifacts | Fixed |
 | RT-12 | Low | Original vision file contained superseded overclaims and a license mismatch | Fixed (archived) |
 | RT-13 | Low | TVLA performance target exceeded the trace-format limit | Fixed (documented) |
+| RT-14 | High | Release tag name was interpolated into a privileged shell script | Fixed |
+| RT-15 | Low | Long-fuzz cache could reuse stale evidence | Fixed |
+| RT-16 | Low | CI fuzz job omitted the bitsliced batch target | Fixed |
 
 ---
 
@@ -436,6 +439,73 @@ format is explicit.
 
 ---
 
+### RT-14 — High — Release tag name was interpolated into a shell script
+
+**Affected file:** `.github/workflows/release.yml`.
+
+**Observation.** The tag verification step used:
+
+```yaml
+run: |
+  tag="${{ inputs.tag || github.ref_name }}"
+  test "$(git rev-parse "refs/tags/${tag}^{commit}")" = "$(git rev-parse HEAD)"
+```
+
+Git ref names may contain `$` and parentheses, and `workflow_dispatch` input is
+attacker-influenced. A tag such as `v1$(command)` is substituted into the script
+before the shell parses it, so the command substitution can execute. The release
+job has `contents: write`, `id-token: write`, and `attestations: write`.
+
+**Impact.** A crafted tag name or dispatch input could execute commands in a
+privileged release workflow. This is a CI script-injection and supply-chain defect.
+
+**Fix.** The tag is passed through an environment variable, which the shell expands
+as data rather than re-parsing:
+
+```yaml
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+run: |
+  tag="$RELEASE_TAG"
+  test -n "$tag"
+  test "$(git rev-parse "refs/tags/${tag}^{commit}")" = "$(git rev-parse HEAD)"
+```
+
+The `tag_name` and checkout `ref` expressions are action inputs, not shell code, and
+remain expression-based.
+
+---
+
+### RT-15 — Low — Long-fuzz cache could reuse stale evidence
+
+**Affected file:** `tools/run-fuzz-long.sh`.
+
+**Observation.** The script reused an existing `$target.log` when it contained
+`Done N runs`, without checking the commit or working-tree state. After a code
+change, a cached PASS could be reported for a different tree.
+
+**Impact.** Stale fuzz evidence; not a runtime vulnerability.
+
+**Fix.** The script now refuses a dirty tracked tree, records the current commit in
+`$target.commit`, and only reuses a log when the stamp matches. This makes the cache
+commit-scoped.
+
+---
+
+### RT-16 — Low — CI fuzz job omitted the bitsliced batch target
+
+**Affected file:** `.github/workflows/ci.yml`.
+
+**Observation.** The CI fuzz job ran `masked_ops`, `ct_lookup`, `trace_parser`, and
+`chacha20`, but not `chacha20_batch`. The local full proof runs the batch target, so
+a PR could break it without CI catching the regression.
+
+**Impact.** Coverage gap in the PR fuzz gate.
+
+**Fix.** The CI fuzz job now runs `chacha20_batch` for 10,000 executions.
+
+---
+
 ## Positive controls observed
 
 - `#![forbid(unsafe_code)]` in the published logic crates; `sicas-zeroize` has one
@@ -483,7 +553,9 @@ cargo test -p sicas-core -p sicas-reference -p sicas-harness --all-targets --all
 cargo test --workspace --doc --locked
 python3 tools/check_stats.py
 python3 tools/check_workflow_pins.py
+python3 tools/test_check_workflow_pins.py
 python3 tools/test_validate_release_manifest.py
+sh -n tools/run-fuzz-long.sh
 python3 tools/ct_asm_check.py --matrix --lto --output /tmp/sicas-asm.md
 tools/run-valgrind.sh /tmp/sicas-valgrind
 ./tools/local_proof.sh quick

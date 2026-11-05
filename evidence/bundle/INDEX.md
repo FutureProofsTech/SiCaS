@@ -1,14 +1,14 @@
 # SiCaS Evidence Bundle
 
-- Code commit under test: `bb78846637386f9edef93648e6dd7715bf0877e5`
-- Generated: `2026-11-05T20:36:58.070171+00:00`
+- Code commit under test: `bf4c1b15150dc2a7682f6074f78792fd12d8a5b0`
+- Generated: `2026-11-05T20:41:27.590601+00:00`
 - Working tree dirty (tracked files): `False`
-- Files: 153
+- Files: 160
 
 | File | SHA-256 |
 |---|---|
-| `.github/workflows/ci.yml` | `c5e685d42756d605c525a377706b82332ae78a6a62780121ba545c1a16504d64` |
-| `.github/workflows/release.yml` | `d80b212b94a90bdf8ffedc16bdab691cfe6578c65dae9099075906749dd13f87` |
+| `.github/workflows/ci.yml` | `e75a5ab989da87076a1a9a6acfa8ec930a45fbe65648ee819b9665338ba200ee` |
+| `.github/workflows/release.yml` | `28061e7bb1ccd7229d1f2e504c16880c494e981956d17d57afa30a9d1770443c` |
 | `AGENTS.md` | `2d972877001d5ea217c6055e71750962f62ba467cc4783771fa5c884115b5eba` |
 | `AUDITOR_GUIDE.md` | `7eae7a3bf856584f64a4d80be5e8b6b5b1a64d77d03812ca0475cb2f8b1125dc` |
 | `AUDIT_REQUEST.md` | `9af961368c8cc377f70ebec336f637d284b7e63816348e57ee78156e7e0a9181` |
@@ -19,7 +19,7 @@
 | `LICENSE` | `3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986` |
 | `PLAN.md` | `8d334d92a216a38d72879fd5050fdfd3f18795165afe32db6467ee3ddd453f7b` |
 | `PRODUCTION_READINESS.md` | `8f6c97309314ee6dd6eb210f51363ba89cb1df50da67ec1900dd19a55a707f8b` |
-| `README.md` | `1a2136da50626a701de1b6e04f1e95ddc9caf30b636295825989b9a6b2323eb5` |
+| `README.md` | `144e11e0939790daf6a53397c3524c91bf539dbb6a01f33bc1fb3a39b0ecf2c6` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `crates/sicas-core/Cargo.toml` | `252d1e8657f26a88c5e47904f7d2ca94fbf5a8848b687700f408b4a3b1ea266d` |
 | `crates/sicas-core/examples/ct_asm.rs` | `1be3d4493323abe74418abdcd0b46b25c5a28d751081b26fbbf2ea769015205d` |
@@ -49,7 +49,7 @@
 | `crates/sicas-platform/src/lib.rs` | `a5ed4f2a4b6f7a6369847fa4f39f7268d290cfb7b5b4dad0a831ba12c0cdc76c` |
 | `crates/sicas-reference/Cargo.toml` | `f2cca983d4915addebc4d421b3ff71e01d8987199d112a988adb16abeb857f76` |
 | `crates/sicas-reference/examples/benchmark.rs` | `92e5f1ce3c2d66b5d1fe4889d5283f7011396818e97c0f61a5aab58d70a3d11b` |
-| `crates/sicas-reference/src/chacha20.rs` | `d9ece40c0a5fa62d2010ee124cf423a889896cce4784d74913ab3632b050cfec` |
+| `crates/sicas-reference/src/chacha20.rs` | `e7942a18defd7cf5158deda3134e985dea2775ea489c65d8e83d96a8650ffc05` |
 | `crates/sicas-reference/src/lib.rs` | `489426b7f178cb013ad3b7674f4204e27f196c7513430912877852eb3adc8f2b` |
 | `crates/sicas-zeroize/Cargo.toml` | `723f1c868460e333de703b38fd61ee475aeac25e5b0af3b51e102e77a9232676` |
 | `crates/sicas-zeroize/examples/zeroize_asm.rs` | `f921b72ac04ac82d0248a889265131a0d6b2486c5c680b9332eee58dc9a0f6b8` |
@@ -66,16 +66,16 @@
 | `docs/CT_EVIDENCE.md` | `fa2220aae790fa138e3a15a1b4ff437b3a242df9e5bfa85eb3851abb83df93f2` |
 | `docs/EVALUATION.md` | `1db0029f5f15295fc78e9b31c975768db4ccf3e1aa92d8e872fe174832dc1f09` |
 | `docs/FUZZ_EVIDENCE.md` | `2c1a0dcff94a505961f5971e78c337fec30448d3689ef9c0d62788482b470843` |
-| `docs/GAP_REPORT.md` | `bfdd1fa5714b42c864df6574343ae023726d786e534429d7f3a0e5d1250f7884` |
+| `docs/GAP_REPORT.md` | `9e49786544072e67fffa8888eb2cfb8a34f0336795805489ab62ef9ffc2377bc` |
 | `docs/HARDWARE.md` | `9ef8f41e77fab8522cc3ff61f09e669bff55e0ba0a252344880b73bb9f451b83` |
-| `docs/LOCAL_PROOF.md` | `6ea64cb37d89d9d7446d99af2aabd15a81c4928ae31c5dd0050ec06da4a247b4` |
+| `docs/LOCAL_PROOF.md` | `1aea8e7e0ea0f0139254d19ff3b720f907382b37d37d4b48ab1d82f63a711f54` |
 | `docs/MUTATION_EVIDENCE.md` | `69dc161ba46572ae7dd38b91b77fc01e37b93882deb54f5da07a9086b16e3be4` |
 | `docs/PERFORMANCE_EVIDENCE.md` | `ae49e56304e8972f083dae3c3d6064333fab279df4409bbf299e313a490046bf` |
 | `docs/POST_PROOF_BACKLOG.md` | `9b1e4fd000d428a783c7d68126635439afe8741cfa5cde6a098b6c8d9d1b90bf` |
-| `docs/PROOF_OBLIGATIONS.md` | `4da98ed78b92c4759447bd4ea0b975458c4ffdaebf3c1346ce62ea15b29f3d3a` |
+| `docs/PROOF_OBLIGATIONS.md` | `3a3f1bddc4fdcca7dee09501103f2da12ccf0719ca55d5d249194112d4105ee9` |
 | `docs/RED_TEAM.md` | `10ca06543f1a6b93cfdd43887523aacc67de4414d891c91da451d77aeb26a732` |
-| `docs/RED_TEAM_REPORT_2026-11-05.md` | `d2ea879a06abc2c6a360c4b03ec76d87bacdb76df01039ffda6b1eddd424c700` |
-| `docs/RELEASE.md` | `e400da9c744888fe6ab964ca2dedcf3fc42360407841d530198834be9bfcd5c3` |
+| `docs/RED_TEAM_REPORT_2026-11-05.md` | `26bd695122f0b93f116215c498e8a1c3a2d52d1cf7c3a03b1bd2f67a1a3f724b` |
+| `docs/RELEASE.md` | `6e6847ca2d4773feb39b8143f84ac9fc1b68b470725e1a422c022f45dafad46a` |
 | `docs/SAL4_EXECUTION_PLAN.md` | `2e3c86668793bbc546260d13d4e2208e675a93dd7493646a270a3e47131b78dd` |
 | `docs/SAL4_LOCAL_READINESS.md` | `e8dca6b77836e88b41b1772b6c34e39a329249543d196ae92fd3bbfdffa44637` |
 | `docs/SECURITY_CLAIMS.md` | `f35e6116417f10aa89f2e9b7ae45dbed2a87c40fadf852290ff675c187f94831` |
@@ -111,6 +111,13 @@
 | `evidence/local-proof-2026-10-31-self-audit/SUMMARY.md` | `d81c149e03fff45ff69658b896c756a0d3ea9a4403e979033536292d0ede7808` |
 | `evidence/local-proof-2026-10-31-speed-size/SUMMARY.md` | `cafcde69023bab36e024e445eaae86c221601925e098e9603a8c29dbe5414ed8` |
 | `evidence/local-proof-2026-10-31/SUMMARY.md` | `5475ae1cbfb8a49aa91d44eb847713c145c84d2290bc9b5df34823b67a302532` |
+| `evidence/local-proof-20261105-223732/SUMMARY.md` | `06166a9040471cd1a3a9581f24f87bfc0f00a095caabdc691b69b99c64bef7f0` |
+| `evidence/local-proof-20261105-223732/assembly.md` | `342beabcae8d4b386e093f5c5aebc20b90357c9a052cefe8160a3bc955c3c37a` |
+| `evidence/local-proof-20261105-223732/stats.md` | `2dd465edfeb5060c3f04d8b99cf9306a2656554a755a45c06833ceab0cd91b0d` |
+| `evidence/local-proof-20261105-223732/tests.log` | `4b092662529228105ecb2fffeb858b6f90bdc164d1f1e99b7ea2e0c043c692bc` |
+| `evidence/local-proof-20261105-223732/valgrind/SUMMARY.md` | `dc9ec6e6d9162e764e6ea26fe87f3860a51ef129f4a4e7416d6be890020d19cb` |
+| `evidence/local-proof-20261105-223732/workflow-pin-tests.log` | `921b60a7fd52e978fbb551cacd29df2d6708879400278e1fcc70fceeb0c6f8e0` |
+| `evidence/local-proof-20261105-223732/workflow-pins.log` | `42ce44b36a8911e6800591c803b58f035b79242db96772badb676ef2a33ad85e` |
 | `evidence/mutation/2026-10-31-dpa.log` | `747d981c4e5f726826456d87d96f429df315871bda6353e64880f15c3bce2dd6` |
 | `evidence/mutation/2026-10-31-workspace.log` | `e6c84af01e99d62798861827d912c80fb7bdda724fb6f512b8e0e00f7bf9e494` |
 | `evidence/mutation/2026-10-31-workspace.md` | `870406f39e9bbf6f142814d7440e16153b26a983714bd899aa3a06aa15024a9f` |
@@ -147,12 +154,12 @@
 | `tools/check_stats.py` | `89e19240ffc2e0f7ff93004b928e1984a9bef8e8427793d3064f519273fc0bfe` |
 | `tools/check_workflow_pins.py` | `b44989b3f68b505aa8a9223ddde15089b4672c74be76323ce17bd65bdca07043` |
 | `tools/ct_asm_check.py` | `fc6e2cc890bced50f70fe53aacbc51d5ca0300284f38c6c2e818862817cc7b72` |
-| `tools/evidence_bundle.py` | `49793ea55b2b34762fd0a5027c3541c398b9d6f169160d2934d244d95281b4c2` |
+| `tools/evidence_bundle.py` | `74c974f875c15c9e5a7662c498d539dc6e324faea4b418cba7f606d3f636323d` |
 | `tools/local-signing-dry-run.sh` | `21df91a1ae3606d8ccf05345f0b1f1bcc4833c492dd289aafb84c5c602b83eed` |
 | `tools/local_proof.sh` | `94575fe096f47722118378283b512a23df89803cf233c12bc36fbd012a572937` |
 | `tools/release_manifest.py` | `62d1df2818f9504126446edfd1a8c648f9f9928f131366f21ac193eab01246b7` |
 | `tools/run-aarch64-tests.sh` | `b62da82f4344aaa721c12cd6017ac7a38a5887024116436dccc223ad2f137e0a` |
-| `tools/run-fuzz-long.sh` | `6f79d85d567e90a1f51c421d4ea2d6fc985fec8b3c78d4554bc1d85c9c938ed2` |
+| `tools/run-fuzz-long.sh` | `442187b1f91aa3c9360d908f391e9c4836f37db058dc724252bc77d57159c703` |
 | `tools/run-i686-tests.sh` | `55300da0df309831335d99f131e32af1e40b93d5e99aeae365a22672ed3521df` |
 | `tools/run-release-timing.sh` | `72b8eee1b6237363764646f695fcb96d14bd2df1f680dbdb0a02a381bb8a7458` |
 | `tools/run-valgrind.sh` | `73bf34d3a145897509c38b9bade57b10a8348554404e51ab26ec759efb95a9e1` |

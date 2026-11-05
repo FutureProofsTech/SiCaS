@@ -40,6 +40,13 @@ impl MaskedChaCha20 {
     /// Creates a masked ChaCha20 state from a 256-bit key, 96-bit nonce, and
     /// initial block counter.
     ///
+    /// # Security
+    ///
+    /// The caller must never reuse a `(key, nonce, counter)` tuple. ChaCha20
+    /// keystream reuse destroys confidentiality. This validation target does not
+    /// track nonce uniqueness or key lifetime; that is the caller's protocol
+    /// responsibility.
+    ///
     /// # Errors
     ///
     /// Returns [`EntropyError::Unavailable`] when the entropy source fails.
