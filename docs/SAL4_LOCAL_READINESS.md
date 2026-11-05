@@ -12,13 +12,13 @@ Current public label: **SAL-2 locally**.
 | Constant-time evidence | Dudect timing, 69-configuration assembly matrix | Complete for inspected targets/configurations |
 | Formal/model checking | 30 Kani harnesses for core gadgets, masking, refresh, addition, and share uniformity | Complete for declared models |
 | Fuzzing | Five 1M campaigns, including the bitsliced batch; 10M on masked_ops/ct_lookup/trace_parser and 1M on ChaCha20 in the long campaign | Complete locally |
-| Mutation and coverage | 0 missed viable mutants; 96.90% lines | Complete locally |
+| Mutation and coverage | 673 workspace mutants, 0 missed viable; 95.03% lines, 91.62% regions | Complete locally |
 | Masking model | Deterministic first-order checks with negative control; ChaCha20 key-share check | Complete in the model |
 | Cross-architecture functional evidence | AArch64 QEMU, i686 native, four-target assembly checks | Complete locally |
 | Reproducible release | Three-build hash comparison, SBOM, provenance, manifest validator | Complete locally |
 | Signing process | Ephemeral test-key signing and verification dry run | Process proven; production identity not established |
 | Zeroization | Design review and adapter checklist | Not implemented |
-| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.15× vs unmasked in the final full proof; 5× target open |
+| Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.515× vs unmasked in the 2026-11-05 full proof at `f3112af`; 5× target open |
 | Physical power/EM TVLA/CPA/DPA | None | Not software-local |
 | ARM/RISC-V runtime timing on hardware | None | Not software-local |
 | Independent adversarial review | Internal adversarial audit and red-team review only | Independent review is not software-local |

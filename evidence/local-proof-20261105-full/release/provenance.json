@@ -1,0 +1,11 @@
+{
+  "project": "SiCaS",
+  "commit": "f3112afcaf0c583abf53a9dbdb92608f23885ef3",
+  "dirty": false,
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "host": "x86_64-unknown-linux-gnu",
+  "build_command": "cargo build --workspace --release --locked",
+  "artifact": "sicas-harness",
+  "sha256": "307950997cef00cda438823ea7a1f529b12dc394edb5e5f4f93f6cab9328e99d",
+  "timestamp": "2026-11-05T21:30:47.611189+00:00"
+}

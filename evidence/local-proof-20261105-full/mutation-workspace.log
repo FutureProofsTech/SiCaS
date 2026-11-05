@@ -1,0 +1,4 @@
+Found 673 mutants to test
+ok       Unmutated baseline in 0s build + 0s test
+ INFO Auto-set test timeout to 20s
+673 mutants tested in 4m: 617 caught, 56 unviable

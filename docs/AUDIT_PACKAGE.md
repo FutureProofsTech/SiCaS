@@ -66,6 +66,7 @@ every remaining gap is explicitly hardware-, credential-, or independent-party-o
 | Production readiness | `PRODUCTION_READINESS.md` |
 | Audit request | `AUDIT_REQUEST.md` |
 | Local proof runner | `docs/LOCAL_PROOF.md` |
+| 2026-11-05 full local proof | `evidence/local-proof-20261105-full/SUMMARY.md` |
 | Zeroization review | `docs/ZEROIZATION.md` |
 | Local SAL-4 readiness | `docs/SAL4_LOCAL_READINESS.md` |
 | SAL-4 execution plan | `docs/SAL4_EXECUTION_PLAN.md` |

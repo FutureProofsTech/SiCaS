@@ -21,10 +21,10 @@ physical, or require credentials and therefore cannot be truthfully completed he
 
 | Gap | Status | Evidence | Required next action |
 |---|---|---|---|
-| Masked ChaCha20 performance | Hard ceiling met; target open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 7.15× vs unmasked in the final full proof (7.26× in an earlier run), so the 10× hard ceiling is met; the 5× target is not | Continue optimizing toward 5× with wider SIMD lanes or a faster audited mask stream |
+| Masked ChaCha20 performance | Hard ceiling met; target open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 7.515× vs unmasked in the 2026-11-05 full proof at `f3112af` (7.06–7.515× across runs), so the 10× hard ceiling is met; the 5× target is not | Continue optimizing toward 5× with wider SIMD lanes or a faster audited mask stream |
 | TVLA zero-variance false negative | Fixed 2026-11-05 | `stats::tests::welch_t_detects_a_shift`, `tvla::tests::constant_shift_with_zero_variance_is_detected`, `tools/check_stats.py` edge cases | None; keep the constant-group regression cases |
 | Secret-dependent branch in bitsliced key extraction | Fixed 2026-11-05 | `chacha20::tests::masked_word_planes_extract_every_bit_without_a_share_branch`; `tools/reference_ct_check.py` enforces the source invariant and an `opt-level=0` `setne` assembly check | Extend the targeted gate to the full reference matrix (other targets/optimization levels) |
-| Evidence bundle source completeness | Fixed 2026-11-05 | `tools/evidence_bundle.py` now includes all crate/fuzz/tool/workflow sources and rejects tracked working-tree modifications | Regenerate the bundle and review the new `INDEX.md` |
+| Evidence bundle source completeness | Fixed 2026-11-05 | `tools/evidence_bundle.py` now includes all crate/fuzz/tool/workflow sources and rejects tracked working-tree modifications; the bundle is regenerated at `f3112af` | None; keep the clean-tree check |
 | Release tag/workflow binding | Fixed 2026-11-05 | `release.yml` checks out the requested tag, verifies the tag commit, and pins actions to SHAs; `tools/check_workflow_pins.py` is a local/CI gate | Run the release workflow with a real signing identity |
 | Alignment normalization and shift-search DoS | Fixed 2026-11-05 | `preprocess::tests::correlation_is_normalized_and_amplitude_invariant`, `align_caps_an_oversized_shift_search_to_the_trace_length` | None |
 | Synthetic generator allocation DoS | Fixed 2026-11-05 | `synthetic::tests::oversized_generation_is_rejected_before_allocation` and TVLA variant | None |
@@ -53,11 +53,16 @@ claim.
 - 1M-execution fuzz campaigns on five targets.
 - Full local proof at `8c41e4b`: all gates passed, including the performance gate at
   7.15×. The 10× hard ceiling is met; the 5× target remains open.
-- 2026-11-05 red-team final quick proof at `18b5123`: all quick gates passed,
-  including workflow pinning, Kani, ASan, the 69-configuration assembly matrix,
-  204-case statistics differential, Valgrind, and the source-complete evidence
-  bundle. Full-workspace Miri also passed on those changes. The full proof was not
-  rerun.
+- 2026-11-05 full local proof at `f3112af`: all gates passed, including full-workspace
+  Miri, 30 Kani harnesses, 151 ASan tests, 673 workspace mutants with zero missed,
+  95.03% line coverage, five 1M-execution fuzz campaigns, AArch64/i686 tests, release
+  manifest/validator, signing dry run, and reproducible-build comparison. The
+  bitsliced batch measured 7.515×; the 10× hard ceiling is met and the 5× target
+  remains open.
+- 2026-11-05 red-team final quick proof at `18b5123` and CI-fix quick proof at
+  `356f70c`: all quick gates passed, including workflow pinning, the targeted
+  reference key-plane gate, Kani, ASan, the 69-configuration assembly matrix, 204-case
+  statistics differential, and Valgrind.
 - Masked ChaCha20 RFC 8439 and differential validation.
 - Compiler-matrix assembly evidence (69 configurations), Valgrind Memcheck with zero
   errors, differential statistics validation, release-profile timing, a long fuzz

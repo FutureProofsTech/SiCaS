@@ -33,6 +33,19 @@ unviable mutant is not a test gap. Raw logs are in
 `evidence/mutation/2026-10-31-workspace.log` and
 `evidence/mutation/2026-10-31-dpa.log`.
 
+## 2026-11-05 full proof at `f3112af`
+
+| Scope | Caught | Missed | Unviable | Viable mutants |
+|---|---:|---:|---:|---:|
+| `sicas-core` (blocking) | 114 | 0 | 19 | 114 |
+| `sicas-reference` (blocking) | 98 | 0 | 8 | 98 |
+| Workspace (report-only) | 617 | 0 | 56 | 617 |
+
+The earlier CI mutation failure had two misses: an equivalent `1_u64 << 0` mutant
+(removed by writing `1_u64`) and a missing `samples == MAX_SAMPLES` boundary test in
+`leakage::validate` (added). The full proof at `f3112af` reports zero missed viable
+mutants. Raw logs are under `evidence/local-proof-20261105-full/`.
+
 ## What this covers
 
 - Core constant-time gadgets, masking, refresh, share reconstruction, addition, and

@@ -1,0 +1,6 @@
+gpg: Signature made Thu 05 Nov 2026 11:30:47 PM EET
+gpg:                using EDDSA key D2BFE84C6CD6D8C7D8451BD6095EE79B341666F6
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: Good signature from "SiCaS Local Test <test@example.invalid>" [ultimate]
