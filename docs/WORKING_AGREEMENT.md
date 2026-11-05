@@ -10,7 +10,7 @@ require user confirmation. The agent should choose the highest-value local gap a
 continue.
 
 The agent must not ask the user to restate the project goals, scope, quality standard, or
-tooling policy. Those are fixed in `AGENTS.md`, `PLAN.md`, and this document.
+tooling policy. Those are fixed in `PLAN.md` and this document.
 
 ## Local-first proof
 

@@ -732,7 +732,6 @@ SiCaS/
 ├── papers/                  # white paper and yellow paper (LaTeX + PDF)
 ├── evidence/                # proof logs, mutation, coverage, release, signing, bundle
 ├── .github/workflows/       # CI and release workflows
-├── AGENTS.md                # persistent project instructions
 ├── PLAN.md                  # production plan and scope decisions
 ├── AUDITOR_GUIDE.md         # independent reviewer quick start
 ├── AUDIT_REQUEST.md         # formal audit request
@@ -806,7 +805,6 @@ See [`papers/VERSIONS.md`](papers/VERSIONS.md) for the document version log and
 
 ### Process
 
-- [`AGENTS.md`](AGENTS.md) — persistent project instructions.
 - [`docs/WORKING_AGREEMENT.md`](docs/WORKING_AGREEMENT.md) — local-first operating agreement.
 - [`PLAN.md`](PLAN.md) — production plan and scope decisions.
 - [`docs/TOOLING.md`](docs/TOOLING.md) — tool versions and policy.
@@ -847,10 +845,9 @@ project’s constraints and evidence discipline.
 
 Read:
 
-1. [`AGENTS.md`](AGENTS.md) — persistent project instructions.
-2. [`docs/WORKING_AGREEMENT.md`](docs/WORKING_AGREEMENT.md) — operating agreement.
-3. [`PLAN.md`](PLAN.md) — scope and production plan.
-4. [`docs/PROOF_OBLIGATIONS.md`](docs/PROOF_OBLIGATIONS.md) — evidence requirements.
+1. [`docs/WORKING_AGREEMENT.md`](docs/WORKING_AGREEMENT.md) — operating agreement.
+2. [`PLAN.md`](PLAN.md) — scope and production plan.
+3. [`docs/PROOF_OBLIGATIONS.md`](docs/PROOF_OBLIGATIONS.md) — evidence requirements.
 
 ### Pull-request checklist
 
