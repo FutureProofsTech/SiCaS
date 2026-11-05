@@ -50,9 +50,9 @@ script now includes the batch target, and the batch target already has a separat
 
 ## 2026-11-06 full proof
 
-The full local proof at `b18c7df` reran all five 1M-execution campaigns:
+The final full local proof at `a3495ca` reran all five 1M-execution campaigns:
 `masked_ops`, `ct_lookup`, `trace_parser`, `chacha20`, and `chacha20_batch`. All
-passed. Raw logs are under `evidence/local-proof-20261105-final3/`.
+passed. Raw logs are under `evidence/local-proof-20261106-final/`.
 
 ## Limitations
 

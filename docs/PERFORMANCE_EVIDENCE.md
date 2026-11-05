@@ -68,6 +68,19 @@ target_ratio<=5 hard_ceiling<=10
 The batch path remains under the 10× hard ceiling at **7.052×**. The 5× target is
 still open.
 
+## 2026-11-06 final full proof at `a3495ca`
+
+```text
+scalar masked: 328.548x vs unmasked
+batch masked:  7.028x vs unmasked
+batch ns/byte: 18.486748
+unmasked ns/byte: 2.630318
+target_ratio<=5 hard_ceiling<=10
+```
+
+The batch path remains under the 10× hard ceiling at **7.028×**. The 5× target is
+still open.
+
 ## Optimization attempts — 2026-11-05
 
 Several local experiments were measured on the same host and rejected because they

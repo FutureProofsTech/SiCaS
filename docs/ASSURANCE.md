@@ -3,10 +3,10 @@
 ## Current level
 
 **SAL-2 locally** (tests, CI, Miri, sanitizers, fuzzing, static analysis). The current
-full local proof is at `b18c7df`; earlier full proofs are at `f3112af` and `8c41e4b`;
-the AES S-box DPA addition was verified by a quick proof at `ef13675`. The bitsliced
-masked-ChaCha20 batch meets the 10× performance hard ceiling at 7.052× in the
-2026-11-06 full proof; the 5× target is open. The target for v1.0 is **SAL-4**.
+full local proof is at `a3495ca`; earlier full proofs are at `b18c7df`, `f3112af`,
+and `8c41e4b`; the AES S-box DPA addition was verified by a quick proof at `ef13675`.
+The bitsliced masked-ChaCha20 batch meets the 10× performance hard ceiling at 7.028×
+in the 2026-11-06 final full proof; the 5× target is open. The target for v1.0 is **SAL-4**.
 Hardware evidence, independent audit, independent red team, and production signing
 are still pending.
 

@@ -166,6 +166,23 @@ reproducible-build comparison. The bitsliced batch measured 7.052×; the 10× ha
 ceiling is met and the 5× target remains open. The summary is
 [`evidence/local-proof-20261105-final3/SUMMARY.md`](../evidence/local-proof-20261105-final3/SUMMARY.md).
 
+## 2026-11-06 final full proof
+
+The final full proof was rerun at `a3495ca` after bounding the streaming loops against
+non-terminating readers:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-20261106-final ./tools/local_proof.sh full
+```
+
+All gates passed, including full-workspace Miri, blocking core/reference mutation,
+report-only workspace mutation (714 mutants, 655 caught, 0 missed, 0 timeouts, 59
+unviable), coverage at 95.05% lines and 91.20% regions, five 1M-execution fuzz
+campaigns, AArch64 QEMU, i686 native, release manifest/validator, signing dry run, and
+the reproducible-build comparison. The bitsliced batch measured 7.028×; the 10× hard
+ceiling is met and the 5× target remains open. The summary is
+[`evidence/local-proof-20261106-final/SUMMARY.md`](../evidence/local-proof-20261106-final/SUMMARY.md).
+
 ## Interpretation
 
 A PASS in `SUMMARY.md` means the command exited successfully. The workspace mutation
