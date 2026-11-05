@@ -85,6 +85,24 @@ The full proof predates the DPA addition and the zeroization adapter. Targeted M
 workspace mutation, AArch64, i686, and release checks were rerun on `ef13675`; the
 full-proof rows remain attributed to `8c41e4b`.
 
+## 2026-11-05 red-team quick proof
+
+The red-team fixes were verified by a quick proof on commit `42f390d`:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-20261105-223732 ./tools/local_proof.sh quick
+```
+
+All quick gates passed: fmt, workflow action-pin checks and their tests, strict
+Clippy, workspace tests, doctests, Kani, ASan, audit, deny, the 69-configuration
+assembly matrix, zeroization assembly, leakage model, 204-case statistics
+differential, Valgrind, release-validator tests, and the source-complete evidence
+bundle. Full-workspace Miri also passed on the same code changes. The full proof
+(mutation, coverage, five fuzz campaigns, cross-architecture tests, release signing
+dry run, and reproducibility comparison) was not rerun for this addendum; those rows
+remain attributed to their earlier commits. The summary is
+[`evidence/local-proof-20261105-223732/SUMMARY.md`](../evidence/local-proof-20261105-223732/SUMMARY.md).
+
 ## Interpretation
 
 A PASS in `SUMMARY.md` means the command exited successfully. The workspace mutation

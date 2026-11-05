@@ -209,9 +209,14 @@ def main() -> int:
             return 1
 
     output = args.output
-    if output.exists():
-        shutil.rmtree(output)
-    output.mkdir(parents=True)
+    root_resolved = root.resolve()
+    output_resolved = output.resolve()
+    if output_resolved == root_resolved or output_resolved in root_resolved.parents:
+        print(
+            f"evidence bundle: refusing to replace a directory that contains the repository: {output}",
+            file=sys.stderr,
+        )
+        return 1
 
     missing = [name for name in REQUIRED if not (root / name).is_file()]
     for pattern in REQUIRED_GLOBS:
@@ -221,6 +226,10 @@ def main() -> int:
         for name in missing:
             print(f"missing required evidence file: {name}", file=sys.stderr)
         return 1
+
+    if output.exists():
+        shutil.rmtree(output)
+    output.mkdir(parents=True)
 
     files = set(REQUIRED)
     for pattern in REQUIRED_GLOBS:

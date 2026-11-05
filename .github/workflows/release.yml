@@ -28,8 +28,13 @@ jobs:
           toolchain: "1.99.0"
 
       - name: Verify the release tag points at the checked-out commit
+        env:
+          # Pass the tag through the environment. Direct `${{ }}` interpolation
+          # into a shell script would evaluate command substitutions in a
+          # tag name.
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
-          tag="${{ inputs.tag || github.ref_name }}"
+          tag="$RELEASE_TAG"
           test -n "$tag"
           test "$(git rev-parse "refs/tags/${tag}^{commit}")" = "$(git rev-parse HEAD)"
 

@@ -1,0 +1,30 @@
+    Finished `release` profile [optimized] target(s) in 0.00s
+# Zeroization Assembly Evidence
+
+- Target: `x86_64-unknown-linux-gnu`
+- Symbol: `sicas_zeroize::zeroize_bytes`
+- Volatile zero-store instructions: 1
+- Calls `memset`: False
+- Result: **PASS**
+
+The function emits explicit zero stores and is not replaced by a
+library memset call.
+
+## Disassembly
+
+```text
+000000000001afda <_RNvCskK38eMaX7gE_13sicas_zeroize13zeroize_bytes>:
+   1afda:	31 c0                	xor    %eax,%eax
+   1afdc:	48 83 f8 40          	cmp    $0x40,%rax
+   1afe0:	74 09                	je     1afeb <_RNvCskK38eMaX7gE_13sicas_zeroize13zeroize_bytes+0x11>
+   1afe2:	c6 04 07 00          	movb   $0x0,(%rdi,%rax,1)
+   1afe6:	48 ff c0             	inc    %rax
+   1afe9:	eb f1                	jmp    1afdc <_RNvCskK38eMaX7gE_13sicas_zeroize13zeroize_bytes+0x2>
+   1afeb:	c3                   	ret
+   1afec:	cc                   	int3
+   1afed:	cc                   	int3
+   1afee:	cc                   	int3
+   1afef:	cc                   	int3
+
+```
+

@@ -98,6 +98,7 @@ jobs:
       - run: cargo +nightly-2026-08-03 fuzz run ct_lookup -- -runs=10000
       - run: cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=10000
       - run: cargo +nightly-2026-08-03 fuzz run chacha20 -- -runs=10000
+      - run: cargo +nightly-2026-08-03 fuzz run chacha20_batch -- -runs=10000
 
   mutation:
     runs-on: ubuntu-latest
