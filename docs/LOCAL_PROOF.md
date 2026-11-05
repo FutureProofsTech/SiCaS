@@ -120,6 +120,19 @@ The summary is
 Local mutation for `sicas-reference` and `sicas-harness` then reported 530 mutants,
 498 caught, 32 unviable, and zero missed.
 
+## 2026-11-05 streaming/reference quick proof
+
+The streaming TVLA and multi-target reference gate were verified by a quick proof on
+commit `aaacdea`:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-20261105-streaming ./tools/local_proof.sh quick
+```
+
+All quick gates passed, including the 20-configuration reference key-plane matrix,
+streaming TVLA tests, Kani, ASan, Valgrind, and the evidence bundle. The summary is
+[`evidence/local-proof-20261105-streaming/SUMMARY.md`](../evidence/local-proof-20261105-streaming/SUMMARY.md).
+
 ## 2026-11-05 full local proof
 
 The complete local proof was rerun on commit `f3112af`:

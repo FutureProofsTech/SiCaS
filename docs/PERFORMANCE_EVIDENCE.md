@@ -52,6 +52,25 @@ host noise and does not change the ceiling conclusion. A batching experiment tha
 pre-fetched 64 masks per adder was rejected because it regressed the benchmark to
 8.55×; the current immediate-use mask flow is retained.
 
+## Optimization attempts — 2026-11-05
+
+Several local experiments were measured on the same host and rejected because they
+did not reach the 5× target or regressed the ratio:
+
+| Experiment | Batch ratio | Decision |
+|---|---:|---|
+| Current immediate-use mask flow | 7.06–7.52× | Retained |
+| `sicas-core` at `opt-level=3` (package override) | 6.84–7.09× | Not adopted: small gain, breaks the uniform `opt-level=z` release profile |
+| Pre-fetch 64 masks per adder | 8.55× | Rejected: stack traffic and lost register locality |
+| `#[inline(always)]` on `Masked` methods | 7.10× | Rejected: no meaningful gain |
+| `sicas-reference` at `opt-level=3` | 8.78× | Rejected: optimizes the unmasked baseline as well, worsening the ratio |
+
+The 5× target is not reachable by these constant-factor changes. It requires a new
+masking construction or portable SIMD/wider lanes, both of which are new security
+boundaries requiring a new proof and review. The 10× hard ceiling is met with margin;
+the 5× target remains an explicitly open performance goal, not a hidden or weakened
+claim.
+
 ## DPA build
 
 The AES S-box DPA addition changes the `sicas-harness` release binary to 386,232 bytes
