@@ -494,15 +494,18 @@ commit-scoped.
 
 ### RT-16 — Low — CI fuzz job omitted the bitsliced batch target
 
-**Affected file:** `.github/workflows/ci.yml`.
+**Affected files:** `.github/workflows/ci.yml`, `tools/run-fuzz-long.sh`.
 
 **Observation.** The CI fuzz job ran `masked_ops`, `ct_lookup`, `trace_parser`, and
-`chacha20`, but not `chacha20_batch`. The local full proof runs the batch target, so
-a PR could break it without CI catching the regression.
+`chacha20`, but not `chacha20_batch`. The long-fuzz script also ran only four
+targets. The local full proof runs the batch target, so a PR could break it without
+CI or the long campaign catching the regression.
 
-**Impact.** Coverage gap in the PR fuzz gate.
+**Impact.** Coverage gap in the PR and long fuzz gates.
 
-**Fix.** The CI fuzz job now runs `chacha20_batch` for 10,000 executions.
+**Fix.** The CI fuzz job now runs `chacha20_batch` for 10,000 executions, and the
+long-fuzz script includes `chacha20_batch` with the same 1,000,000-execution budget
+as `chacha20`.
 
 ---
 
@@ -564,6 +567,18 @@ tools/run-valgrind.sh /tmp/sicas-valgrind
 For the release-workflow fix, run a dry dispatch against a test tag and confirm the
 `Verify the release tag points at the checked-out commit` step passes. Do not use a
 production signing identity for a test.
+
+## Verification
+
+The final quick proof at `18b5123` passed every quick gate: fmt, workflow action-pin
+checks and tests, strict Clippy, workspace tests, doctests, Kani, ASan, audit, deny,
+the 69-configuration assembly matrix, zeroization assembly, leakage model, 204-case
+statistics differential, Valgrind, release-validator tests, and the source-complete
+evidence bundle. Full-workspace Miri also passed on the red-team code changes. The
+full proof (mutation, coverage, five fuzz campaigns, cross-architecture tests, release
+signing dry run, and reproducibility comparison) was not rerun for this review; those
+rows remain attributed to their earlier commits. The summary is
+[`evidence/local-proof-20261105-final/SUMMARY.md`](../evidence/local-proof-20261105-final/SUMMARY.md).
 
 ## Residual risk and external gates
 

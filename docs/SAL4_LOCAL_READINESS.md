@@ -11,7 +11,7 @@ Current public label: **SAL-2 locally**.
 | Memory safety and UB checks | Miri, ASan, Valgrind | Complete locally |
 | Constant-time evidence | Dudect timing, 69-configuration assembly matrix | Complete for inspected targets/configurations |
 | Formal/model checking | 30 Kani harnesses for core gadgets, masking, refresh, addition, and share uniformity | Complete for declared models |
-| Fuzzing | Four 1M campaigns; 10M on masked_ops/ct_lookup/trace_parser and 1M on ChaCha20 in the long campaign | Complete locally |
+| Fuzzing | Five 1M campaigns, including the bitsliced batch; 10M on masked_ops/ct_lookup/trace_parser and 1M on ChaCha20 in the long campaign | Complete locally |
 | Mutation and coverage | 0 missed viable mutants; 96.90% lines | Complete locally |
 | Masking model | Deterministic first-order checks with negative control; ChaCha20 key-share check | Complete in the model |
 | Cross-architecture functional evidence | AArch64 QEMU, i686 native, four-target assembly checks | Complete locally |
@@ -21,7 +21,7 @@ Current public label: **SAL-2 locally**.
 | Performance | Masked ChaCha20 benchmark; see [`PERFORMANCE_EVIDENCE.md`](PERFORMANCE_EVIDENCE.md) | Hard ceiling met: bitsliced batch 7.15× vs unmasked in the final full proof; 5× target open |
 | Physical power/EM TVLA/CPA/DPA | None | Not software-local |
 | ARM/RISC-V runtime timing on hardware | None | Not software-local |
-| Independent adversarial review | Local adversarial audit only | Not software-local |
+| Independent adversarial review | Internal adversarial audit and red-team review only | Independent review is not software-local |
 
 ## Evidence beyond SAL-2
 
@@ -29,6 +29,8 @@ The local package already contains several SAL-3 prerequisites:
 
 - 30 Kani harnesses for core masking and constant-time gadgets;
 - self-audit with a fixed batch state-consistency defect;
+- 2026-11-05 internal red-team review with fixes for a secret-dependent branch, TVLA
+  false negative, release-tag injection, and evidence/DoS gaps;
 - first-order leakage model with a negative control;
 - 64-lane bitsliced masking and lane-independent addition tests;
 - five 1M-execution fuzz campaigns, including the bitsliced batch;

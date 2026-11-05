@@ -12,6 +12,11 @@ SiCaS — side-channel attenuation and leakage-assessment software.
 - Release SHA-256: `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`
 - Public label at request time: SAL-2 locally
 
+The 2026-11-05 internal red-team review found and fixed several defects in later
+commits (see [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md)).
+A new external engagement should use the current HEAD; the baseline above is the
+original full-proof request.
+
 ## Requested scope
 
 - `sicas-core`: constant-time primitives, two-share Boolean masking, masked addition.

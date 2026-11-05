@@ -83,7 +83,9 @@ with modifications is rejected for a release build.
 stripped symbols. The measured release binary is 386,232 bytes and the masked-ChaCha20
 batch is 7.15× vs unmasked in the final full proof (7.26× in an earlier run). The build uses a pinned toolchain.
 - The SBOM lists every workspace component and dependency edge.
-- SLSA provenance is planned but not yet implemented.
+- SLSA build provenance is attested by the release workflow through
+  `actions/attest-build-provenance`; a real GitHub OIDC run and independent
+  verification remain pending.
 
 ## Disclosure and incident response
 

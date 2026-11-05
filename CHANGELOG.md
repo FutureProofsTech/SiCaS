@@ -8,8 +8,11 @@
   added a per-bit regression test and updated the constant-time evidence scope.
 - Fixed a TVLA/Welch false negative where two zero-variance groups with different
   means were reported as `t = 0` instead of infinite leakage.
-- Release workflow now checks out and verifies the requested tag, rejects dirty
-  tracked trees in release manifests, and pins every action to a commit SHA.
+- Release workflow now checks out and verifies the requested tag, passes tag names
+  through the environment instead of shell interpolation, rejects dirty tracked trees
+  in release manifests, and pins every action to a commit SHA.
+- CI and the long-fuzz script now cover the bitsliced `chacha20_batch` target; the
+  long-fuzz cache is commit-scoped.
 - Evidence bundles now include all crate, fuzz, tool, and workflow sources and
   reject tracked working-tree modifications.
 - Bounded leakage-model samples, timing warm-up, and CT trials; buffered trace I/O;

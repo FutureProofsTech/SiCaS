@@ -21,12 +21,16 @@ exercises it.
 | First-order leakage model | `leakage-check` with negative control | `cargo run --release -p sicas-harness -- leakage-check --samples 50000` |
 | Constant-time assembly | 69-configuration matrix | `python3 tools/ct_asm_check.py --matrix --lto` |
 | Dudect timing | `sicas-harness ct` | `cargo run --release -p sicas-harness -- ct --samples 1000000 --warmup 100000 --trials 3` |
-| TVLA correctness | `tvla::tests::*` | `cargo test -p sicas-harness tvla` |
+| TVLA correctness | `tvla::tests::*`, including `constant_shift_with_zero_variance_is_detected` | `cargo test -p sicas-harness tvla` |
+| TVLA zero-variance edge cases | `tools/check_stats.py` deterministic constant-group cases | `python3 tools/check_stats.py` |
 | CPA correctness | `cpa::tests::*` | `cargo test -p sicas-harness cpa` |
 | DPA correctness | `dpa::tests::*` (AES S-box key recovery, sign, tie-break) | `cargo test -p sicas-harness dpa` |
 | Trace parser | `trace::tests::*`, `fuzz/targets/trace_parser.rs` | `cargo test -p sicas-harness trace`; `cargo +nightly-2026-08-03 fuzz run trace_parser -- -runs=1000000` |
 | Bitsliced batch fuzz | `fuzz/fuzz_targets/chacha20_batch.rs` | `cargo +nightly-2026-08-03 fuzz run chacha20_batch -- -runs=1000000` |
-| Preprocessing bounds | `preprocess::tests::*` | `cargo test -p sicas-harness preprocess` |
+| Preprocessing bounds | `preprocess::tests::*`, including normalized correlation and the capped shift search | `cargo test -p sicas-harness preprocess` |
+| Synthetic allocation bounds | `synthetic::tests::oversized_*` | `cargo test -p sicas-harness synthetic` |
+| Trace I/O buffering | `trace::tests::parser_buffers_many_small_samples` | `cargo test -p sicas-harness trace` |
+| Workflow action pinning | `tools/check_workflow_pins.py`, `tools/test_check_workflow_pins.py` | `python3 tools/check_workflow_pins.py` |
 | Statistics differential | `tools/check_stats.py` | `python3 tools/check_stats.py` |
 | Zeroization | volatile stores, drop test, assembly check | `cargo test -p sicas-zeroize`; `python3 tools/zeroize_asm_check.py` |
 | Memory safety | Miri, ASan, Valgrind | `cargo miri test --workspace`; ASan/Valgrind scripts |
