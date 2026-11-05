@@ -1,11 +1,11 @@
 #!/bin/sh
-# Run longer libFuzzer campaigns for the four maintained targets.
+# Run longer libFuzzer campaigns for the five maintained targets.
 #
 # Usage: tools/run-fuzz-long.sh [output-dir]
 #
 # FUZZ_RUNS controls masked_ops, ct_lookup, and trace_parser (default 10,000,000).
-# FUZZ_CHACHA_RUNS controls chacha20 (default 1,000,000) because the masked block
-# target is substantially slower.
+# FUZZ_CHACHA_RUNS controls chacha20 and chacha20_batch (default 1,000,000)
+# because the masked block targets are substantially slower.
 set -eu
 
 root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
@@ -25,12 +25,12 @@ mkdir -p "$output"
 status=0
 printf '# Long Fuzz Campaign\n\n' >"$output/SUMMARY.md"
 printf -- '- masked_ops / ct_lookup / trace_parser runs: `%s`\n' "$runs" >>"$output/SUMMARY.md"
-printf -- '- chacha20 runs: `%s`\n\n' "$chacha_runs" >>"$output/SUMMARY.md"
+printf -- '- chacha20 / chacha20_batch runs: `%s`\n\n' "$chacha_runs" >>"$output/SUMMARY.md"
 printf '| Target | Result |\n|---|---|\n' >>"$output/SUMMARY.md"
 
-for target in masked_ops ct_lookup trace_parser chacha20; do
+for target in masked_ops ct_lookup trace_parser chacha20 chacha20_batch; do
   target_runs="$runs"
-  if [ "$target" = "chacha20" ]; then
+  if [ "$target" = "chacha20" ] || [ "$target" = "chacha20_batch" ]; then
     target_runs="$chacha_runs"
   fi
 

@@ -43,7 +43,9 @@ tools/run-fuzz-long.sh evidence/fuzz-long
 
 The masked ChaCha20 target is substantially slower, so the long campaign keeps its
 1,000,000-execution run while the three fast targets run 10,000,000 executions. The
-summary and per-target logs are in
+2026-10-31 long campaign predates adding `chacha20_batch` to the long-run script; the
+script now includes the batch target, and the batch target already has a separate
+1,000,000-execution campaign above. The summary and per-target logs are in
 [`evidence/fuzz-long/SUMMARY.md`](../evidence/fuzz-long/SUMMARY.md).
 
 ## Limitations

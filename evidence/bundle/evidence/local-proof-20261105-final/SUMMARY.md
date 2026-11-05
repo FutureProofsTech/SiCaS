@@ -1,8 +1,8 @@
 # Local Proof
 
 - Mode: `quick`
-- Commit: `42f390ddb35c038d05909de37ebc2cbcd7c77bb8`
-- Generated: `2026-11-05T20:37:32Z`
+- Commit: `18b51237c6fc1af1d2a0cf27b087affe3d75743e`
+- Generated: `2026-11-05T20:41:35Z`
 
 | Gate | Result |
 |---|---|
@@ -24,4 +24,4 @@
 | release-validator-tests | PASS |
 | evidence-bundle | PASS |
 
-Logs: `evidence/local-proof-20261105-223732`
+Logs: `evidence/local-proof-20261105-final`

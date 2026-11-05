@@ -12,6 +12,16 @@
 The local engineering proof is complete. This document separates “ready to review and
 release” from “certified for production secrets.”
 
+## 2026-11-05 red-team addendum
+
+An internal red-team review found and fixed a secret-dependent branch in the bitsliced
+ChaCha20 key path, a TVLA zero-variance false negative, release tag/workflow binding
+and shell-injection risks, evidence-bundle completeness gaps, alignment and allocation
+DoS paths, and unbounded configuration limits. The final quick proof at `18b5123`
+passed all quick gates; the full proof and release artifact remain at their earlier
+commits (`8c41e4b` / `123eb69`). The production blockers and the `SAL-2 locally` label
+are unchanged. See [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md).
+
 ## What is production-ready locally
 
 - Safe Rust, `#![forbid(unsafe_code)]` in published crates.

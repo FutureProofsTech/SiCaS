@@ -90,7 +90,7 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 |---|---|---|
 | Full local proof | **PASS** at `8c41e4b` | [`evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`](evidence/local-proof-2026-10-31-final-audit/SUMMARY.md) |
 | AES S-box DPA quick proof | **PASS** at `ef13675` | [`evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md`](evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md) |
-| 2026-11-05 red-team quick proof | **PASS** at `42f390d` | [`evidence/local-proof-20261105-223732/SUMMARY.md`](evidence/local-proof-20261105-223732/SUMMARY.md) |
+| 2026-11-05 red-team final quick proof | **PASS** at `18b5123` | [`evidence/local-proof-20261105-final/SUMMARY.md`](evidence/local-proof-20261105-final/SUMMARY.md) |
 | Workspace mutation | **630 mutants, 574 caught, 0 missed, 56 unviable** | [`evidence/mutation/2026-10-31-workspace.md`](evidence/mutation/2026-10-31-workspace.md) |
 | Line coverage | **97.28%** | [`evidence/coverage/2026-10-31-dpa.md`](evidence/coverage/2026-10-31-dpa.md) |
 | Release artifact | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
@@ -111,7 +111,7 @@ reproducible evidence bundle. It is not `SAL-3` and not `SAL-4`.
 The full proof was run at `8c41e4b`. The AES S-box DPA and zeroization additions were
 verified at `ef13675` by a quick proof, targeted Miri, workspace mutation, coverage,
 AArch64/i686 tests, and release checks. The 2026-11-05 red-team fixes were verified by
-a quick proof at `42f390d`; full-workspace Miri also passed on those changes. The full
+a final quick proof at `18b5123`; full-workspace Miri also passed on those changes. The full
 proof (mutation, coverage, five fuzz campaigns, cross-architecture tests, release
 signing dry run, and reproducibility comparison) was not rerun for the red-team
 addendum. The full-proof rows remain attributed to `8c41e4b`; the DPA rows to
@@ -610,7 +610,7 @@ and the open-gap analysis.
 | Formatting and strict Clippy | PASS |
 | Workspace tests and doctests | PASS |
 | Kani | 30 harnesses PASS |
-| AddressSanitizer | 141 workspace library tests PASS |
+| AddressSanitizer | 150 workspace library tests PASS (2026-11-05 final quick proof; 141 in the earlier full proof) |
 | `cargo audit` / `cargo deny` | PASS |
 | Assembly matrix | 69 configurations PASS |
 | Zeroization assembly inspection | PASS |
