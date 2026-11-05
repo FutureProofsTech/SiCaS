@@ -100,8 +100,8 @@ assembly matrix, zeroization assembly, leakage model, 204-case statistics
 differential, Valgrind, release-validator tests, and the source-complete evidence
 bundle. Full-workspace Miri also passed on the same code changes. The full proof
 (mutation, coverage, five fuzz campaigns, cross-architecture tests, release signing
-dry run, and reproducibility comparison) was not rerun for this addendum; those rows
-remain attributed to their earlier commits. The summary is
+dry run, and reproducibility comparison) was later rerun at `f3112af`; see the full
+proof section below. The summary is
 [`evidence/local-proof-20261105-final/SUMMARY.md`](../evidence/local-proof-20261105-final/SUMMARY.md).
 
 ## 2026-11-05 CI-fix quick proof

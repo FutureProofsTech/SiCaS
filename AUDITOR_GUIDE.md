@@ -11,7 +11,7 @@ attack SiCaS. It is a review aid, not evidence that an independent review has ha
 - Public label: **SAL-2 locally**
 - Release SHA-256: `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`
 - Release binary size: 386,232 bytes
-- Masked ChaCha20: 7.15× vs unmasked in the final full proof, 10× hard ceiling met
+- Masked ChaCha20: 7.15× in the original full proof; 7.515× in the 2026-11-05 full proof; 10× hard ceiling met
 
 The reviewed state above is the original full-proof baseline. The 2026-11-05 internal
 red-team fixes are in later commits and passed a final quick proof at `18b5123`; use
