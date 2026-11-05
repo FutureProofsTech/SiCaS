@@ -94,6 +94,17 @@ Report fields:
 - `exceeding_samples` — number of samples above the threshold;
 - `sample_count`, `fixed_traces`, `random_traces`, `threshold`.
 
+For large campaigns, `tvla-streaming` reads both files one trace at a time and keeps
+only per-sample accumulators:
+
+```bash
+sicas-harness tvla-streaming --fixed fixed.bin --random random.bin
+```
+
+The streaming reader accepts up to 1,000,000,000 total samples and keeps memory
+proportional to one trace plus the per-sample accumulator. The in-memory `tvla`
+command remains limited to 100,000,000 total samples.
+
 A passing TVLA run is evidence for the tested target, trace count, and acquisition
 setup only. It is not a proof of absence of leakage.
 

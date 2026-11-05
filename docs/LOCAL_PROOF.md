@@ -17,7 +17,7 @@ Covers:
 - AddressSanitizer;
 - `cargo audit` and `cargo deny check`;
 - multi-architecture assembly matrix, including optimization, codegen, panic, and x86_64 LTO variants;
-- targeted bitsliced-reference key-plane source and `opt-level=0` `setne` gate;
+- 20-configuration bitsliced-reference key-plane source and assembly gate across four targets and `opt-level` 0/1/2/3/s;
 - Valgrind Memcheck over the workspace library tests;
 - zeroization assembly inspection;
 - differential statistics validation against an independent Python model;

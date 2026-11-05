@@ -474,7 +474,9 @@ Limits:
 
 - 1,000,000 traces;
 - 1,000,000 samples per trace;
-- 100,000,000 total samples.
+- 100,000,000 total samples for the in-memory `TraceSet` reader;
+- 1,000,000,000 total samples for the streaming reader, which keeps memory
+  proportional to one trace and supports a 1M-trace × 1k-sample TVLA campaign.
 
 The parser rejects invalid magic, unsupported versions, zero dimensions, ragged traces,
 oversized inputs, and truncated files with typed errors. It is exercised by a
@@ -485,6 +487,7 @@ libFuzzer target.
 | Command | Purpose |
 |---|---|
 | `tvla` | Fixed-vs-random TVLA with Welch’s t-test |
+| `tvla-streaming` | Streaming TVLA with memory proportional to one trace |
 | `cpa` | Byte-oriented correlation power analysis |
 | `dpa` | First-order difference-of-means DPA over the AES S-box output |
 | `synthetic` | Deterministic fixed-vs-random synthetic traces |
@@ -615,7 +618,7 @@ and the open-gap analysis.
 | AddressSanitizer | 151 workspace library tests PASS (2026-11-05 full proof) |
 | `cargo audit` / `cargo deny` | PASS |
 | Assembly matrix | 69 configurations PASS |
-| Reference key-plane gate | Source + `opt-level=0` `setne` check PASS |
+| Reference key-plane gate | 20 configurations across 4 targets and 5 opt levels PASS |
 | Zeroization assembly inspection | PASS |
 | Valgrind Memcheck | 5 binaries, 0 errors |
 | Leakage model with negative control | PASS |

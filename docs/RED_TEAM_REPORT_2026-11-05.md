@@ -354,11 +354,11 @@ reference is source-reviewed and differentially tested. RT-01 was fixed and has 
 regression test. A dedicated reference-path assembly gate remains a hardening item
 and is recorded in `docs/GAP_REPORT.md`.
 
-**Residual risk.** A targeted gate now checks the `masked_word_planes` source
-invariant and the `opt-level=0` x86_64 assembly (`tools/reference_ct_check.py`). It
-does not cover every target or optimization level, so a future compiler or source
-change outside that configuration could still reintroduce a secret-dependent branch.
-The functional regression test alone checks bit extraction, not branchlessness.
+**Residual risk.** The targeted gate now checks the `masked_word_planes` source
+invariant and a 20-configuration `spread_bit` assembly matrix across x86_64, AArch64,
+Thumbv7em, and RISC-V at `opt-level` 0/1/2/3/s (`tools/reference_ct_check.py`). It
+does not cover reference LTO variants or prove the entire composition branchless;
+those remain covered by source review, differential tests, and lane tests.
 
 ---
 

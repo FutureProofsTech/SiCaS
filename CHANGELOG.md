@@ -5,7 +5,8 @@
 ### Security
 
 - Removed secret-dependent branches from bitsliced ChaCha20 key-plane extraction;
-  added a per-bit regression test, a targeted source/`opt-level=0` `setne` gate
+  added a per-bit regression test, a 20-configuration source/assembly gate for the
+  `spread_bit` primitive across four targets and five optimization levels
   (`tools/reference_ct_check.py`), and updated the constant-time evidence scope.
 - Fixed a TVLA/Welch false negative where two zero-variance groups with different
   means were reported as `t = 0` instead of infinite leakage.
@@ -19,6 +20,8 @@
 - Bounded leakage-model samples, timing warm-up, and CT trials; buffered trace I/O;
   validated synthetic dimensions before allocation; normalized alignment correlation
   and capped its shift search.
+- Added `TraceReader` and `tvla-streaming` for bounded-memory TVLA over campaigns up
+  to 1,000,000,000 total samples (1M traces × 1k samples).
 - Fixed two mutation survivors: removed the equivalent `1_u64 << 0` expression and
   added a boundary test proving `samples == MAX_SAMPLES` is accepted.
 - Reran the full local proof at `f3112af`: all gates pass, including 673 workspace

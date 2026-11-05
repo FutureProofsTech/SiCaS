@@ -788,7 +788,7 @@ public summary after remediation.
 | Constant-time gadgets | ≤ 2× naive on x86_64; ≤ 3× on Cortex-M4 | Measure, do not assume |
 | Masked ChaCha20 | ≤ 5× cycles/byte vs. unmasked; hard ceiling 10× | ARX is masking-friendly |
 | Masked AES-128 (if added) | Set after prototype; full-scan S-box is expensive | Do not promise a number before measurement |
-| Harness TVLA | 1M traces × 100 samples (100M total) ≤ 60 s on a laptop | Optimize after correctness; the trace format caps total samples at 100M, so 1M × 1k requires a streaming format and is out of scope for v1.0 |
+| Harness TVLA | 1M traces × 1k samples (1B total) ≤ 60 s on a laptop | Use `tvla-streaming` for bounded-memory analysis; the in-memory reader remains capped at 100M total samples |
 | Inactive runtime overhead | Zero background threads/work | No always-on daemon |
 | Jitter | Bounded, configurable, off by default | Only if measured benefit |
 

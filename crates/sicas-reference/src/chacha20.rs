@@ -317,6 +317,17 @@ const BIT_MASKS: [u64; 32] = [
     1_u64 << 31,
 ];
 
+/// Spreads the selected bit of `value` to an all-ones or all-zero word.
+///
+/// This helper is deliberately `#[inline(never)]` so the constant-time
+/// assembly matrix can inspect the actual primitive on every supported target
+/// and optimization level. It must remain branchless; `tools/reference_ct_check.py`
+/// rejects any conditional branch in the emitted function.
+#[inline(never)]
+fn spread_bit(value: u64, bit_mask: u64) -> u64 {
+    u64::from(value & bit_mask != 0).wrapping_neg()
+}
+
 #[allow(clippy::indexing_slicing, clippy::similar_names)] // Fixed 32-bit plane indices.
 fn masked_word_planes(
     word: &Masked<u32>,
@@ -326,11 +337,10 @@ fn masked_word_planes(
     let mut planes: Planes = core::array::from_fn(|_| Plane::from_parts(0, 0));
 
     for (plane, bit_mask) in planes.iter_mut().zip(BIT_MASKS) {
-        // Spreading a public/secret bit to an all-ones or all-zero word must not
-        // use a conditional branch. `u64::from(bool)` is a `setcc`-style
-        // selection; `wrapping_neg` turns 0/1 into 0/u64::MAX.
-        let share0_bits = u64::from(u64::from(*share0) & bit_mask != 0).wrapping_neg();
-        let share1_bits = u64::from(u64::from(*share1) & bit_mask != 0).wrapping_neg();
+        // The bit-spread helper is branchless and is inspected across the
+        // target/optimization matrix. `wrapping_neg` turns 0/1 into 0/u64::MAX.
+        let share0_bits = spread_bit(u64::from(*share0), bit_mask);
+        let share1_bits = spread_bit(u64::from(*share1), bit_mask);
         let mask = entropy.mask_u64()?;
         *plane = Plane::from_parts(share0_bits ^ mask, share1_bits ^ mask);
     }

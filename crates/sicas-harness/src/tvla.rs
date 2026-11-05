@@ -1,9 +1,10 @@
 //! Fixed-vs-random Test Vector Leakage Assessment (TVLA).
 
 use std::fmt;
+use std::io::Read;
 
 use crate::stats::welch_t_from_sums;
-use crate::trace::TraceSet;
+use crate::trace::{TraceReader, TraceSet};
 
 /// Default absolute t-statistic threshold for leakage detection.
 pub const DEFAULT_THRESHOLD: f64 = 4.5;
@@ -77,6 +78,10 @@ pub enum TvlaError {
     DimensionMismatch,
     /// The threshold is not a finite positive number.
     InvalidThreshold,
+    /// A streaming trace read failed or the file was truncated.
+    TraceRead,
+    /// The streaming accumulator could not be allocated.
+    TooLarge,
 }
 
 impl fmt::Display for TvlaError {
@@ -90,6 +95,8 @@ impl fmt::Display for TvlaError {
             Self::InvalidThreshold => {
                 formatter.write_str("TVLA threshold must be finite and positive")
             }
+            Self::TraceRead => formatter.write_str("TVLA streaming trace read failed"),
+            Self::TooLarge => formatter.write_str("TVLA streaming accumulator is too large"),
         }
     }
 }
@@ -176,6 +183,124 @@ pub fn tvla(
     })
 }
 
+/// Runs fixed-vs-random TVLA over two streaming trace readers.
+///
+/// The accumulator is proportional to `samples_per_trace`, not to the number of
+/// traces, so a large campaign can be analyzed without loading the complete
+/// trace set into memory.
+///
+/// # Errors
+///
+/// Returns an error for empty groups, fewer than two traces, mismatched
+/// dimensions, an invalid threshold, a trace read failure, or an allocation
+/// failure.
+#[allow(clippy::indexing_slicing)] // Sample indices are bounded by `sample_count`.
+pub fn tvla_streaming<F: Read, R: Read>(
+    fixed: &mut TraceReader<F>,
+    random: &mut TraceReader<R>,
+    config: TvlaConfig,
+) -> Result<TvlaReport, TvlaError> {
+    if fixed.trace_count() == 0 || random.trace_count() == 0 {
+        return Err(TvlaError::EmptyGroup);
+    }
+    if fixed.trace_count() < 2 || random.trace_count() < 2 {
+        return Err(TvlaError::TooFewTraces);
+    }
+    if fixed.samples_per_trace() != random.samples_per_trace() {
+        return Err(TvlaError::DimensionMismatch);
+    }
+    if !config.threshold.is_finite() || config.threshold <= 0.0 {
+        return Err(TvlaError::InvalidThreshold);
+    }
+
+    let sample_count = fixed.samples_per_trace();
+    let mut fixed_sum = Vec::new();
+    let mut fixed_sum_of_squares = Vec::new();
+    let mut random_sum = Vec::new();
+    let mut random_sum_of_squares = Vec::new();
+    for accumulator in [
+        &mut fixed_sum,
+        &mut fixed_sum_of_squares,
+        &mut random_sum,
+        &mut random_sum_of_squares,
+    ] {
+        accumulator
+            .try_reserve_exact(sample_count)
+            .map_err(|_| TvlaError::TooLarge)?;
+        accumulator.resize(sample_count, 0.0);
+    }
+
+    let mut fixed_traces = 0_usize;
+    while let Some(trace) = fixed.next_trace() {
+        let trace = trace.map_err(|_| TvlaError::TraceRead)?;
+        if trace.len() != sample_count {
+            return Err(TvlaError::DimensionMismatch);
+        }
+        for (sum, value) in fixed_sum.iter_mut().zip(&trace) {
+            *sum += f64::from(*value);
+        }
+        for (sum, value) in fixed_sum_of_squares.iter_mut().zip(&trace) {
+            let value = f64::from(*value);
+            *sum = value.mul_add(value, *sum);
+        }
+        fixed_traces = fixed_traces.saturating_add(1);
+    }
+
+    let mut random_traces = 0_usize;
+    while let Some(trace) = random.next_trace() {
+        let trace = trace.map_err(|_| TvlaError::TraceRead)?;
+        if trace.len() != sample_count {
+            return Err(TvlaError::DimensionMismatch);
+        }
+        for (sum, value) in random_sum.iter_mut().zip(&trace) {
+            *sum += f64::from(*value);
+        }
+        for (sum, value) in random_sum_of_squares.iter_mut().zip(&trace) {
+            let value = f64::from(*value);
+            *sum = value.mul_add(value, *sum);
+        }
+        random_traces = random_traces.saturating_add(1);
+    }
+
+    if fixed_traces < 2 || random_traces < 2 {
+        return Err(TvlaError::TooFewTraces);
+    }
+
+    let mut max_abs_t = 0.0;
+    let mut max_sample = 0;
+    let mut exceeding_samples = 0_usize;
+    for sample in 0..sample_count {
+        let statistic = welch_t_from_sums(
+            fixed_traces,
+            fixed_sum[sample],
+            fixed_sum_of_squares[sample],
+            random_traces,
+            random_sum[sample],
+            random_sum_of_squares[sample],
+        )
+        .ok_or(TvlaError::TooFewTraces)?;
+        let absolute = statistic.abs();
+
+        if absolute > max_abs_t {
+            max_abs_t = absolute;
+            max_sample = sample;
+        }
+        if absolute > config.threshold {
+            exceeding_samples = exceeding_samples.saturating_add(1);
+        }
+    }
+
+    Ok(TvlaReport {
+        max_abs_t,
+        max_sample,
+        exceeding_samples,
+        sample_count,
+        fixed_traces,
+        random_traces,
+        threshold: config.threshold,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     #![allow(
@@ -257,6 +382,74 @@ mod tests {
 
         assert!((report.max_abs_t - expected).abs() < 1e-12);
         assert_eq!(report.max_sample, 0);
+    }
+
+    #[test]
+    fn streaming_matches_in_memory() {
+        let fixed = TraceSet::from_traces(vec![
+            vec![0, 100, 0, 0],
+            vec![1, 101, 1, 1],
+            vec![2, 99, 2, 2],
+            vec![3, 100, 3, 3],
+        ])
+        .unwrap();
+        let random = TraceSet::from_traces(vec![
+            vec![0, 0, 0, 0],
+            vec![1, 1, 1, 1],
+            vec![2, 2, 2, 2],
+            vec![3, 3, 3, 3],
+        ])
+        .unwrap();
+        let mut fixed_bytes = Vec::new();
+        let mut random_bytes = Vec::new();
+        fixed.write_to(&mut fixed_bytes).unwrap();
+        random.write_to(&mut random_bytes).unwrap();
+        let mut fixed_reader = TraceReader::new(&fixed_bytes[..]).unwrap();
+        let mut random_reader = TraceReader::new(&random_bytes[..]).unwrap();
+
+        let streaming =
+            tvla_streaming(&mut fixed_reader, &mut random_reader, TvlaConfig::default()).unwrap();
+        let in_memory = tvla(&fixed, &random, TvlaConfig::default()).unwrap();
+
+        assert_eq!(streaming.max_sample, in_memory.max_sample);
+        assert_eq!(streaming.exceeding_samples, in_memory.exceeding_samples);
+        assert_eq!(streaming.sample_count, in_memory.sample_count);
+        assert!((streaming.max_abs_t - in_memory.max_abs_t).abs() < 1e-12);
+    }
+
+    #[test]
+    fn streaming_rejects_dimension_mismatch() {
+        let fixed = TraceSet::from_traces(vec![vec![1, 2], vec![1, 2]]).unwrap();
+        let random = TraceSet::from_traces(vec![vec![1, 2, 3], vec![1, 2, 3]]).unwrap();
+        let mut fixed_bytes = Vec::new();
+        let mut random_bytes = Vec::new();
+        fixed.write_to(&mut fixed_bytes).unwrap();
+        random.write_to(&mut random_bytes).unwrap();
+        let mut fixed_reader = TraceReader::new(&fixed_bytes[..]).unwrap();
+        let mut random_reader = TraceReader::new(&random_bytes[..]).unwrap();
+
+        assert!(matches!(
+            tvla_streaming(&mut fixed_reader, &mut random_reader, TvlaConfig::default()),
+            Err(TvlaError::DimensionMismatch)
+        ));
+    }
+
+    #[test]
+    fn streaming_rejects_truncated_input() {
+        let fixed = TraceSet::from_traces(vec![vec![1], vec![2]]).unwrap();
+        let random = TraceSet::from_traces(vec![vec![1], vec![2]]).unwrap();
+        let mut fixed_bytes = Vec::new();
+        let mut random_bytes = Vec::new();
+        fixed.write_to(&mut fixed_bytes).unwrap();
+        random.write_to(&mut random_bytes).unwrap();
+        fixed_bytes.truncate(fixed_bytes.len().saturating_sub(1));
+        let mut fixed_reader = TraceReader::new(&fixed_bytes[..]).unwrap();
+        let mut random_reader = TraceReader::new(&random_bytes[..]).unwrap();
+
+        assert!(matches!(
+            tvla_streaming(&mut fixed_reader, &mut random_reader, TvlaConfig::default()),
+            Err(TvlaError::TraceRead)
+        ));
     }
 
     #[test]
