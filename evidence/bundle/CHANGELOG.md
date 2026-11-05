@@ -5,7 +5,8 @@
 ### Security
 
 - Removed secret-dependent branches from bitsliced ChaCha20 key-plane extraction;
-  added a per-bit regression test and updated the constant-time evidence scope.
+  added a per-bit regression test, a targeted source/`opt-level=0` `setne` gate
+  (`tools/reference_ct_check.py`), and updated the constant-time evidence scope.
 - Fixed a TVLA/Welch false negative where two zero-variance groups with different
   means were reported as `t = 0` instead of infinite leakage.
 - Release workflow now checks out and verifies the requested tag, passes tag names
@@ -18,6 +19,8 @@
 - Bounded leakage-model samples, timing warm-up, and CT trials; buffered trace I/O;
   validated synthetic dimensions before allocation; normalized alignment correlation
   and capped its shift search.
+- Fixed two mutation survivors: removed the equivalent `1_u64 << 0` expression and
+  added a boundary test proving `samples == MAX_SAMPLES` is accepted.
 - Archived the superseded original vision document with an explicit non-claim notice.
 
 ### Changed

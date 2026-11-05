@@ -83,6 +83,25 @@ equality.
 This is supporting evidence for the inspected targets and configurations. It is not a
 proof for all architectures, all LTO combinations, or microarchitectural states.
 
+## Reference key-plane gate — 2026-11-05
+
+The bitsliced ChaCha20 reference converts scalar key shares into 64-lane bitplanes in
+`masked_word_planes`. The 2026-11-05 review found a secret-dependent branch there. The
+function now uses a one-hot mask, `u64::from(bool)`, and `wrapping_neg`; a targeted gate
+checks both the source invariant and the `opt-level=0` x86_64 assembly:
+
+```bash
+python3 tools/reference_ct_check.py --assembly
+python3 tools/test_reference_ct_check.py
+```
+
+The source check rejects conditional statements, variable shifts, and missing
+`wrapping_neg` spreads inside `masked_word_planes`. The assembly check requires at
+least two `setne`-style bit selections in the compiled function, which is how the
+branchless spread is lowered on the pinned x86_64 toolchain. This is a regression gate
+for RT-01, not a full reference assembly matrix; other targets and optimization levels
+remain a hardening item.
+
 ## Limitations
 
 - Timing evidence is x86_64 Linux only in this report.

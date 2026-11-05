@@ -20,6 +20,7 @@ exercises it.
 | Key-share first-order correlation | `chacha20::tests::masked_key_shares_have_no_first_order_correlation` | `cargo test -p sicas-reference masked_key_shares` |
 | First-order leakage model | `leakage-check` with negative control | `cargo run --release -p sicas-harness -- leakage-check --samples 50000` |
 | Constant-time assembly | 69-configuration matrix | `python3 tools/ct_asm_check.py --matrix --lto` |
+| Reference key-plane branchlessness | `tools/reference_ct_check.py`, `tools/test_reference_ct_check.py` | `python3 tools/reference_ct_check.py --assembly` |
 | Dudect timing | `sicas-harness ct` | `cargo run --release -p sicas-harness -- ct --samples 1000000 --warmup 100000 --trials 3` |
 | TVLA correctness | `tvla::tests::*`, including `constant_shift_with_zero_variance_is_detected` | `cargo test -p sicas-harness tvla` |
 | TVLA zero-variance edge cases | `tools/check_stats.py` deterministic constant-group cases | `python3 tools/check_stats.py` |

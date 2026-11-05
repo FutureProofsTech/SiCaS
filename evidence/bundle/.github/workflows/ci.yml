@@ -187,6 +187,16 @@ jobs:
           targets: thumbv7em-none-eabihf,riscv32imac-unknown-none-elf,aarch64-unknown-linux-gnu
       - run: python3 tools/ct_asm_check.py --matrix --lto --output evidence/ct/asm-ci.md
 
+  reference-ct:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1
+        with:
+          toolchain: "1.99.0"
+      - run: python3 tools/reference_ct_check.py --assembly
+      - run: python3 tools/test_reference_ct_check.py
+
   no-deps:
     runs-on: ubuntu-latest
     steps:

@@ -283,7 +283,7 @@ fn counter_planes(counter: u32) -> Planes {
 /// branch on a share bit. This is a constant-time requirement, not an
 /// optimization: branching on a share leaks that share.
 const BIT_MASKS: [u64; 32] = [
-    1_u64 << 0,
+    1_u64,
     1_u64 << 1,
     1_u64 << 2,
     1_u64 << 3,

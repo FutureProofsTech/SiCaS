@@ -354,10 +354,11 @@ reference is source-reviewed and differentially tested. RT-01 was fixed and has 
 regression test. A dedicated reference-path assembly gate remains a hardening item
 and is recorded in `docs/GAP_REPORT.md`.
 
-**Residual risk.** Until the reference path is in an automated assembly gate, a
-future compiler or source change could reintroduce a secret-dependent branch
-without failing the 69-configuration matrix. The new regression test checks
-functional bit extraction, not branchlessness.
+**Residual risk.** A targeted gate now checks the `masked_word_planes` source
+invariant and the `opt-level=0` x86_64 assembly (`tools/reference_ct_check.py`). It
+does not cover every target or optimization level, so a future compiler or source
+change outside that configuration could still reintroduce a secret-dependent branch.
+The functional regression test alone checks bit extraction, not branchlessness.
 
 ---
 
@@ -557,6 +558,8 @@ cargo test --workspace --doc --locked
 python3 tools/check_stats.py
 python3 tools/check_workflow_pins.py
 python3 tools/test_check_workflow_pins.py
+python3 tools/reference_ct_check.py --assembly
+python3 tools/test_reference_ct_check.py
 python3 tools/test_validate_release_manifest.py
 sh -n tools/run-fuzz-long.sh
 python3 tools/ct_asm_check.py --matrix --lto --output /tmp/sicas-asm.md

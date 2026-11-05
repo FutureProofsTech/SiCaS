@@ -475,6 +475,18 @@ mod tests {
     }
 
     #[test]
+    fn maximum_sample_count_is_accepted() {
+        assert!(
+            validate(LeakageConfig {
+                samples: MAX_SAMPLES,
+                seed: 1,
+                threshold: 0.02,
+            })
+            .is_ok()
+        );
+    }
+
+    #[test]
     fn report_threshold_is_strict() {
         let report = LeakageReport {
             check: "test",

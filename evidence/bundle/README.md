@@ -613,6 +613,7 @@ and the open-gap analysis.
 | AddressSanitizer | 150 workspace library tests PASS (2026-11-05 final quick proof; 141 in the earlier full proof) |
 | `cargo audit` / `cargo deny` | PASS |
 | Assembly matrix | 69 configurations PASS |
+| Reference key-plane gate | Source + `opt-level=0` `setne` check PASS |
 | Zeroization assembly inspection | PASS |
 | Valgrind Memcheck | 5 binaries, 0 errors |
 | Leakage model with negative control | PASS |
