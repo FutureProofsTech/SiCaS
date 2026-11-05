@@ -1,7 +1,7 @@
 # SiCaS Evidence Bundle
 
-- Code commit under test: `3c17184627ae753161d9f22c14a79049e428fa48`
-- Generated: `2026-11-05T21:34:50.356259+00:00`
+- Code commit under test: `277a852fa6116b2550e0d85635481c736cdb02d5`
+- Generated: `2026-11-05T21:35:26.313339+00:00`
 - Working tree dirty (tracked files): `False`
 - Files: 190
 
@@ -18,7 +18,7 @@
 | `LICENSE` | `3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986` |
 | `PLAN.md` | `8d334d92a216a38d72879fd5050fdfd3f18795165afe32db6467ee3ddd453f7b` |
 | `PRODUCTION_READINESS.md` | `b608264a6ac6ff291fe4a38439103810e2e45e2f3d9462dc5244712658927fc1` |
-| `README.md` | `c91d9ebac1ab6be900b0e9151466863aaeff776537d896d273841d0363ff2fc5` |
+| `README.md` | `6022aa1e01503cf0707f42555e2f600f14cf3418c88ded9a239a868a7c9774ab` |
 | `SECURITY.md` | `3fdd6271ea3160ddfd6a28e6b4a8282bcb11f37465b694a6e8cdc8b4fb19e6fe` |
 | `crates/sicas-core/Cargo.toml` | `252d1e8657f26a88c5e47904f7d2ca94fbf5a8848b687700f408b4a3b1ea266d` |
 | `crates/sicas-core/examples/ct_asm.rs` | `1be3d4493323abe74418abdcd0b46b25c5a28d751081b26fbbf2ea769015205d` |

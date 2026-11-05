@@ -94,7 +94,8 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 | 2026-11-05 red-team final quick proof | **PASS** at `18b5123` | [`evidence/local-proof-20261105-final/SUMMARY.md`](evidence/local-proof-20261105-final/SUMMARY.md) |
 | Workspace mutation | **673 mutants, 617 caught, 0 missed, 56 unviable** | [`evidence/local-proof-20261105-full/mutation-workspace.log`](evidence/local-proof-20261105-full/mutation-workspace.log) |
 | Line coverage | **95.03%** | [`evidence/local-proof-20261105-full/coverage.log`](evidence/local-proof-20261105-full/coverage.log) |
-| Release artifact | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
+| Release artifact (historical signed baseline) | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
+| Local full-proof release artifact | **389,112 bytes**, SHA-256 `30795099…e99d` | [`evidence/local-proof-20261105-full/release/README.md`](evidence/local-proof-20261105-full/release/README.md) |
 | Evidence bundle | **Source-complete**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
 | Independent external audit | **PENDING** | [`AUDIT_REQUEST.md`](AUDIT_REQUEST.md) |
 | Internal red-team review | **COMPLETE (internal)** | [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md) |
