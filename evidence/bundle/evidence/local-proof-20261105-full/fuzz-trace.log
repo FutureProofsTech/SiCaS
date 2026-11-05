@@ -1,0 +1,29 @@
+   Compiling sicas-fuzz v0.0.0 (/home/workstation/Documents/SiCaS/fuzz)
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.22s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.00s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/trace_parser -artifact_prefix=/home/workstation/Documents/SiCaS/fuzz/artifacts/trace_parser/ -runs=1000000 /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 65654759
+INFO: Loaded 1 modules   (587 inline 8-bit counters): 587 [0x55d9ebd607f0, 0x55d9ebd60a3b), 
+INFO: Loaded 1 PC tables (587 PCs): 587 [0x55d9ebd60a40,0x55d9ebd62ef0), 
+INFO:      109 files found in /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 109 min: 1b max: 2058b total: 18764b rss: 33Mb
+#110	INITED cov: 90 ft: 265 corp: 41/4344b exec/s: 0 rss: 74Mb
+#192	NEW    cov: 90 ft: 266 corp: 42/4360b lim: 2058 exec/s: 0 rss: 76Mb L: 16/2058 MS: 2 EraseBytes-EraseBytes-
+#1418	REDUCE cov: 90 ft: 266 corp: 42/4357b lim: 2069 exec/s: 0 rss: 83Mb L: 13/2058 MS: 1 EraseBytes-
+#4849	REDUCE cov: 90 ft: 266 corp: 42/4355b lim: 2102 exec/s: 0 rss: 84Mb L: 46/2058 MS: 1 EraseBytes-
+#14456	REDUCE cov: 90 ft: 266 corp: 42/4354b lim: 2190 exec/s: 0 rss: 86Mb L: 45/2058 MS: 2 ChangeASCIIInt-EraseBytes-
+#24704	REDUCE cov: 90 ft: 266 corp: 42/4353b lim: 2289 exec/s: 24704 rss: 87Mb L: 73/2058 MS: 2 ChangeBinInt-EraseBytes-
+#42320	REDUCE cov: 90 ft: 266 corp: 42/4352b lim: 2454 exec/s: 42320 rss: 87Mb L: 12/2058 MS: 1 EraseBytes-
+#47230	REDUCE cov: 90 ft: 266 corp: 42/4351b lim: 2498 exec/s: 23615 rss: 88Mb L: 44/2058 MS: 5 CMP-ChangeASCIIInt-ChangeBit-CrossOver-EraseBytes- DE: "\004\000\000\000\000\000\000\000"-
+#51269	REDUCE cov: 90 ft: 266 corp: 42/4350b lim: 2531 exec/s: 25634 rss: 88Mb L: 72/2058 MS: 2 CopyPart-EraseBytes-
+#65536	pulse  cov: 90 ft: 266 corp: 42/4350b lim: 2663 exec/s: 32768 rss: 88Mb
+#131072	pulse  cov: 90 ft: 266 corp: 42/4350b lim: 3323 exec/s: 26214 rss: 89Mb
+#262144	pulse  cov: 90 ft: 266 corp: 42/4350b lim: 4096 exec/s: 26214 rss: 90Mb
+#524288	pulse  cov: 90 ft: 266 corp: 42/4350b lim: 4096 exec/s: 23831 rss: 90Mb
+#1000000	DONE   cov: 90 ft: 266 corp: 42/4350b lim: 4096 exec/s: 23809 rss: 91Mb
+###### Recommended dictionary. ######
+"\004\000\000\000\000\000\000\000" # Uses: 84392
+###### End of recommended dictionary. ######
+Done 1000000 runs in 42 second(s)

@@ -18,9 +18,14 @@ An internal red-team review found and fixed a secret-dependent branch in the bit
 ChaCha20 key path, a TVLA zero-variance false negative, release tag/workflow binding
 and shell-injection risks, evidence-bundle completeness gaps, alignment and allocation
 DoS paths, and unbounded configuration limits. The final quick proof at `18b5123`
-passed all quick gates; the full proof and release artifact remain at their earlier
-commits (`8c41e4b` / `123eb69`). The production blockers and the `SAL-2 locally` label
-are unchanged. See [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md).
+passed all quick gates, and the full local proof at `f3112af` passed every gate:
+full-workspace Miri, 30 Kani harnesses, 151 ASan tests, 673 workspace mutants with
+zero missed, 95.03% line coverage, five 1M-execution fuzz campaigns, AArch64/i686
+tests, release manifest/validator, signing dry run, and reproducible-build comparison.
+The bitsliced batch measured 7.515×, so the 10× hard ceiling is met and the 5× target
+remains open. The production blockers and the `SAL-2 locally` label are unchanged.
+See [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md) and
+[`evidence/local-proof-20261105-full/SUMMARY.md`](evidence/local-proof-20261105-full/SUMMARY.md).
 
 ## What is production-ready locally
 

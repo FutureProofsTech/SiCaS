@@ -34,6 +34,24 @@ The scalar reference is approximately **331× slower** than the unmasked referen
 bitsliced batch path is **7.26×** slower, so the hard ceiling of 10× is **met** with
 margin. The initial ≤5× target is **not met**.
 
+## 2026-11-05 full proof at `f3112af`
+
+The red-team follow-up full proof re-ran the benchmark on the same host:
+
+```text
+scalar masked: 328.287x vs unmasked
+batch masked:  7.515x vs unmasked
+batch ns/byte: 19.775234
+unmasked ns/byte: 2.631344
+target_ratio<=5 hard_ceiling<=10
+```
+
+The batch path remains under the 10× hard ceiling at **7.515×**. The 5× target is
+still open. The run-to-run variation between 7.06×, 7.26×, 7.515×, and 7.15× is
+host noise and does not change the ceiling conclusion. A batching experiment that
+pre-fetched 64 masks per adder was rejected because it regressed the benchmark to
+8.55×; the current immediate-use mask flow is retained.
+
 ## DPA build
 
 The AES S-box DPA addition changes the `sicas-harness` release binary to 386,232 bytes

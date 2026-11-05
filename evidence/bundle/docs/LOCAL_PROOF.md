@@ -120,6 +120,22 @@ The summary is
 Local mutation for `sicas-reference` and `sicas-harness` then reported 530 mutants,
 498 caught, 32 unviable, and zero missed.
 
+## 2026-11-05 full local proof
+
+The complete local proof was rerun on commit `f3112af`:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-20261105-full ./tools/local_proof.sh full
+```
+
+All gates passed, including full-workspace Miri, blocking core/reference mutation,
+report-only workspace mutation (673 mutants, 617 caught, 0 missed, 56 unviable),
+coverage at 95.03% lines and 91.62% regions, five 1M-execution fuzz campaigns,
+AArch64 QEMU, i686 native, release manifest/validator, signing dry run, and the
+reproducible-build comparison. The bitsliced batch measured 7.515× versus unmasked;
+the 10× hard ceiling is met and the 5× target remains open. The summary is
+[`evidence/local-proof-20261105-full/SUMMARY.md`](../evidence/local-proof-20261105-full/SUMMARY.md).
+
 ## Interpretation
 
 A PASS in `SUMMARY.md` means the command exited successfully. The workspace mutation

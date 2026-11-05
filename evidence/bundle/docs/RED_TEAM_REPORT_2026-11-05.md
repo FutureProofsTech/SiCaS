@@ -577,11 +577,19 @@ The final quick proof at `18b5123` passed every quick gate: fmt, workflow action
 checks and tests, strict Clippy, workspace tests, doctests, Kani, ASan, audit, deny,
 the 69-configuration assembly matrix, zeroization assembly, leakage model, 204-case
 statistics differential, Valgrind, release-validator tests, and the source-complete
-evidence bundle. Full-workspace Miri also passed on the red-team code changes. The
-full proof (mutation, coverage, five fuzz campaigns, cross-architecture tests, release
-signing dry run, and reproducibility comparison) was not rerun for this review; those
-rows remain attributed to their earlier commits. The summary is
-[`evidence/local-proof-20261105-final/SUMMARY.md`](../evidence/local-proof-20261105-final/SUMMARY.md).
+evidence bundle. The CI-fix quick proof at `356f70c` added the targeted reference
+key-plane gate and passed all quick gates. Full-workspace Miri also passed on the
+red-team code changes.
+
+The complete local proof was then rerun at `f3112af` and passed every gate, including
+full-workspace Miri, blocking core/reference mutation, report-only workspace mutation
+(673 mutants, 617 caught, 0 missed, 56 unviable), 95.03% line coverage, five
+1M-execution fuzz campaigns, AArch64/i686 tests, release manifest/validator, signing
+dry run, and reproducible-build comparison. The bitsliced batch measured 7.515×; the
+10× hard ceiling is met and the 5× target remains open. The summaries are
+[`evidence/local-proof-20261105-final/SUMMARY.md`](../evidence/local-proof-20261105-final/SUMMARY.md),
+[`evidence/local-proof-20261105-ci-fix/SUMMARY.md`](../evidence/local-proof-20261105-ci-fix/SUMMARY.md),
+and [`evidence/local-proof-20261105-full/SUMMARY.md`](../evidence/local-proof-20261105-full/SUMMARY.md).
 
 ## Residual risk and external gates
 

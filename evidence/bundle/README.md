@@ -88,11 +88,12 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 
 | Area | State | Evidence |
 |---|---|---|
-| Full local proof | **PASS** at `8c41e4b` | [`evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`](evidence/local-proof-2026-10-31-final-audit/SUMMARY.md) |
+| Full local proof (2026-11-05) | **PASS** at `f3112af` | [`evidence/local-proof-20261105-full/SUMMARY.md`](evidence/local-proof-20261105-full/SUMMARY.md) |
+| Historical full proof | **PASS** at `8c41e4b` | [`evidence/local-proof-2026-10-31-final-audit/SUMMARY.md`](evidence/local-proof-2026-10-31-final-audit/SUMMARY.md) |
 | AES S-box DPA quick proof | **PASS** at `ef13675` | [`evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md`](evidence/local-proof-2026-10-31-sbox-dpa/SUMMARY.md) |
 | 2026-11-05 red-team final quick proof | **PASS** at `18b5123` | [`evidence/local-proof-20261105-final/SUMMARY.md`](evidence/local-proof-20261105-final/SUMMARY.md) |
-| Workspace mutation | **630 mutants, 574 caught, 0 missed, 56 unviable** | [`evidence/mutation/2026-10-31-workspace.md`](evidence/mutation/2026-10-31-workspace.md) |
-| Line coverage | **97.28%** | [`evidence/coverage/2026-10-31-dpa.md`](evidence/coverage/2026-10-31-dpa.md) |
+| Workspace mutation | **673 mutants, 617 caught, 0 missed, 56 unviable** | [`evidence/local-proof-20261105-full/mutation-workspace.log`](evidence/local-proof-20261105-full/mutation-workspace.log) |
+| Line coverage | **95.03%** | [`evidence/local-proof-20261105-full/coverage.log`](evidence/local-proof-20261105-full/coverage.log) |
 | Release artifact | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
 | Evidence bundle | **Source-complete**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
 | Independent external audit | **PENDING** | [`AUDIT_REQUEST.md`](AUDIT_REQUEST.md) |
@@ -108,14 +109,14 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 sanitizers, fuzzing, Kani, mutation testing, coverage, assembly checks, and a
 reproducible evidence bundle. It is not `SAL-3` and not `SAL-4`.
 
-The full proof was run at `8c41e4b`. The AES S-box DPA and zeroization additions were
-verified at `ef13675` by a quick proof, targeted Miri, workspace mutation, coverage,
-AArch64/i686 tests, and release checks. The 2026-11-05 red-team fixes were verified by
-a final quick proof at `18b5123`; full-workspace Miri also passed on those changes. The full
-proof (mutation, coverage, five fuzz campaigns, cross-architecture tests, release
-signing dry run, and reproducibility comparison) was not rerun for the red-team
-addendum. The full-proof rows remain attributed to `8c41e4b`; the DPA rows to
-`ef13675`; the red-team quick-proof row to `42f390d`.
+The full proof was rerun at `f3112af` after the 2026-11-05 red-team and CI mutation
+fixes. All full gates passed: full-workspace Miri, 30 Kani harnesses, 151 ASan tests,
+673 workspace mutants with zero missed, 95.03% line coverage, five 1M-execution fuzz
+campaigns, AArch64/i686 tests, release manifest/validator, signing dry run, and
+reproducible-build comparison. The bitsliced batch measured 7.515×; the 10× hard
+ceiling is met and the 5× target remains open. The AES S-box DPA and zeroization
+additions were verified earlier at `ef13675`; the red-team quick proofs are at
+`18b5123` and `356f70c`. Historical full-proof rows remain attributed to `8c41e4b`.
 
 All workspace crates are `publish = false` until the external gates pass.
 
@@ -136,7 +137,7 @@ All workspace crates are `publish = false` until the external gates pass.
 | Reference algorithm | Masked ChaCha20, scalar and 64-block bitsliced batch |
 | Papers | White paper and yellow paper (LaTeX + PDF) |
 | Analysis | TVLA, CPA, AES S-box DPA, dudect-style timing, leakage model |
-| Full local proof | PASS at `8c41e4b` |
+| Full local proof | PASS at `f3112af` |
 | DPA quick proof | PASS at `ef13675` |
 | Evidence tag | `final-audit-2026-10-31-dpa` |
 | Release build commit | `123eb69` (proof code `ef13675`) |
@@ -574,8 +575,8 @@ The performance target is a throughput/size tradeoff, not a security claim.
 
 | Metric | Result | Notes |
 |---|---:|---|
-| Scalar masked ChaCha20 | ≈320× vs unmasked | Final full proof; reference path, not optimized |
-| 64-block bitsliced batch | **7.15× vs unmasked** | Final full proof; 7.26× in an earlier run |
+| Scalar masked ChaCha20 | ≈328× vs unmasked | 2026-11-05 full proof; reference path, not optimized |
+| 64-block bitsliced batch | **7.515× vs unmasked** | 2026-11-05 full proof; 7.06–7.515× across runs |
 | 10× hard ceiling | **MET** | The hard performance gate |
 | 5× target | **OPEN** | Requires SIMD or a new audited mask stream |
 | Release binary | **386,232 bytes** | `opt-level=z`, fat LTO, one codegen unit, `panic=abort`, stripped |
@@ -610,7 +611,7 @@ and the open-gap analysis.
 | Formatting and strict Clippy | PASS |
 | Workspace tests and doctests | PASS |
 | Kani | 30 harnesses PASS |
-| AddressSanitizer | 150 workspace library tests PASS (2026-11-05 final quick proof; 141 in the earlier full proof) |
+| AddressSanitizer | 151 workspace library tests PASS (2026-11-05 full proof) |
 | `cargo audit` / `cargo deny` | PASS |
 | Assembly matrix | 69 configurations PASS |
 | Reference key-plane gate | Source + `opt-level=0` `setne` check PASS |
@@ -618,12 +619,12 @@ and the open-gap analysis.
 | Valgrind Memcheck | 5 binaries, 0 errors |
 | Leakage model with negative control | PASS |
 | Differential statistics | 204 deterministic cases PASS (including zero-variance edge cases) |
-| Miri | Full workspace at `8c41e4b`; DPA safe paths at `ef13675` |
-| Mutation | 630 mutants, 574 caught, **0 missed**, 56 unviable |
-| Coverage | **97.28% lines**, 94.89% regions |
+| Miri | Full workspace at `f3112af` (also `8c41e4b`; DPA safe paths at `ef13675`) |
+| Mutation | 673 mutants, 617 caught, **0 missed**, 56 unviable |
+| Coverage | **95.03% lines**, 91.62% regions |
 | Fuzzing | Five 1M-execution campaigns |
-| AArch64 QEMU | 141 tests PASS |
-| i686 native | 154 tests PASS |
+| AArch64 QEMU | 151 tests PASS |
+| i686 native | 165 tests PASS |
 | Release manifest / validator | PASS |
 | Signing dry run | PASS with ephemeral test key |
 | Reproducible build comparison | PASS |
