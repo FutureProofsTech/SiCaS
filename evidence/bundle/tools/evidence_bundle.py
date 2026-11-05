@@ -23,7 +23,6 @@ REQUIRED_GLOBS = [
 ]
 
 REQUIRED = [
-    "AGENTS.md",
     "AUDITOR_GUIDE.md",
     "AUDIT_REQUEST.md",
     "PRODUCTION_READINESS.md",
