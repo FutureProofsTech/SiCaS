@@ -14,7 +14,7 @@
 | AddressSanitizer | nightly `-Zsanitizer=address` | memory errors |
 | Valgrind Memcheck | 3.27.1 | native memory errors and definite leaks |
 | GnuPG | 2.4.9 | local signing dry run with an ephemeral test key |
-| Python | 3.x | release manifest, manifest validator, evidence bundler, assembly checker, workflow-pin checker, and statistics differential model |
+| Python | 3.x | release manifest, manifest validator, evidence bundler, assembly checker, reference key-plane gate, workflow-pin checker, and statistics differential model |
 | GitHub Actions | pinned commit SHAs | CI and release automation; `tools/check_workflow_pins.py` rejects movable tags |
 
 ## Policy
