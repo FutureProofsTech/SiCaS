@@ -200,9 +200,6 @@ pub fn tvla_streaming<F: Read, R: Read>(
     random: &mut TraceReader<R>,
     config: TvlaConfig,
 ) -> Result<TvlaReport, TvlaError> {
-    if fixed.trace_count() == 0 || random.trace_count() == 0 {
-        return Err(TvlaError::EmptyGroup);
-    }
     if fixed.trace_count() < 2 || random.trace_count() < 2 {
         return Err(TvlaError::TooFewTraces);
     }
@@ -260,10 +257,6 @@ pub fn tvla_streaming<F: Read, R: Read>(
             *sum = value.mul_add(value, *sum);
         }
         random_traces = random_traces.saturating_add(1);
-    }
-
-    if fixed_traces < 2 || random_traces < 2 {
-        return Err(TvlaError::TooFewTraces);
     }
 
     let mut max_abs_t = 0.0;
@@ -432,6 +425,94 @@ mod tests {
             tvla_streaming(&mut fixed_reader, &mut random_reader, TvlaConfig::default()),
             Err(TvlaError::DimensionMismatch)
         ));
+    }
+
+    fn header_bytes(samples_per_trace: u32, trace_count: u32) -> Vec<u8> {
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(&crate::trace::MAGIC);
+        bytes.extend_from_slice(&crate::trace::VERSION.to_le_bytes());
+        bytes.extend_from_slice(&samples_per_trace.to_le_bytes());
+        bytes.extend_from_slice(&trace_count.to_le_bytes());
+        bytes
+    }
+
+    #[test]
+    fn streaming_rejects_too_few_traces_before_reading() {
+        let fixed_bytes = header_bytes(1, 1);
+        let random_bytes = header_bytes(1, 2);
+        let mut fixed_reader = TraceReader::new(&fixed_bytes[..]).unwrap();
+        let mut random_reader = TraceReader::new(&random_bytes[..]).unwrap();
+
+        assert!(matches!(
+            tvla_streaming(&mut fixed_reader, &mut random_reader, TvlaConfig::default()),
+            Err(TvlaError::TooFewTraces)
+        ));
+        assert_eq!(fixed_reader.read_traces(), 0);
+        assert_eq!(random_reader.read_traces(), 0);
+    }
+
+    #[test]
+    fn streaming_rejects_invalid_threshold_before_reading() {
+        let fixed_bytes = header_bytes(1, 2);
+        let random_bytes = header_bytes(1, 2);
+        let mut fixed_reader = TraceReader::new(&fixed_bytes[..]).unwrap();
+        let mut random_reader = TraceReader::new(&random_bytes[..]).unwrap();
+
+        assert!(matches!(
+            tvla_streaming(
+                &mut fixed_reader,
+                &mut random_reader,
+                TvlaConfig { threshold: 0.0 }
+            ),
+            Err(TvlaError::InvalidThreshold)
+        ));
+        assert_eq!(fixed_reader.read_traces(), 0);
+        assert_eq!(random_reader.read_traces(), 0);
+    }
+
+    #[test]
+    fn streaming_keeps_the_first_tie_sample() {
+        let fixed = TraceSet::from_traces(vec![vec![0, 10], vec![10, 0]]).unwrap();
+        let random = TraceSet::from_traces(vec![vec![0, 0], vec![0, 0]]).unwrap();
+        let mut fixed_bytes = Vec::new();
+        let mut random_bytes = Vec::new();
+        fixed.write_to(&mut fixed_bytes).unwrap();
+        random.write_to(&mut random_bytes).unwrap();
+        let mut fixed_reader = TraceReader::new(&fixed_bytes[..]).unwrap();
+        let mut random_reader = TraceReader::new(&random_bytes[..]).unwrap();
+
+        let report =
+            tvla_streaming(&mut fixed_reader, &mut random_reader, TvlaConfig::default()).unwrap();
+
+        assert!(report.max_abs_t > 0.0);
+        assert_eq!(report.max_sample, 0);
+    }
+
+    #[test]
+    fn streaming_threshold_is_strictly_exceeded() {
+        let fixed =
+            TraceSet::from_traces(vec![vec![0, 100], vec![1, 101], vec![2, 99], vec![3, 100]])
+                .unwrap();
+        let random =
+            TraceSet::from_traces(vec![vec![0, 0], vec![1, 1], vec![2, 2], vec![3, 3]]).unwrap();
+        let baseline = tvla(&fixed, &random, TvlaConfig::default()).unwrap();
+        let mut fixed_bytes = Vec::new();
+        let mut random_bytes = Vec::new();
+        fixed.write_to(&mut fixed_bytes).unwrap();
+        random.write_to(&mut random_bytes).unwrap();
+        let mut fixed_reader = TraceReader::new(&fixed_bytes[..]).unwrap();
+        let mut random_reader = TraceReader::new(&random_bytes[..]).unwrap();
+
+        let report = tvla_streaming(
+            &mut fixed_reader,
+            &mut random_reader,
+            TvlaConfig {
+                threshold: baseline.max_abs_t,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(report.exceeding_samples, 0);
     }
 
     #[test]

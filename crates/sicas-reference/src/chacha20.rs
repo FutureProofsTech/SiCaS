@@ -537,6 +537,15 @@ mod tests {
         }
     }
 
+    struct ZeroEntropy;
+
+    impl EntropySource for ZeroEntropy {
+        fn fill_bytes(&mut self, destination: &mut [u8]) -> Result<(), EntropyError> {
+            destination.fill(0);
+            Ok(())
+        }
+    }
+
     struct FailOnMaskU32(TestRng);
 
     impl EntropySource for FailOnMaskU32 {
@@ -748,6 +757,21 @@ mod tests {
                 let expected = u64::from(word & (1_u32 << bit) != 0).wrapping_neg();
                 assert_eq!(*plane.unmask().expose_secret(), expected, "bit {bit}");
             }
+        }
+
+        // A zero mask pins both shares, so an inverted or swapped share cannot
+        // hide behind the XOR of the two shares.
+        let mut zero = ZeroEntropy;
+        let value = 0xdead_beef_u32;
+        let mask = 0xa5a5_a5a5_u32;
+        let masked = Masked::<u32>::mask(value, mask);
+        let planes = masked_word_planes(&masked, &mut zero).unwrap();
+        for (bit, plane) in planes.iter().enumerate() {
+            let expected_share0 = u64::from((value ^ mask) & (1_u32 << bit) != 0).wrapping_neg();
+            let expected_share1 = u64::from(mask & (1_u32 << bit) != 0).wrapping_neg();
+            let (share0, share1) = plane.shares();
+            assert_eq!(*share0, expected_share0, "share0 bit {bit}");
+            assert_eq!(*share1, expected_share1, "share1 bit {bit}");
         }
     }
 
