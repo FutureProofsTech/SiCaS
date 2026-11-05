@@ -104,6 +104,22 @@ dry run, and reproducibility comparison) was not rerun for this addendum; those 
 remain attributed to their earlier commits. The summary is
 [`evidence/local-proof-20261105-final/SUMMARY.md`](../evidence/local-proof-20261105-final/SUMMARY.md).
 
+## 2026-11-05 CI-fix quick proof
+
+The GitHub mutation job found two misses: an equivalent `1_u64 << 0` mutant in
+`BIT_MASKS` and a missing boundary test for `samples == MAX_SAMPLES` in
+`leakage::validate`. Both were fixed, the targeted bitsliced-reference key-plane gate
+was added, and a quick proof passed on commit `356f70c`:
+
+```bash
+LOCAL_PROOF_LOG_DIR=evidence/local-proof-20261105-ci-fix ./tools/local_proof.sh quick
+```
+
+The summary is
+[`evidence/local-proof-20261105-ci-fix/SUMMARY.md`](../evidence/local-proof-20261105-ci-fix/SUMMARY.md).
+Local mutation for `sicas-reference` and `sicas-harness` then reported 530 mutants,
+498 caught, 32 unviable, and zero missed.
+
 ## Interpretation
 
 A PASS in `SUMMARY.md` means the command exited successfully. The workspace mutation

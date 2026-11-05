@@ -19,6 +19,8 @@
 - Bounded leakage-model samples, timing warm-up, and CT trials; buffered trace I/O;
   validated synthetic dimensions before allocation; normalized alignment correlation
   and capped its shift search.
+- Fixed two mutation survivors: removed the equivalent `1_u64 << 0` expression and
+  added a boundary test proving `samples == MAX_SAMPLES` is accepted.
 - Archived the superseded original vision document with an explicit non-claim notice.
 
 ### Changed
