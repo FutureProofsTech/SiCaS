@@ -227,8 +227,11 @@ pub fn tvla_streaming<F: Read, R: Read>(
         accumulator.resize(sample_count, 0.0);
     }
 
+    // Bound both loops by the declared trace counts. A defective reader that
+    // never returns `None` must fail the read, not hang the analysis.
     let mut fixed_traces = 0_usize;
-    while let Some(trace) = fixed.next_trace() {
+    for _ in 0..fixed.trace_count() {
+        let trace = fixed.next_trace().ok_or(TvlaError::TraceRead)?;
         let trace = trace.map_err(|_| TvlaError::TraceRead)?;
         if trace.len() != sample_count {
             return Err(TvlaError::DimensionMismatch);
@@ -244,7 +247,8 @@ pub fn tvla_streaming<F: Read, R: Read>(
     }
 
     let mut random_traces = 0_usize;
-    while let Some(trace) = random.next_trace() {
+    for _ in 0..random.trace_count() {
+        let trace = random.next_trace().ok_or(TvlaError::TraceRead)?;
         let trace = trace.map_err(|_| TvlaError::TraceRead)?;
         if trace.len() != sample_count {
             return Err(TvlaError::DimensionMismatch);

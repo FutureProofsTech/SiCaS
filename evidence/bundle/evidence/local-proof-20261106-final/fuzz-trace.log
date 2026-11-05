@@ -1,0 +1,18 @@
+   Compiling sicas-fuzz v0.0.0 (/home/workstation/Documents/SiCaS/fuzz)
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.23s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.01s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/trace_parser -artifact_prefix=/home/workstation/Documents/SiCaS/fuzz/artifacts/trace_parser/ -runs=1000000 /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3921319604
+INFO: Loaded 1 modules   (585 inline 8-bit counters): 585 [0x561c588e0610, 0x561c588e0859), 
+INFO: Loaded 1 PC tables (585 PCs): 585 [0x561c588e0860,0x561c588e2cf0), 
+INFO:      115 files found in /home/workstation/Documents/SiCaS/fuzz/corpus/trace_parser
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 115 min: 1b max: 2058b total: 19056b rss: 33Mb
+#116	INITED cov: 83 ft: 230 corp: 43/4356b exec/s: 0 rss: 75Mb
+#65536	pulse  cov: 83 ft: 230 corp: 43/4356b lim: 2707 exec/s: 32768 rss: 88Mb
+#131072	pulse  cov: 83 ft: 230 corp: 43/4356b lim: 3356 exec/s: 26214 rss: 88Mb
+#262144	pulse  cov: 83 ft: 230 corp: 43/4356b lim: 4096 exec/s: 29127 rss: 89Mb
+#524288	pulse  cov: 83 ft: 230 corp: 43/4356b lim: 4096 exec/s: 27594 rss: 90Mb
+#1000000	DONE   cov: 83 ft: 230 corp: 43/4356b lim: 4096 exec/s: 27777 rss: 92Mb
+Done 1000000 runs in 36 second(s)

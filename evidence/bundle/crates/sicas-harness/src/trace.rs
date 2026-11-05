@@ -189,8 +189,11 @@ impl TraceSet {
             .try_reserve_exact(stream.trace_count())
             .map_err(|_| TraceError::TooLarge)?;
 
-        for trace in &mut stream {
-            traces.push(trace?);
+        // Bound the loop by the declared trace count so a defective reader that
+        // never returns `None` cannot hang the parser.
+        for _ in 0..stream.trace_count() {
+            let trace = stream.next_trace().ok_or(TraceError::LengthMismatch)??;
+            traces.push(trace);
         }
 
         Ok(Self {
@@ -492,6 +495,23 @@ mod tests {
             TraceReader::new(&bytes[..]),
             Err(TraceError::TooLarge)
         ));
+    }
+
+    #[test]
+    fn streaming_iterator_yields_all_traces() {
+        let traces = sample_set();
+        let mut bytes = Vec::new();
+        traces.write_to(&mut bytes).unwrap();
+        let mut reader = TraceReader::new(&bytes[..]).unwrap();
+
+        let collected: Vec<Vec<i16>> = reader
+            .by_ref()
+            .take(2)
+            .map(|trace| trace.unwrap())
+            .collect();
+
+        assert_eq!(collected, vec![vec![1, 2, 3], vec![4, 5, 6]]);
+        assert!(reader.next().is_none());
     }
 
     #[test]

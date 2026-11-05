@@ -1,0 +1,8 @@
+masked_blocks=4096
+masked_ns_per_byte=864.185791
+unmasked_ns_per_byte=2.630318
+scalar_ratio=328.548
+batch_blocks=4096
+batch_ns_per_byte=18.486748
+batch_ratio=7.028
+target_ratio<=5 hard_ceiling<=10

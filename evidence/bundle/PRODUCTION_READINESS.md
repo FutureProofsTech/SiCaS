@@ -3,7 +3,7 @@
 ## Status
 
 - Code commit: `ef13675`
-- Current full-proof commit: `b18c7df`
+- Current full-proof commit: `a3495ca`
 - Release build commit: `123eb69`
 - Evidence tag: `final-audit-2026-10-31-dpa`
 - Public label: **SAL-2 locally**
@@ -19,14 +19,14 @@ An internal red-team review found and fixed a secret-dependent branch in the bit
 ChaCha20 key path, a TVLA zero-variance false negative, release tag/workflow binding
 and shell-injection risks, evidence-bundle completeness gaps, alignment and allocation
 DoS paths, and unbounded configuration limits. Streaming TVLA and a 20-configuration
-reference key-plane gate were added. The full local proof at `b18c7df` passed every
-gate: full-workspace Miri, 30 Kani harnesses, 164 ASan tests, 714 workspace mutants
-with zero missed, 95.06% line coverage, five 1M-execution fuzz campaigns, AArch64/i686
-tests, release manifest/validator, signing dry run, and reproducible-build comparison.
-The bitsliced batch measured 7.052×, so the 10× hard ceiling is met and the 5× target
-remains open. The production blockers and the `SAL-2 locally` label are unchanged.
+reference key-plane gate were added. The final full local proof at `a3495ca` passed
+every gate: full-workspace Miri, 30 Kani harnesses, 165 ASan tests, 714 workspace
+mutants with zero missed and zero timeouts, 95.05% line coverage, five 1M-execution
+fuzz campaigns, AArch64/i686 tests, release manifest/validator, signing dry run, and
+reproducible-build comparison. The bitsliced batch measured 7.028×, so the 10× hard
+ceiling is met and the 5× target remains open. The production blockers and the `SAL-2 locally` label are unchanged.
 See [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md) and
-[`evidence/local-proof-20261105-final3/SUMMARY.md`](evidence/local-proof-20261105-final3/SUMMARY.md).
+[`evidence/local-proof-20261106-final/SUMMARY.md`](evidence/local-proof-20261106-final/SUMMARY.md).
 
 ## What is production-ready locally
 

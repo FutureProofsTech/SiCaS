@@ -581,17 +581,19 @@ evidence bundle. The CI-fix quick proof at `356f70c` added the targeted referenc
 key-plane gate and passed all quick gates. Full-workspace Miri also passed on the
 red-team code changes.
 
-The complete local proof was rerun at `b18c7df` after adding streaming TVLA and the
-20-configuration reference key-plane gate, and passed every gate: full-workspace
-Miri, blocking core/reference mutation, report-only workspace mutation (714 mutants,
-655 caught, 0 missed, 59 unviable), 95.06% line coverage, five 1M-execution fuzz
-campaigns, AArch64/i686 tests, release manifest/validator, signing dry run, and
-reproducible-build comparison. The bitsliced batch measured 7.052×; the 10× hard
-ceiling is met and the 5× target remains open. The summaries are
+The complete local proof was rerun at `a3495ca` after adding streaming TVLA, the
+20-configuration reference key-plane gate, and bounded streaming loops, and passed
+every gate: full-workspace Miri, blocking core/reference mutation, report-only
+workspace mutation (714 mutants, 655 caught, 0 missed, 0 timeouts, 59 unviable),
+95.05% line coverage, five 1M-execution fuzz campaigns, AArch64/i686 tests, release
+manifest/validator, signing dry run, and reproducible-build comparison. The bitsliced
+batch measured 7.028×; the 10× hard ceiling is met and the 5× target remains open.
+The summaries are
 [`evidence/local-proof-20261105-final/SUMMARY.md`](../evidence/local-proof-20261105-final/SUMMARY.md),
 [`evidence/local-proof-20261105-ci-fix/SUMMARY.md`](../evidence/local-proof-20261105-ci-fix/SUMMARY.md),
 [`evidence/local-proof-20261105-full/SUMMARY.md`](../evidence/local-proof-20261105-full/SUMMARY.md),
-and [`evidence/local-proof-20261105-final3/SUMMARY.md`](../evidence/local-proof-20261105-final3/SUMMARY.md).
+[`evidence/local-proof-20261105-final3/SUMMARY.md`](../evidence/local-proof-20261105-final3/SUMMARY.md),
+and [`evidence/local-proof-20261106-final/SUMMARY.md`](../evidence/local-proof-20261106-final/SUMMARY.md).
 
 ## Residual risk and external gates
 
@@ -600,7 +602,9 @@ and [`evidence/local-proof-20261105-final3/SUMMARY.md`](../evidence/local-proof-
 - No ARM/RISC-V runtime timing on physical targets.
 - No production signing identity or SLSA attestation.
 - `sicas-zeroize` remains experimental and unaudited.
-- The reference bitsliced path is not in the automated assembly matrix.
+- The reference key-plane primitive is in a 20-configuration assembly gate; the full
+  reference composition is not in the automated matrix.
+- The 5× masked-ChaCha20 performance target remains open (10× hard ceiling met).
 - The 5× masked-ChaCha20 performance target remains open; the 10× hard ceiling is
   met.
 - The evidence bundle is now source-complete and commit-checked, but it is not
