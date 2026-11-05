@@ -11,14 +11,14 @@ attack SiCaS. It is a review aid, not evidence that an independent review has ha
 - Public label: **SAL-2 locally**
 - Release SHA-256: `1f0d304ca9b9582fd9153e7c006c240bd0e06acc3a685dfad93088429e4de7da`
 - Release binary size: 386,232 bytes
-- Masked ChaCha20: 7.15× in the original full proof; 7.515× in the 2026-11-05 full proof; 10× hard ceiling met
+- Masked ChaCha20: 7.15× in the original full proof; 7.052× in the 2026-11-06 full proof; 10× hard ceiling met
 
 The reviewed state above is the original full-proof baseline. The 2026-11-05 internal
 red-team fixes are in later commits and passed a final quick proof at `18b5123`; use
 the current HEAD for a new engagement and see
 [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md). The
-complete local proof was rerun at `f3112af`; see
-[`evidence/local-proof-20261105-full/SUMMARY.md`](evidence/local-proof-20261105-full/SUMMARY.md).
+complete local proof was rerun at `b18c7df`; see
+[`evidence/local-proof-20261105-final3/SUMMARY.md`](evidence/local-proof-20261105-final3/SUMMARY.md).
 
 ## What to read first
 

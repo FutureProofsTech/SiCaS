@@ -21,10 +21,10 @@ physical, or require credentials and therefore cannot be truthfully completed he
 
 | Gap | Status | Evidence | Required next action |
 |---|---|---|---|
-| Masked ChaCha20 performance | Hard ceiling met; 5× target accepted open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 7.515× vs unmasked in the 2026-11-05 full proof at `f3112af` (7.06–7.52× across runs), so the 10× hard ceiling is met; the 5× target is not. Constant-factor experiments (core opt-level 3, mask pre-fetch, forced inlining) did not reach 5× | A new masking construction or portable SIMD/wider lanes would be required, and would need a new security proof and review |
+| Masked ChaCha20 performance | Hard ceiling met; 5× target accepted open | `docs/PERFORMANCE_EVIDENCE.md`: bitsliced batch is 7.052× vs unmasked in the 2026-11-06 full proof at `b18c7df` (7.05–7.52× across runs), so the 10× hard ceiling is met; the 5× target is not. Constant-factor experiments (core opt-level 3, mask pre-fetch, forced inlining) did not reach 5× | A new masking construction or portable SIMD/wider lanes would be required, and would need a new security proof and review |
 | TVLA zero-variance false negative | Fixed 2026-11-05 | `stats::tests::welch_t_detects_a_shift`, `tvla::tests::constant_shift_with_zero_variance_is_detected`, `tools/check_stats.py` edge cases | None; keep the constant-group regression cases |
 | Secret-dependent branch in bitsliced key extraction | Fixed 2026-11-05 | `chacha20::tests::masked_word_planes_extract_every_bit_without_a_share_branch`; `tools/reference_ct_check.py` enforces the source invariant and a 20-configuration `spread_bit` assembly matrix across four targets and `opt-level` 0/1/2/3/s | Add reference LTO variants if a future release profile changes the reference build; full composition remains covered by differential/lane tests |
-| Evidence bundle source completeness | Fixed 2026-11-05 | `tools/evidence_bundle.py` now includes all crate/fuzz/tool/workflow sources and rejects tracked working-tree modifications; the bundle is regenerated at `f3112af` | None; keep the clean-tree check |
+| Evidence bundle source completeness | Fixed 2026-11-05 | `tools/evidence_bundle.py` now includes all crate/fuzz/tool/workflow sources and rejects tracked working-tree modifications; the bundle is regenerated at `b18c7df` | None; keep the clean-tree check |
 | Release tag/workflow binding | Fixed 2026-11-05 | `release.yml` checks out the requested tag, verifies the tag commit, and pins actions to SHAs; `tools/check_workflow_pins.py` is a local/CI gate | Run the release workflow with a real signing identity |
 | Alignment normalization and shift-search DoS | Fixed 2026-11-05 | `preprocess::tests::correlation_is_normalized_and_amplitude_invariant`, `align_caps_an_oversized_shift_search_to_the_trace_length` | None |
 | Synthetic generator allocation DoS | Fixed 2026-11-05 | `synthetic::tests::oversized_generation_is_rejected_before_allocation` and TVLA variant | None |
@@ -53,11 +53,11 @@ claim.
 - 1M-execution fuzz campaigns on five targets.
 - Full local proof at `8c41e4b`: all gates passed, including the performance gate at
   7.15×. The 10× hard ceiling is met; the 5× target remains open.
-- 2026-11-05 full local proof at `f3112af`: all gates passed, including full-workspace
-  Miri, 30 Kani harnesses, 151 ASan tests, 673 workspace mutants with zero missed,
-  95.03% line coverage, five 1M-execution fuzz campaigns, AArch64/i686 tests, release
+- 2026-11-06 full local proof at `b18c7df`: all gates passed, including full-workspace
+  Miri, 30 Kani harnesses, 164 ASan tests, 714 workspace mutants with zero missed,
+  95.06% line coverage, five 1M-execution fuzz campaigns, AArch64/i686 tests, release
   manifest/validator, signing dry run, and reproducible-build comparison. The
-  bitsliced batch measured 7.515×; the 10× hard ceiling is met and the 5× target
+  bitsliced batch measured 7.052×; the 10× hard ceiling is met and the 5× target
   remains open.
 - 2026-11-05 red-team final quick proof at `18b5123` and CI-fix quick proof at
   `356f70c`: all quick gates passed, including workflow pinning, the targeted

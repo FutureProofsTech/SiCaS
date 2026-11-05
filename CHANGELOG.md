@@ -24,10 +24,10 @@
   to 1,000,000,000 total samples (1M traces × 1k samples).
 - Fixed two mutation survivors: removed the equivalent `1_u64 << 0` expression and
   added a boundary test proving `samples == MAX_SAMPLES` is accepted.
-- Reran the full local proof at `f3112af`: all gates pass, including 673 workspace
-  mutants with zero missed, 95.03% line coverage, five 1M-execution fuzz campaigns,
+- Reran the full local proof at `b18c7df`: all gates pass, including 714 workspace
+  mutants with zero missed, 95.06% line coverage, five 1M-execution fuzz campaigns,
   AArch64/i686 tests, release validation, signing dry run, and reproducibility. The
-  bitsliced batch measured 7.515×; the 10× ceiling is met and the 5× target remains
+  bitsliced batch measured 7.052×; the 10× ceiling is met and the 5× target remains
   open.
 - Archived the superseded original vision document with an explicit non-claim notice.
 

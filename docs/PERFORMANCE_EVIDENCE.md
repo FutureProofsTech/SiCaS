@@ -52,6 +52,22 @@ host noise and does not change the ceiling conclusion. A batching experiment tha
 pre-fetched 64 masks per adder was rejected because it regressed the benchmark to
 8.55×; the current immediate-use mask flow is retained.
 
+## 2026-11-06 full proof at `b18c7df`
+
+The final full proof after the streaming-TVLA and multi-target reference-gate work
+measured:
+
+```text
+scalar masked: 330.327x vs unmasked
+batch masked:  7.052x vs unmasked
+batch ns/byte: 18.625462
+unmasked ns/byte: 2.641220
+target_ratio<=5 hard_ceiling<=10
+```
+
+The batch path remains under the 10× hard ceiling at **7.052×**. The 5× target is
+still open.
+
 ## Optimization attempts — 2026-11-05
 
 Several local experiments were measured on the same host and rejected because they

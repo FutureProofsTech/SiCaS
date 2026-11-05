@@ -1,0 +1,41 @@
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.12s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.11s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+   Compiling sicas-reference v0.1.0 (/home/workstation/Documents/SiCaS/crates/sicas-reference)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+reference key-plane gate passed: crates/sicas-reference/src/chacha20.rs (20 assembly configurations)

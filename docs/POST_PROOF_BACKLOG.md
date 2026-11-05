@@ -32,8 +32,8 @@ validation.
 - [x] Add a local signing dry run with an ephemeral test key.
 - [x] Run a long fuzz campaign: 10M on the three fast targets and 1M on ChaCha20.
 - [x] Replace the scalar masked path with a 64-block bitsliced batch and a fast
-  64×64 bit-matrix transpose. The hard 10× ceiling is met at 7.515× in the 2026-11-05
-full proof (7.15× in the earlier full proof). Constant-factor experiments (core
+  64×64 bit-matrix transpose. The hard 10× ceiling is met at 7.052× in the 2026-11-06
+full proof (7.515× at `f3112af`; 7.15× earlier). Constant-factor experiments (core
 opt-level 3, mask pre-fetch, forced inlining) did not reach 5×; the remaining target
 requires a new masking construction or portable SIMD/wider lanes and a new security
 proof.

@@ -46,6 +46,18 @@ The earlier CI mutation failure had two misses: an equivalent `1_u64 << 0` mutan
 `leakage::validate` (added). The full proof at `f3112af` reports zero missed viable
 mutants. Raw logs are under `evidence/local-proof-20261105-full/`.
 
+## 2026-11-06 full proof at `b18c7df`
+
+| Scope | Caught | Missed | Unviable | Viable mutants |
+|---|---:|---:|---:|---:|
+| `sicas-core` (blocking) | 114 | 0 | 19 | 114 |
+| `sicas-reference` (blocking) | 97 | 0 | 8 | 97 |
+| Workspace (report-only) | 655 | 0 | 59 | 655 |
+
+The streaming-TVLA boundary tests and the share-level `spread_bit` assertions killed
+the remaining survivors from the previous run. Raw logs are under
+`evidence/local-proof-20261105-final3/`.
+
 ## What this covers
 
 - Core constant-time gadgets, masking, refresh, share reconstruction, addition, and

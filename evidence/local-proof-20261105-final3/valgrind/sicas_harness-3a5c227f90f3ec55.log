@@ -1,0 +1,179 @@
+==3123426== Memcheck, a memory error detector
+==3123426== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==3123426== Using Valgrind-3.27.1 and LibVEX; rerun with -h for copyright info
+==3123426== Command: target/debug/deps/sicas_harness-3a5c227f90f3ec55 --test-threads=1
+==3123426== 
+
+running 120 tests
+test cpa::tests::constant_traces_have_zero_correlation ... ok
+test cpa::tests::custom_model_recovers_a_key ... ok
+test cpa::tests::custom_model_recovers_every_tested_key ... ok
+test cpa::tests::duplicate_leakage_samples_keep_the_first_sample ... ok
+test cpa::tests::empty_input_is_rejected ... ok
+test cpa::tests::error_display_is_populated ... ok
+test cpa::tests::exactly_two_traces_are_supported ... ok
+test cpa::tests::hamming_weight_model_has_complement_symmetry ... ok
+test cpa::tests::mismatched_counts_are_rejected ... ok
+test cpa::tests::recovers_a_hamming_weight_key ... ok
+test cpa::tests::recovers_every_tested_hamming_weight_key ... ok
+test dpa::tests::constant_traces_have_zero_difference ... ok
+test dpa::tests::error_display_is_populated ... ok
+test dpa::tests::invalid_inputs_are_rejected ... ok
+test dpa::tests::recovers_a_higher_bit_sbox_leak_with_negative_direction ... ok
+test dpa::tests::recovers_a_single_bit_sbox_leak ... ok
+test dpa::tests::sbox_matches_known_aes_values ... ok
+test dpa::tests::two_traces_are_accepted ... ok
+test leakage::tests::display_and_error_text_are_populated ... ok
+test leakage::tests::entropy_sequence_is_stable ... ok
+test leakage::tests::hamming_weight_is_exact ... ok
+test leakage::tests::invalid_configuration_is_rejected ... ok
+test leakage::tests::masked_checks_stay_below_the_default_threshold ... ok
+test leakage::tests::maximum_sample_count_is_accepted ... ok
+test leakage::tests::negative_control_detects_unmasked_leakage ... ok
+test leakage::tests::report_threshold_is_strict ... ok
+test leakage::tests::rng_sequence_is_stable ... ok
+test leakage::tests::small_reports_are_deterministic ... ok
+test leakage::tests::small_sample_check_runs ... ok
+test leakage::tests::tracker_keeps_the_first_signal_on_ties ... ok
+test leakage::tests::two_samples_are_accepted ... ok
+test preprocess::tests::align_breaks_ties_toward_the_first_shift ... ok
+test preprocess::tests::align_caps_an_oversized_shift_search_to_the_trace_length ... ok
+test preprocess::tests::align_recovers_a_known_shift ... ok
+test preprocess::tests::align_recovers_every_supported_shift ... ok
+test preprocess::tests::align_rejects_an_invalid_reference ... ok
+test preprocess::tests::correlation_is_normalized_and_amplitude_invariant ... ok
+test preprocess::tests::correlation_with_one_overlapping_sample_is_ranked_last ... ok
+test preprocess::tests::correlation_without_overlap_is_negative_infinity ... ok
+test preprocess::tests::errors_have_display_text ... ok
+test preprocess::tests::moving_average_does_not_overflow_on_large_windows ... ok
+test preprocess::tests::moving_average_preserves_constant_traces ... ok
+test preprocess::tests::moving_average_rejects_zero_window ... ok
+test preprocess::tests::moving_average_smooths_an_impulse ... ok
+test preprocess::tests::shift_trace_moves_and_zero_fills ... ok
+test preprocess::tests::trace_error_source_is_preserved ... ok
+test preprocess::tests::trim_accepts_the_full_length ... ok
+test preprocess::tests::trim_keeps_the_requested_range ... ok
+test preprocess::tests::trim_matches_direct_slicing ... ok
+test preprocess::tests::trim_rejects_invalid_ranges ... ok
+test preprocess::tests::window_of_one_leaves_traces_unchanged ... ok
+test preprocess::tests::zero_shift_limit_returns_the_input ... ok
+test stats::tests::boundary_lengths_are_handled ... ok
+test stats::tests::mean_and_variance_are_correct ... ok
+test stats::tests::pearson_from_sums_matches_the_slice_version ... ok
+test stats::tests::pearson_has_the_expected_value ... ok
+test stats::tests::pearson_is_negative_for_inverse_relationship ... ok
+test stats::tests::pearson_is_one_for_linear_relationship ... ok
+test stats::tests::welch_t_detects_a_shift ... ok
+test stats::tests::welch_t_from_sums_detects_zero_variance_leakage ... ok
+test stats::tests::welch_t_from_sums_matches_the_slice_version ... ok
+test stats::tests::welch_t_has_the_expected_value ... ok
+test stats::tests::welch_t_is_zero_for_identical_samples ... ok
+test synthetic::tests::cpa_recovers_the_synthetic_secret ... ok
+test synthetic::tests::generated_dimensions_are_correct ... ok
+test synthetic::tests::leakage_is_clamped_to_i16 ... ok
+test synthetic::tests::noise_is_deterministic ... ok
+test synthetic::tests::oversized_generation_is_rejected_before_allocation ... ok
+test synthetic::tests::oversized_tvla_generation_is_rejected_before_allocation ... ok
+test synthetic::tests::tvla_detects_the_synthetic_leak ... ok
+test timing::tests::class_schedule_is_alternating_and_deterministic ... ok
+test timing::tests::configuration_boundaries_are_exact ... ok
+test timing::tests::display_and_errors_are_populated ... ok
+test timing::tests::duration_conversion_is_in_nanoseconds ... ok
+test timing::tests::leakage_threshold_is_strict ... ok
+test timing::tests::oversized_warmup_is_rejected ... ok
+test timing::tests::produces_a_finite_report ... ok
+test timing::tests::rejects_invalid_configuration ... ok
+test timing::tests::rng_sequence_is_stable ... ok
+test timing::tests::small_sample_counts_are_supported ... ok
+test trace::tests::debug_is_a_summary ... ok
+test trace::tests::dimension_limits_are_enforced ... ok
+test trace::tests::empty_trace_sets_are_rejected ... ok
+test trace::tests::error_display_and_source_are_populated ... ok
+test trace::tests::in_memory_reader_rejects_one_billion_samples ... ok
+test trace::tests::invalid_magic_is_rejected ... ok
+test trace::tests::parser_buffers_many_small_samples ... ok
+test trace::tests::ragged_traces_are_rejected ... ok
+test trace::tests::round_trip_preserves_traces ... ok
+test trace::tests::split_at_end_produces_an_empty_right_side ... ok
+test trace::tests::split_out_of_range_is_rejected ... ok
+test trace::tests::split_preserves_dimensions ... ok
+test trace::tests::streaming_limit_accepts_one_billion_samples ... ok
+test trace::tests::streaming_limit_rejects_more_than_one_billion_samples ... ok
+test trace::tests::streaming_reader_debug_is_a_summary ... ok
+test trace::tests::streaming_reader_matches_the_trace_set ... ok
+test trace::tests::streaming_reader_reports_truncation_once ... ok
+test trace::tests::unsupported_version_is_rejected ... ok
+test trace::tests::zero_dimensions_are_rejected ... ok
+test tvla::tests::constant_shift_with_zero_variance_is_detected ... ok
+test tvla::tests::empty_groups_are_rejected ... ok
+test tvla::tests::equal_statistics_keep_the_first_sample ... ok
+test tvla::tests::error_display_is_populated ... ok
+test tvla::tests::exact_statistic_matches_an_asymmetric_reference ... ok
+test tvla::tests::exact_statistic_matches_the_reference ... ok
+test tvla::tests::exactly_two_traces_are_supported ... ok
+test tvla::tests::identical_groups_have_no_leakage ... ok
+test tvla::tests::invalid_threshold_is_rejected ... ok
+test tvla::tests::mismatched_dimensions_are_rejected ... ok
+test tvla::tests::report_display_and_leakage_are_correct ... ok
+test tvla::tests::shifted_group_is_detected ... ok
+test tvla::tests::streaming_keeps_the_first_tie_sample ... ok
+test tvla::tests::streaming_matches_in_memory ... ok
+test tvla::tests::streaming_rejects_dimension_mismatch ... ok
+test tvla::tests::streaming_rejects_invalid_threshold_before_reading ... ok
+test tvla::tests::streaming_rejects_too_few_traces_before_reading ... ok
+test tvla::tests::streaming_rejects_truncated_input ... ok
+test tvla::tests::streaming_threshold_is_strictly_exceeded ... ok
+test tvla::tests::threshold_is_strictly_exceeded ... ok
+test tvla::tests::too_few_traces_are_rejected ... ok
+
+test result: ok. 120 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.55s
+
+==3123426== 
+==3123426== HEAP SUMMARY:
+==3123426==     in use at exit: 596 bytes in 3 blocks
+==3123426==   total heap usage: 12,093 allocs, 12,090 frees, 15,681,214 bytes allocated
+==3123426== 
+==3123426== 48 bytes in 1 blocks are possibly lost in loss record 2 of 3
+==3123426==    at 0x499AAE6: malloc (vg_replace_malloc.c:447)
+==3123426==    by 0x410E7EE: alloc (unix.rs:31)
+==3123426==    by 0x410E7EE: alloc_impl (alloc.rs:161)
+==3123426==    by 0x410E7EE: allocate (alloc.rs:223)
+==3123426==    by 0x410E7EE: {closure#0}<std::thread::thread::Inner, std::alloc::System> (sync.rs:823)
+==3123426==    by 0x410E7EE: allocate_for_layout<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>, alloc::sync::{impl#17}::new_uninit_in::{closure_env#0}<std::thread::thread::Inner, std::alloc::System>, fn(*mut u8) -> *mut alloc::sync::ArcInner<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>>> (sync.rs:2191)
+==3123426==    by 0x410E7EE: new_uninit_in<std::thread::thread::Inner, std::alloc::System> (sync.rs:821)
+==3123426==    by 0x410E7EE: <std::thread::thread::Thread>::new (thread.rs:102)
+==3123426==    by 0x411E7E9: std::thread::current::init_current (current.rs:294)
+==3123426==    by 0x41031BF: current_or_unnamed (current.rs:251)
+==3123426==    by 0x41031BF: <std::sync::mpmc::context::Context>::new (context.rs:72)
+==3123426==    by 0x40AD7FD: __rust_std_internal_init_fn (context.rs:43)
+==3123426==    by 0x40AD7FD: call_once<fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()> (function.rs:250)
+==3123426==    by 0x40AD7FD: unwrap_or_else<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (option.rs:1065)
+==3123426==    by 0x40AD7FD: <std::sys::thread_local::native::lazy::Storage<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()>>::get_or_init_slow::<<std::sync::mpmc::context::Context>::with::CONTEXT::__rust_std_internal_init_fn> (lazy.rs:80)
+==3123426==    by 0x40C691B: get_or_init<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, (), fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (lazy.rs:62)
+==3123426==    by 0x40C691B: {closure#0} (mod.rs:97)
+==3123426==    by 0x40C691B: call_once<std::sync::mpmc::context::{impl#0}::with::CONTEXT::{constant#0}::{closure_env#0}, (core::option::Option<&mut core::option::Option<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>>>)> (function.rs:250)
+==3123426==    by 0x40C691B: try_with<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, std::sync::mpmc::context::{impl#0}::with::{closure_env#1}<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()>, ()> (local.rs:462)
+==3123426==    by 0x40C691B: with<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()> (context.rs:53)
+==3123426==    by 0x40C691B: <std::sync::mpmc::list::Channel<test::event::CompletedTest>>::recv (list.rs:442)
+==3123426==    by 0x40D3399: recv<test::event::CompletedTest> (mod.rs:1025)
+==3123426==    by 0x40D3399: recv<test::event::CompletedTest> (mpsc.rs:890)
+==3123426==    by 0x40D3399: run_tests<test::console::run_tests_console::{closure_env#2}> (lib.rs:445)
+==3123426==    by 0x40D3399: test::console::run_tests_console (console.rs:328)
+==3123426==    by 0x40BF30C: test_main_inner<test::test_main_static::{closure_env#0}> (lib.rs:170)
+==3123426==    by 0x40BF30C: test::test_main_static (lib.rs:195)
+==3123426==    by 0x40884E2: sicas_harness::main (lib.rs:1)
+==3123426==    by 0x40986CA: <fn() as core::ops::function::FnOnce<()>>::call_once (library/core/src/ops/function.rs:250)
+==3123426==    by 0x407CA6D: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+==3123426==    by 0x40A5210: std::rt::lang_start::<()>::{closure#0} (library/std/src/rt.rs:206)
+==3123426== 
+==3123426== LEAK SUMMARY:
+==3123426==    definitely lost: 0 bytes in 0 blocks
+==3123426==    indirectly lost: 0 bytes in 0 blocks
+==3123426==      possibly lost: 48 bytes in 1 blocks
+==3123426==    still reachable: 548 bytes in 2 blocks
+==3123426==         suppressed: 0 bytes in 0 blocks
+==3123426== Reachable blocks (those to which a pointer was found) are not shown.
+==3123426== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3123426== 
+==3123426== For lists of detected and suppressed errors, rerun with: -s
+==3123426== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
