@@ -73,7 +73,7 @@ The matrix rows build the `ct_asm` example on x86_64 and AArch64 for:
 The LTO rows build linked x86_64 binaries with thin and fat LTO, including the
 `opt-level=z` profile, and inspect the disassembly.
 
-All 60 inspected configurations report no conditional branches in the three
+All 69 inspected configurations report no conditional branches in the three
 constant-time functions. The full generated report is in
 [`evidence/ct/asm-2026-10-31.md`](../evidence/ct/asm-2026-10-31.md).
 `ct::lookup_u8` is excluded from this check because it intentionally contains the
@@ -91,5 +91,13 @@ proof for all architectures, all LTO combinations, or microarchitectural states.
 - Assembly inspection covers opt-level 0 for four targets, an optimization/codegen/
   panic matrix on x86_64 and AArch64, and thin/fat LTO on x86_64. Other architectures
   and LTO combinations still need inspection.
+- The 69-configuration matrix inspects `ct::eq_u32`, `ct::select_u32`, and
+  `ct::is_zero_u32`. It does not inspect `Masked::add_masked` or the bitsliced
+  ChaCha20 reference path. Those are covered by dudect, functional, differential, and
+  source review; an assembly gate for the reference path remains a hardening item.
+- The 2026-11-05 red-team review found and fixed a secret-dependent branch in
+  `masked_word_planes` (bitsliced key-plane extraction). At `opt-level=0` the old
+  code branched on each share bit. The fixed code uses `setne`-style selection and
+  `wrapping_neg`, and a regression test covers every bit position.
 - No hardware EM/power evidence yet.
 - A passing timing test does not prove absence of all microarchitectural leakage.

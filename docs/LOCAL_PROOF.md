@@ -11,7 +11,7 @@ writes logs plus a `SUMMARY.md`.
 
 Covers:
 
-- formatting and strict Clippy;
+- formatting, strict Clippy, and workflow action-pin checks;
 - all workspace tests and doctests;
 - Kani;
 - AddressSanitizer;
@@ -23,7 +23,7 @@ Covers:
 - first-order leakage-model check with a negative control;
 - first-order DPA key recovery on synthetic AES S-box traces;
 - release-manifest validator tests;
-- evidence bundle generation.
+- source-complete evidence bundle generation with a clean-tracked-tree check.
 
 ## Full proof
 

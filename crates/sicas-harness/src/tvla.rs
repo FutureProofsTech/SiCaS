@@ -325,12 +325,28 @@ mod tests {
     }
 
     #[test]
-    fn equal_statistics_keep_the_first_sample() {
-        let fixed = TraceSet::from_traces(vec![vec![0, 0], vec![2, 2]]).unwrap();
-        let random = TraceSet::from_traces(vec![vec![1, 1], vec![1, 1]]).unwrap();
+    fn constant_shift_with_zero_variance_is_detected() {
+        // Both groups are deterministic and differ, so the t-statistic is
+        // infinite. A zero result here would be a false negative.
+        let fixed = TraceSet::from_traces(vec![vec![100], vec![100]]).unwrap();
+        let random = TraceSet::from_traces(vec![vec![0], vec![0]]).unwrap();
         let report = tvla(&fixed, &random, TvlaConfig::default()).unwrap();
 
-        assert_eq!(report.max_abs_t, 0.0);
+        assert!(report.leakage());
+        assert!(report.max_abs_t.is_infinite());
+        assert_eq!(report.max_sample, 0);
+    }
+
+    #[test]
+    fn equal_statistics_keep_the_first_sample() {
+        // Both samples have the same absolute t-statistic but no zero
+        // variance, so the tie-break path is exercised without masking a
+        // deterministic leak.
+        let fixed = TraceSet::from_traces(vec![vec![0, 10], vec![10, 0]]).unwrap();
+        let random = TraceSet::from_traces(vec![vec![0, 0], vec![0, 0]]).unwrap();
+        let report = tvla(&fixed, &random, TvlaConfig::default()).unwrap();
+
+        assert!(report.max_abs_t > 0.0);
         assert_eq!(report.max_sample, 0);
     }
 

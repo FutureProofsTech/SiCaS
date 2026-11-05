@@ -93,8 +93,9 @@ masking gadgets and the leakage-analysis path; it is not an audited production c
 | Workspace mutation | **630 mutants, 574 caught, 0 missed, 56 unviable** | [`evidence/mutation/2026-10-31-workspace.md`](evidence/mutation/2026-10-31-workspace.md) |
 | Line coverage | **97.28%** | [`evidence/coverage/2026-10-31-dpa.md`](evidence/coverage/2026-10-31-dpa.md) |
 | Release artifact | **386,232 bytes**, SHA-256 `1f0d304c…e7da` | [`evidence/release/2026-10-31-sbox-dpa/README.md`](evidence/release/2026-10-31-sbox-dpa/README.md) |
-| Evidence bundle | **109 files**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
+| Evidence bundle | **Source-complete**, hashes verified | [`evidence/bundle/INDEX.md`](evidence/bundle/INDEX.md) |
 | Independent external audit | **PENDING** | [`AUDIT_REQUEST.md`](AUDIT_REQUEST.md) |
+| Internal red-team review | **COMPLETE (internal)** | [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md) |
 | Independent red team | **PENDING** | [`docs/RED_TEAM.md`](docs/RED_TEAM.md) |
 | Hardware TVLA/CPA/DPA | **PENDING** | [`docs/HARDWARE.md`](docs/HARDWARE.md) |
 | ARM/RISC-V runtime timing | **PENDING** | [`docs/GAP_REPORT.md`](docs/GAP_REPORT.md) |
@@ -610,7 +611,7 @@ and the open-gap analysis.
 | Zeroization assembly inspection | PASS |
 | Valgrind Memcheck | 5 binaries, 0 errors |
 | Leakage model with negative control | PASS |
-| Differential statistics | 200 deterministic cases PASS |
+| Differential statistics | 204 deterministic cases PASS (including zero-variance edge cases) |
 | Miri | Full workspace at `8c41e4b`; DPA safe paths at `ef13675` |
 | Mutation | 630 mutants, 574 caught, **0 missed**, 56 unviable |
 | Coverage | **97.28% lines**, 94.89% regions |
@@ -620,7 +621,7 @@ and the open-gap analysis.
 | Release manifest / validator | PASS |
 | Signing dry run | PASS with ephemeral test key |
 | Reproducible build comparison | PASS |
-| Evidence bundle | 109 files, hashes verified |
+| Evidence bundle | Source-complete, hashes verified |
 
 ### Evidence bundle
 
@@ -632,8 +633,8 @@ sha256sum -c MANIFEST.sha256
 ```
 
 It contains the proof summaries, mutation and coverage evidence, cross-architecture
-results, release metadata, signing dry-run record, and the source snapshot for the code
-commit under test.
+results, release metadata, signing dry-run record, and a source-complete snapshot of the
+crates, fuzz targets, tools, and workflows for the code commit under test.
 
 Start with:
 
@@ -791,6 +792,7 @@ See [`papers/VERSIONS.md`](papers/VERSIONS.md) for the document version log and
 - [`docs/AUDITOR_CHECKLIST.md`](docs/AUDITOR_CHECKLIST.md) — reproducible review checklist.
 - [`docs/AUDIT_REPORT_2026-10-30.md`](docs/AUDIT_REPORT_2026-10-30.md) — adversarial review findings and fixes.
 - [`docs/SELF_AUDIT_2026-10-31.md`](docs/SELF_AUDIT_2026-10-31.md) — current self-audit record.
+- [`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md) — internal red-team review, PoCs, and fixes.
 - [`docs/RELEASE.md`](docs/RELEASE.md) — release, SBOM, provenance, and signing.
 - [`PRODUCTION_READINESS.md`](PRODUCTION_READINESS.md) — production status and blockers.
 - [`docs/SAL4_LOCAL_READINESS.md`](docs/SAL4_LOCAL_READINESS.md) — local SAL-4 evidence matrix.

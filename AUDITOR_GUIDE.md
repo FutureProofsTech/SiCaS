@@ -88,6 +88,14 @@ also bundled.
   records build commit `123eb69` (proof code commit `ef13675`); the evidence tag points
   to a later docs/evidence commit, so add `--skip-commit` when validating from the tag.
 
+## Internal adversarial review
+
+The 2026-11-05 internal red-team review is in
+[`docs/RED_TEAM_REPORT_2026-11-05.md`](docs/RED_TEAM_REPORT_2026-11-05.md). It found
+and fixed a secret-dependent branch in the bitsliced reference path, a TVLA
+zero-variance false negative, release tag/workflow binding gaps, and evidence-bundle
+completeness gaps. It is not independent evidence.
+
 ## Known limits
 
 - No physical power/EM TVLA/CPA/DPA.

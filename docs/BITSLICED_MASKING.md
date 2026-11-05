@@ -7,8 +7,12 @@ state word is represented as 32 bitplanes. A bitplane is a `Masked<u64>` whose t
 each hold one bit for all 64 lanes.
 
 The key words are converted from the scalar masked state into bitplanes with fresh
-`u64` masks. Constants, nonce, and counters are public and use an unmasked share. The
-initial state used by the final addition is independently refreshed before the rounds.
+`u64` masks. Bit extraction is branchless: a one-hot mask selects the share bit,
+`u64::from(bool)` produces 0 or 1, and `wrapping_neg` spreads it to all-ones or zero.
+The code must not branch on a share bit; an `opt-level=0` review found and fixed such
+a branch on 2026-11-05. Constants, nonce, and counters are public and use an unmasked
+share. The initial state used by the final addition is independently refreshed before
+the rounds.
 
 ## Operations
 
@@ -50,6 +54,10 @@ initial state used by the final addition is independently refreshed before the r
 ## Limits
 
 - This is a first-order Boolean-masking argument, not a hardware TVLA/CPA result.
+- The 69-configuration assembly matrix covers the core comparison/selection
+  functions, not the bitsliced ChaCha20 reference path. The reference is covered by
+  source review, differential tests, lane tests, and the branchless-extraction
+  regression test; a dedicated reference assembly gate remains a hardening item.
 - It does not cover higher-order attacks, glitches, fault injection, or
   microarchitectural leakage.
 - The 64-lane batch uses roughly 16 KiB of stack for the working and initial states,

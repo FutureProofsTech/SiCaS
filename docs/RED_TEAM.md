@@ -81,3 +81,7 @@ Every finding requires a reproducible PoC, an owner, a fix, and a retest.
 
 No independent red-team engagement has been performed. This document defines the
 program; it is not evidence of a completed review.
+
+An internal adversarial review was performed on 2026-11-05; its findings, PoCs, and
+fixes are in [`RED_TEAM_REPORT_2026-11-05.md`](RED_TEAM_REPORT_2026-11-05.md). It is
+not independent and does not satisfy the external red-team gate.

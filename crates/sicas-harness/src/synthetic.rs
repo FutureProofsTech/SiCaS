@@ -68,6 +68,10 @@ pub struct TvlaSyntheticData {
 ///
 /// Returns an error when the dimensions are invalid or exceed trace limits.
 pub fn generate(config: SyntheticConfig) -> Result<SyntheticData, TraceError> {
+    // Validate before allocating. Otherwise a hostile or accidental huge
+    // request can exhaust memory before `TraceSet::from_traces` rejects it.
+    crate::trace::validate_dimensions(config.samples_per_trace, config.trace_count)?;
+
     let mut rng = TestRng::new(config.seed);
     let mut traces = Vec::new();
     traces
@@ -104,6 +108,10 @@ pub fn generate(config: SyntheticConfig) -> Result<SyntheticData, TraceError> {
 ///
 /// Returns an error when the dimensions are invalid or exceed trace limits.
 pub fn generate_tvla(config: TvlaSyntheticConfig) -> Result<TvlaSyntheticData, TraceError> {
+    // Validate both groups before allocating any trace storage.
+    crate::trace::validate_dimensions(config.samples_per_trace, config.fixed_count)?;
+    crate::trace::validate_dimensions(config.samples_per_trace, config.random_count)?;
+
     let mut rng = TestRng::new(config.seed);
     let mut fixed = Vec::new();
     fixed
@@ -249,6 +257,36 @@ mod tests {
         assert_eq!(data.traces.len(), 16);
         assert_eq!(data.traces.samples_per_trace(), 8);
         assert_eq!(data.plaintexts.len(), 16);
+    }
+
+    #[test]
+    fn oversized_generation_is_rejected_before_allocation() {
+        let result = generate(SyntheticConfig {
+            trace_count: crate::trace::MAX_TRACES + 1,
+            samples_per_trace: 1,
+            secret: 0,
+            noise_amplitude: 0,
+            leakage_amplitude: 0,
+            seed: 1,
+        });
+
+        assert!(matches!(result, Err(TraceError::TooLarge)));
+    }
+
+    #[test]
+    fn oversized_tvla_generation_is_rejected_before_allocation() {
+        let result = generate_tvla(TvlaSyntheticConfig {
+            fixed_count: 1,
+            random_count: crate::trace::MAX_TRACES + 1,
+            samples_per_trace: 1,
+            secret: 0,
+            fixed_plaintext: 0,
+            noise_amplitude: 0,
+            leakage_amplitude: 0,
+            seed: 1,
+        });
+
+        assert!(matches!(result, Err(TraceError::TooLarge)));
     }
 
     #[test]

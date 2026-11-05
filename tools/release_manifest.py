@@ -32,14 +32,44 @@ def sha256(path: pathlib.Path) -> str:
 
 
 def workspace_metadata() -> dict:
-    return json.loads(run(["cargo", "metadata", "--format-version", "1", "--no-deps"]))
+    return json.loads(
+        run(["cargo", "metadata", "--format-version", "1", "--no-deps", "--locked"])
+    )
+
+
+def git_commit() -> str:
+    try:
+        return run(["git", "rev-parse", "HEAD"])
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+
+
+def git_dirty() -> bool:
+    try:
+        status = run(["git", "status", "--porcelain", "--untracked-files=no"])
+    except (OSError, subprocess.CalledProcessError):
+        return False
+    return bool(status)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("release"))
     parser.add_argument("--skip-build", action="store_true")
+    parser.add_argument(
+        "--allow-dirty",
+        action="store_true",
+        help="allow building from a working tree with tracked modifications",
+    )
     args = parser.parse_args()
+
+    dirty = git_dirty()
+    if dirty and not args.allow_dirty:
+        print(
+            "release manifest: tracked files are modified; commit or use --allow-dirty",
+            file=sys.stderr,
+        )
+        return 1
 
     if not args.skip_build:
         run(["cargo", "build", "--workspace", "--release", "--locked"])
@@ -68,15 +98,13 @@ def main() -> int:
         (line.split(":", 1)[1].strip() for line in rustc_verbose.splitlines() if line.startswith("host:")),
         "unknown",
     )
-    try:
-        commit = run(["git", "rev-parse", "HEAD"])
-    except (OSError, subprocess.CalledProcessError):
-        commit = "unknown"
+    commit = git_commit()
 
     timestamp = dt.datetime.now(dt.timezone.utc).isoformat()
     provenance = {
         "project": "SiCaS",
         "commit": commit,
+        "dirty": dirty,
         "rustc": rustc_version,
         "host": host,
         "build_command": "cargo build --workspace --release --locked",

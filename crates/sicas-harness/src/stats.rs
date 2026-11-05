@@ -37,8 +37,10 @@ pub fn variance(values: &[f64]) -> Option<f64> {
 
 /// Returns Welch's t-statistic for two samples.
 ///
-/// Returns `None` when either sample has fewer than two observations. When both
-/// samples have zero variance, the statistic is defined as zero.
+/// Returns `None` when either sample has fewer than two observations or the
+/// statistic is not finite. When both samples have zero variance, the statistic
+/// is zero if their means are equal and infinite otherwise: a deterministic
+/// difference is the strongest possible leakage, not an absence of it.
 #[must_use]
 pub fn welch_t(a: &[f64], b: &[f64]) -> Option<f64> {
     if a.len() < 2 {
@@ -56,11 +58,32 @@ pub fn welch_t(a: &[f64], b: &[f64]) -> Option<f64> {
     let count_b = count_as_f64(b.len());
     let denominator = (variance_a / count_a + variance_b / count_b).sqrt();
 
+    if denominator.is_nan() {
+        return None;
+    }
     if denominator <= 0.0 {
-        return Some(0.0);
+        return Some(zero_variance_statistic(mean_a, mean_b));
     }
 
     Some((mean_a - mean_b) / denominator)
+}
+
+/// Returns the limiting Welch statistic when both samples have zero variance.
+///
+/// A zero denominator is not "no leakage". If the means differ, the two
+/// deterministic groups are perfectly distinguishable and the statistic is
+/// infinite. Returning zero here would hide the strongest possible leak and
+/// make TVLA fail open. If the means are equal, the samples are identical and
+/// the statistic is defined as zero.
+fn zero_variance_statistic(mean_a: f64, mean_b: f64) -> f64 {
+    let difference = mean_a - mean_b;
+    if difference == 0.0 {
+        0.0
+    } else if difference.is_sign_positive() {
+        f64::INFINITY
+    } else {
+        f64::NEG_INFINITY
+    }
 }
 
 /// Returns Welch's t-statistic from precomputed sums.
@@ -88,8 +111,11 @@ pub fn welch_t_from_sums(
     let variance_b = ((sum_of_squares_b - (sum_b * sum_b / count_b)) / (count_b - 1.0)).max(0.0);
     let denominator = (variance_a / count_a + variance_b / count_b).sqrt();
 
+    if denominator.is_nan() {
+        return None;
+    }
     if denominator <= 0.0 {
-        return Some(0.0);
+        return Some(zero_variance_statistic(mean_a, mean_b));
     }
 
     Some((mean_a - mean_b) / denominator)
@@ -182,14 +208,37 @@ mod tests {
 
     #[test]
     fn welch_t_detects_a_shift() {
+        // Zero variance with different means is a deterministic leak, not a
+        // zero statistic. The limiting value is infinite.
         let a = [10.0, 10.0, 10.0, 10.0];
         let b = [0.0, 0.0, 0.0, 0.0];
-        assert_eq!(welch_t(&a, &b), Some(0.0));
+        assert_eq!(welch_t(&a, &b), Some(f64::INFINITY));
+        assert_eq!(welch_t(&b, &a), Some(f64::NEG_INFINITY));
+
+        // Identical constant groups are indistinguishable and define t = 0.
+        assert_eq!(welch_t(&a, &a), Some(0.0));
 
         let a = [10.0, 11.0, 9.0, 10.0];
         let b = [0.0, 1.0, -1.0, 0.0];
         let statistic = welch_t(&a, &b).unwrap();
         assert!(statistic > 4.5);
+    }
+
+    #[test]
+    fn welch_t_from_sums_detects_zero_variance_leakage() {
+        let a = [10.0, 10.0, 10.0, 10.0];
+        let b = [0.0, 0.0, 0.0, 0.0];
+        let statistic = welch_t_from_sums(
+            a.len(),
+            a.iter().sum(),
+            a.iter().map(|value| *value * *value).sum(),
+            b.len(),
+            b.iter().sum(),
+            b.iter().map(|value| *value * *value).sum(),
+        )
+        .unwrap();
+
+        assert_eq!(statistic, f64::INFINITY);
     }
 
     #[test]

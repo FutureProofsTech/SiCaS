@@ -270,11 +270,47 @@ fn counter_planes(counter: u32) -> Planes {
     })
 }
 
-#[allow(
-    clippy::indexing_slicing,
-    clippy::needless_range_loop,
-    clippy::similar_names
-)] // Fixed 32-bit plane indices.
+/// One-hot masks for the 32 bit positions of a state word.
+///
+/// The table lets `masked_word_planes` extract bits without a variable shift or a
+/// branch on a share bit. This is a constant-time requirement, not an
+/// optimization: branching on a share leaks that share.
+const BIT_MASKS: [u64; 32] = [
+    1_u64 << 0,
+    1_u64 << 1,
+    1_u64 << 2,
+    1_u64 << 3,
+    1_u64 << 4,
+    1_u64 << 5,
+    1_u64 << 6,
+    1_u64 << 7,
+    1_u64 << 8,
+    1_u64 << 9,
+    1_u64 << 10,
+    1_u64 << 11,
+    1_u64 << 12,
+    1_u64 << 13,
+    1_u64 << 14,
+    1_u64 << 15,
+    1_u64 << 16,
+    1_u64 << 17,
+    1_u64 << 18,
+    1_u64 << 19,
+    1_u64 << 20,
+    1_u64 << 21,
+    1_u64 << 22,
+    1_u64 << 23,
+    1_u64 << 24,
+    1_u64 << 25,
+    1_u64 << 26,
+    1_u64 << 27,
+    1_u64 << 28,
+    1_u64 << 29,
+    1_u64 << 30,
+    1_u64 << 31,
+];
+
+#[allow(clippy::indexing_slicing, clippy::similar_names)] // Fixed 32-bit plane indices.
 fn masked_word_planes(
     word: &Masked<u32>,
     entropy: &mut impl EntropySource,
@@ -282,20 +318,14 @@ fn masked_word_planes(
     let (share0, share1) = word.shares();
     let mut planes: Planes = core::array::from_fn(|_| Plane::from_parts(0, 0));
 
-    for bit in 0..32 {
-        let shift = u32::try_from(bit).unwrap_or(0);
-        let share0_bits = if (*share0 >> shift) & 1 == 1 {
-            u64::MAX
-        } else {
-            0
-        };
-        let share1_bits = if (*share1 >> shift) & 1 == 1 {
-            u64::MAX
-        } else {
-            0
-        };
+    for (plane, bit_mask) in planes.iter_mut().zip(BIT_MASKS) {
+        // Spreading a public/secret bit to an all-ones or all-zero word must not
+        // use a conditional branch. `u64::from(bool)` is a `setcc`-style
+        // selection; `wrapping_neg` turns 0/1 into 0/u64::MAX.
+        let share0_bits = u64::from(u64::from(*share0) & bit_mask != 0).wrapping_neg();
+        let share1_bits = u64::from(u64::from(*share1) & bit_mask != 0).wrapping_neg();
         let mask = entropy.mask_u64()?;
-        planes[bit] = Plane::from_parts(share0_bits ^ mask, share1_bits ^ mask);
+        *plane = Plane::from_parts(share0_bits ^ mask, share1_bits ^ mask);
     }
 
     Ok(planes)
@@ -685,6 +715,22 @@ mod tests {
                 deviation < samples / 20,
                 "bitplane {bit} has a biased share: {ones} ones"
             );
+        }
+    }
+
+    #[test]
+    fn masked_word_planes_extract_every_bit_without_a_share_branch() {
+        let mut entropy = TestEntropy::new(0x0b17_5ecc);
+        let mask = 0xa5a5_a5a5_u32;
+
+        for word in [0_u32, 1, 2, 0x8000_0000, 0xdead_beef, u32::MAX] {
+            let masked = Masked::<u32>::mask(word, mask);
+            let planes = masked_word_planes(&masked, &mut entropy).unwrap();
+
+            for (bit, plane) in planes.iter().enumerate() {
+                let expected = u64::from(word & (1_u32 << bit) != 0).wrapping_neg();
+                assert_eq!(*plane.unmask().expose_secret(), expected, "bit {bit}");
+            }
         }
     }
 

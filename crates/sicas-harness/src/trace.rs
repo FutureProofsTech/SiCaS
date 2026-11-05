@@ -11,7 +11,7 @@
 //! ```
 
 use std::fmt;
-use std::io::{Read, Write};
+use std::io::{BufReader, BufWriter, Read, Write};
 
 /// Magic bytes for the SiCaS trace format.
 pub const MAGIC: [u8; 8] = *b"SiCaSTR1";
@@ -177,7 +177,10 @@ impl TraceSet {
     ///
     /// Returns an error for invalid magic, unsupported versions, malformed
     /// dimensions, truncated input, or size-limit violations.
-    pub fn read_from<R: Read>(mut reader: R) -> Result<Self, TraceError> {
+    pub fn read_from<R: Read>(reader: R) -> Result<Self, TraceError> {
+        // Buffer the stream: the format stores one i16 per sample, so an
+        // unbuffered reader would issue one syscall per two input bytes.
+        let mut reader = BufReader::new(reader);
         let mut magic = [0_u8; 8];
         reader.read_exact(&mut magic)?;
         if magic != MAGIC {
@@ -227,10 +230,15 @@ impl TraceSet {
     ///
     /// Returns an error if the dimensions exceed the format limits or the
     /// underlying writer fails.
-    pub fn write_to<W: Write>(&self, mut writer: W) -> Result<(), TraceError> {
+    pub fn write_to<W: Write>(&self, writer: W) -> Result<(), TraceError> {
         if self.traces.is_empty() {
             return Err(TraceError::InvalidDimensions);
         }
+
+        // Buffer the stream so the per-sample writes do not become one syscall
+        // each. Flush explicitly to surface write errors that a dropped
+        // `BufWriter` would otherwise discard.
+        let mut writer = BufWriter::new(writer);
 
         let samples_per_trace =
             u32::try_from(self.samples_per_trace).map_err(|_| TraceError::TooLarge)?;
@@ -247,11 +255,15 @@ impl TraceSet {
             }
         }
 
+        writer.flush()?;
         Ok(())
     }
 }
 
-fn validate_dimensions(samples_per_trace: usize, trace_count: usize) -> Result<(), TraceError> {
+pub(crate) fn validate_dimensions(
+    samples_per_trace: usize,
+    trace_count: usize,
+) -> Result<(), TraceError> {
     if samples_per_trace == 0 || trace_count == 0 {
         return Err(TraceError::InvalidDimensions);
     }
@@ -308,6 +320,38 @@ mod tests {
         assert_eq!(decoded.samples_per_trace(), 3);
         assert_eq!(decoded.trace(0), Some([1, 2, 3].as_slice()));
         assert_eq!(decoded.trace(1), Some([4, 5, 6].as_slice()));
+    }
+
+    struct CountingReader {
+        inner: std::io::Cursor<Vec<u8>>,
+        reads: usize,
+    }
+
+    impl Read for CountingReader {
+        fn read(&mut self, buffer: &mut [u8]) -> std::io::Result<usize> {
+            self.reads = self.reads.saturating_add(1);
+            self.inner.read(buffer)
+        }
+    }
+
+    #[test]
+    fn parser_buffers_many_small_samples() {
+        let traces = TraceSet::from_traces(vec![vec![1_i16; 10_000]]).unwrap();
+        let mut bytes = Vec::new();
+        traces.write_to(&mut bytes).unwrap();
+        let mut reader = CountingReader {
+            inner: std::io::Cursor::new(bytes),
+            reads: 0,
+        };
+
+        let decoded = TraceSet::read_from(&mut reader).unwrap();
+
+        assert_eq!(decoded.trace(0), traces.trace(0));
+        assert!(
+            reader.reads < 100,
+            "expected buffered reads, got {}",
+            reader.reads
+        );
     }
 
     #[test]

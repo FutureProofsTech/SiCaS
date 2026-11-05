@@ -148,6 +148,21 @@ class ReleaseManifestTests(unittest.TestCase):
             )
             self.assertTrue(any("timezone" in error for error in errors))
 
+    def test_dirty_working_tree_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            manifest, packages = build_manifest(pathlib.Path(directory))
+            provenance = json.loads(
+                (manifest / "provenance.json").read_text(encoding="utf-8")
+            )
+            provenance["dirty"] = True
+            (manifest / "provenance.json").write_text(
+                json.dumps(provenance), encoding="utf-8"
+            )
+            errors = validator.validate_manifest(
+                manifest, workspace_packages=packages, commit=COMMIT
+            )
+            self.assertTrue(any("dirty" in error for error in errors))
+
     def test_duplicate_component_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             manifest, packages = build_manifest(pathlib.Path(directory))

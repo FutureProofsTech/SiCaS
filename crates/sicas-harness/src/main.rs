@@ -226,6 +226,12 @@ struct CtCheck {
     reports: Vec<TimingReport>,
 }
 
+/// Upper bound on repeated constant-time timing trials.
+///
+/// Each trial runs the full sample set, so an unbounded value is an easy way to
+/// turn a local evidence command into an accidental denial of service.
+const MAX_CT_TRIALS: usize = 100;
+
 fn run_ct(args: &[String]) -> Result<(), String> {
     let samples = optional_usize(args, "--samples")?.unwrap_or(100_000);
     let warmup = optional_usize(args, "--warmup")?.unwrap_or(10_000);
@@ -236,6 +242,9 @@ fn run_ct(args: &[String]) -> Result<(), String> {
 
     if trials == 0 {
         return Err("--trials must be at least 1".to_string());
+    }
+    if trials > MAX_CT_TRIALS {
+        return Err(format!("--trials must not exceed {MAX_CT_TRIALS}"));
     }
 
     let config = TimingConfig {
@@ -631,6 +640,12 @@ mod tests {
     #[test]
     fn ct_rejects_zero_trials() {
         let args = arguments(&["--trials", "0"]);
+        assert!(run_ct(&args).is_err());
+    }
+
+    #[test]
+    fn ct_rejects_an_unbounded_trial_count() {
+        let args = arguments(&["--trials", "101"]);
         assert!(run_ct(&args).is_err());
     }
 

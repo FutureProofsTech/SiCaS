@@ -1,3 +1,18 @@
+# Archived Original Vision (Superseded, Not a Security Claim)
+
+> **Status: historical and superseded.** This document is the original project
+> pitch. It contains architecture, performance, platform, and licensing claims
+> that were rejected in [`PLAN.md`](../../PLAN.md): the LLVM pass, eBPF
+> power-cancellation, universal jitter, weak entropy fallbacks, "perfectly flat"
+> power, "mathematically useless" snooping, and "0% overhead" are **not** part
+> of SiCaS and are **not** security claims. The current project is
+> GPL-3.0-only, safe Rust, zero-runtime-dependency, first-order masking and
+> leakage-assessment tooling. The current claims are in
+> [`docs/SECURITY_CLAIMS.md`](../SECURITY_CLAIMS.md). Do not cite this file as
+> evidence or as the current design.
+
+---
+
 PROJECT CODENAME: SiCaS
 SPECIFICATION: Architecture for Universal Side-Channel Attenuation via Compiler-Level and Kernel-Level Polymorphism
 AUTHOR: Autonomous System Architect

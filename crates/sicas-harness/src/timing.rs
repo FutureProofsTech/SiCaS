@@ -15,6 +15,9 @@ pub const MIN_TIMING_SAMPLES: usize = 4;
 /// Maximum number of timing samples accepted by [`dudect`].
 pub const MAX_TIMING_SAMPLES: usize = 10_000_000;
 
+/// Maximum number of warm-up calls accepted by [`dudect`].
+pub const MAX_TIMING_WARMUP: usize = 10_000_000;
+
 /// Timing-test configuration.
 #[derive(Clone, Copy, Debug)]
 pub struct TimingConfig {
@@ -180,6 +183,9 @@ fn validate_config(config: TimingConfig) -> Result<(), TimingError> {
     if config.samples > MAX_TIMING_SAMPLES {
         return Err(TimingError::TooLarge);
     }
+    if config.warmup > MAX_TIMING_WARMUP {
+        return Err(TimingError::TooLarge);
+    }
     if !config.threshold.is_finite() || config.threshold <= 0.0 {
         return Err(TimingError::InvalidThreshold);
     }
@@ -320,6 +326,26 @@ mod tests {
         assert_eq!(
             validate_config(config(4, -1.0)),
             Err(TimingError::InvalidThreshold)
+        );
+    }
+
+    #[test]
+    fn oversized_warmup_is_rejected() {
+        assert_eq!(
+            validate_config(TimingConfig {
+                samples: 10,
+                warmup: MAX_TIMING_WARMUP + 1,
+                threshold: 4.5,
+            }),
+            Err(TimingError::TooLarge)
+        );
+        assert_eq!(
+            validate_config(TimingConfig {
+                samples: 10,
+                warmup: MAX_TIMING_WARMUP,
+                threshold: 4.5,
+            }),
+            Ok(())
         );
     }
 

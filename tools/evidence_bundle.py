@@ -11,6 +11,17 @@ import shutil
 import subprocess
 import sys
 
+REQUIRED_GLOBS = [
+    "crates/**/*.rs",
+    "crates/**/Cargo.toml",
+    "fuzz/fuzz_targets/*.rs",
+    "fuzz/corpus/*/seed",
+    "tools/*.py",
+    "tools/*.sh",
+    ".github/workflows/*.yml",
+    "docs/**/*.md",
+]
+
 REQUIRED = [
     "AGENTS.md",
     "AUDITOR_GUIDE.md",
@@ -33,6 +44,9 @@ REQUIRED = [
     "Cargo.toml",
     "Cargo.lock",
     "rust-toolchain.toml",
+    "rustfmt.toml",
+    "fuzz/Cargo.toml",
+    "fuzz/Cargo.lock",
     "docs/THREAT_MODEL.md",
     "docs/SECURITY_CLAIMS.md",
     "docs/PROOF_OBLIGATIONS.md",
@@ -138,16 +152,20 @@ def sha256(path: pathlib.Path) -> str:
     return digest.hexdigest()
 
 
-def git_commit() -> str:
+def git_output(arguments: list[str]) -> str | None:
     try:
         return subprocess.run(
-            ["git", "rev-parse", "HEAD"],
+            ["git", *arguments],
             check=True,
             text=True,
             stdout=subprocess.PIPE,
         ).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
-        return "unknown"
+        return None
+
+
+def git_commit() -> str:
+    return git_output(["rev-parse", "HEAD"]) or "unknown"
 
 
 def main() -> int:
@@ -158,22 +176,59 @@ def main() -> int:
         default=None,
         help="code commit under test; defaults to the current Git HEAD",
     )
+    parser.add_argument(
+        "--allow-dirty",
+        action="store_true",
+        help="allow a bundle from a working tree with tracked modifications",
+    )
+    parser.add_argument(
+        "--allow-different-commit",
+        action="store_true",
+        help="allow --commit to differ from the current Git HEAD",
+    )
     args = parser.parse_args()
 
     root = pathlib.Path.cwd()
+    head = git_commit()
+    status = git_output(["status", "--porcelain", "--untracked-files=no"])
+    dirty = bool(status)
+
+    if dirty and not args.allow_dirty:
+        print(
+            "evidence bundle: tracked files are modified; commit or use --allow-dirty",
+            file=sys.stderr,
+        )
+        return 1
+
+    if args.commit is not None and head != "unknown" and args.commit != head:
+        if not args.allow_different_commit:
+            print(
+                f"evidence bundle: --commit {args.commit} does not match HEAD {head}",
+                file=sys.stderr,
+            )
+            return 1
+
     output = args.output
     if output.exists():
         shutil.rmtree(output)
     output.mkdir(parents=True)
 
     missing = [name for name in REQUIRED if not (root / name).is_file()]
+    for pattern in REQUIRED_GLOBS:
+        if not any(path.is_file() for path in root.glob(pattern)):
+            missing.append(f"glob {pattern}")
     if missing:
         for name in missing:
             print(f"missing required evidence file: {name}", file=sys.stderr)
         return 1
 
-    files = list(REQUIRED)
-    files.extend(name for name in OPTIONAL if (root / name).is_file())
+    files = set(REQUIRED)
+    for pattern in REQUIRED_GLOBS:
+        files.update(
+            str(path.relative_to(root)) for path in root.glob(pattern) if path.is_file()
+        )
+    files.update(name for name in OPTIONAL if (root / name).is_file())
+    files = sorted(files)
 
     rows = []
     for name in files:
@@ -189,8 +244,9 @@ def main() -> int:
     index = [
         "# SiCaS Evidence Bundle",
         "",
-        f"- Code commit under test: `{args.commit or git_commit()}`",
+        f"- Code commit under test: `{args.commit or head}`",
         f"- Generated: `{dt.datetime.now(dt.timezone.utc).isoformat()}`",
+        f"- Working tree dirty (tracked files): `{dirty}`",
         f"- Files: {len(rows)}",
         "",
         "| File | SHA-256 |",

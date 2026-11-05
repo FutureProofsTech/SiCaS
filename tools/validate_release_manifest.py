@@ -224,6 +224,9 @@ def validate_manifest(
             f"provenance.commit {recorded_commit} does not match current commit {commit}"
         )
 
+    if provenance.get("dirty") is True:
+        errors.append("provenance.dirty must be false for a release build")
+
     versions = validate_sbom(sbom, errors)
     if workspace_packages is not None:
         sbom_versions = {

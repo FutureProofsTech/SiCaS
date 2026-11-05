@@ -160,6 +160,14 @@ pub fn align(
         .ok_or(PreprocessError::InvalidReference)?;
     let limit = i32::try_from(max_shift).map_err(|_| PreprocessError::InvalidShiftLimit)?;
 
+    // A shift larger than the trace has no overlap with the reference and can
+    // never win the correlation search. Capping the range prevents a hostile or
+    // accidental `--max-shift` value from turning alignment into a multi-billion
+    // iteration denial of service.
+    let max_relevant_shift =
+        i32::try_from(traces.samples_per_trace().saturating_sub(1)).unwrap_or(i32::MAX);
+    let limit = limit.min(max_relevant_shift);
+
     if limit == 0 {
         return Ok(traces.clone());
     }
@@ -187,8 +195,18 @@ pub fn align(
     Ok(TraceSet::from_traces(rows)?)
 }
 
+/// Returns the mean-centered, normalized cross-correlation for one shift.
+///
+/// Amplitude scaling and DC offsets do not change the score, so a large trace
+/// cannot win the alignment search merely by having a larger magnitude. A shift
+/// with fewer than two overlapping samples has no defined correlation and is
+/// ranked below every valid shift.
 fn correlation(reference: &[i16], trace: &[i16], shift: i32) -> f64 {
-    let mut sum = 0.0;
+    let mut sum_reference = 0.0;
+    let mut sum_trace = 0.0;
+    let mut sum_reference_squared = 0.0;
+    let mut sum_trace_squared = 0.0;
+    let mut sum_cross = 0.0;
     let mut overlap = 0_usize;
 
     for (index, reference_value) in reference.iter().enumerate() {
@@ -201,14 +219,35 @@ fn correlation(reference: &[i16], trace: &[i16], shift: i32) -> f64 {
         let Some(trace_value) = trace.get(source_index) else {
             continue;
         };
-        sum = f64::from(*reference_value).mul_add(f64::from(*trace_value), sum);
+
+        let reference_value = f64::from(*reference_value);
+        let trace_value = f64::from(*trace_value);
+        sum_reference += reference_value;
+        sum_trace += trace_value;
+        sum_reference_squared = reference_value.mul_add(reference_value, sum_reference_squared);
+        sum_trace_squared = trace_value.mul_add(trace_value, sum_trace_squared);
+        sum_cross = reference_value.mul_add(trace_value, sum_cross);
         overlap = overlap.saturating_add(1);
     }
 
-    if overlap == 0 {
-        f64::NEG_INFINITY
+    if overlap < 2 {
+        return f64::NEG_INFINITY;
+    }
+
+    let count = f64::from(u32::try_from(overlap).unwrap_or(u32::MAX));
+    let numerator = count.mul_add(sum_cross, -(sum_reference * sum_trace));
+    let variance_reference = count
+        .mul_add(sum_reference_squared, -(sum_reference * sum_reference))
+        .max(0.0);
+    let variance_trace = count
+        .mul_add(sum_trace_squared, -(sum_trace * sum_trace))
+        .max(0.0);
+    let denominator = (variance_reference * variance_trace).sqrt();
+
+    if denominator <= 0.0 {
+        0.0
     } else {
-        sum / f64::from(u32::try_from(overlap).unwrap_or(u32::MAX))
+        numerator / denominator
     }
 }
 
@@ -336,11 +375,40 @@ mod tests {
     }
 
     #[test]
-    fn correlation_matches_the_normalized_dot_product() {
-        assert_eq!(correlation(&[1, 1], &[1, 1], 0), 1.0);
+    fn align_caps_an_oversized_shift_search_to_the_trace_length() {
+        let traces = TraceSet::from_traces(vec![vec![1, 2, 3], vec![1, 2, 3]]).unwrap();
+        // Before the cap this range would require roughly 4.3 billion
+        // correlation evaluations. The test would hang rather than fail.
+        let aligned = align(&traces, 0, i32::MAX as usize).unwrap();
+
+        assert_eq!(aligned.len(), traces.len());
+        assert_eq!(aligned.samples_per_trace(), traces.samples_per_trace());
+    }
+
+    #[test]
+    fn correlation_is_normalized_and_amplitude_invariant() {
+        // Constant signals have no variance and therefore no defined
+        // correlation; the tie is represented by zero.
+        assert_eq!(correlation(&[1, 1], &[1, 1], 0), 0.0);
         assert_eq!(correlation(&[1, -1], &[1, -1], 0), 1.0);
         assert_eq!(correlation(&[1, -1], &[-1, 1], 0), -1.0);
-        assert_eq!(correlation(&[1, 2, 3], &[1, 2, 3], 1), 4.0);
+        assert_eq!(correlation(&[1, 2, 3], &[1, 2, 3], 1), 1.0);
+
+        // Scaling and a DC offset must not change a normalized correlation.
+        assert_eq!(
+            correlation(&[1, -1, 1, -1], &[100, -100, 100, -100], 0),
+            1.0
+        );
+        assert_eq!(
+            correlation(&[10, 11, 10, 11], &[100, 101, 100, 101], 0),
+            1.0
+        );
+    }
+
+    #[test]
+    fn correlation_with_one_overlapping_sample_is_ranked_last() {
+        assert!(correlation(&[1], &[1], 0).is_infinite());
+        assert!(correlation(&[1], &[1], 0).is_sign_negative());
     }
 
     #[test]

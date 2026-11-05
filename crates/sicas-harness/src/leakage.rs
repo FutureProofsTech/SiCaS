@@ -18,6 +18,13 @@ use crate::stats::pearson;
 /// Default number of simulated samples per check.
 pub const DEFAULT_SAMPLES: usize = 50_000;
 
+/// Maximum number of simulated samples accepted by a check.
+///
+/// The checker keeps several `f64` vectors per sample. A bound keeps an
+/// untrusted or accidental configuration from exhausting memory before the
+/// statistical result is produced.
+pub const MAX_SAMPLES: usize = 1_000_000;
+
 /// Default deterministic generator seed.
 pub const DEFAULT_SEED: u64 = 0x5eed_1234_abcd_ef01;
 
@@ -86,6 +93,8 @@ impl fmt::Display for LeakageReport {
 pub enum LeakageError {
     /// Fewer than two samples were requested.
     TooFewSamples,
+    /// The requested sample count exceeds [`MAX_SAMPLES`].
+    TooLarge,
     /// The threshold is not a finite positive number.
     InvalidThreshold,
     /// The deterministic entropy source failed.
@@ -98,6 +107,7 @@ impl fmt::Display for LeakageError {
             Self::TooFewSamples => {
                 formatter.write_str("leakage-model check requires at least two samples")
             }
+            Self::TooLarge => formatter.write_str("leakage-model sample count exceeds the limit"),
             Self::InvalidThreshold => {
                 formatter.write_str("leakage-model threshold must be finite and positive")
             }
@@ -277,6 +287,9 @@ fn validate(config: LeakageConfig) -> Result<(), LeakageError> {
     if config.samples < 2 {
         return Err(LeakageError::TooFewSamples);
     }
+    if config.samples > MAX_SAMPLES {
+        return Err(LeakageError::TooLarge);
+    }
     if !config.threshold.is_finite() || config.threshold <= 0.0 {
         return Err(LeakageError::InvalidThreshold);
     }
@@ -437,6 +450,14 @@ mod tests {
         ));
         assert!(matches!(
             check_masked_byte(LeakageConfig {
+                samples: MAX_SAMPLES + 1,
+                seed: 1,
+                threshold: 0.02,
+            }),
+            Err(LeakageError::TooLarge)
+        ));
+        assert!(matches!(
+            check_masked_byte(LeakageConfig {
                 samples: 10,
                 seed: 1,
                 threshold: 0.0,
@@ -565,6 +586,7 @@ mod tests {
         assert!(report.to_string().contains("leakage-model"));
         assert!(report.to_string().contains("share0"));
         assert!(LeakageError::TooFewSamples.to_string().contains("two"));
+        assert!(LeakageError::TooLarge.to_string().contains("limit"));
         assert!(
             LeakageError::InvalidThreshold
                 .to_string()

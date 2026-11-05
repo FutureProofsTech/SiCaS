@@ -17,7 +17,7 @@ see `AUDIT_REQUEST.md`.
 | Independent red team | scoped report, PoCs, remediation, retest | Pending independent team | Provide `docs/RED_TEAM.md` and attack catalog |
 | Reproducible builds | independent build hashes | Complete locally | Re-run on release commit |
 | Signed release | trusted signing identity, signature, verification | Local dry run only | Run the release workflow with a production identity |
-| No open critical/high findings | audit + red-team closure | No open local critical/high; independent findings pending | Close external findings and retest |
+| No open critical/high findings | audit + red-team closure | No open local critical/high after the 2026-11-05 internal red-team fixes; independent findings pending | Close external findings and retest |
 | Public evidence bundle | hashed bundle, claims, gaps, raw data | Complete locally | Publish after independent results |
 | Volatile zeroization | audited unsafe boundary or platform guarantee | Experimental `sicas-zeroize` adapter implemented; unaudited | Independent review of the unsafe boundary |
 
